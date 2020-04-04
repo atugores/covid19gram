@@ -2,7 +2,15 @@
 
 Telegram bot to generate Spain's disease evolution using datadista dataset
 
+Requirements:
+```
+ pip install -r requirements.txt
+ git clone https://github.com/datadista/datasets
+```
+
+
 Usage:
+
 
 ```python
 from covid19plot import COVID19Plot
