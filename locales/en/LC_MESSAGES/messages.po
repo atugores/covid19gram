@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-04-05 23:37+CEST\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: covid19plot.py:133
+msgid "Cases increase at {region}"
+msgstr ""
+
+#: covid19plot.py:134 covid19plot.py:148 covid19plot.py:165 covid19plot.py:170
+msgid "Cases"
+msgstr ""
+
+#: covid19plot.py:135
+msgid "Daily increment"
+msgstr ""
+
+#: covid19plot.py:136
+msgid "Increment rolling avg (3 days)"
+msgstr ""
+
+#: covid19plot.py:140
+msgid "Daily deaths evolution at {region}"
+msgstr ""
+
+#: covid19plot.py:141 covid19plot.py:175
+msgid "Deaths"
+msgstr ""
+
+#: covid19plot.py:142
+msgid "Daily deaths"
+msgstr ""
+
+#: covid19plot.py:143
+msgid "Deaths rolling avg (3 days)"
+msgstr ""
+
+#: covid19plot.py:147
+msgid "Active cases, recovered and deceased at {region}"
+msgstr ""
+
+#: covid19plot.py:150
+msgid "Currently infected"
+msgstr ""
+
+#: covid19plot.py:153
+msgid "Recovered"
+msgstr ""
+
+#: covid19plot.py:156 covid19plot.py:176
+msgid "Deceased"
+msgstr ""
+
+#: covid19plot.py:164
+msgid "Active cases at {region}"
+msgstr ""
+
+#: covid19plot.py:166
+msgid "Active cases"
+msgstr ""
+
+#: covid19plot.py:169
+msgid "Recovered cases at {region}"
+msgstr ""
+
+#: covid19plot.py:171
+msgid "Recovered cases"
+msgstr ""
+
+#: covid19plot.py:174
+msgid "Deaths evolution at {region}"
+msgstr ""
+
