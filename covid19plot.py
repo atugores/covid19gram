@@ -36,22 +36,22 @@ class COVID19Plot(object):
         csv_path = self._source_path + '/ccaa_covid19_casos_long.csv'
         if not os.path.isfile(csv_path):
             raise RuntimeError('Datasource not found')
-  
+
         self._df = pd.read_csv(csv_path)
         # convert date to datetime and set index
-        self._df['fecha']= pd.to_datetime(self._df['fecha']) 
+        self._df['fecha']= pd.to_datetime(self._df['fecha'])
         self._df.set_index(['fecha', 'cod_ine'], inplace=True)
         self._df.rename(columns={'total': 'casos'}, inplace=True)
 
         altas_df = pd.read_csv(self._source_path + '/ccaa_covid19_altas_long.csv')
-        altas_df['fecha']= pd.to_datetime(altas_df['fecha']) 
+        altas_df['fecha']= pd.to_datetime(altas_df['fecha'])
         altas_df.set_index(['fecha', 'cod_ine'], inplace=True)
         altas_df.columns = ['CCAA_altas', 'altas']
         self._df = self._df.merge(altas_df, left_index=True, right_index=True, how='left')
         self._df.drop(columns=['CCAA_altas'], inplace=True)
 
         fac_df = pd.read_csv(self._source_path + '/ccaa_covid19_fallecidos_long.csv')
-        fac_df['fecha']= pd.to_datetime(fac_df['fecha']) 
+        fac_df['fecha']= pd.to_datetime(fac_df['fecha'])
         fac_df.set_index(['fecha', 'cod_ine'], inplace=True)
         fac_df.columns = ['CCAA_fac', 'fallecidos']
         self._df = self._df.merge(fac_df, left_index=True, right_index=True, how='left')
@@ -79,18 +79,18 @@ class COVID19Plot(object):
 
     def _generate_cases_image(self, df_reduced, region, image_path):
         fig, ax = plt.subplots(figsize=(12, 6))
-        
+
         x = df_reduced.index.get_level_values('fecha')
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
         plt.bar(x, df_reduced['increase'], alpha=0.3, label='Daily increment')
         plt.fill_between(x, 0, df_reduced['rolling'], color='red', alpha=0.5, label='Rolling avg increment (3 days)')
         plt.plot(x, df_reduced['rolling'], color='red')
         ax.set_xlim(np.datetime64('2020-03-01'))
-        ax.set_ylabel('Cases')
+        ax.set_ylabel('Cases',fontsize=17)
         ax.figure.autofmt_xdate()
-        ax.legend(loc='upper left')
-        plt.title(f'Increment de contagis a {region}', fontsize=20)
-        self._add_footer(ax)       
+        ax.legend(loc='upper left',fontsize=17)
+        plt.title(f'Increment de contagis a {region}', fontsize=30)
+        self._add_footer(ax)
         plt.savefig(image_path)
         plt.close()
 
@@ -112,7 +112,7 @@ class COVID19Plot(object):
         self._generate_cases_image(df_reduced, region, image_fpath)
         return image_fpath
 
-    def _generate_active_cases_image(self, df_reduced, region, image_path):
+    def _generate_all_image(self, df_reduced, region, image_path):
         fig, ax = plt.subplots(figsize=(12, 6))
 
         x = df_reduced.index.get_level_values('fecha')
@@ -121,10 +121,39 @@ class COVID19Plot(object):
         ax.bar(x, df_reduced['activos'], color='#4e4e4e', width=width, alpha=alpha, label='Casos actius')
         ax.bar(x + np.timedelta64(7,'h'), df_reduced['altas'], color='g', width=width, alpha=alpha, label='Altes')
         ax.bar(x + np.timedelta64(14,'h'), df_reduced['fallecidos'], color='r', width=width, alpha=alpha, label='Defuncions')
-        ax.set_ylabel('Casos')
+        ax.set_ylabel('Casos', fontsize=17)
         ax.figure.autofmt_xdate()
-        ax.legend(loc='upper left')
-        plt.title(f'Casos actius a {region}', fontsize=20)
+        ax.legend(loc='upper left',fontsize=17)
+        plt.title(f'Casos actius a {region}', fontsize=30)
+        self._add_footer(ax)
+        plt.savefig(image_path)
+        plt.close()
+
+    def generate_all_img(self, region):
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data()
+        # check if image has already been generated
+        image_fpath = self._images_dir + '/' + region + '_all_' + str(self._source_ts) + '.png'
+        if os.path.isfile(image_fpath):
+            return image_fpath
+
+        # regenerate image
+        # select region
+        df_reduced = self._df[self._df.CCAA==region]
+        self._generate_all_image(df_reduced, region, image_fpath)
+        return image_fpath
+
+    def _generate_active_cases_image(self, df_reduced, region, image_path):
+        fig, ax = plt.subplots(figsize=(12, 6))
+
+        x = df_reduced.index.get_level_values('fecha')
+        alpha, width = (0.5, 1)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
+        ax.bar(x, df_reduced['activos'], color='#4e4e4e', width=width, alpha=alpha, label='Casos actius')
+        ax.set_ylabel('Casos', fontsize=17)
+        ax.figure.autofmt_xdate()
+        # ax.legend(loc='upper left')
+        plt.title(f'Casos actius a {region}', fontsize=30)
         self._add_footer(ax)
         plt.savefig(image_path)
         plt.close()
@@ -142,3 +171,62 @@ class COVID19Plot(object):
         df_reduced = self._df[self._df.CCAA==region]
         self._generate_active_cases_image(df_reduced, region, image_fpath)
         return image_fpath
+
+    def _generate_altes_image(self, df_reduced, region, image_path):
+        fig, ax = plt.subplots(figsize=(12, 6))
+        x = df_reduced.index.get_level_values('fecha')
+        alpha, width = (0.5, 1)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
+        ax.bar(x + np.timedelta64(7,'h'), df_reduced['altas'], color='g', width=width, alpha=alpha, label='Altes')
+        ax.set_ylabel('Altes', fontsize=17)
+        ax.figure.autofmt_xdate()
+        # ax.legend(loc='upper left')
+        plt.title(f'Evolució de les altes a {region}', fontsize=30)
+        self._add_footer(ax)
+        plt.rc('axes', labelsize=20)
+        plt.savefig(image_path)
+        plt.close()
+
+    def generate_altes_img(self, region):
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data()
+        # check if image has already been generated
+        image_fpath = self._images_dir + '/' + region + '_altes_' + str(self._source_ts) + '.png'
+        if os.path.isfile(image_fpath):
+            return image_fpath
+
+        # regenerate image
+        # select region
+        df_reduced = self._df[self._df.CCAA==region]
+        self._generate_altes_image(df_reduced, region, image_fpath)
+        return image_fpath
+
+    def _generate_defuncions_image(self, df_reduced, region, image_path):
+        fig, ax = plt.subplots(figsize=(12, 6))
+
+        x = df_reduced.index.get_level_values('fecha')
+        alpha, width = (0.5,1)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
+        ax.bar(x + np.timedelta64(14,'h'), df_reduced['fallecidos'], color='r', width=width, alpha=alpha, label='Defuncions')
+        ax.set_ylabel('Defuncions', fontsize=17)
+        ax.figure.autofmt_xdate()
+        # ax.legend(loc='upper left')
+        plt.title(f'Evolució de les defuncions a {region}', fontsize=30)
+        self._add_footer(ax)
+        plt.savefig(image_path)
+        plt.close()
+
+    def generate_defuncions_img(self, region):
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data()
+        # check if image has already been generated
+        image_fpath = self._images_dir + '/' + region + '_defuncios_' + str(self._source_ts) + '.png'
+        if os.path.isfile(image_fpath):
+            return image_fpath
+
+        # regenerate image
+        # select region
+        df_reduced = self._df[self._df.CCAA==region]
+        self._generate_defuncions_image(df_reduced, region, image_fpath)
+        return image_fpath
+
