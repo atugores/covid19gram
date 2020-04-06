@@ -25,8 +25,15 @@ class COVID19Plot(object):
         'active_recovered_deceased',
         'active',
         'deceased',
-        'recovered'
+        'recovered',
+        'cases_normalized'
     ]
+    
+    MULTIREGION_PLOT_TYPES = [
+        'cases_normalized',
+        'deceased_normalized',
+    ]
+
     _images_dir = None
     _source_path = None
     _source_ts = None
@@ -55,23 +62,30 @@ class COVID19Plot(object):
         self._df['fecha']= pd.to_datetime(self._df['fecha'])
         self._df.set_index(['fecha', 'cod_ine'], inplace=True)
         self._df.rename(columns={'total': 'cases'}, inplace=True)
-
+        # column recovered
         altas_df = pd.read_csv(self._source_path + '/ccaa_covid19_altas_long.csv')
         altas_df['fecha']= pd.to_datetime(altas_df['fecha'])
         altas_df.set_index(['fecha', 'cod_ine'], inplace=True)
         altas_df.columns = ['CCAA_altas', 'recovered']
         self._df = self._df.merge(altas_df, left_index=True, right_index=True, how='left')
         self._df.drop(columns=['CCAA_altas'], inplace=True)
-
+        # column deceased
         fac_df = pd.read_csv(self._source_path + '/ccaa_covid19_fallecidos_long.csv')
         fac_df['fecha']= pd.to_datetime(fac_df['fecha'])
         fac_df.set_index(['fecha', 'cod_ine'], inplace=True)
         fac_df.columns = ['CCAA_fac', 'deceased']
         self._df = self._df.merge(fac_df, left_index=True, right_index=True, how='left')
         self._df.drop(columns=['CCAA_fac'], inplace=True)
+        # column population
+        pob_df = pd.read_csv(self._source_path + '/ccaa_poblacion.csv')
+        pob_df.set_index('cod_ine', inplace=True)
+        self._df = self._df.merge(pob_df, left_index=True, right_index=True, how='left')
+        self._df['cases_per_100k'] = self._df['cases'] * 100_000 / self._df['population']
+
         self._df.fillna(0, inplace=True)
         self._df.sort_index()
         self._df['active_cases'] = self._df['cases'] - self._df['recovered'] - self._df['deceased']
+
         self._source_ts = int(os.path.getmtime(csv_path))
 
     def _check_new_data(self):
@@ -105,6 +119,22 @@ class COVID19Plot(object):
         # select region
         df_reduced = self._get_plot_data(plot_type, region)
         self._plot(plot_type, region, language, df_reduced, image_fpath)
+        return image_fpath
+
+    def generate_multiregion_plot(self, plot_type, regions, language='en'):
+        if plot_type not in self.MULTIREGION_PLOT_TYPES:
+            raise RuntimeError('Plot type is not recognized')
+
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data()
+
+        # check if image has already been generated
+        region = '-'.join([region for region in sorted(regions)])
+        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{self._source_ts}.png"
+        if os.path.isfile(image_fpath):
+            return image_fpath
+
+        self._multiregion_plot(plot_type, regions, language, image_fpath)
         return image_fpath
     
     def _get_plot_data(self, plot_type, region):
@@ -175,12 +205,60 @@ class COVID19Plot(object):
             y_label = _('Deaths')
             plt.bar(x, df['deceased'], alpha=0.5, width=1, color='r', label=_('Deceased'))
             ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1]- np.timedelta64(12,'h'), df['deceased'][-1]))
+        elif plot_type == 'cases_normalized':
+            title = _('Cases per 100k inhabitants at {region}').format(region=_(region))
+            y_label = _('Cases')
+            plt.bar(x, df['cases_per_100k'], alpha=0.5, width=1, label=_('Active cases'))
+            ax.annotate(f"{df['cases_per_100k'][-1]:0,.0f}", xy=(x[-1]  - np.timedelta64(12,'h'), df['cases_per_100k'][-1]))
         
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label,fontsize=15)
         ax.set_xlim(np.datetime64('2020-03-01'))
         ax.figure.autofmt_xdate()
         ax.legend(loc='upper left',fontsize=17)
+        self._add_footer(ax)
+        plt.savefig(image_path)
+        plt.close()
+
+    def _multiregion_plot(self, plot_type, regions, language, image_path):
+        # set translation to current language
+        _ = self._translations[language].gettext
+
+        fig, ax = plt.subplots(figsize=(12, 6))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
+        title = None
+        y_label = None
+        legend = True
+
+        if plot_type == 'cases_normalized':
+            legend = False
+            title = _('Cases per 100k inhabitants')
+            y_label = _('Cases')
+            for region in regions:                
+                df_region = self._df[self._df.CCAA==region]
+                x = df_region.index.get_level_values('fecha')
+                plt.plot(x, df_region['cases_per_100k'])
+                region_name = _(region)
+                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})", xy=(x[-1]  - np.timedelta64(12,'h'), df_region['cases_per_100k'][-1]))
+        elif plot_type == 'deceased_normalized':
+            legend = False
+            title = _('Deceased per 100k inhabitants')
+            y_label = _('Deaths')
+            for region in regions:                
+                df_region = self._df[self._df.CCAA==region]
+                x = df_region.index.get_level_values('fecha')
+                df_region['deaths_per_100k'] = self._df['deceased'] * 100_000 / self._df['population']
+                plt.plot(x, df_region['deaths_per_100k'])
+                region_name = _(region)
+                ax.annotate(f"{df_region['deaths_per_100k'][-1]:0,.0f} ({region_name})", xy=(x[-1]  - np.timedelta64(12,'h'), df_region['deaths_per_100k'][-1]))
+
+        
+        plt.title(title, fontsize=26)
+        ax.set_ylabel(y_label,fontsize=15)
+        ax.set_xlim(np.datetime64('2020-03-01'))
+        ax.figure.autofmt_xdate()
+        if legend:
+            ax.legend(loc='upper left',fontsize=17)
         self._add_footer(ax)
         plt.savefig(image_path)
         plt.close()
