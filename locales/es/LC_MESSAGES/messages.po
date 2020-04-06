@@ -4,83 +4,176 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2020-04-05 11:55+CEST\n"
+"POT-Creation-Date: 2020-04-06 18:02+0000\n"
 "PO-Revision-Date: 2020-04-05 11:55+CEST\n"
-"Last-Translator: antonia <johndoe@example.com>\n"
-"Language-Team: Catalan <yourteam@example.com>\n"
+"Last-Translator: antonia <antoniatugores@gmail.com>\n"
+"Language-Team: antonia <antoniatugores@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: es\n"
+"Language-Name: Spanish\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: messages\n"
 "Generated-By: pygettext.py 1.5\n"
 
+#: ./covid19plot.py:196
+msgid "Active cases"
+msgstr "Casos activos"
 
-#: covid19plot.py:39
-msgid "Datasource not found"
-msgstr "Font de dades no trobades"
+#: ./covid19plot.py:194
+msgid "Active cases at {region}"
+msgstr "Casos activos en {region}"
 
-#: covid19plot.py:86
-msgid "Daily increment"
-msgstr "Increment diari"
+#: ./covid19plot.py:177
+msgid "Active cases, recovered and deceased at {region}"
+msgstr "Casos activos, recuperados y fallecidos en {region}"
 
-#: covid19plot.py:87
-msgid "Increment rolling avg (3 days)"
-msgstr "Mitjana mòbil de l'increment (3 dies)"
+#: ./regions_translate.py:7
+msgid "Andalucía"
+msgstr ""
 
-#: covid19plot.py:93
-msgid "Cases increase at {region}"
-msgstr "Increment de contagis a {region}"
+#: ./regions_translate.py:8
+msgid "Aragón"
+msgstr ""
 
+#: ./regions_translate.py:9
+msgid "Asturias"
+msgstr ""
+
+#: ./regions_translate.py:10
 msgid "Baleares"
-msgstr "Illes Balears"
+msgstr ""
 
-#: covid19plot.py:134 covid19plot.py:148 covid19plot.py:165 covid19plot.py:170
+#: ./regions_translate.py:17
+msgid "C. Valenciana"
+msgstr ""
+
+#: ./regions_translate.py:11
+msgid "Canarias"
+msgstr ""
+
+#: ./regions_translate.py:12
+msgid "Cantabria"
+msgstr ""
+
+#: ./covid19plot.py:164
 msgid "Cases"
 msgstr "Casos"
 
-#: covid19plot.py:140
-msgid "Daily deaths evolution at {region}"
-msgstr "Evolució de morts diàries a {region}"
+#: ./covid19plot.py:163
+msgid "Cases increase at {region}"
+msgstr "Incremento de casos en {region}"
 
-#: covid19plot.py:141 covid19plot.py:175
-msgid "Deaths"
-msgstr "Defuncions"
+#: ./covid19plot.py:235
+msgid "Cases per 100k inhabitants"
+msgstr "Casos por 100k habitantes"
 
-#: covid19plot.py:142
-msgid "Daily deaths"
-msgstr "Morts diàries"
+#: ./covid19plot.py:209
+msgid "Cases per 100k inhabitants at {region}"
+msgstr "Casos por 100k habitantes en {region}"
 
-#: covid19plot.py:147
-msgid "Active cases, recovered and deceased at {region}"
-msgstr "Casos actius, recuperats i morts a {region}"
+#: ./regions_translate.py:14
+msgid "Castilla y León"
+msgstr ""
 
-#: covid19plot.py:150
+#: ./regions_translate.py:13
+msgid "Castilla-La Mancha"
+msgstr ""
+
+#: ./regions_translate.py:15
+msgid "Cataluña"
+msgstr ""
+
+#: ./regions_translate.py:16
+msgid "Ceuta"
+msgstr ""
+
+#: ./covid19plot.py:180
 msgid "Currently infected"
-msgstr "Infectats actualment"
+msgstr "Infectados actualmente"
 
-#: covid19plot.py:153
-msgid "Recovered"
-msgstr "Recuperats"
+#: ./covid19plot.py:172
+msgid "Daily deaths"
+msgstr "Fallecimientos diarios"
 
-#: covid19plot.py:156 covid19plot.py:176
-msgid "Deceased"
-msgstr "Morts"
+#: ./covid19plot.py:170
+msgid "Daily deaths evolution at {region}"
+msgstr "Evolución diaria de fallecimientos en {region}"
 
-#: covid19plot.py:164
-msgid "Active cases at {region}"
-msgstr "Casos actius a {region}"
+#: ./covid19plot.py:165
+msgid "Daily increment"
+msgstr "Incremento diario"
 
-#: covid19plot.py:166
-msgid "Active cases"
-msgstr "Casos actius"
+#: ./covid19plot.py:171
+msgid "Deaths"
+msgstr "Fallecidos"
 
-#: covid19plot.py:169
-msgid "Recovered cases at {region}"
-msgstr "Persones recuperades a {region}"
-
-#: covid19plot.py:171
-msgid "Recovered cases"
-msgstr "Casos recuperats"
-
-#: covid19plot.py:174
+#: ./covid19plot.py:204
 msgid "Deaths evolution at {region}"
-msgstr "Evolució de les defuncions a {region}"
+msgstr "Evolución de fallecimientos en {region}"
+
+#: ./covid19plot.py:173
+msgid "Deaths rolling avg (3 days)"
+msgstr "Media móvil de fallecimientos (3 días)"
+
+#: ./covid19plot.py:186
+msgid "Deceased"
+msgstr "Fallecidos"
+
+#: ./covid19plot.py:245
+msgid "Deceased per 100k inhabitants"
+msgstr "Fallecidos por 100k habitantes"
+
+#: ./regions_translate.py:18
+msgid "Extremadura"
+msgstr ""
+
+#: ./regions_translate.py:19
+msgid "Galicia"
+msgstr ""
+
+#: ./covid19plot.py:166
+msgid "Increment rolling avg (3 days)"
+msgstr "Media móvil del incremento diario (3 días)"
+
+#: ./regions_translate.py:25
+msgid "La Rioja"
+msgstr ""
+
+#: ./regions_translate.py:20
+msgid "Madrid"
+msgstr ""
+
+#: ./regions_translate.py:21
+msgid "Melilla"
+msgstr ""
+
+#: ./regions_translate.py:22
+msgid "Murcia"
+msgstr ""
+
+#: ./regions_translate.py:23
+msgid "Navarra"
+msgstr ""
+
+#: ./regions_translate.py:24
+msgid "País Vasco"
+msgstr ""
+
+#: ./covid19plot.py:183
+msgid "Recovered"
+msgstr "Recuperados"
+
+#: ./covid19plot.py:201
+msgid "Recovered cases"
+msgstr "Recuperados"
+
+#: ./covid19plot.py:199
+msgid "Recovered cases at {region}"
+msgstr "Recuperados en {region}"
+
+#: ./regions_translate.py:26
+msgid "Total"
+msgstr "España"
