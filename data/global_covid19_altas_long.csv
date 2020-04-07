@@ -1,0 +1,3931 @@
+fecha,cod_ine,CCAA,total
+2020-01-27,0,Global,65
+2020-01-28,0,Global,79
+2020-01-29,0,Global,119
+2020-01-30,0,Global,138
+2020-01-31,0,Global,222
+2020-02-01,0,Global,277
+2020-02-02,0,Global,436
+2020-02-03,0,Global,527
+2020-02-04,0,Global,726
+2020-02-05,0,Global,1019
+2020-02-06,0,Global,1376
+2020-02-07,0,Global,1758
+2020-02-08,0,Global,2393
+2020-02-09,0,Global,2906
+2020-02-10,0,Global,3575
+2020-02-11,0,Global,4337
+2020-02-12,0,Global,5116
+2020-02-13,0,Global,6277
+2020-02-14,0,Global,7162
+2020-02-15,0,Global,8572
+2020-02-16,0,Global,9870
+2020-02-17,0,Global,11395
+2020-02-18,0,Global,13109
+2020-02-19,0,Global,15037
+2020-02-20,0,Global,16875
+2020-02-21,0,Global,18833
+2020-02-22,0,Global,21226
+2020-02-23,0,Global,23329
+2020-02-24,0,Global,25180
+2020-02-25,0,Global,27866
+2020-02-26,0,Global,30364
+2020-02-27,0,Global,33231
+2020-02-28,0,Global,36561
+2020-02-29,0,Global,39749
+2020-03-01,0,Global,42702
+2020-03-02,0,Global,45454
+2020-03-03,0,Global,48324
+2020-03-04,0,Global,51011
+2020-03-05,0,Global,53457
+2020-03-06,0,Global,55790
+2020-03-07,0,Global,58215
+2020-03-08,0,Global,60535
+2020-03-09,0,Global,62234
+2020-03-10,0,Global,64995
+2020-03-11,0,Global,66922
+2020-03-12,0,Global,68801
+2020-03-13,0,Global,70817
+2020-03-14,0,Global,72305
+2020-03-15,0,Global,76060
+2020-03-16,0,Global,78596
+2020-03-17,0,Global,81593
+2020-03-18,0,Global,84204
+2020-03-19,0,Global,85774
+2020-03-20,0,Global,89982
+2020-03-21,0,Global,93276
+2020-03-22,0,Global,96995
+2020-03-23,0,Global,100063
+2020-03-24,0,Global,106546
+2020-03-25,0,Global,112445
+2020-03-26,0,Global,114884
+2020-03-27,0,Global,124608
+2020-03-28,0,Global,139106
+2020-03-29,0,Global,146294
+2020-03-30,0,Global,155671
+2020-03-31,0,Global,165090
+2020-04-01,0,Global,182578
+2020-04-02,0,Global,193573
+2020-04-03,0,Global,206103
+2020-04-04,0,Global,214229
+2020-04-05,0,Global,238348
+2020-04-06,0,Global,244333
+2020-04-07,0,Global,251918
+2020-03-16,1,Afghanistan,1
+2020-03-17,1,Afghanistan,1
+2020-03-18,1,Afghanistan,1
+2020-03-19,1,Afghanistan,1
+2020-03-20,1,Afghanistan,1
+2020-03-21,1,Afghanistan,1
+2020-03-22,1,Afghanistan,1
+2020-03-23,1,Afghanistan,1
+2020-03-24,1,Afghanistan,1
+2020-03-25,1,Afghanistan,2
+2020-03-26,1,Afghanistan,2
+2020-03-27,1,Afghanistan,2
+2020-03-28,1,Afghanistan,2
+2020-03-29,1,Afghanistan,2
+2020-03-30,1,Afghanistan,2
+2020-03-31,1,Afghanistan,5
+2020-04-01,1,Afghanistan,5
+2020-04-02,1,Afghanistan,10
+2020-04-03,1,Afghanistan,10
+2020-04-04,1,Afghanistan,10
+2020-04-05,1,Afghanistan,15
+2020-04-06,1,Afghanistan,18
+2020-04-07,1,Afghanistan,18
+2020-03-21,2,Albania,2
+2020-03-22,2,Albania,2
+2020-03-23,2,Albania,2
+2020-03-24,2,Albania,10
+2020-03-25,2,Albania,17
+2020-03-26,2,Albania,17
+2020-03-27,2,Albania,31
+2020-03-28,2,Albania,31
+2020-03-29,2,Albania,33
+2020-03-30,2,Albania,44
+2020-03-31,2,Albania,52
+2020-04-01,2,Albania,67
+2020-04-02,2,Albania,76
+2020-04-03,2,Albania,89
+2020-04-04,2,Albania,99
+2020-04-05,2,Albania,104
+2020-04-06,2,Albania,116
+2020-04-07,2,Albania,131
+2020-03-12,3,Algeria,10
+2020-03-13,3,Algeria,10
+2020-03-14,3,Algeria,12
+2020-03-15,3,Algeria,12
+2020-03-16,3,Algeria,12
+2020-03-17,3,Algeria,12
+2020-03-18,3,Algeria,12
+2020-03-19,3,Algeria,32
+2020-03-20,3,Algeria,32
+2020-03-21,3,Algeria,32
+2020-03-22,3,Algeria,65
+2020-03-23,3,Algeria,65
+2020-03-24,3,Algeria,24
+2020-03-25,3,Algeria,65
+2020-03-26,3,Algeria,29
+2020-03-27,3,Algeria,29
+2020-03-28,3,Algeria,31
+2020-03-29,3,Algeria,31
+2020-03-30,3,Algeria,37
+2020-03-31,3,Algeria,46
+2020-04-01,3,Algeria,61
+2020-04-02,3,Algeria,61
+2020-04-03,3,Algeria,62
+2020-04-04,3,Algeria,90
+2020-04-05,3,Algeria,90
+2020-04-06,3,Algeria,90
+2020-04-07,3,Algeria,90
+2020-03-12,4,Andorra,1
+2020-03-13,4,Andorra,1
+2020-03-14,4,Andorra,1
+2020-03-15,4,Andorra,1
+2020-03-16,4,Andorra,1
+2020-03-17,4,Andorra,1
+2020-03-18,4,Andorra,1
+2020-03-19,4,Andorra,1
+2020-03-20,4,Andorra,1
+2020-03-21,4,Andorra,1
+2020-03-22,4,Andorra,1
+2020-03-23,4,Andorra,1
+2020-03-24,4,Andorra,1
+2020-03-25,4,Andorra,1
+2020-03-26,4,Andorra,1
+2020-03-27,4,Andorra,1
+2020-03-28,4,Andorra,5
+2020-03-29,4,Andorra,6
+2020-03-30,4,Andorra,10
+2020-03-31,4,Andorra,10
+2020-04-01,4,Andorra,11
+2020-04-02,4,Andorra,14
+2020-04-03,4,Andorra,16
+2020-04-04,4,Andorra,21
+2020-04-05,4,Andorra,26
+2020-04-06,4,Andorra,31
+2020-04-07,4,Andorra,31
+2020-03-31,5,Angola,1
+2020-04-01,5,Angola,1
+2020-04-02,5,Angola,1
+2020-04-03,5,Angola,1
+2020-04-04,5,Angola,2
+2020-04-05,5,Angola,2
+2020-04-06,5,Angola,2
+2020-04-07,5,Angola,2
+2020-03-14,7,Argentina,1
+2020-03-15,7,Argentina,1
+2020-03-16,7,Argentina,1
+2020-03-17,7,Argentina,3
+2020-03-18,7,Argentina,3
+2020-03-19,7,Argentina,3
+2020-03-20,7,Argentina,3
+2020-03-21,7,Argentina,3
+2020-03-22,7,Argentina,3
+2020-03-23,7,Argentina,3
+2020-03-24,7,Argentina,52
+2020-03-25,7,Argentina,52
+2020-03-26,7,Argentina,63
+2020-03-27,7,Argentina,72
+2020-03-28,7,Argentina,72
+2020-03-29,7,Argentina,72
+2020-03-30,7,Argentina,228
+2020-03-31,7,Argentina,240
+2020-04-01,7,Argentina,248
+2020-04-02,7,Argentina,256
+2020-04-03,7,Argentina,266
+2020-04-04,7,Argentina,279
+2020-04-05,7,Argentina,280
+2020-04-06,7,Argentina,325
+2020-04-07,7,Argentina,325
+2020-03-17,8,Armenia,1
+2020-03-18,8,Armenia,1
+2020-03-19,8,Armenia,1
+2020-03-20,8,Armenia,1
+2020-03-21,8,Armenia,1
+2020-03-22,8,Armenia,2
+2020-03-23,8,Armenia,2
+2020-03-24,8,Armenia,14
+2020-03-25,8,Armenia,16
+2020-03-26,8,Armenia,18
+2020-03-27,8,Armenia,28
+2020-03-28,8,Armenia,30
+2020-03-29,8,Armenia,30
+2020-03-30,8,Armenia,30
+2020-03-31,8,Armenia,30
+2020-04-01,8,Armenia,31
+2020-04-02,8,Armenia,33
+2020-04-03,8,Armenia,43
+2020-04-04,8,Armenia,43
+2020-04-05,8,Armenia,57
+2020-04-06,8,Armenia,62
+2020-04-07,8,Armenia,87
+2020-01-30,9,Australia,2
+2020-01-31,9,Australia,2
+2020-02-01,9,Australia,2
+2020-02-02,9,Australia,2
+2020-02-03,9,Australia,2
+2020-02-04,9,Australia,2
+2020-02-05,9,Australia,2
+2020-02-06,9,Australia,2
+2020-02-07,9,Australia,2
+2020-02-08,9,Australia,3
+2020-02-09,9,Australia,2
+2020-02-10,9,Australia,3
+2020-02-11,9,Australia,3
+2020-02-12,9,Australia,5
+2020-02-13,9,Australia,8
+2020-02-14,9,Australia,8
+2020-02-15,9,Australia,8
+2020-02-16,9,Australia,10
+2020-02-17,9,Australia,10
+2020-02-18,9,Australia,10
+2020-02-19,9,Australia,10
+2020-02-20,9,Australia,10
+2020-02-21,9,Australia,11
+2020-02-22,9,Australia,11
+2020-02-23,9,Australia,11
+2020-02-24,9,Australia,11
+2020-02-25,9,Australia,15
+2020-02-26,9,Australia,15
+2020-02-27,9,Australia,15
+2020-02-28,9,Australia,15
+2020-02-29,9,Australia,15
+2020-03-01,9,Australia,15
+2020-03-02,9,Australia,15
+2020-03-03,9,Australia,15
+2020-03-04,9,Australia,21
+2020-03-05,9,Australia,21
+2020-03-06,9,Australia,22
+2020-03-07,9,Australia,22
+2020-03-08,9,Australia,22
+2020-03-09,9,Australia,22
+2020-03-10,9,Australia,22
+2020-03-11,9,Australia,22
+2020-03-12,9,Australia,24
+2020-03-13,9,Australia,24
+2020-03-14,9,Australia,24
+2020-03-15,9,Australia,27
+2020-03-16,9,Australia,27
+2020-03-17,9,Australia,27
+2020-03-18,9,Australia,27
+2020-03-19,9,Australia,27
+2020-03-20,9,Australia,27
+2020-03-21,9,Australia,27
+2020-03-22,9,Australia,88
+2020-03-23,9,Australia,88
+2020-03-24,9,Australia,115
+2020-03-25,9,Australia,119
+2020-03-26,9,Australia,172
+2020-03-27,9,Australia,194
+2020-03-28,9,Australia,244
+2020-03-29,9,Australia,244
+2020-03-30,9,Australia,257
+2020-03-31,9,Australia,358
+2020-04-01,9,Australia,422
+2020-04-02,9,Australia,520
+2020-04-03,9,Australia,649
+2020-04-04,9,Australia,701
+2020-04-05,9,Australia,757
+2020-04-06,9,Australia,1080
+2020-04-07,9,Australia,1080
+2020-03-09,10,Austria,2
+2020-03-10,10,Austria,4
+2020-03-11,10,Austria,4
+2020-03-12,10,Austria,4
+2020-03-13,10,Austria,6
+2020-03-14,10,Austria,6
+2020-03-15,10,Austria,6
+2020-03-16,10,Austria,6
+2020-03-17,10,Austria,6
+2020-03-18,10,Austria,9
+2020-03-19,10,Austria,9
+2020-03-20,10,Austria,9
+2020-03-21,10,Austria,9
+2020-03-22,10,Austria,9
+2020-03-23,10,Austria,9
+2020-03-24,10,Austria,9
+2020-03-25,10,Austria,9
+2020-03-26,10,Austria,112
+2020-03-27,10,Austria,225
+2020-03-28,10,Austria,225
+2020-03-29,10,Austria,479
+2020-03-30,10,Austria,636
+2020-03-31,10,Austria,1095
+2020-04-01,10,Austria,1436
+2020-04-02,10,Austria,1749
+2020-04-03,10,Austria,2022
+2020-04-04,10,Austria,2507
+2020-04-05,10,Austria,2998
+2020-04-06,10,Austria,3463
+2020-04-07,10,Austria,4046
+2020-03-11,11,Azerbaijan,3
+2020-03-12,11,Azerbaijan,3
+2020-03-13,11,Azerbaijan,3
+2020-03-14,11,Azerbaijan,3
+2020-03-15,11,Azerbaijan,6
+2020-03-16,11,Azerbaijan,6
+2020-03-17,11,Azerbaijan,6
+2020-03-18,11,Azerbaijan,6
+2020-03-19,11,Azerbaijan,6
+2020-03-20,11,Azerbaijan,6
+2020-03-21,11,Azerbaijan,11
+2020-03-22,11,Azerbaijan,10
+2020-03-23,11,Azerbaijan,10
+2020-03-24,11,Azerbaijan,10
+2020-03-25,11,Azerbaijan,10
+2020-03-26,11,Azerbaijan,15
+2020-03-27,11,Azerbaijan,15
+2020-03-28,11,Azerbaijan,15
+2020-03-29,11,Azerbaijan,15
+2020-03-30,11,Azerbaijan,26
+2020-03-31,11,Azerbaijan,26
+2020-04-01,11,Azerbaijan,26
+2020-04-02,11,Azerbaijan,26
+2020-04-03,11,Azerbaijan,32
+2020-04-04,11,Azerbaijan,32
+2020-04-05,11,Azerbaijan,32
+2020-04-06,11,Azerbaijan,44
+2020-04-07,11,Azerbaijan,44
+2020-03-24,12,Bahamas,1
+2020-03-25,12,Bahamas,1
+2020-03-26,12,Bahamas,1
+2020-03-27,12,Bahamas,1
+2020-03-28,12,Bahamas,1
+2020-03-29,12,Bahamas,1
+2020-03-30,12,Bahamas,1
+2020-03-31,12,Bahamas,1
+2020-04-01,12,Bahamas,1
+2020-04-02,12,Bahamas,1
+2020-04-03,12,Bahamas,1
+2020-04-04,12,Bahamas,0
+2020-04-05,12,Bahamas,0
+2020-04-06,12,Bahamas,4
+2020-04-07,12,Bahamas,5
+2020-03-06,13,Bahrain,4
+2020-03-07,13,Bahrain,4
+2020-03-08,13,Bahrain,4
+2020-03-09,13,Bahrain,14
+2020-03-10,13,Bahrain,22
+2020-03-11,13,Bahrain,35
+2020-03-12,13,Bahrain,35
+2020-03-13,13,Bahrain,44
+2020-03-14,13,Bahrain,44
+2020-03-15,13,Bahrain,60
+2020-03-16,13,Bahrain,77
+2020-03-17,13,Bahrain,81
+2020-03-18,13,Bahrain,88
+2020-03-19,13,Bahrain,100
+2020-03-20,13,Bahrain,100
+2020-03-21,13,Bahrain,125
+2020-03-22,13,Bahrain,149
+2020-03-23,13,Bahrain,149
+2020-03-24,13,Bahrain,177
+2020-03-25,13,Bahrain,190
+2020-03-26,13,Bahrain,204
+2020-03-27,13,Bahrain,227
+2020-03-28,13,Bahrain,265
+2020-03-29,13,Bahrain,272
+2020-03-30,13,Bahrain,279
+2020-03-31,13,Bahrain,295
+2020-04-01,13,Bahrain,337
+2020-04-02,13,Bahrain,381
+2020-04-03,13,Bahrain,382
+2020-04-04,13,Bahrain,423
+2020-04-05,13,Bahrain,431
+2020-04-06,13,Bahrain,458
+2020-04-07,13,Bahrain,458
+2020-03-16,14,Bangladesh,2
+2020-03-17,14,Bangladesh,3
+2020-03-18,14,Bangladesh,3
+2020-03-19,14,Bangladesh,3
+2020-03-20,14,Bangladesh,3
+2020-03-21,14,Bangladesh,3
+2020-03-22,14,Bangladesh,5
+2020-03-23,14,Bangladesh,5
+2020-03-24,14,Bangladesh,5
+2020-03-25,14,Bangladesh,7
+2020-03-26,14,Bangladesh,11
+2020-03-27,14,Bangladesh,11
+2020-03-28,14,Bangladesh,15
+2020-03-29,14,Bangladesh,15
+2020-03-30,14,Bangladesh,19
+2020-03-31,14,Bangladesh,25
+2020-04-01,14,Bangladesh,25
+2020-04-02,14,Bangladesh,25
+2020-04-03,14,Bangladesh,26
+2020-04-04,14,Bangladesh,30
+2020-04-05,14,Bangladesh,33
+2020-04-06,14,Bangladesh,33
+2020-04-07,14,Bangladesh,33
+2020-04-05,15,Barbados,6
+2020-04-06,15,Barbados,6
+2020-04-07,15,Barbados,6
+2020-03-09,16,Belarus,1
+2020-03-10,16,Belarus,3
+2020-03-11,16,Belarus,3
+2020-03-12,16,Belarus,3
+2020-03-13,16,Belarus,3
+2020-03-14,16,Belarus,3
+2020-03-15,16,Belarus,3
+2020-03-16,16,Belarus,3
+2020-03-17,16,Belarus,3
+2020-03-18,16,Belarus,5
+2020-03-19,16,Belarus,5
+2020-03-20,16,Belarus,15
+2020-03-21,16,Belarus,15
+2020-03-22,16,Belarus,15
+2020-03-23,16,Belarus,22
+2020-03-24,16,Belarus,22
+2020-03-25,16,Belarus,29
+2020-03-26,16,Belarus,29
+2020-03-27,16,Belarus,32
+2020-03-28,16,Belarus,32
+2020-03-29,16,Belarus,32
+2020-03-30,16,Belarus,47
+2020-03-31,16,Belarus,47
+2020-04-01,16,Belarus,53
+2020-04-02,16,Belarus,53
+2020-04-03,16,Belarus,53
+2020-04-04,16,Belarus,53
+2020-04-05,16,Belarus,52
+2020-04-06,16,Belarus,53
+2020-04-07,16,Belarus,53
+2020-02-17,17,Belgium,1
+2020-02-18,17,Belgium,1
+2020-02-19,17,Belgium,1
+2020-02-20,17,Belgium,1
+2020-02-21,17,Belgium,1
+2020-02-22,17,Belgium,1
+2020-02-23,17,Belgium,1
+2020-02-24,17,Belgium,1
+2020-02-25,17,Belgium,1
+2020-02-26,17,Belgium,1
+2020-02-27,17,Belgium,1
+2020-02-28,17,Belgium,1
+2020-02-29,17,Belgium,1
+2020-03-01,17,Belgium,1
+2020-03-02,17,Belgium,1
+2020-03-03,17,Belgium,1
+2020-03-04,17,Belgium,1
+2020-03-05,17,Belgium,1
+2020-03-06,17,Belgium,1
+2020-03-07,17,Belgium,1
+2020-03-08,17,Belgium,1
+2020-03-09,17,Belgium,1
+2020-03-10,17,Belgium,1
+2020-03-11,17,Belgium,1
+2020-03-12,17,Belgium,1
+2020-03-13,17,Belgium,1
+2020-03-14,17,Belgium,1
+2020-03-15,17,Belgium,1
+2020-03-16,17,Belgium,1
+2020-03-17,17,Belgium,1
+2020-03-18,17,Belgium,31
+2020-03-19,17,Belgium,31
+2020-03-20,17,Belgium,1
+2020-03-21,17,Belgium,263
+2020-03-22,17,Belgium,290
+2020-03-23,17,Belgium,350
+2020-03-24,17,Belgium,461
+2020-03-25,17,Belgium,547
+2020-03-26,17,Belgium,675
+2020-03-27,17,Belgium,858
+2020-03-28,17,Belgium,1063
+2020-03-29,17,Belgium,1359
+2020-03-30,17,Belgium,1527
+2020-03-31,17,Belgium,1696
+2020-04-01,17,Belgium,2132
+2020-04-02,17,Belgium,2495
+2020-04-03,17,Belgium,2872
+2020-04-04,17,Belgium,3247
+2020-04-05,17,Belgium,3751
+2020-04-06,17,Belgium,3986
+2020-04-07,17,Belgium,4157
+2020-03-31,18,Benin,1
+2020-04-01,18,Benin,1
+2020-04-02,18,Benin,1
+2020-04-03,18,Benin,2
+2020-04-04,18,Benin,2
+2020-04-05,18,Benin,5
+2020-04-06,18,Benin,5
+2020-04-07,18,Benin,5
+2020-04-02,19,Bhutan,1
+2020-04-03,19,Bhutan,2
+2020-04-04,19,Bhutan,2
+2020-04-05,19,Bhutan,2
+2020-04-06,19,Bhutan,2
+2020-04-07,19,Bhutan,2
+2020-04-01,20,Bolivia,1
+2020-04-02,20,Bolivia,1
+2020-04-03,20,Bolivia,1
+2020-04-04,20,Bolivia,1
+2020-04-05,20,Bolivia,2
+2020-04-06,20,Bolivia,2
+2020-04-07,20,Bolivia,2
+2020-03-17,21,Bosnia and Herzegovina,2
+2020-03-18,21,Bosnia and Herzegovina,2
+2020-03-19,21,Bosnia and Herzegovina,2
+2020-03-20,21,Bosnia and Herzegovina,2
+2020-03-21,21,Bosnia and Herzegovina,2
+2020-03-22,21,Bosnia and Herzegovina,2
+2020-03-23,21,Bosnia and Herzegovina,2
+2020-03-24,21,Bosnia and Herzegovina,2
+2020-03-25,21,Bosnia and Herzegovina,2
+2020-03-26,21,Bosnia and Herzegovina,2
+2020-03-27,21,Bosnia and Herzegovina,5
+2020-03-28,21,Bosnia and Herzegovina,5
+2020-03-29,21,Bosnia and Herzegovina,8
+2020-03-30,21,Bosnia and Herzegovina,17
+2020-03-31,21,Bosnia and Herzegovina,17
+2020-04-01,21,Bosnia and Herzegovina,19
+2020-04-02,21,Bosnia and Herzegovina,20
+2020-04-03,21,Bosnia and Herzegovina,27
+2020-04-04,21,Bosnia and Herzegovina,30
+2020-04-05,21,Bosnia and Herzegovina,30
+2020-04-06,21,Bosnia and Herzegovina,47
+2020-04-07,21,Bosnia and Herzegovina,68
+2020-03-16,22,Brazil,1
+2020-03-17,22,Brazil,2
+2020-03-18,22,Brazil,2
+2020-03-19,22,Brazil,2
+2020-03-20,22,Brazil,2
+2020-03-21,22,Brazil,2
+2020-03-22,22,Brazil,2
+2020-03-23,22,Brazil,2
+2020-03-24,22,Brazil,2
+2020-03-25,22,Brazil,2
+2020-03-26,22,Brazil,6
+2020-03-27,22,Brazil,6
+2020-03-28,22,Brazil,6
+2020-03-29,22,Brazil,6
+2020-03-30,22,Brazil,120
+2020-03-31,22,Brazil,127
+2020-04-01,22,Brazil,127
+2020-04-02,22,Brazil,127
+2020-04-03,22,Brazil,127
+2020-04-04,22,Brazil,127
+2020-04-05,22,Brazil,127
+2020-04-06,22,Brazil,127
+2020-04-07,22,Brazil,127
+2020-03-20,23,Brunei,1
+2020-03-21,23,Brunei,2
+2020-03-22,23,Brunei,2
+2020-03-23,23,Brunei,2
+2020-03-24,23,Brunei,2
+2020-03-25,23,Brunei,2
+2020-03-26,23,Brunei,5
+2020-03-27,23,Brunei,11
+2020-03-28,23,Brunei,25
+2020-03-29,23,Brunei,34
+2020-03-30,23,Brunei,38
+2020-03-31,23,Brunei,45
+2020-04-01,23,Brunei,52
+2020-04-02,23,Brunei,56
+2020-04-03,23,Brunei,65
+2020-04-04,23,Brunei,66
+2020-04-05,23,Brunei,73
+2020-04-06,23,Brunei,82
+2020-04-07,23,Brunei,85
+2020-03-21,24,Bulgaria,3
+2020-03-22,24,Bulgaria,3
+2020-03-23,24,Bulgaria,3
+2020-03-24,24,Bulgaria,3
+2020-03-25,24,Bulgaria,4
+2020-03-26,24,Bulgaria,8
+2020-03-27,24,Bulgaria,9
+2020-03-28,24,Bulgaria,11
+2020-03-29,24,Bulgaria,14
+2020-03-30,24,Bulgaria,17
+2020-03-31,24,Bulgaria,17
+2020-04-01,24,Bulgaria,20
+2020-04-02,24,Bulgaria,25
+2020-04-03,24,Bulgaria,30
+2020-04-04,24,Bulgaria,34
+2020-04-05,24,Bulgaria,37
+2020-04-06,24,Bulgaria,39
+2020-04-07,24,Bulgaria,42
+2020-03-21,25,Burkina Faso,5
+2020-03-22,25,Burkina Faso,5
+2020-03-23,25,Burkina Faso,5
+2020-03-24,25,Burkina Faso,7
+2020-03-25,25,Burkina Faso,10
+2020-03-26,25,Burkina Faso,10
+2020-03-27,25,Burkina Faso,12
+2020-03-28,25,Burkina Faso,21
+2020-03-29,25,Burkina Faso,23
+2020-03-30,25,Burkina Faso,31
+2020-03-31,25,Burkina Faso,32
+2020-04-01,25,Burkina Faso,46
+2020-04-02,25,Burkina Faso,50
+2020-04-03,25,Burkina Faso,50
+2020-04-04,25,Burkina Faso,66
+2020-04-05,25,Burkina Faso,90
+2020-04-06,25,Burkina Faso,108
+2020-04-07,25,Burkina Faso,108
+2020-03-25,26,Cabo Verde,1
+2020-03-26,26,Cabo Verde,1
+2020-03-27,26,Cabo Verde,1
+2020-03-28,26,Cabo Verde,1
+2020-03-29,26,Cabo Verde,1
+2020-03-30,26,Cabo Verde,1
+2020-03-31,26,Cabo Verde,1
+2020-04-01,26,Cabo Verde,1
+2020-04-02,26,Cabo Verde,1
+2020-04-03,26,Cabo Verde,1
+2020-04-04,26,Cabo Verde,0
+2020-04-05,26,Cabo Verde,1
+2020-04-06,26,Cabo Verde,1
+2020-04-07,26,Cabo Verde,1
+2020-02-12,27,Cambodia,1
+2020-02-13,27,Cambodia,1
+2020-02-14,27,Cambodia,1
+2020-02-15,27,Cambodia,1
+2020-02-16,27,Cambodia,1
+2020-02-17,27,Cambodia,1
+2020-02-18,27,Cambodia,1
+2020-02-19,27,Cambodia,1
+2020-02-20,27,Cambodia,1
+2020-02-21,27,Cambodia,1
+2020-02-22,27,Cambodia,1
+2020-02-23,27,Cambodia,1
+2020-02-24,27,Cambodia,1
+2020-02-25,27,Cambodia,1
+2020-02-26,27,Cambodia,1
+2020-02-27,27,Cambodia,1
+2020-02-28,27,Cambodia,1
+2020-02-29,27,Cambodia,1
+2020-03-01,27,Cambodia,1
+2020-03-02,27,Cambodia,1
+2020-03-03,27,Cambodia,1
+2020-03-04,27,Cambodia,1
+2020-03-05,27,Cambodia,1
+2020-03-06,27,Cambodia,1
+2020-03-07,27,Cambodia,1
+2020-03-08,27,Cambodia,1
+2020-03-09,27,Cambodia,1
+2020-03-10,27,Cambodia,1
+2020-03-11,27,Cambodia,1
+2020-03-12,27,Cambodia,1
+2020-03-13,27,Cambodia,1
+2020-03-14,27,Cambodia,1
+2020-03-15,27,Cambodia,1
+2020-03-16,27,Cambodia,1
+2020-03-17,27,Cambodia,1
+2020-03-18,27,Cambodia,1
+2020-03-19,27,Cambodia,1
+2020-03-20,27,Cambodia,1
+2020-03-21,27,Cambodia,1
+2020-03-22,27,Cambodia,2
+2020-03-23,27,Cambodia,2
+2020-03-24,27,Cambodia,4
+2020-03-25,27,Cambodia,10
+2020-03-26,27,Cambodia,10
+2020-03-27,27,Cambodia,11
+2020-03-28,27,Cambodia,13
+2020-03-29,27,Cambodia,21
+2020-03-30,27,Cambodia,21
+2020-03-31,27,Cambodia,23
+2020-04-01,27,Cambodia,25
+2020-04-02,27,Cambodia,34
+2020-04-03,27,Cambodia,35
+2020-04-04,27,Cambodia,50
+2020-04-05,27,Cambodia,50
+2020-04-06,27,Cambodia,53
+2020-04-07,27,Cambodia,58
+2020-03-25,28,Cameroon,3
+2020-03-26,28,Cameroon,3
+2020-03-27,28,Cameroon,2
+2020-03-28,28,Cameroon,2
+2020-03-29,28,Cameroon,5
+2020-03-30,28,Cameroon,5
+2020-03-31,28,Cameroon,5
+2020-04-01,28,Cameroon,10
+2020-04-02,28,Cameroon,10
+2020-04-03,28,Cameroon,17
+2020-04-04,28,Cameroon,17
+2020-04-05,28,Cameroon,17
+2020-04-06,28,Cameroon,17
+2020-04-07,28,Cameroon,17
+2020-02-12,29,Canada,1
+2020-02-13,29,Canada,2
+2020-02-14,29,Canada,2
+2020-02-15,29,Canada,2
+2020-02-16,29,Canada,2
+2020-02-17,29,Canada,2
+2020-02-18,29,Canada,1
+2020-02-19,29,Canada,1
+2020-02-20,29,Canada,2
+2020-02-21,29,Canada,3
+2020-02-22,29,Canada,3
+2020-02-23,29,Canada,3
+2020-02-24,29,Canada,3
+2020-02-25,29,Canada,4
+2020-02-26,29,Canada,4
+2020-02-27,29,Canada,6
+2020-02-28,29,Canada,6
+2020-02-29,29,Canada,6
+2020-03-01,29,Canada,6
+2020-03-02,29,Canada,6
+2020-03-03,29,Canada,6
+2020-03-04,29,Canada,6
+2020-03-05,29,Canada,6
+2020-03-06,29,Canada,6
+2020-03-07,29,Canada,8
+2020-03-08,29,Canada,8
+2020-03-09,29,Canada,8
+2020-03-10,29,Canada,8
+2020-03-11,29,Canada,8
+2020-03-12,29,Canada,8
+2020-03-13,29,Canada,8
+2020-03-14,29,Canada,8
+2020-03-15,29,Canada,8
+2020-03-16,29,Canada,9
+2020-03-17,29,Canada,10
+2020-03-18,29,Canada,10
+2020-03-19,29,Canada,10
+2020-03-20,29,Canada,11
+2020-03-21,29,Canada,11
+2020-03-22,29,Canada,12
+2020-03-23,29,Canada,14
+2020-03-24,29,Canada,112
+2020-03-25,29,Canada,183
+2020-03-26,29,Canada,184
+2020-03-27,29,Canada,256
+2020-03-28,29,Canada,466
+2020-03-29,29,Canada,466
+2020-03-30,29,Canada,466
+2020-03-31,29,Canada,1592
+2020-04-01,29,Canada,1592
+2020-04-02,29,Canada,1735
+2020-04-03,29,Canada,2175
+2020-04-04,29,Canada,2577
+2020-04-05,29,Canada,3012
+2020-04-06,29,Canada,3256
+2020-04-07,29,Canada,2770
+2020-03-20,32,Chile,6
+2020-03-21,32,Chile,6
+2020-03-22,32,Chile,8
+2020-03-23,32,Chile,8
+2020-03-24,32,Chile,17
+2020-03-25,32,Chile,22
+2020-03-26,32,Chile,22
+2020-03-27,32,Chile,43
+2020-03-28,32,Chile,61
+2020-03-29,32,Chile,75
+2020-03-30,32,Chile,156
+2020-03-31,32,Chile,156
+2020-04-01,32,Chile,234
+2020-04-02,32,Chile,335
+2020-04-03,32,Chile,427
+2020-04-04,32,Chile,528
+2020-04-05,32,Chile,618
+2020-04-06,32,Chile,728
+2020-04-07,32,Chile,728
+2020-01-24,33,China,35
+2020-01-25,33,China,38
+2020-01-26,33,China,48
+2020-01-27,33,China,59
+2020-01-28,33,China,73
+2020-01-29,33,China,119
+2020-01-30,33,China,135
+2020-01-31,33,China,214
+2020-02-01,33,China,275
+2020-02-02,33,China,434
+2020-02-03,33,China,527
+2020-02-04,33,China,718
+2020-02-05,33,China,1018
+2020-02-06,33,China,1373
+2020-02-07,33,China,1753
+2020-02-08,33,China,2375
+2020-02-09,33,China,2901
+2020-02-10,33,China,3551
+2020-02-11,33,China,4301
+2020-02-12,33,China,5066
+2020-02-13,33,China,6215
+2020-02-14,33,China,7092
+2020-02-15,33,China,8494
+2020-02-16,33,China,9763
+2020-02-17,33,China,11282
+2020-02-18,33,China,13003
+2020-02-19,33,China,14940
+2020-02-20,33,China,16721
+2020-02-21,33,China,18687
+2020-02-22,33,China,21075
+2020-02-23,33,China,23183
+2020-02-24,33,China,25007
+2020-02-25,33,China,27655
+2020-02-26,33,China,30078
+2020-02-27,33,China,32916
+2020-02-28,33,China,36312
+2020-02-29,33,China,39308
+2020-03-01,33,China,42162
+2020-03-02,33,China,44843
+2020-03-03,33,China,47434
+2020-03-04,33,China,49998
+2020-03-05,33,China,52305
+2020-03-06,33,China,53955
+2020-03-07,33,China,55546
+2020-03-08,33,China,57400
+2020-03-09,33,China,58812
+2020-03-10,33,China,60186
+2020-03-11,33,China,61656
+2020-03-12,33,China,62912
+2020-03-13,33,China,64215
+2020-03-14,33,China,65676
+2020-03-15,33,China,67038
+2020-03-16,33,China,67930
+2020-03-17,33,China,68820
+2020-03-18,33,China,69781
+2020-03-19,33,China,70561
+2020-03-20,33,China,71292
+2020-03-21,33,China,71885
+2020-03-22,33,China,72390
+2020-03-23,33,China,72847
+2020-03-24,33,China,73303
+2020-03-25,33,China,73796
+2020-03-26,33,China,74204
+2020-03-27,33,China,74743
+2020-03-28,33,China,75124
+2020-03-29,33,China,75606
+2020-03-30,33,China,75956
+2020-03-31,33,China,76239
+2020-04-01,33,China,76438
+2020-04-02,33,China,76610
+2020-04-03,33,China,76810
+2020-04-04,33,China,76996
+2020-04-05,33,China,77257
+2020-04-06,33,China,77367
+2020-04-07,33,China,77467
+2020-03-17,34,Colombia,1
+2020-03-18,34,Colombia,1
+2020-03-19,34,Colombia,1
+2020-03-20,34,Colombia,1
+2020-03-21,34,Colombia,1
+2020-03-22,34,Colombia,3
+2020-03-23,34,Colombia,3
+2020-03-24,34,Colombia,6
+2020-03-25,34,Colombia,8
+2020-03-26,34,Colombia,8
+2020-03-27,34,Colombia,10
+2020-03-28,34,Colombia,10
+2020-03-29,34,Colombia,10
+2020-03-30,34,Colombia,15
+2020-03-31,34,Colombia,31
+2020-04-01,34,Colombia,39
+2020-04-02,34,Colombia,55
+2020-04-03,34,Colombia,55
+2020-04-04,34,Colombia,85
+2020-04-05,34,Colombia,88
+2020-04-06,34,Colombia,88
+2020-04-07,34,Colombia,88
+2020-03-31,35,Congo (Brazzaville),2
+2020-04-01,35,Congo (Brazzaville),2
+2020-04-02,35,Congo (Brazzaville),2
+2020-04-03,35,Congo (Brazzaville),2
+2020-04-04,35,Congo (Brazzaville),2
+2020-04-05,35,Congo (Brazzaville),2
+2020-04-06,35,Congo (Brazzaville),2
+2020-04-07,35,Congo (Brazzaville),2
+2020-03-26,36,Congo (Kinshasa),2
+2020-03-27,36,Congo (Kinshasa),2
+2020-03-28,36,Congo (Kinshasa),3
+2020-03-29,36,Congo (Kinshasa),3
+2020-03-30,36,Congo (Kinshasa),3
+2020-03-31,36,Congo (Kinshasa),3
+2020-04-01,36,Congo (Kinshasa),3
+2020-04-02,36,Congo (Kinshasa),3
+2020-04-03,36,Congo (Kinshasa),3
+2020-04-04,36,Congo (Kinshasa),3
+2020-04-05,36,Congo (Kinshasa),3
+2020-04-06,36,Congo (Kinshasa),5
+2020-04-07,36,Congo (Kinshasa),9
+2020-03-21,37,Costa Rica,2
+2020-03-22,37,Costa Rica,2
+2020-03-23,37,Costa Rica,2
+2020-03-24,37,Costa Rica,2
+2020-03-25,37,Costa Rica,2
+2020-03-26,37,Costa Rica,2
+2020-03-27,37,Costa Rica,3
+2020-03-28,37,Costa Rica,3
+2020-03-29,37,Costa Rica,3
+2020-03-30,37,Costa Rica,4
+2020-03-31,37,Costa Rica,4
+2020-04-01,37,Costa Rica,4
+2020-04-02,37,Costa Rica,6
+2020-04-03,37,Costa Rica,11
+2020-04-04,37,Costa Rica,13
+2020-04-05,37,Costa Rica,16
+2020-04-06,37,Costa Rica,18
+2020-04-07,37,Costa Rica,18
+2020-03-17,38,Cote d'Ivoire,1
+2020-03-18,38,Cote d'Ivoire,1
+2020-03-19,38,Cote d'Ivoire,1
+2020-03-20,38,Cote d'Ivoire,1
+2020-03-21,38,Cote d'Ivoire,1
+2020-03-22,38,Cote d'Ivoire,1
+2020-03-23,38,Cote d'Ivoire,1
+2020-03-24,38,Cote d'Ivoire,3
+2020-03-25,38,Cote d'Ivoire,3
+2020-03-26,38,Cote d'Ivoire,3
+2020-03-27,38,Cote d'Ivoire,3
+2020-03-28,38,Cote d'Ivoire,3
+2020-03-29,38,Cote d'Ivoire,4
+2020-03-30,38,Cote d'Ivoire,6
+2020-03-31,38,Cote d'Ivoire,7
+2020-04-01,38,Cote d'Ivoire,9
+2020-04-02,38,Cote d'Ivoire,15
+2020-04-03,38,Cote d'Ivoire,19
+2020-04-04,38,Cote d'Ivoire,25
+2020-04-05,38,Cote d'Ivoire,37
+2020-04-06,38,Cote d'Ivoire,41
+2020-04-07,38,Cote d'Ivoire,41
+2020-03-13,39,Croatia,1
+2020-03-14,39,Croatia,1
+2020-03-15,39,Croatia,1
+2020-03-16,39,Croatia,2
+2020-03-17,39,Croatia,4
+2020-03-18,39,Croatia,4
+2020-03-19,39,Croatia,5
+2020-03-20,39,Croatia,5
+2020-03-21,39,Croatia,5
+2020-03-22,39,Croatia,5
+2020-03-23,39,Croatia,5
+2020-03-24,39,Croatia,5
+2020-03-25,39,Croatia,22
+2020-03-26,39,Croatia,22
+2020-03-27,39,Croatia,37
+2020-03-28,39,Croatia,45
+2020-03-29,39,Croatia,52
+2020-03-30,39,Croatia,67
+2020-03-31,39,Croatia,67
+2020-04-01,39,Croatia,73
+2020-04-02,39,Croatia,88
+2020-04-03,39,Croatia,92
+2020-04-04,39,Croatia,119
+2020-04-05,39,Croatia,125
+2020-04-06,39,Croatia,130
+2020-04-07,39,Croatia,130
+2020-02-19,40,International Conveyance,1
+2020-02-20,40,International Conveyance,1
+2020-02-21,40,International Conveyance,1
+2020-02-22,40,International Conveyance,1
+2020-02-23,40,International Conveyance,0
+2020-02-24,40,International Conveyance,0
+2020-02-25,40,International Conveyance,0
+2020-02-26,40,International Conveyance,10
+2020-02-27,40,International Conveyance,10
+2020-02-28,40,International Conveyance,10
+2020-02-29,40,International Conveyance,10
+2020-03-01,40,International Conveyance,10
+2020-03-02,40,International Conveyance,10
+2020-03-03,40,International Conveyance,10
+2020-03-04,40,International Conveyance,10
+2020-03-05,40,International Conveyance,10
+2020-03-06,40,International Conveyance,40
+2020-03-07,40,International Conveyance,40
+2020-03-08,40,International Conveyance,40
+2020-03-09,40,International Conveyance,40
+2020-03-10,40,International Conveyance,427
+2020-03-11,40,International Conveyance,427
+2020-03-12,40,International Conveyance,427
+2020-03-13,40,International Conveyance,427
+2020-03-14,40,International Conveyance,427
+2020-03-15,40,International Conveyance,427
+2020-03-16,40,International Conveyance,458
+2020-03-17,40,International Conveyance,458
+2020-03-18,40,International Conveyance,458
+2020-03-19,40,International Conveyance,458
+2020-03-20,40,International Conveyance,458
+2020-03-21,40,International Conveyance,458
+2020-03-22,40,International Conveyance,458
+2020-03-23,40,International Conveyance,574
+2020-03-24,40,International Conveyance,574
+2020-03-25,40,International Conveyance,587
+2020-03-26,40,International Conveyance,597
+2020-03-27,40,International Conveyance,597
+2020-03-28,40,International Conveyance,597
+2020-03-29,40,International Conveyance,603
+2020-03-30,40,International Conveyance,603
+2020-03-31,40,International Conveyance,603
+2020-04-01,40,International Conveyance,603
+2020-04-02,40,International Conveyance,619
+2020-04-03,40,International Conveyance,619
+2020-04-04,40,International Conveyance,619
+2020-04-05,40,International Conveyance,619
+2020-04-06,40,International Conveyance,619
+2020-04-07,40,International Conveyance,619
+2020-03-24,41,Cuba,1
+2020-03-25,41,Cuba,1
+2020-03-26,41,Cuba,1
+2020-03-27,41,Cuba,4
+2020-03-28,41,Cuba,4
+2020-03-29,41,Cuba,4
+2020-03-30,41,Cuba,4
+2020-03-31,41,Cuba,8
+2020-04-01,41,Cuba,12
+2020-04-02,41,Cuba,13
+2020-04-03,41,Cuba,15
+2020-04-04,41,Cuba,15
+2020-04-05,41,Cuba,15
+2020-04-06,41,Cuba,18
+2020-04-07,41,Cuba,18
+2020-03-22,42,Cyprus,3
+2020-03-23,42,Cyprus,3
+2020-03-24,42,Cyprus,3
+2020-03-25,42,Cyprus,3
+2020-03-26,42,Cyprus,4
+2020-03-27,42,Cyprus,15
+2020-03-28,42,Cyprus,15
+2020-03-29,42,Cyprus,15
+2020-03-30,42,Cyprus,22
+2020-03-31,42,Cyprus,23
+2020-04-01,42,Cyprus,28
+2020-04-02,42,Cyprus,28
+2020-04-03,42,Cyprus,28
+2020-04-04,42,Cyprus,33
+2020-04-05,42,Cyprus,37
+2020-04-06,42,Cyprus,45
+2020-04-07,42,Cyprus,45
+2020-03-16,43,Czechia,3
+2020-03-17,43,Czechia,3
+2020-03-18,43,Czechia,3
+2020-03-19,43,Czechia,3
+2020-03-20,43,Czechia,4
+2020-03-21,43,Czechia,6
+2020-03-22,43,Czechia,6
+2020-03-23,43,Czechia,7
+2020-03-24,43,Czechia,10
+2020-03-25,43,Czechia,10
+2020-03-26,43,Czechia,10
+2020-03-27,43,Czechia,11
+2020-03-28,43,Czechia,11
+2020-03-29,43,Czechia,11
+2020-03-30,43,Czechia,25
+2020-03-31,43,Czechia,45
+2020-04-01,43,Czechia,61
+2020-04-02,43,Czechia,67
+2020-04-03,43,Czechia,72
+2020-04-04,43,Czechia,78
+2020-04-05,43,Czechia,96
+2020-04-06,43,Czechia,121
+2020-04-07,43,Czechia,127
+2020-03-06,44,Denmark,1
+2020-03-07,44,Denmark,1
+2020-03-08,44,Denmark,1
+2020-03-09,44,Denmark,1
+2020-03-10,44,Denmark,1
+2020-03-11,44,Denmark,1
+2020-03-12,44,Denmark,1
+2020-03-13,44,Denmark,1
+2020-03-14,44,Denmark,1
+2020-03-15,44,Denmark,1
+2020-03-16,44,Denmark,1
+2020-03-17,44,Denmark,1
+2020-03-18,44,Denmark,1
+2020-03-19,44,Denmark,1
+2020-03-20,44,Denmark,1
+2020-03-21,44,Denmark,1
+2020-03-22,44,Denmark,1
+2020-03-23,44,Denmark,1
+2020-03-24,44,Denmark,36
+2020-03-25,44,Denmark,41
+2020-03-26,44,Denmark,50
+2020-03-27,44,Denmark,57
+2020-03-28,44,Denmark,57
+2020-03-29,44,Denmark,73
+2020-03-30,44,Denmark,73
+2020-03-31,44,Denmark,77
+2020-04-01,44,Denmark,971
+2020-04-02,44,Denmark,1172
+2020-04-03,44,Denmark,1287
+2020-04-04,44,Denmark,1379
+2020-04-05,44,Denmark,1429
+2020-04-06,44,Denmark,1489
+2020-04-07,44,Denmark,1511
+2020-04-03,45,Djibouti,8
+2020-04-04,45,Djibouti,8
+2020-04-05,45,Djibouti,9
+2020-04-06,45,Djibouti,9
+2020-04-07,45,Djibouti,9
+2020-03-24,46,Dominican Republic,3
+2020-03-25,46,Dominican Republic,3
+2020-03-26,46,Dominican Republic,3
+2020-03-27,46,Dominican Republic,3
+2020-03-28,46,Dominican Republic,3
+2020-03-29,46,Dominican Republic,3
+2020-03-30,46,Dominican Republic,4
+2020-03-31,46,Dominican Republic,5
+2020-04-01,46,Dominican Republic,9
+2020-04-02,46,Dominican Republic,16
+2020-04-03,46,Dominican Republic,16
+2020-04-04,46,Dominican Republic,16
+2020-04-05,46,Dominican Republic,17
+2020-04-06,46,Dominican Republic,33
+2020-04-07,46,Dominican Republic,33
+2020-03-21,47,Ecuador,3
+2020-03-22,47,Ecuador,3
+2020-03-23,47,Ecuador,3
+2020-03-24,47,Ecuador,3
+2020-03-25,47,Ecuador,3
+2020-03-26,47,Ecuador,3
+2020-03-27,47,Ecuador,3
+2020-03-28,47,Ecuador,3
+2020-03-29,47,Ecuador,3
+2020-03-30,47,Ecuador,3
+2020-03-31,47,Ecuador,54
+2020-04-01,47,Ecuador,58
+2020-04-02,47,Ecuador,65
+2020-04-03,47,Ecuador,65
+2020-04-04,47,Ecuador,100
+2020-04-05,47,Ecuador,100
+2020-04-06,47,Ecuador,100
+2020-04-07,47,Ecuador,100
+2020-02-28,48,Egypt,1
+2020-02-29,48,Egypt,1
+2020-03-01,48,Egypt,1
+2020-03-02,48,Egypt,1
+2020-03-03,48,Egypt,1
+2020-03-04,48,Egypt,1
+2020-03-05,48,Egypt,1
+2020-03-06,48,Egypt,1
+2020-03-07,48,Egypt,1
+2020-03-08,48,Egypt,1
+2020-03-09,48,Egypt,12
+2020-03-10,48,Egypt,12
+2020-03-11,48,Egypt,27
+2020-03-12,48,Egypt,27
+2020-03-13,48,Egypt,27
+2020-03-14,48,Egypt,27
+2020-03-15,48,Egypt,21
+2020-03-16,48,Egypt,27
+2020-03-17,48,Egypt,32
+2020-03-18,48,Egypt,32
+2020-03-19,48,Egypt,32
+2020-03-20,48,Egypt,39
+2020-03-21,48,Egypt,41
+2020-03-22,48,Egypt,56
+2020-03-23,48,Egypt,68
+2020-03-24,48,Egypt,80
+2020-03-25,48,Egypt,95
+2020-03-26,48,Egypt,102
+2020-03-27,48,Egypt,116
+2020-03-28,48,Egypt,121
+2020-03-29,48,Egypt,132
+2020-03-30,48,Egypt,150
+2020-03-31,48,Egypt,157
+2020-04-01,48,Egypt,179
+2020-04-02,48,Egypt,201
+2020-04-03,48,Egypt,216
+2020-04-04,48,Egypt,241
+2020-04-05,48,Egypt,247
+2020-04-06,48,Egypt,259
+2020-04-07,48,Egypt,259
+2020-04-04,49,El Salvador,2
+2020-04-05,49,El Salvador,2
+2020-04-06,49,El Salvador,5
+2020-04-07,49,El Salvador,5
+2020-03-31,50,Equatorial Guinea,1
+2020-04-01,50,Equatorial Guinea,1
+2020-04-02,50,Equatorial Guinea,1
+2020-04-03,50,Equatorial Guinea,1
+2020-04-04,50,Equatorial Guinea,1
+2020-04-05,50,Equatorial Guinea,1
+2020-04-06,50,Equatorial Guinea,3
+2020-04-07,50,Equatorial Guinea,3
+2020-03-15,52,Estonia,1
+2020-03-16,52,Estonia,1
+2020-03-17,52,Estonia,1
+2020-03-18,52,Estonia,1
+2020-03-19,52,Estonia,1
+2020-03-20,52,Estonia,1
+2020-03-21,52,Estonia,1
+2020-03-22,52,Estonia,2
+2020-03-23,52,Estonia,2
+2020-03-24,52,Estonia,7
+2020-03-25,52,Estonia,8
+2020-03-26,52,Estonia,8
+2020-03-27,52,Estonia,11
+2020-03-28,52,Estonia,20
+2020-03-29,52,Estonia,20
+2020-03-30,52,Estonia,20
+2020-03-31,52,Estonia,26
+2020-04-01,52,Estonia,33
+2020-04-02,52,Estonia,45
+2020-04-03,52,Estonia,48
+2020-04-04,52,Estonia,59
+2020-04-05,52,Estonia,62
+2020-04-06,52,Estonia,62
+2020-04-07,52,Estonia,69
+2020-04-06,53,Eswatini,4
+2020-04-07,53,Eswatini,4
+2020-03-22,54,Ethiopia,4
+2020-03-23,54,Ethiopia,4
+2020-03-24,54,Ethiopia,4
+2020-03-25,54,Ethiopia,4
+2020-03-26,54,Ethiopia,4
+2020-03-27,54,Ethiopia,4
+2020-03-28,54,Ethiopia,4
+2020-03-29,54,Ethiopia,3
+2020-03-30,54,Ethiopia,4
+2020-03-31,54,Ethiopia,3
+2020-04-01,54,Ethiopia,2
+2020-04-02,54,Ethiopia,3
+2020-04-03,54,Ethiopia,3
+2020-04-04,54,Ethiopia,4
+2020-04-05,54,Ethiopia,4
+2020-04-06,54,Ethiopia,4
+2020-04-07,54,Ethiopia,4
+2020-02-12,56,Finland,1
+2020-02-13,56,Finland,1
+2020-02-14,56,Finland,1
+2020-02-15,56,Finland,1
+2020-02-16,56,Finland,1
+2020-02-17,56,Finland,1
+2020-02-18,56,Finland,1
+2020-02-19,56,Finland,1
+2020-02-20,56,Finland,1
+2020-02-21,56,Finland,1
+2020-02-22,56,Finland,1
+2020-02-23,56,Finland,1
+2020-02-24,56,Finland,1
+2020-02-25,56,Finland,1
+2020-02-26,56,Finland,1
+2020-02-27,56,Finland,1
+2020-02-28,56,Finland,1
+2020-02-29,56,Finland,1
+2020-03-01,56,Finland,1
+2020-03-02,56,Finland,1
+2020-03-03,56,Finland,1
+2020-03-04,56,Finland,1
+2020-03-05,56,Finland,1
+2020-03-06,56,Finland,1
+2020-03-07,56,Finland,1
+2020-03-08,56,Finland,1
+2020-03-09,56,Finland,1
+2020-03-10,56,Finland,1
+2020-03-11,56,Finland,1
+2020-03-12,56,Finland,1
+2020-03-13,56,Finland,1
+2020-03-14,56,Finland,1
+2020-03-15,56,Finland,10
+2020-03-16,56,Finland,10
+2020-03-17,56,Finland,10
+2020-03-18,56,Finland,10
+2020-03-19,56,Finland,10
+2020-03-20,56,Finland,10
+2020-03-21,56,Finland,10
+2020-03-22,56,Finland,10
+2020-03-23,56,Finland,10
+2020-03-24,56,Finland,10
+2020-03-25,56,Finland,10
+2020-03-26,56,Finland,10
+2020-03-27,56,Finland,10
+2020-03-28,56,Finland,10
+2020-03-29,56,Finland,10
+2020-03-30,56,Finland,10
+2020-03-31,56,Finland,10
+2020-04-01,56,Finland,10
+2020-04-02,56,Finland,300
+2020-04-03,56,Finland,300
+2020-04-04,56,Finland,300
+2020-04-05,56,Finland,300
+2020-04-06,56,Finland,300
+2020-04-07,56,Finland,300
+2020-02-12,57,France,2
+2020-02-13,57,France,2
+2020-02-14,57,France,2
+2020-02-15,57,France,4
+2020-02-16,57,France,4
+2020-02-17,57,France,4
+2020-02-18,57,France,4
+2020-02-19,57,France,4
+2020-02-20,57,France,4
+2020-02-21,57,France,4
+2020-02-22,57,France,4
+2020-02-23,57,France,4
+2020-02-24,57,France,4
+2020-02-25,57,France,11
+2020-02-26,57,France,11
+2020-02-27,57,France,11
+2020-02-28,57,France,11
+2020-02-29,57,France,12
+2020-03-01,57,France,12
+2020-03-02,57,France,12
+2020-03-03,57,France,12
+2020-03-04,57,France,12
+2020-03-05,57,France,12
+2020-03-06,57,France,12
+2020-03-07,57,France,12
+2020-03-08,57,France,12
+2020-03-09,57,France,12
+2020-03-10,57,France,12
+2020-03-11,57,France,12
+2020-03-12,57,France,12
+2020-03-13,57,France,12
+2020-03-14,57,France,12
+2020-03-15,57,France,36
+2020-03-16,57,France,36
+2020-03-17,57,France,602
+2020-03-18,57,France,602
+2020-03-19,57,France,602
+2020-03-20,57,France,1300
+2020-03-21,57,France,1587
+2020-03-22,57,France,2206
+2020-03-23,57,France,2206
+2020-03-24,57,France,3250
+2020-03-25,57,France,3907
+2020-03-26,57,France,4955
+2020-03-27,57,France,5707
+2020-03-28,57,France,5724
+2020-03-29,57,France,7226
+2020-03-30,57,France,7964
+2020-03-31,57,France,9513
+2020-04-01,57,France,11053
+2020-04-02,57,France,12548
+2020-04-03,57,France,14135
+2020-04-04,57,France,15572
+2020-04-05,57,France,16349
+2020-04-06,57,France,17428
+2020-04-07,57,France,17429
+2020-04-03,58,Gabon,1
+2020-04-04,58,Gabon,1
+2020-04-05,58,Gabon,1
+2020-04-06,58,Gabon,1
+2020-04-07,58,Gabon,1
+2020-04-01,59,Gambia,2
+2020-04-02,59,Gambia,2
+2020-04-03,59,Gambia,2
+2020-04-04,59,Gambia,2
+2020-04-05,59,Gambia,2
+2020-04-06,59,Gambia,2
+2020-04-07,59,Gambia,2
+2020-03-16,60,Georgia,1
+2020-03-17,60,Georgia,1
+2020-03-18,60,Georgia,1
+2020-03-19,60,Georgia,1
+2020-03-20,60,Georgia,1
+2020-03-21,60,Georgia,1
+2020-03-22,60,Georgia,3
+2020-03-23,60,Georgia,3
+2020-03-24,60,Georgia,9
+2020-03-25,60,Georgia,10
+2020-03-26,60,Georgia,11
+2020-03-27,60,Georgia,14
+2020-03-28,60,Georgia,14
+2020-03-29,60,Georgia,18
+2020-03-30,60,Georgia,20
+2020-03-31,60,Georgia,21
+2020-04-01,60,Georgia,23
+2020-04-02,60,Georgia,26
+2020-04-03,60,Georgia,28
+2020-04-04,60,Georgia,36
+2020-04-05,60,Georgia,36
+2020-04-06,60,Georgia,39
+2020-04-07,60,Georgia,39
+2020-02-13,61,Germany,1
+2020-02-14,61,Germany,1
+2020-02-15,61,Germany,1
+2020-02-16,61,Germany,1
+2020-02-17,61,Germany,1
+2020-02-18,61,Germany,12
+2020-02-19,61,Germany,12
+2020-02-20,61,Germany,12
+2020-02-21,61,Germany,14
+2020-02-22,61,Germany,14
+2020-02-23,61,Germany,14
+2020-02-24,61,Germany,14
+2020-02-25,61,Germany,14
+2020-02-26,61,Germany,15
+2020-02-27,61,Germany,16
+2020-02-28,61,Germany,16
+2020-02-29,61,Germany,16
+2020-03-01,61,Germany,16
+2020-03-02,61,Germany,16
+2020-03-03,61,Germany,16
+2020-03-04,61,Germany,16
+2020-03-05,61,Germany,16
+2020-03-06,61,Germany,17
+2020-03-07,61,Germany,18
+2020-03-08,61,Germany,18
+2020-03-09,61,Germany,18
+2020-03-10,61,Germany,18
+2020-03-11,61,Germany,25
+2020-03-12,61,Germany,25
+2020-03-13,61,Germany,46
+2020-03-14,61,Germany,46
+2020-03-15,61,Germany,46
+2020-03-16,61,Germany,67
+2020-03-17,61,Germany,135
+2020-03-18,61,Germany,135
+2020-03-19,61,Germany,135
+2020-03-20,61,Germany,180
+2020-03-21,61,Germany,233
+2020-03-22,61,Germany,266
+2020-03-23,61,Germany,422
+2020-03-24,61,Germany,3290
+2020-03-25,61,Germany,3547
+2020-03-26,61,Germany,5673
+2020-03-27,61,Germany,6658
+2020-03-28,61,Germany,8481
+2020-03-29,61,Germany,9211
+2020-03-30,61,Germany,13500
+2020-03-31,61,Germany,16100
+2020-04-01,61,Germany,18700
+2020-04-02,61,Germany,22440
+2020-04-03,61,Germany,24575
+2020-04-04,61,Germany,26400
+2020-04-05,61,Germany,28700
+2020-04-06,61,Germany,28700
+2020-04-07,61,Germany,36081
+2020-03-26,62,Ghana,1
+2020-03-27,62,Ghana,2
+2020-03-28,62,Ghana,2
+2020-03-29,62,Ghana,2
+2020-03-30,62,Ghana,2
+2020-03-31,62,Ghana,31
+2020-04-01,62,Ghana,31
+2020-04-02,62,Ghana,31
+2020-04-03,62,Ghana,31
+2020-04-04,62,Ghana,31
+2020-04-05,62,Ghana,31
+2020-04-06,62,Ghana,31
+2020-04-07,62,Ghana,31
+2020-03-14,63,Greece,8
+2020-03-15,63,Greece,8
+2020-03-16,63,Greece,8
+2020-03-17,63,Greece,8
+2020-03-18,63,Greece,8
+2020-03-19,63,Greece,14
+2020-03-20,63,Greece,19
+2020-03-21,63,Greece,19
+2020-03-22,63,Greece,19
+2020-03-23,63,Greece,19
+2020-03-24,63,Greece,29
+2020-03-25,63,Greece,36
+2020-03-26,63,Greece,36
+2020-03-27,63,Greece,52
+2020-03-28,63,Greece,52
+2020-03-29,63,Greece,52
+2020-03-30,63,Greece,52
+2020-03-31,63,Greece,52
+2020-04-01,63,Greece,52
+2020-04-02,63,Greece,61
+2020-04-03,63,Greece,78
+2020-04-04,63,Greece,78
+2020-04-05,63,Greece,78
+2020-04-06,63,Greece,269
+2020-04-07,63,Greece,269
+2020-03-25,64,Guatemala,4
+2020-03-26,64,Guatemala,4
+2020-03-27,64,Guatemala,4
+2020-03-28,64,Guatemala,10
+2020-03-29,64,Guatemala,10
+2020-03-30,64,Guatemala,10
+2020-03-31,64,Guatemala,12
+2020-04-01,64,Guatemala,12
+2020-04-02,64,Guatemala,12
+2020-04-03,64,Guatemala,12
+2020-04-04,64,Guatemala,15
+2020-04-05,64,Guatemala,15
+2020-04-06,64,Guatemala,15
+2020-04-07,64,Guatemala,17
+2020-03-29,65,Guinea,1
+2020-03-30,65,Guinea,1
+2020-03-31,65,Guinea,1
+2020-04-01,65,Guinea,1
+2020-04-02,65,Guinea,1
+2020-04-03,65,Guinea,2
+2020-04-04,65,Guinea,5
+2020-04-05,65,Guinea,5
+2020-04-06,65,Guinea,5
+2020-04-07,65,Guinea,5
+2020-04-06,66,Guyana,8
+2020-04-07,66,Guyana,8
+2020-03-29,67,Haiti,1
+2020-03-30,67,Haiti,1
+2020-03-31,67,Haiti,1
+2020-04-01,67,Haiti,1
+2020-04-02,67,Haiti,1
+2020-04-03,67,Haiti,1
+2020-04-04,67,Haiti,1
+2020-04-05,67,Haiti,1
+2020-04-06,67,Haiti,0
+2020-04-07,67,Haiti,0
+2020-03-28,69,Honduras,3
+2020-03-29,69,Honduras,3
+2020-03-30,69,Honduras,3
+2020-03-31,69,Honduras,3
+2020-04-01,69,Honduras,3
+2020-04-02,69,Honduras,3
+2020-04-03,69,Honduras,3
+2020-04-04,69,Honduras,3
+2020-04-05,69,Honduras,6
+2020-04-06,69,Honduras,6
+2020-04-07,69,Honduras,6
+2020-03-14,70,Hungary,1
+2020-03-15,70,Hungary,1
+2020-03-16,70,Hungary,1
+2020-03-17,70,Hungary,2
+2020-03-18,70,Hungary,2
+2020-03-19,70,Hungary,2
+2020-03-20,70,Hungary,2
+2020-03-21,70,Hungary,7
+2020-03-22,70,Hungary,16
+2020-03-23,70,Hungary,16
+2020-03-24,70,Hungary,21
+2020-03-25,70,Hungary,21
+2020-03-26,70,Hungary,28
+2020-03-27,70,Hungary,34
+2020-03-28,70,Hungary,34
+2020-03-29,70,Hungary,34
+2020-03-30,70,Hungary,34
+2020-03-31,70,Hungary,37
+2020-04-01,70,Hungary,40
+2020-04-02,70,Hungary,42
+2020-04-03,70,Hungary,43
+2020-04-04,70,Hungary,58
+2020-04-05,70,Hungary,66
+2020-04-06,70,Hungary,67
+2020-04-07,70,Hungary,71
+2020-03-10,71,Iceland,1
+2020-03-11,71,Iceland,1
+2020-03-12,71,Iceland,1
+2020-03-13,71,Iceland,1
+2020-03-14,71,Iceland,1
+2020-03-15,71,Iceland,8
+2020-03-16,71,Iceland,0
+2020-03-17,71,Iceland,0
+2020-03-18,71,Iceland,5
+2020-03-19,71,Iceland,5
+2020-03-20,71,Iceland,5
+2020-03-21,71,Iceland,22
+2020-03-22,71,Iceland,36
+2020-03-23,71,Iceland,36
+2020-03-24,71,Iceland,51
+2020-03-25,71,Iceland,56
+2020-03-26,71,Iceland,82
+2020-03-27,71,Iceland,97
+2020-03-28,71,Iceland,114
+2020-03-29,71,Iceland,135
+2020-03-30,71,Iceland,157
+2020-03-31,71,Iceland,198
+2020-04-01,71,Iceland,236
+2020-04-02,71,Iceland,284
+2020-04-03,71,Iceland,336
+2020-04-04,71,Iceland,396
+2020-04-05,71,Iceland,428
+2020-04-06,71,Iceland,460
+2020-04-07,71,Iceland,460
+2020-02-16,72,India,3
+2020-02-17,72,India,3
+2020-02-18,72,India,3
+2020-02-19,72,India,3
+2020-02-20,72,India,3
+2020-02-21,72,India,3
+2020-02-22,72,India,3
+2020-02-23,72,India,3
+2020-02-24,72,India,3
+2020-02-25,72,India,3
+2020-02-26,72,India,3
+2020-02-27,72,India,3
+2020-02-28,72,India,3
+2020-02-29,72,India,3
+2020-03-01,72,India,3
+2020-03-02,72,India,3
+2020-03-03,72,India,3
+2020-03-04,72,India,3
+2020-03-05,72,India,3
+2020-03-06,72,India,3
+2020-03-07,72,India,3
+2020-03-08,72,India,3
+2020-03-09,72,India,3
+2020-03-10,72,India,4
+2020-03-11,72,India,4
+2020-03-12,72,India,4
+2020-03-13,72,India,4
+2020-03-14,72,India,4
+2020-03-15,72,India,13
+2020-03-16,72,India,13
+2020-03-17,72,India,14
+2020-03-18,72,India,14
+2020-03-19,72,India,15
+2020-03-20,72,India,20
+2020-03-21,72,India,23
+2020-03-22,72,India,27
+2020-03-23,72,India,27
+2020-03-24,72,India,40
+2020-03-25,72,India,43
+2020-03-26,72,India,45
+2020-03-27,72,India,73
+2020-03-28,72,India,84
+2020-03-29,72,India,95
+2020-03-30,72,India,102
+2020-03-31,72,India,124
+2020-04-01,72,India,148
+2020-04-02,72,India,191
+2020-04-03,72,India,192
+2020-04-04,72,India,229
+2020-04-05,72,India,274
+2020-04-06,72,India,375
+2020-04-07,72,India,382
+2020-03-10,73,Indonesia,2
+2020-03-11,73,Indonesia,2
+2020-03-12,73,Indonesia,2
+2020-03-13,73,Indonesia,2
+2020-03-14,73,Indonesia,8
+2020-03-15,73,Indonesia,8
+2020-03-16,73,Indonesia,8
+2020-03-17,73,Indonesia,8
+2020-03-18,73,Indonesia,11
+2020-03-19,73,Indonesia,11
+2020-03-20,73,Indonesia,15
+2020-03-21,73,Indonesia,15
+2020-03-22,73,Indonesia,29
+2020-03-23,73,Indonesia,29
+2020-03-24,73,Indonesia,30
+2020-03-25,73,Indonesia,31
+2020-03-26,73,Indonesia,35
+2020-03-27,73,Indonesia,46
+2020-03-28,73,Indonesia,59
+2020-03-29,73,Indonesia,64
+2020-03-30,73,Indonesia,75
+2020-03-31,73,Indonesia,81
+2020-04-01,73,Indonesia,103
+2020-04-02,73,Indonesia,112
+2020-04-03,73,Indonesia,134
+2020-04-04,73,Indonesia,150
+2020-04-05,73,Indonesia,164
+2020-04-06,73,Indonesia,192
+2020-04-07,73,Indonesia,204
+2020-02-26,74,Iran,49
+2020-02-27,74,Iran,49
+2020-02-28,74,Iran,73
+2020-02-29,74,Iran,123
+2020-03-01,74,Iran,175
+2020-03-02,74,Iran,291
+2020-03-03,74,Iran,435
+2020-03-04,74,Iran,552
+2020-03-05,74,Iran,739
+2020-03-06,74,Iran,913
+2020-03-07,74,Iran,1669
+2020-03-08,74,Iran,2134
+2020-03-09,74,Iran,2394
+2020-03-10,74,Iran,2731
+2020-03-11,74,Iran,2959
+2020-03-12,74,Iran,3276
+2020-03-13,74,Iran,3529
+2020-03-14,74,Iran,3529
+2020-03-15,74,Iran,4590
+2020-03-16,74,Iran,4996
+2020-03-17,74,Iran,5389
+2020-03-18,74,Iran,5710
+2020-03-19,74,Iran,5979
+2020-03-20,74,Iran,6745
+2020-03-21,74,Iran,7635
+2020-03-22,74,Iran,7931
+2020-03-23,74,Iran,7931
+2020-03-24,74,Iran,8913
+2020-03-25,74,Iran,9625
+2020-03-26,74,Iran,10457
+2020-03-27,74,Iran,11133
+2020-03-28,74,Iran,11679
+2020-03-29,74,Iran,12391
+2020-03-30,74,Iran,13911
+2020-03-31,74,Iran,14656
+2020-04-01,74,Iran,15473
+2020-04-02,74,Iran,16711
+2020-04-03,74,Iran,17935
+2020-04-04,74,Iran,19736
+2020-04-05,74,Iran,22011
+2020-04-06,74,Iran,24236
+2020-04-07,74,Iran,27039
+2020-03-09,75,Iraq,9
+2020-03-10,75,Iraq,9
+2020-03-11,75,Iraq,15
+2020-03-12,75,Iraq,15
+2020-03-13,75,Iraq,24
+2020-03-14,75,Iraq,26
+2020-03-15,75,Iraq,26
+2020-03-16,75,Iraq,32
+2020-03-17,75,Iraq,41
+2020-03-18,75,Iraq,43
+2020-03-19,75,Iraq,49
+2020-03-20,75,Iraq,49
+2020-03-21,75,Iraq,51
+2020-03-22,75,Iraq,57
+2020-03-23,75,Iraq,62
+2020-03-24,75,Iraq,75
+2020-03-25,75,Iraq,103
+2020-03-26,75,Iraq,107
+2020-03-27,75,Iraq,122
+2020-03-28,75,Iraq,131
+2020-03-29,75,Iraq,143
+2020-03-30,75,Iraq,152
+2020-03-31,75,Iraq,170
+2020-04-01,75,Iraq,182
+2020-04-02,75,Iraq,202
+2020-04-03,75,Iraq,226
+2020-04-04,75,Iraq,259
+2020-04-05,75,Iraq,279
+2020-04-06,75,Iraq,344
+2020-04-07,75,Iraq,344
+2020-03-17,76,Ireland,5
+2020-03-18,76,Ireland,5
+2020-03-19,76,Ireland,5
+2020-03-20,76,Ireland,5
+2020-03-21,76,Ireland,5
+2020-03-22,76,Ireland,5
+2020-03-23,76,Ireland,5
+2020-03-24,76,Ireland,5
+2020-03-25,76,Ireland,5
+2020-03-26,76,Ireland,5
+2020-03-27,76,Ireland,5
+2020-03-28,76,Ireland,5
+2020-03-29,76,Ireland,5
+2020-03-30,76,Ireland,5
+2020-03-31,76,Ireland,5
+2020-04-01,76,Ireland,5
+2020-04-02,76,Ireland,5
+2020-04-03,76,Ireland,5
+2020-04-04,76,Ireland,25
+2020-04-05,76,Ireland,25
+2020-04-06,76,Ireland,25
+2020-04-07,76,Ireland,25
+2020-02-27,77,Israel,1
+2020-02-28,77,Israel,1
+2020-02-29,77,Israel,1
+2020-03-01,77,Israel,1
+2020-03-02,77,Israel,1
+2020-03-03,77,Israel,1
+2020-03-04,77,Israel,1
+2020-03-05,77,Israel,1
+2020-03-06,77,Israel,2
+2020-03-07,77,Israel,2
+2020-03-08,77,Israel,2
+2020-03-09,77,Israel,2
+2020-03-10,77,Israel,4
+2020-03-11,77,Israel,4
+2020-03-12,77,Israel,4
+2020-03-13,77,Israel,4
+2020-03-14,77,Israel,4
+2020-03-15,77,Israel,4
+2020-03-16,77,Israel,4
+2020-03-17,77,Israel,11
+2020-03-18,77,Israel,11
+2020-03-19,77,Israel,11
+2020-03-20,77,Israel,14
+2020-03-21,77,Israel,36
+2020-03-22,77,Israel,37
+2020-03-23,77,Israel,37
+2020-03-24,77,Israel,53
+2020-03-25,77,Israel,58
+2020-03-26,77,Israel,68
+2020-03-27,77,Israel,79
+2020-03-28,77,Israel,89
+2020-03-29,77,Israel,132
+2020-03-30,77,Israel,161
+2020-03-31,77,Israel,224
+2020-04-01,77,Israel,241
+2020-04-02,77,Israel,338
+2020-04-03,77,Israel,403
+2020-04-04,77,Israel,427
+2020-04-05,77,Israel,477
+2020-04-06,77,Israel,670
+2020-04-07,77,Israel,683
+2020-02-22,78,Italy,1
+2020-02-23,78,Italy,2
+2020-02-24,78,Italy,1
+2020-02-25,78,Italy,1
+2020-02-26,78,Italy,3
+2020-02-27,78,Italy,45
+2020-02-28,78,Italy,46
+2020-02-29,78,Italy,50
+2020-03-01,78,Italy,83
+2020-03-02,78,Italy,149
+2020-03-03,78,Italy,160
+2020-03-04,78,Italy,276
+2020-03-05,78,Italy,414
+2020-03-06,78,Italy,523
+2020-03-07,78,Italy,589
+2020-03-08,78,Italy,622
+2020-03-09,78,Italy,724
+2020-03-10,78,Italy,1004
+2020-03-11,78,Italy,1045
+2020-03-12,78,Italy,1258
+2020-03-13,78,Italy,1439
+2020-03-14,78,Italy,1966
+2020-03-15,78,Italy,2335
+2020-03-16,78,Italy,2749
+2020-03-17,78,Italy,2941
+2020-03-18,78,Italy,4025
+2020-03-19,78,Italy,4440
+2020-03-20,78,Italy,5129
+2020-03-21,78,Italy,6072
+2020-03-22,78,Italy,7024
+2020-03-23,78,Italy,7432
+2020-03-24,78,Italy,8326
+2020-03-25,78,Italy,9362
+2020-03-26,78,Italy,10361
+2020-03-27,78,Italy,10950
+2020-03-28,78,Italy,12384
+2020-03-29,78,Italy,13030
+2020-03-30,78,Italy,14620
+2020-03-31,78,Italy,15729
+2020-04-01,78,Italy,16847
+2020-04-02,78,Italy,18278
+2020-04-03,78,Italy,19758
+2020-04-04,78,Italy,20996
+2020-04-05,78,Italy,21815
+2020-04-06,78,Italy,22837
+2020-04-07,78,Italy,22837
+2020-03-16,79,Jamaica,2
+2020-03-17,79,Jamaica,2
+2020-03-18,79,Jamaica,2
+2020-03-19,79,Jamaica,2
+2020-03-20,79,Jamaica,2
+2020-03-21,79,Jamaica,2
+2020-03-22,79,Jamaica,2
+2020-03-23,79,Jamaica,2
+2020-03-24,79,Jamaica,2
+2020-03-25,79,Jamaica,2
+2020-03-26,79,Jamaica,2
+2020-03-27,79,Jamaica,2
+2020-03-28,79,Jamaica,2
+2020-03-29,79,Jamaica,2
+2020-03-30,79,Jamaica,2
+2020-03-31,79,Jamaica,2
+2020-04-01,79,Jamaica,2
+2020-04-02,79,Jamaica,2
+2020-04-03,79,Jamaica,2
+2020-04-04,79,Jamaica,7
+2020-04-05,79,Jamaica,8
+2020-04-06,79,Jamaica,8
+2020-04-07,79,Jamaica,8
+2020-01-26,80,Japan,1
+2020-01-27,80,Japan,1
+2020-01-28,80,Japan,1
+2020-01-29,80,Japan,1
+2020-01-30,80,Japan,1
+2020-01-31,80,Japan,1
+2020-02-01,80,Japan,1
+2020-02-02,80,Japan,1
+2020-02-03,80,Japan,1
+2020-02-04,80,Japan,1
+2020-02-05,80,Japan,1
+2020-02-06,80,Japan,1
+2020-02-07,80,Japan,1
+2020-02-08,80,Japan,1
+2020-02-09,80,Japan,1
+2020-02-10,80,Japan,4
+2020-02-11,80,Japan,9
+2020-02-12,80,Japan,9
+2020-02-13,80,Japan,9
+2020-02-14,80,Japan,9
+2020-02-15,80,Japan,12
+2020-02-16,80,Japan,12
+2020-02-17,80,Japan,12
+2020-02-18,80,Japan,13
+2020-02-19,80,Japan,18
+2020-02-20,80,Japan,18
+2020-02-21,80,Japan,22
+2020-02-22,80,Japan,22
+2020-02-23,80,Japan,22
+2020-02-24,80,Japan,22
+2020-02-25,80,Japan,22
+2020-02-26,80,Japan,22
+2020-02-27,80,Japan,22
+2020-02-28,80,Japan,22
+2020-02-29,80,Japan,32
+2020-03-01,80,Japan,41
+2020-03-02,80,Japan,41
+2020-03-03,80,Japan,43
+2020-03-04,80,Japan,46
+2020-03-05,80,Japan,46
+2020-03-06,80,Japan,46
+2020-03-07,80,Japan,76
+2020-03-08,80,Japan,76
+2020-03-09,80,Japan,76
+2020-03-10,80,Japan,102
+2020-03-11,80,Japan,118
+2020-03-12,80,Japan,118
+2020-03-13,80,Japan,135
+2020-03-14,80,Japan,135
+2020-03-15,80,Japan,135
+2020-03-16,80,Japan,157
+2020-03-17,80,Japan,157
+2020-03-18,80,Japan,157
+2020-03-19,80,Japan,157
+2020-03-20,80,Japan,191
+2020-03-21,80,Japan,232
+2020-03-22,80,Japan,235
+2020-03-23,80,Japan,285
+2020-03-24,80,Japan,285
+2020-03-25,80,Japan,310
+2020-03-26,80,Japan,359
+2020-03-27,80,Japan,372
+2020-03-28,80,Japan,404
+2020-03-29,80,Japan,424
+2020-03-30,80,Japan,424
+2020-03-31,80,Japan,424
+2020-04-01,80,Japan,472
+2020-04-02,80,Japan,472
+2020-04-03,80,Japan,514
+2020-04-04,80,Japan,514
+2020-04-05,80,Japan,514
+2020-04-06,80,Japan,575
+2020-04-07,80,Japan,592
+2020-03-13,81,Jordan,1
+2020-03-14,81,Jordan,1
+2020-03-15,81,Jordan,1
+2020-03-16,81,Jordan,1
+2020-03-17,81,Jordan,1
+2020-03-18,81,Jordan,1
+2020-03-19,81,Jordan,1
+2020-03-20,81,Jordan,1
+2020-03-21,81,Jordan,1
+2020-03-22,81,Jordan,1
+2020-03-23,81,Jordan,1
+2020-03-24,81,Jordan,1
+2020-03-25,81,Jordan,1
+2020-03-26,81,Jordan,1
+2020-03-27,81,Jordan,18
+2020-03-28,81,Jordan,18
+2020-03-29,81,Jordan,18
+2020-03-30,81,Jordan,26
+2020-03-31,81,Jordan,30
+2020-04-01,81,Jordan,36
+2020-04-02,81,Jordan,45
+2020-04-03,81,Jordan,58
+2020-04-04,81,Jordan,74
+2020-04-05,81,Jordan,110
+2020-04-06,81,Jordan,126
+2020-04-07,81,Jordan,126
+2020-03-25,82,Kazakhstan,2
+2020-03-26,82,Kazakhstan,2
+2020-03-27,82,Kazakhstan,4
+2020-03-28,82,Kazakhstan,16
+2020-03-29,82,Kazakhstan,20
+2020-03-30,82,Kazakhstan,21
+2020-03-31,82,Kazakhstan,24
+2020-04-01,82,Kazakhstan,26
+2020-04-02,82,Kazakhstan,27
+2020-04-03,82,Kazakhstan,29
+2020-04-04,82,Kazakhstan,36
+2020-04-05,82,Kazakhstan,42
+2020-04-06,82,Kazakhstan,46
+2020-04-07,82,Kazakhstan,50
+2020-03-25,83,Kenya,1
+2020-03-26,83,Kenya,1
+2020-03-27,83,Kenya,1
+2020-03-28,83,Kenya,1
+2020-03-29,83,Kenya,1
+2020-03-30,83,Kenya,1
+2020-03-31,83,Kenya,1
+2020-04-01,83,Kenya,3
+2020-04-02,83,Kenya,4
+2020-04-03,83,Kenya,4
+2020-04-04,83,Kenya,4
+2020-04-05,83,Kenya,4
+2020-04-06,83,Kenya,4
+2020-04-07,83,Kenya,4
+2020-02-07,84,South Korea,1
+2020-02-08,84,South Korea,1
+2020-02-09,84,South Korea,3
+2020-02-10,84,South Korea,3
+2020-02-11,84,South Korea,3
+2020-02-12,84,South Korea,7
+2020-02-13,84,South Korea,7
+2020-02-14,84,South Korea,7
+2020-02-15,84,South Korea,9
+2020-02-16,84,South Korea,9
+2020-02-17,84,South Korea,10
+2020-02-18,84,South Korea,12
+2020-02-19,84,South Korea,16
+2020-02-20,84,South Korea,16
+2020-02-21,84,South Korea,16
+2020-02-22,84,South Korea,16
+2020-02-23,84,South Korea,18
+2020-02-24,84,South Korea,18
+2020-02-25,84,South Korea,22
+2020-02-26,84,South Korea,22
+2020-02-27,84,South Korea,22
+2020-02-28,84,South Korea,22
+2020-02-29,84,South Korea,27
+2020-03-01,84,South Korea,30
+2020-03-02,84,South Korea,30
+2020-03-03,84,South Korea,30
+2020-03-04,84,South Korea,41
+2020-03-05,84,South Korea,41
+2020-03-06,84,South Korea,135
+2020-03-07,84,South Korea,135
+2020-03-08,84,South Korea,118
+2020-03-09,84,South Korea,166
+2020-03-10,84,South Korea,247
+2020-03-11,84,South Korea,288
+2020-03-12,84,South Korea,333
+2020-03-13,84,South Korea,510
+2020-03-14,84,South Korea,510
+2020-03-15,84,South Korea,834
+2020-03-16,84,South Korea,1137
+2020-03-17,84,South Korea,1407
+2020-03-18,84,South Korea,1540
+2020-03-19,84,South Korea,1947
+2020-03-20,84,South Korea,2233
+2020-03-21,84,South Korea,2612
+2020-03-22,84,South Korea,2909
+2020-03-23,84,South Korea,3166
+2020-03-24,84,South Korea,3507
+2020-03-25,84,South Korea,3730
+2020-03-26,84,South Korea,4144
+2020-03-27,84,South Korea,4528
+2020-03-28,84,South Korea,4811
+2020-03-29,84,South Korea,5033
+2020-03-30,84,South Korea,5228
+2020-03-31,84,South Korea,5408
+2020-04-01,84,South Korea,5567
+2020-04-02,84,South Korea,5828
+2020-04-03,84,South Korea,6021
+2020-04-04,84,South Korea,6325
+2020-04-05,84,South Korea,6463
+2020-04-06,84,South Korea,6598
+2020-04-07,84,South Korea,6694
+2020-03-08,85,Kuwait,1
+2020-03-09,85,Kuwait,1
+2020-03-10,85,Kuwait,1
+2020-03-11,85,Kuwait,2
+2020-03-12,85,Kuwait,5
+2020-03-13,85,Kuwait,5
+2020-03-14,85,Kuwait,5
+2020-03-15,85,Kuwait,5
+2020-03-16,85,Kuwait,9
+2020-03-17,85,Kuwait,12
+2020-03-18,85,Kuwait,15
+2020-03-19,85,Kuwait,18
+2020-03-20,85,Kuwait,18
+2020-03-21,85,Kuwait,27
+2020-03-22,85,Kuwait,30
+2020-03-23,85,Kuwait,30
+2020-03-24,85,Kuwait,39
+2020-03-25,85,Kuwait,43
+2020-03-26,85,Kuwait,49
+2020-03-27,85,Kuwait,57
+2020-03-28,85,Kuwait,64
+2020-03-29,85,Kuwait,67
+2020-03-30,85,Kuwait,72
+2020-03-31,85,Kuwait,73
+2020-04-01,85,Kuwait,80
+2020-04-02,85,Kuwait,81
+2020-04-03,85,Kuwait,82
+2020-04-04,85,Kuwait,93
+2020-04-05,85,Kuwait,99
+2020-04-06,85,Kuwait,103
+2020-04-07,85,Kuwait,105
+2020-03-30,86,Kyrgyzstan,3
+2020-03-31,86,Kyrgyzstan,3
+2020-04-01,86,Kyrgyzstan,3
+2020-04-02,86,Kyrgyzstan,5
+2020-04-03,86,Kyrgyzstan,6
+2020-04-04,86,Kyrgyzstan,9
+2020-04-05,86,Kyrgyzstan,9
+2020-04-06,86,Kyrgyzstan,33
+2020-04-07,86,Kyrgyzstan,33
+2020-03-10,87,Latvia,1
+2020-03-11,87,Latvia,1
+2020-03-12,87,Latvia,1
+2020-03-13,87,Latvia,1
+2020-03-14,87,Latvia,1
+2020-03-15,87,Latvia,1
+2020-03-16,87,Latvia,1
+2020-03-17,87,Latvia,1
+2020-03-18,87,Latvia,1
+2020-03-19,87,Latvia,1
+2020-03-20,87,Latvia,1
+2020-03-21,87,Latvia,1
+2020-03-22,87,Latvia,1
+2020-03-23,87,Latvia,1
+2020-03-24,87,Latvia,1
+2020-03-25,87,Latvia,1
+2020-03-26,87,Latvia,1
+2020-03-27,87,Latvia,1
+2020-03-28,87,Latvia,1
+2020-03-29,87,Latvia,1
+2020-03-30,87,Latvia,1
+2020-03-31,87,Latvia,1
+2020-04-01,87,Latvia,1
+2020-04-02,87,Latvia,31
+2020-04-03,87,Latvia,1
+2020-04-04,87,Latvia,1
+2020-04-05,87,Latvia,1
+2020-04-06,87,Latvia,16
+2020-04-07,87,Latvia,16
+2020-03-04,88,Lebanon,1
+2020-03-05,88,Lebanon,1
+2020-03-06,88,Lebanon,1
+2020-03-07,88,Lebanon,1
+2020-03-08,88,Lebanon,1
+2020-03-09,88,Lebanon,1
+2020-03-10,88,Lebanon,1
+2020-03-11,88,Lebanon,1
+2020-03-12,88,Lebanon,1
+2020-03-13,88,Lebanon,1
+2020-03-14,88,Lebanon,1
+2020-03-15,88,Lebanon,1
+2020-03-16,88,Lebanon,1
+2020-03-17,88,Lebanon,3
+2020-03-18,88,Lebanon,3
+2020-03-19,88,Lebanon,4
+2020-03-20,88,Lebanon,4
+2020-03-21,88,Lebanon,4
+2020-03-22,88,Lebanon,8
+2020-03-23,88,Lebanon,8
+2020-03-24,88,Lebanon,8
+2020-03-25,88,Lebanon,20
+2020-03-26,88,Lebanon,23
+2020-03-27,88,Lebanon,27
+2020-03-28,88,Lebanon,30
+2020-03-29,88,Lebanon,30
+2020-03-30,88,Lebanon,35
+2020-03-31,88,Lebanon,37
+2020-04-01,88,Lebanon,43
+2020-04-02,88,Lebanon,46
+2020-04-03,88,Lebanon,50
+2020-04-04,88,Lebanon,54
+2020-04-05,88,Lebanon,54
+2020-04-06,88,Lebanon,60
+2020-04-07,88,Lebanon,60
+2020-04-04,89,Liberia,3
+2020-04-05,89,Liberia,3
+2020-04-06,89,Liberia,3
+2020-04-07,89,Liberia,3
+2020-04-06,90,Liechtenstein,55
+2020-04-07,90,Liechtenstein,55
+2020-03-15,91,Lithuania,1
+2020-03-16,91,Lithuania,1
+2020-03-17,91,Lithuania,1
+2020-03-18,91,Lithuania,1
+2020-03-19,91,Lithuania,1
+2020-03-20,91,Lithuania,1
+2020-03-21,91,Lithuania,1
+2020-03-22,91,Lithuania,1
+2020-03-23,91,Lithuania,1
+2020-03-24,91,Lithuania,1
+2020-03-25,91,Lithuania,1
+2020-03-26,91,Lithuania,1
+2020-03-27,91,Lithuania,1
+2020-03-28,91,Lithuania,1
+2020-03-29,91,Lithuania,1
+2020-03-30,91,Lithuania,7
+2020-03-31,91,Lithuania,7
+2020-04-01,91,Lithuania,7
+2020-04-02,91,Lithuania,7
+2020-04-03,91,Lithuania,7
+2020-04-04,91,Lithuania,7
+2020-04-05,91,Lithuania,7
+2020-04-06,91,Lithuania,8
+2020-04-07,91,Lithuania,8
+2020-03-22,92,Luxembourg,6
+2020-03-23,92,Luxembourg,6
+2020-03-24,92,Luxembourg,6
+2020-03-25,92,Luxembourg,6
+2020-03-26,92,Luxembourg,6
+2020-03-27,92,Luxembourg,40
+2020-03-28,92,Luxembourg,40
+2020-03-29,92,Luxembourg,40
+2020-03-30,92,Luxembourg,40
+2020-03-31,92,Luxembourg,80
+2020-04-01,92,Luxembourg,80
+2020-04-02,92,Luxembourg,80
+2020-04-03,92,Luxembourg,500
+2020-04-04,92,Luxembourg,500
+2020-04-05,92,Luxembourg,500
+2020-04-06,92,Luxembourg,500
+2020-04-07,92,Luxembourg,500
+2020-04-05,93,Madagascar,2
+2020-04-06,93,Madagascar,2
+2020-04-07,93,Madagascar,2
+2020-02-07,94,Malaysia,1
+2020-02-08,94,Malaysia,1
+2020-02-09,94,Malaysia,1
+2020-02-10,94,Malaysia,1
+2020-02-11,94,Malaysia,3
+2020-02-12,94,Malaysia,3
+2020-02-13,94,Malaysia,3
+2020-02-14,94,Malaysia,3
+2020-02-15,94,Malaysia,7
+2020-02-16,94,Malaysia,7
+2020-02-17,94,Malaysia,7
+2020-02-18,94,Malaysia,13
+2020-02-19,94,Malaysia,15
+2020-02-20,94,Malaysia,15
+2020-02-21,94,Malaysia,15
+2020-02-22,94,Malaysia,15
+2020-02-23,94,Malaysia,15
+2020-02-24,94,Malaysia,18
+2020-02-25,94,Malaysia,18
+2020-02-26,94,Malaysia,18
+2020-02-27,94,Malaysia,18
+2020-02-28,94,Malaysia,18
+2020-02-29,94,Malaysia,18
+2020-03-01,94,Malaysia,18
+2020-03-02,94,Malaysia,18
+2020-03-03,94,Malaysia,22
+2020-03-04,94,Malaysia,22
+2020-03-05,94,Malaysia,22
+2020-03-06,94,Malaysia,23
+2020-03-07,94,Malaysia,23
+2020-03-08,94,Malaysia,24
+2020-03-09,94,Malaysia,24
+2020-03-10,94,Malaysia,24
+2020-03-11,94,Malaysia,26
+2020-03-12,94,Malaysia,32
+2020-03-13,94,Malaysia,32
+2020-03-14,94,Malaysia,35
+2020-03-15,94,Malaysia,42
+2020-03-16,94,Malaysia,42
+2020-03-17,94,Malaysia,49
+2020-03-18,94,Malaysia,60
+2020-03-19,94,Malaysia,75
+2020-03-20,94,Malaysia,87
+2020-03-21,94,Malaysia,114
+2020-03-22,94,Malaysia,139
+2020-03-23,94,Malaysia,139
+2020-03-24,94,Malaysia,183
+2020-03-25,94,Malaysia,199
+2020-03-26,94,Malaysia,215
+2020-03-27,94,Malaysia,259
+2020-03-28,94,Malaysia,320
+2020-03-29,94,Malaysia,388
+2020-03-30,94,Malaysia,479
+2020-03-31,94,Malaysia,537
+2020-04-01,94,Malaysia,645
+2020-04-02,94,Malaysia,767
+2020-04-03,94,Malaysia,827
+2020-04-04,94,Malaysia,915
+2020-04-05,94,Malaysia,1005
+2020-04-06,94,Malaysia,1241
+2020-04-07,94,Malaysia,1321
+2020-03-24,95,Maldives,5
+2020-03-25,95,Maldives,8
+2020-03-26,95,Maldives,8
+2020-03-27,95,Maldives,9
+2020-03-28,95,Maldives,9
+2020-03-29,95,Maldives,13
+2020-03-30,95,Maldives,13
+2020-03-31,95,Maldives,13
+2020-04-01,95,Maldives,13
+2020-04-02,95,Maldives,13
+2020-04-03,95,Maldives,13
+2020-04-04,95,Maldives,13
+2020-04-05,95,Maldives,13
+2020-04-06,95,Maldives,13
+2020-04-07,95,Maldives,13
+2020-03-13,96,Malta,1
+2020-03-14,96,Malta,1
+2020-03-15,96,Malta,1
+2020-03-16,96,Malta,2
+2020-03-17,96,Malta,2
+2020-03-18,96,Malta,2
+2020-03-19,96,Malta,2
+2020-03-20,96,Malta,2
+2020-03-21,96,Malta,2
+2020-03-22,96,Malta,2
+2020-03-23,96,Malta,2
+2020-03-24,96,Malta,2
+2020-03-25,96,Malta,2
+2020-03-26,96,Malta,2
+2020-03-27,96,Malta,2
+2020-03-28,96,Malta,2
+2020-03-29,96,Malta,2
+2020-03-30,96,Malta,2
+2020-03-31,96,Malta,2
+2020-04-01,96,Malta,2
+2020-04-02,96,Malta,2
+2020-04-03,96,Malta,2
+2020-04-04,96,Malta,2
+2020-04-05,96,Malta,5
+2020-04-06,96,Malta,5
+2020-04-07,96,Malta,5
+2020-03-29,97,Mauritania,2
+2020-03-30,97,Mauritania,2
+2020-03-31,97,Mauritania,2
+2020-04-01,97,Mauritania,2
+2020-04-02,97,Mauritania,2
+2020-04-03,97,Mauritania,2
+2020-04-04,97,Mauritania,2
+2020-04-05,97,Mauritania,2
+2020-04-06,97,Mauritania,2
+2020-04-07,97,Mauritania,2
+2020-03-23,98,Mauritius,2
+2020-03-24,98,Mauritius,2
+2020-03-25,98,Mauritius,0
+2020-03-26,98,Mauritius,0
+2020-03-27,98,Mauritius,0
+2020-03-28,98,Mauritius,0
+2020-03-29,98,Mauritius,0
+2020-03-30,98,Mauritius,0
+2020-03-31,98,Mauritius,0
+2020-04-01,98,Mauritius,0
+2020-04-02,98,Mauritius,0
+2020-04-03,98,Mauritius,0
+2020-04-04,98,Mauritius,7
+2020-04-05,98,Mauritius,7
+2020-04-06,98,Mauritius,7
+2020-04-07,98,Mauritius,7
+2020-03-03,99,Mexico,1
+2020-03-04,99,Mexico,1
+2020-03-05,99,Mexico,1
+2020-03-06,99,Mexico,1
+2020-03-07,99,Mexico,1
+2020-03-08,99,Mexico,1
+2020-03-09,99,Mexico,1
+2020-03-10,99,Mexico,4
+2020-03-11,99,Mexico,4
+2020-03-12,99,Mexico,4
+2020-03-13,99,Mexico,4
+2020-03-14,99,Mexico,4
+2020-03-15,99,Mexico,4
+2020-03-16,99,Mexico,4
+2020-03-17,99,Mexico,4
+2020-03-18,99,Mexico,4
+2020-03-19,99,Mexico,4
+2020-03-20,99,Mexico,4
+2020-03-21,99,Mexico,4
+2020-03-22,99,Mexico,4
+2020-03-23,99,Mexico,4
+2020-03-24,99,Mexico,4
+2020-03-25,99,Mexico,4
+2020-03-26,99,Mexico,4
+2020-03-27,99,Mexico,4
+2020-03-28,99,Mexico,4
+2020-03-29,99,Mexico,4
+2020-03-30,99,Mexico,35
+2020-03-31,99,Mexico,35
+2020-04-01,99,Mexico,35
+2020-04-02,99,Mexico,35
+2020-04-03,99,Mexico,633
+2020-04-04,99,Mexico,633
+2020-04-05,99,Mexico,633
+2020-04-06,99,Mexico,633
+2020-04-07,99,Mexico,633
+2020-03-17,100,Moldova,1
+2020-03-18,100,Moldova,1
+2020-03-19,100,Moldova,1
+2020-03-20,100,Moldova,1
+2020-03-21,100,Moldova,1
+2020-03-22,100,Moldova,1
+2020-03-23,100,Moldova,1
+2020-03-24,100,Moldova,2
+2020-03-25,100,Moldova,2
+2020-03-26,100,Moldova,2
+2020-03-27,100,Moldova,10
+2020-03-28,100,Moldova,10
+2020-03-29,100,Moldova,10
+2020-03-30,100,Moldova,15
+2020-03-31,100,Moldova,22
+2020-04-01,100,Moldova,23
+2020-04-02,100,Moldova,23
+2020-04-03,100,Moldova,26
+2020-04-04,100,Moldova,29
+2020-04-05,100,Moldova,30
+2020-04-06,100,Moldova,37
+2020-04-07,100,Moldova,40
+2020-03-22,101,Monaco,1
+2020-03-23,101,Monaco,1
+2020-03-24,101,Monaco,1
+2020-03-25,101,Monaco,1
+2020-03-26,101,Monaco,1
+2020-03-27,101,Monaco,1
+2020-03-28,101,Monaco,1
+2020-03-29,101,Monaco,1
+2020-03-30,101,Monaco,1
+2020-03-31,101,Monaco,2
+2020-04-01,101,Monaco,2
+2020-04-02,101,Monaco,2
+2020-04-03,101,Monaco,3
+2020-04-04,101,Monaco,3
+2020-04-05,101,Monaco,3
+2020-04-06,101,Monaco,4
+2020-04-07,101,Monaco,4
+2020-03-30,102,Mongolia,2
+2020-03-31,102,Mongolia,2
+2020-04-01,102,Mongolia,2
+2020-04-02,102,Mongolia,2
+2020-04-03,102,Mongolia,2
+2020-04-04,102,Mongolia,2
+2020-04-05,102,Mongolia,2
+2020-04-06,102,Mongolia,2
+2020-04-07,102,Mongolia,4
+2020-04-03,103,Montenegro,1
+2020-04-04,103,Montenegro,1
+2020-04-05,103,Montenegro,1
+2020-04-06,103,Montenegro,1
+2020-04-07,103,Montenegro,1
+2020-03-13,104,Morocco,1
+2020-03-14,104,Morocco,1
+2020-03-15,104,Morocco,1
+2020-03-16,104,Morocco,1
+2020-03-17,104,Morocco,1
+2020-03-18,104,Morocco,1
+2020-03-19,104,Morocco,1
+2020-03-20,104,Morocco,2
+2020-03-21,104,Morocco,3
+2020-03-22,104,Morocco,3
+2020-03-23,104,Morocco,5
+2020-03-24,104,Morocco,6
+2020-03-25,104,Morocco,7
+2020-03-26,104,Morocco,8
+2020-03-27,104,Morocco,11
+2020-03-28,104,Morocco,11
+2020-03-29,104,Morocco,13
+2020-03-30,104,Morocco,15
+2020-03-31,104,Morocco,24
+2020-04-01,104,Morocco,29
+2020-04-02,104,Morocco,31
+2020-04-03,104,Morocco,57
+2020-04-04,104,Morocco,66
+2020-04-05,104,Morocco,76
+2020-04-06,104,Morocco,81
+2020-04-07,104,Morocco,88
+2020-03-24,105,Namibia,2
+2020-03-25,105,Namibia,2
+2020-03-26,105,Namibia,2
+2020-03-27,105,Namibia,2
+2020-03-28,105,Namibia,2
+2020-03-29,105,Namibia,2
+2020-03-30,105,Namibia,2
+2020-03-31,105,Namibia,2
+2020-04-01,105,Namibia,2
+2020-04-02,105,Namibia,3
+2020-04-03,105,Namibia,3
+2020-04-04,105,Namibia,3
+2020-04-05,105,Namibia,3
+2020-04-06,105,Namibia,3
+2020-04-07,105,Namibia,3
+2020-02-12,106,Nepal,1
+2020-02-13,106,Nepal,1
+2020-02-14,106,Nepal,1
+2020-02-15,106,Nepal,1
+2020-02-16,106,Nepal,1
+2020-02-17,106,Nepal,1
+2020-02-18,106,Nepal,1
+2020-02-19,106,Nepal,1
+2020-02-20,106,Nepal,1
+2020-02-21,106,Nepal,1
+2020-02-22,106,Nepal,1
+2020-02-23,106,Nepal,1
+2020-02-24,106,Nepal,1
+2020-02-25,106,Nepal,1
+2020-02-26,106,Nepal,1
+2020-02-27,106,Nepal,1
+2020-02-28,106,Nepal,1
+2020-02-29,106,Nepal,1
+2020-03-01,106,Nepal,1
+2020-03-02,106,Nepal,1
+2020-03-03,106,Nepal,1
+2020-03-04,106,Nepal,1
+2020-03-05,106,Nepal,1
+2020-03-06,106,Nepal,1
+2020-03-07,106,Nepal,1
+2020-03-08,106,Nepal,1
+2020-03-09,106,Nepal,1
+2020-03-10,106,Nepal,1
+2020-03-11,106,Nepal,1
+2020-03-12,106,Nepal,1
+2020-03-13,106,Nepal,1
+2020-03-14,106,Nepal,1
+2020-03-15,106,Nepal,1
+2020-03-16,106,Nepal,1
+2020-03-17,106,Nepal,1
+2020-03-18,106,Nepal,1
+2020-03-19,106,Nepal,1
+2020-03-20,106,Nepal,1
+2020-03-21,106,Nepal,1
+2020-03-22,106,Nepal,1
+2020-03-23,106,Nepal,1
+2020-03-24,106,Nepal,1
+2020-03-25,106,Nepal,1
+2020-03-26,106,Nepal,1
+2020-03-27,106,Nepal,1
+2020-03-28,106,Nepal,1
+2020-03-29,106,Nepal,1
+2020-03-30,106,Nepal,1
+2020-03-31,106,Nepal,1
+2020-04-01,106,Nepal,1
+2020-04-02,106,Nepal,1
+2020-04-03,106,Nepal,1
+2020-04-04,106,Nepal,1
+2020-04-05,106,Nepal,1
+2020-04-06,106,Nepal,1
+2020-04-07,106,Nepal,1
+2020-03-14,107,Netherlands,2
+2020-03-15,107,Netherlands,2
+2020-03-16,107,Netherlands,2
+2020-03-17,107,Netherlands,2
+2020-03-18,107,Netherlands,2
+2020-03-19,107,Netherlands,2
+2020-03-20,107,Netherlands,2
+2020-03-21,107,Netherlands,2
+2020-03-22,107,Netherlands,2
+2020-03-23,107,Netherlands,2
+2020-03-24,107,Netherlands,3
+2020-03-25,107,Netherlands,4
+2020-03-26,107,Netherlands,6
+2020-03-27,107,Netherlands,6
+2020-03-28,107,Netherlands,2954
+2020-03-29,107,Netherlands,2954
+2020-03-30,107,Netherlands,2954
+2020-03-31,107,Netherlands,2954
+2020-04-01,107,Netherlands,2954
+2020-04-02,107,Netherlands,2954
+2020-04-03,107,Netherlands,2954
+2020-04-04,107,Netherlands,2954
+2020-04-05,107,Netherlands,2954
+2020-04-06,107,Netherlands,2954
+2020-04-07,107,Netherlands,2954
+2020-03-24,108,New Zealand,12
+2020-03-25,108,New Zealand,22
+2020-03-26,108,New Zealand,27
+2020-03-27,108,New Zealand,37
+2020-03-28,108,New Zealand,50
+2020-03-29,108,New Zealand,56
+2020-03-30,108,New Zealand,63
+2020-03-31,108,New Zealand,74
+2020-04-01,108,New Zealand,83
+2020-04-02,108,New Zealand,92
+2020-04-03,108,New Zealand,103
+2020-04-04,108,New Zealand,127
+2020-04-05,108,New Zealand,156
+2020-04-06,108,New Zealand,176
+2020-04-07,108,New Zealand,241
+2020-04-05,110,Niger,13
+2020-04-06,110,Niger,26
+2020-04-07,110,Niger,26
+2020-03-18,111,Nigeria,1
+2020-03-19,111,Nigeria,1
+2020-03-20,111,Nigeria,1
+2020-03-21,111,Nigeria,1
+2020-03-22,111,Nigeria,2
+2020-03-23,111,Nigeria,2
+2020-03-24,111,Nigeria,2
+2020-03-25,111,Nigeria,2
+2020-03-26,111,Nigeria,2
+2020-03-27,111,Nigeria,3
+2020-03-28,111,Nigeria,3
+2020-03-29,111,Nigeria,3
+2020-03-30,111,Nigeria,8
+2020-03-31,111,Nigeria,9
+2020-04-01,111,Nigeria,9
+2020-04-02,111,Nigeria,20
+2020-04-03,111,Nigeria,25
+2020-04-04,111,Nigeria,25
+2020-04-05,111,Nigeria,33
+2020-04-06,111,Nigeria,35
+2020-04-07,111,Nigeria,35
+2020-03-13,112,North Macedonia,1
+2020-03-14,112,North Macedonia,1
+2020-03-15,112,North Macedonia,1
+2020-03-16,112,North Macedonia,1
+2020-03-17,112,North Macedonia,1
+2020-03-18,112,North Macedonia,1
+2020-03-19,112,North Macedonia,1
+2020-03-20,112,North Macedonia,1
+2020-03-21,112,North Macedonia,1
+2020-03-22,112,North Macedonia,1
+2020-03-23,112,North Macedonia,1
+2020-03-24,112,North Macedonia,1
+2020-03-25,112,North Macedonia,1
+2020-03-26,112,North Macedonia,3
+2020-03-27,112,North Macedonia,3
+2020-03-28,112,North Macedonia,3
+2020-03-29,112,North Macedonia,3
+2020-03-30,112,North Macedonia,12
+2020-03-31,112,North Macedonia,12
+2020-04-01,112,North Macedonia,17
+2020-04-02,112,North Macedonia,17
+2020-04-03,112,North Macedonia,20
+2020-04-04,112,North Macedonia,20
+2020-04-05,112,North Macedonia,23
+2020-04-06,112,North Macedonia,30
+2020-04-07,112,North Macedonia,30
+2020-03-09,113,Norway,1
+2020-03-10,113,Norway,1
+2020-03-11,113,Norway,1
+2020-03-12,113,Norway,1
+2020-03-13,113,Norway,1
+2020-03-14,113,Norway,1
+2020-03-15,113,Norway,1
+2020-03-16,113,Norway,1
+2020-03-17,113,Norway,1
+2020-03-18,113,Norway,1
+2020-03-19,113,Norway,1
+2020-03-20,113,Norway,1
+2020-03-21,113,Norway,1
+2020-03-22,113,Norway,1
+2020-03-23,113,Norway,1
+2020-03-24,113,Norway,6
+2020-03-25,113,Norway,6
+2020-03-26,113,Norway,6
+2020-03-27,113,Norway,6
+2020-03-28,113,Norway,7
+2020-03-29,113,Norway,7
+2020-03-30,113,Norway,12
+2020-03-31,113,Norway,13
+2020-04-01,113,Norway,13
+2020-04-02,113,Norway,32
+2020-04-03,113,Norway,32
+2020-04-04,113,Norway,32
+2020-04-05,113,Norway,32
+2020-04-06,113,Norway,32
+2020-04-07,113,Norway,32
+2020-02-29,114,Oman,1
+2020-03-01,114,Oman,1
+2020-03-02,114,Oman,1
+2020-03-03,114,Oman,2
+2020-03-04,114,Oman,2
+2020-03-05,114,Oman,2
+2020-03-06,114,Oman,2
+2020-03-07,114,Oman,2
+2020-03-08,114,Oman,2
+2020-03-09,114,Oman,2
+2020-03-10,114,Oman,9
+2020-03-11,114,Oman,9
+2020-03-12,114,Oman,9
+2020-03-13,114,Oman,9
+2020-03-14,114,Oman,9
+2020-03-15,114,Oman,9
+2020-03-16,114,Oman,9
+2020-03-17,114,Oman,12
+2020-03-18,114,Oman,12
+2020-03-19,114,Oman,12
+2020-03-20,114,Oman,13
+2020-03-21,114,Oman,13
+2020-03-22,114,Oman,17
+2020-03-23,114,Oman,17
+2020-03-24,114,Oman,17
+2020-03-25,114,Oman,17
+2020-03-26,114,Oman,23
+2020-03-27,114,Oman,23
+2020-03-28,114,Oman,23
+2020-03-29,114,Oman,29
+2020-03-30,114,Oman,29
+2020-03-31,114,Oman,34
+2020-04-01,114,Oman,34
+2020-04-02,114,Oman,57
+2020-04-03,114,Oman,57
+2020-04-04,114,Oman,61
+2020-04-05,114,Oman,61
+2020-04-06,114,Oman,61
+2020-04-07,114,Oman,67
+2020-03-08,115,Pakistan,1
+2020-03-09,115,Pakistan,1
+2020-03-10,115,Pakistan,1
+2020-03-11,115,Pakistan,2
+2020-03-12,115,Pakistan,2
+2020-03-13,115,Pakistan,2
+2020-03-14,115,Pakistan,2
+2020-03-15,115,Pakistan,2
+2020-03-16,115,Pakistan,2
+2020-03-17,115,Pakistan,2
+2020-03-18,115,Pakistan,2
+2020-03-19,115,Pakistan,13
+2020-03-20,115,Pakistan,13
+2020-03-21,115,Pakistan,13
+2020-03-22,115,Pakistan,5
+2020-03-23,115,Pakistan,6
+2020-03-24,115,Pakistan,18
+2020-03-25,115,Pakistan,21
+2020-03-26,115,Pakistan,21
+2020-03-27,115,Pakistan,23
+2020-03-28,115,Pakistan,29
+2020-03-29,115,Pakistan,29
+2020-03-30,115,Pakistan,76
+2020-03-31,115,Pakistan,76
+2020-04-01,115,Pakistan,94
+2020-04-02,115,Pakistan,125
+2020-04-03,115,Pakistan,126
+2020-04-04,115,Pakistan,131
+2020-04-05,115,Pakistan,211
+2020-04-06,115,Pakistan,259
+2020-04-07,115,Pakistan,429
+2020-03-24,116,Panama,1
+2020-03-25,116,Panama,1
+2020-03-26,116,Panama,2
+2020-03-27,116,Panama,2
+2020-03-28,116,Panama,2
+2020-03-29,116,Panama,4
+2020-03-30,116,Panama,4
+2020-03-31,116,Panama,9
+2020-04-01,116,Panama,9
+2020-04-02,116,Panama,9
+2020-04-03,116,Panama,10
+2020-04-04,116,Panama,13
+2020-04-05,116,Panama,13
+2020-04-06,116,Panama,13
+2020-04-07,116,Panama,14
+2020-03-27,118,Paraguay,1
+2020-03-28,118,Paraguay,1
+2020-03-29,118,Paraguay,1
+2020-03-30,118,Paraguay,1
+2020-03-31,118,Paraguay,1
+2020-04-01,118,Paraguay,1
+2020-04-02,118,Paraguay,2
+2020-04-03,118,Paraguay,6
+2020-04-04,118,Paraguay,12
+2020-04-05,118,Paraguay,12
+2020-04-06,118,Paraguay,12
+2020-04-07,118,Paraguay,15
+2020-03-17,119,Peru,1
+2020-03-18,119,Peru,1
+2020-03-19,119,Peru,1
+2020-03-20,119,Peru,1
+2020-03-21,119,Peru,1
+2020-03-22,119,Peru,1
+2020-03-23,119,Peru,1
+2020-03-24,119,Peru,1
+2020-03-25,119,Peru,1
+2020-03-26,119,Peru,14
+2020-03-27,119,Peru,16
+2020-03-28,119,Peru,16
+2020-03-29,119,Peru,16
+2020-03-30,119,Peru,53
+2020-03-31,119,Peru,394
+2020-04-01,119,Peru,394
+2020-04-02,119,Peru,537
+2020-04-03,119,Peru,537
+2020-04-04,119,Peru,914
+2020-04-05,119,Peru,989
+2020-04-06,119,Peru,997
+2020-04-07,119,Peru,997
+2020-02-12,120,Philippines,1
+2020-02-13,120,Philippines,1
+2020-02-14,120,Philippines,1
+2020-02-15,120,Philippines,1
+2020-02-16,120,Philippines,1
+2020-02-17,120,Philippines,1
+2020-02-18,120,Philippines,1
+2020-02-19,120,Philippines,1
+2020-02-20,120,Philippines,1
+2020-02-21,120,Philippines,1
+2020-02-22,120,Philippines,1
+2020-02-23,120,Philippines,1
+2020-02-24,120,Philippines,1
+2020-02-25,120,Philippines,1
+2020-02-26,120,Philippines,1
+2020-02-27,120,Philippines,1
+2020-02-28,120,Philippines,1
+2020-02-29,120,Philippines,1
+2020-03-01,120,Philippines,1
+2020-03-02,120,Philippines,1
+2020-03-03,120,Philippines,1
+2020-03-04,120,Philippines,1
+2020-03-05,120,Philippines,1
+2020-03-06,120,Philippines,1
+2020-03-07,120,Philippines,1
+2020-03-08,120,Philippines,1
+2020-03-09,120,Philippines,1
+2020-03-10,120,Philippines,2
+2020-03-11,120,Philippines,2
+2020-03-12,120,Philippines,2
+2020-03-13,120,Philippines,2
+2020-03-14,120,Philippines,2
+2020-03-15,120,Philippines,2
+2020-03-16,120,Philippines,2
+2020-03-17,120,Philippines,5
+2020-03-18,120,Philippines,5
+2020-03-19,120,Philippines,8
+2020-03-20,120,Philippines,8
+2020-03-21,120,Philippines,13
+2020-03-22,120,Philippines,17
+2020-03-23,120,Philippines,18
+2020-03-24,120,Philippines,20
+2020-03-25,120,Philippines,26
+2020-03-26,120,Philippines,28
+2020-03-27,120,Philippines,31
+2020-03-28,120,Philippines,35
+2020-03-29,120,Philippines,42
+2020-03-30,120,Philippines,42
+2020-03-31,120,Philippines,49
+2020-04-01,120,Philippines,50
+2020-04-02,120,Philippines,51
+2020-04-03,120,Philippines,52
+2020-04-04,120,Philippines,57
+2020-04-05,120,Philippines,64
+2020-04-06,120,Philippines,73
+2020-04-07,120,Philippines,84
+2020-03-16,121,Poland,13
+2020-03-17,121,Poland,13
+2020-03-18,121,Poland,13
+2020-03-19,121,Poland,13
+2020-03-20,121,Poland,13
+2020-03-21,121,Poland,13
+2020-03-22,121,Poland,13
+2020-03-23,121,Poland,13
+2020-03-24,121,Poland,13
+2020-03-25,121,Poland,13
+2020-03-26,121,Poland,13
+2020-03-27,121,Poland,13
+2020-03-28,121,Poland,13
+2020-03-29,121,Poland,13
+2020-03-30,121,Poland,13
+2020-03-31,121,Poland,13
+2020-04-01,121,Poland,47
+2020-04-02,121,Poland,56
+2020-04-03,121,Poland,56
+2020-04-04,121,Poland,116
+2020-04-05,121,Poland,134
+2020-04-06,121,Poland,162
+2020-04-07,121,Poland,191
+2020-03-13,122,Portugal,1
+2020-03-14,122,Portugal,2
+2020-03-15,122,Portugal,2
+2020-03-16,122,Portugal,3
+2020-03-17,122,Portugal,3
+2020-03-18,122,Portugal,3
+2020-03-19,122,Portugal,3
+2020-03-20,122,Portugal,5
+2020-03-21,122,Portugal,5
+2020-03-22,122,Portugal,5
+2020-03-23,122,Portugal,14
+2020-03-24,122,Portugal,22
+2020-03-25,122,Portugal,22
+2020-03-26,122,Portugal,43
+2020-03-27,122,Portugal,43
+2020-03-28,122,Portugal,43
+2020-03-29,122,Portugal,43
+2020-03-30,122,Portugal,43
+2020-03-31,122,Portugal,43
+2020-04-01,122,Portugal,43
+2020-04-02,122,Portugal,68
+2020-04-03,122,Portugal,68
+2020-04-04,122,Portugal,75
+2020-04-05,122,Portugal,75
+2020-04-06,122,Portugal,140
+2020-04-07,122,Portugal,140
+2020-03-14,123,Qatar,4
+2020-03-15,123,Qatar,4
+2020-03-16,123,Qatar,4
+2020-03-17,123,Qatar,4
+2020-03-18,123,Qatar,4
+2020-03-19,123,Qatar,4
+2020-03-20,123,Qatar,10
+2020-03-21,123,Qatar,27
+2020-03-22,123,Qatar,33
+2020-03-23,123,Qatar,37
+2020-03-24,123,Qatar,41
+2020-03-25,123,Qatar,41
+2020-03-26,123,Qatar,43
+2020-03-27,123,Qatar,43
+2020-03-28,123,Qatar,45
+2020-03-29,123,Qatar,48
+2020-03-30,123,Qatar,51
+2020-03-31,123,Qatar,62
+2020-04-01,123,Qatar,71
+2020-04-02,123,Qatar,72
+2020-04-03,123,Qatar,93
+2020-04-04,123,Qatar,109
+2020-04-05,123,Qatar,123
+2020-04-06,123,Qatar,131
+2020-04-07,123,Qatar,131
+2020-03-04,124,Romania,1
+2020-03-05,124,Romania,1
+2020-03-06,124,Romania,1
+2020-03-07,124,Romania,3
+2020-03-08,124,Romania,3
+2020-03-09,124,Romania,3
+2020-03-10,124,Romania,3
+2020-03-11,124,Romania,6
+2020-03-12,124,Romania,6
+2020-03-13,124,Romania,7
+2020-03-14,124,Romania,9
+2020-03-15,124,Romania,9
+2020-03-16,124,Romania,9
+2020-03-17,124,Romania,16
+2020-03-18,124,Romania,19
+2020-03-19,124,Romania,25
+2020-03-20,124,Romania,25
+2020-03-21,124,Romania,52
+2020-03-22,124,Romania,64
+2020-03-23,124,Romania,64
+2020-03-24,124,Romania,79
+2020-03-25,124,Romania,86
+2020-03-26,124,Romania,94
+2020-03-27,124,Romania,115
+2020-03-28,124,Romania,139
+2020-03-29,124,Romania,206
+2020-03-30,124,Romania,209
+2020-03-31,124,Romania,220
+2020-04-01,124,Romania,252
+2020-04-02,124,Romania,267
+2020-04-03,124,Romania,283
+2020-04-04,124,Romania,329
+2020-04-05,124,Romania,374
+2020-04-06,124,Romania,406
+2020-04-07,124,Romania,460
+2020-02-12,125,Russia,2
+2020-02-13,125,Russia,2
+2020-02-14,125,Russia,2
+2020-02-15,125,Russia,2
+2020-02-16,125,Russia,2
+2020-02-17,125,Russia,2
+2020-02-18,125,Russia,2
+2020-02-19,125,Russia,2
+2020-02-20,125,Russia,2
+2020-02-21,125,Russia,2
+2020-02-22,125,Russia,2
+2020-02-23,125,Russia,2
+2020-02-24,125,Russia,2
+2020-02-25,125,Russia,2
+2020-02-26,125,Russia,2
+2020-02-27,125,Russia,2
+2020-02-28,125,Russia,2
+2020-02-29,125,Russia,2
+2020-03-01,125,Russia,2
+2020-03-02,125,Russia,2
+2020-03-03,125,Russia,2
+2020-03-04,125,Russia,2
+2020-03-05,125,Russia,2
+2020-03-06,125,Russia,2
+2020-03-07,125,Russia,2
+2020-03-08,125,Russia,3
+2020-03-09,125,Russia,3
+2020-03-10,125,Russia,3
+2020-03-11,125,Russia,3
+2020-03-12,125,Russia,3
+2020-03-13,125,Russia,3
+2020-03-14,125,Russia,8
+2020-03-15,125,Russia,8
+2020-03-16,125,Russia,8
+2020-03-17,125,Russia,8
+2020-03-18,125,Russia,8
+2020-03-19,125,Russia,9
+2020-03-20,125,Russia,9
+2020-03-21,125,Russia,16
+2020-03-22,125,Russia,16
+2020-03-23,125,Russia,17
+2020-03-24,125,Russia,22
+2020-03-25,125,Russia,29
+2020-03-26,125,Russia,38
+2020-03-27,125,Russia,45
+2020-03-28,125,Russia,49
+2020-03-29,125,Russia,64
+2020-03-30,125,Russia,66
+2020-03-31,125,Russia,121
+2020-04-01,125,Russia,190
+2020-04-02,125,Russia,235
+2020-04-03,125,Russia,281
+2020-04-04,125,Russia,333
+2020-04-05,125,Russia,355
+2020-04-06,125,Russia,406
+2020-04-07,125,Russia,494
+2020-04-05,126,Rwanda,4
+2020-04-06,126,Rwanda,4
+2020-04-07,126,Rwanda,4
+2020-03-27,127,Saint Lucia,1
+2020-03-28,127,Saint Lucia,1
+2020-03-29,127,Saint Lucia,1
+2020-03-30,127,Saint Lucia,1
+2020-03-31,127,Saint Lucia,1
+2020-04-01,127,Saint Lucia,1
+2020-04-02,127,Saint Lucia,1
+2020-04-03,127,Saint Lucia,1
+2020-04-04,127,Saint Lucia,1
+2020-04-05,127,Saint Lucia,1
+2020-04-06,127,Saint Lucia,1
+2020-04-07,127,Saint Lucia,1
+2020-03-28,128,Saint Vincent and the Grenadines,1
+2020-03-29,128,Saint Vincent and the Grenadines,1
+2020-03-30,128,Saint Vincent and the Grenadines,1
+2020-03-31,128,Saint Vincent and the Grenadines,1
+2020-04-01,128,Saint Vincent and the Grenadines,1
+2020-04-02,128,Saint Vincent and the Grenadines,1
+2020-04-03,128,Saint Vincent and the Grenadines,1
+2020-04-04,128,Saint Vincent and the Grenadines,1
+2020-04-05,128,Saint Vincent and the Grenadines,1
+2020-04-06,128,Saint Vincent and the Grenadines,1
+2020-04-07,128,Saint Vincent and the Grenadines,1
+2020-03-14,129,San Marino,4
+2020-03-15,129,San Marino,4
+2020-03-16,129,San Marino,4
+2020-03-17,129,San Marino,4
+2020-03-18,129,San Marino,4
+2020-03-19,129,San Marino,4
+2020-03-20,129,San Marino,4
+2020-03-21,129,San Marino,4
+2020-03-22,129,San Marino,4
+2020-03-23,129,San Marino,4
+2020-03-24,129,San Marino,4
+2020-03-25,129,San Marino,4
+2020-03-26,129,San Marino,4
+2020-03-27,129,San Marino,4
+2020-03-28,129,San Marino,6
+2020-03-29,129,San Marino,6
+2020-03-30,129,San Marino,13
+2020-03-31,129,San Marino,13
+2020-04-01,129,San Marino,13
+2020-04-02,129,San Marino,21
+2020-04-03,129,San Marino,21
+2020-04-04,129,San Marino,27
+2020-04-05,129,San Marino,35
+2020-04-06,129,San Marino,35
+2020-04-07,129,San Marino,35
+2020-03-10,130,Saudi Arabia,1
+2020-03-11,130,Saudi Arabia,1
+2020-03-12,130,Saudi Arabia,1
+2020-03-13,130,Saudi Arabia,1
+2020-03-14,130,Saudi Arabia,1
+2020-03-15,130,Saudi Arabia,1
+2020-03-16,130,Saudi Arabia,6
+2020-03-17,130,Saudi Arabia,6
+2020-03-18,130,Saudi Arabia,6
+2020-03-19,130,Saudi Arabia,6
+2020-03-20,130,Saudi Arabia,8
+2020-03-21,130,Saudi Arabia,16
+2020-03-22,130,Saudi Arabia,16
+2020-03-23,130,Saudi Arabia,16
+2020-03-24,130,Saudi Arabia,28
+2020-03-25,130,Saudi Arabia,29
+2020-03-26,130,Saudi Arabia,33
+2020-03-27,130,Saudi Arabia,35
+2020-03-28,130,Saudi Arabia,37
+2020-03-29,130,Saudi Arabia,66
+2020-03-30,130,Saudi Arabia,115
+2020-03-31,130,Saudi Arabia,165
+2020-04-01,130,Saudi Arabia,264
+2020-04-02,130,Saudi Arabia,328
+2020-04-03,130,Saudi Arabia,351
+2020-04-04,130,Saudi Arabia,420
+2020-04-05,130,Saudi Arabia,488
+2020-04-06,130,Saudi Arabia,551
+2020-04-07,130,Saudi Arabia,551
+2020-03-08,131,Senegal,1
+2020-03-09,131,Senegal,1
+2020-03-10,131,Senegal,1
+2020-03-11,131,Senegal,1
+2020-03-12,131,Senegal,1
+2020-03-13,131,Senegal,1
+2020-03-14,131,Senegal,2
+2020-03-15,131,Senegal,2
+2020-03-16,131,Senegal,2
+2020-03-17,131,Senegal,2
+2020-03-18,131,Senegal,2
+2020-03-19,131,Senegal,2
+2020-03-20,131,Senegal,2
+2020-03-21,131,Senegal,5
+2020-03-22,131,Senegal,5
+2020-03-23,131,Senegal,8
+2020-03-24,131,Senegal,8
+2020-03-25,131,Senegal,9
+2020-03-26,131,Senegal,9
+2020-03-27,131,Senegal,11
+2020-03-28,131,Senegal,18
+2020-03-29,131,Senegal,27
+2020-03-30,131,Senegal,27
+2020-03-31,131,Senegal,40
+2020-04-01,131,Senegal,45
+2020-04-02,131,Senegal,55
+2020-04-03,131,Senegal,66
+2020-04-04,131,Senegal,72
+2020-04-05,131,Senegal,82
+2020-04-06,131,Senegal,92
+2020-04-07,131,Senegal,92
+2020-03-16,132,Serbia,1
+2020-03-17,132,Serbia,1
+2020-03-18,132,Serbia,1
+2020-03-19,132,Serbia,1
+2020-03-20,132,Serbia,1
+2020-03-21,132,Serbia,1
+2020-03-22,132,Serbia,1
+2020-03-23,132,Serbia,1
+2020-03-24,132,Serbia,15
+2020-03-25,132,Serbia,15
+2020-03-26,132,Serbia,0
+2020-03-27,132,Serbia,0
+2020-03-28,132,Serbia,0
+2020-03-29,132,Serbia,0
+2020-03-30,132,Serbia,0
+2020-03-31,132,Serbia,0
+2020-04-01,132,Serbia,0
+2020-04-02,132,Serbia,0
+2020-04-03,132,Serbia,0
+2020-04-04,132,Serbia,0
+2020-04-05,132,Serbia,0
+2020-04-06,132,Serbia,0
+2020-04-07,132,Serbia,0
+2020-02-08,134,Singapore,2
+2020-02-09,134,Singapore,2
+2020-02-10,134,Singapore,2
+2020-02-11,134,Singapore,9
+2020-02-12,134,Singapore,15
+2020-02-13,134,Singapore,15
+2020-02-14,134,Singapore,17
+2020-02-15,134,Singapore,18
+2020-02-16,134,Singapore,18
+2020-02-17,134,Singapore,24
+2020-02-18,134,Singapore,29
+2020-02-19,134,Singapore,34
+2020-02-20,134,Singapore,34
+2020-02-21,134,Singapore,37
+2020-02-22,134,Singapore,37
+2020-02-23,134,Singapore,51
+2020-02-24,134,Singapore,51
+2020-02-25,134,Singapore,53
+2020-02-26,134,Singapore,62
+2020-02-27,134,Singapore,62
+2020-02-28,134,Singapore,62
+2020-02-29,134,Singapore,72
+2020-03-01,134,Singapore,72
+2020-03-02,134,Singapore,78
+2020-03-03,134,Singapore,78
+2020-03-04,134,Singapore,79
+2020-03-05,134,Singapore,79
+2020-03-06,134,Singapore,82
+2020-03-07,134,Singapore,82
+2020-03-08,134,Singapore,82
+2020-03-09,134,Singapore,82
+2020-03-10,134,Singapore,82
+2020-03-11,134,Singapore,96
+2020-03-12,134,Singapore,96
+2020-03-13,134,Singapore,97
+2020-03-14,134,Singapore,105
+2020-03-15,134,Singapore,105
+2020-03-16,134,Singapore,109
+2020-03-17,134,Singapore,114
+2020-03-18,134,Singapore,114
+2020-03-19,134,Singapore,117
+2020-03-20,134,Singapore,124
+2020-03-21,134,Singapore,140
+2020-03-22,134,Singapore,144
+2020-03-23,134,Singapore,152
+2020-03-24,134,Singapore,156
+2020-03-25,134,Singapore,160
+2020-03-26,134,Singapore,172
+2020-03-27,134,Singapore,183
+2020-03-28,134,Singapore,198
+2020-03-29,134,Singapore,212
+2020-03-30,134,Singapore,228
+2020-03-31,134,Singapore,240
+2020-04-01,134,Singapore,245
+2020-04-02,134,Singapore,266
+2020-04-03,134,Singapore,282
+2020-04-04,134,Singapore,297
+2020-04-05,134,Singapore,320
+2020-04-06,134,Singapore,344
+2020-04-07,134,Singapore,344
+2020-03-22,135,Slovakia,7
+2020-03-23,135,Slovakia,7
+2020-03-24,135,Slovakia,7
+2020-03-25,135,Slovakia,7
+2020-03-26,135,Slovakia,7
+2020-03-27,135,Slovakia,7
+2020-03-28,135,Slovakia,7
+2020-03-29,135,Slovakia,7
+2020-03-30,135,Slovakia,7
+2020-03-31,135,Slovakia,3
+2020-04-01,135,Slovakia,3
+2020-04-02,135,Slovakia,5
+2020-04-03,135,Slovakia,10
+2020-04-04,135,Slovakia,10
+2020-04-05,135,Slovakia,10
+2020-04-06,135,Slovakia,8
+2020-04-07,135,Slovakia,8
+2020-03-25,136,Slovenia,10
+2020-03-26,136,Slovenia,10
+2020-03-27,136,Slovenia,10
+2020-03-28,136,Slovenia,10
+2020-03-29,136,Slovenia,10
+2020-03-30,136,Slovenia,10
+2020-03-31,136,Slovenia,10
+2020-04-01,136,Slovenia,10
+2020-04-02,136,Slovenia,70
+2020-04-03,136,Slovenia,70
+2020-04-04,136,Slovenia,79
+2020-04-05,136,Slovenia,79
+2020-04-06,136,Slovenia,102
+2020-04-07,136,Slovenia,102
+2020-03-31,137,Somalia,1
+2020-04-01,137,Somalia,1
+2020-04-02,137,Somalia,1
+2020-04-03,137,Somalia,1
+2020-04-04,137,Somalia,1
+2020-04-05,137,Somalia,1
+2020-04-06,137,Somalia,1
+2020-04-07,137,Somalia,1
+2020-03-24,138,South Africa,4
+2020-03-25,138,South Africa,12
+2020-03-26,138,South Africa,12
+2020-03-27,138,South Africa,31
+2020-03-28,138,South Africa,31
+2020-03-29,138,South Africa,31
+2020-03-30,138,South Africa,31
+2020-03-31,138,South Africa,31
+2020-04-01,138,South Africa,50
+2020-04-02,138,South Africa,50
+2020-04-03,138,South Africa,95
+2020-04-04,138,South Africa,95
+2020-04-05,138,South Africa,95
+2020-04-06,138,South Africa,95
+2020-04-07,138,South Africa,95
+2020-02-15,139,Spain,2
+2020-02-16,139,Spain,2
+2020-02-17,139,Spain,2
+2020-02-18,139,Spain,2
+2020-02-19,139,Spain,2
+2020-02-20,139,Spain,2
+2020-02-21,139,Spain,2
+2020-02-22,139,Spain,2
+2020-02-23,139,Spain,2
+2020-02-24,139,Spain,2
+2020-02-25,139,Spain,2
+2020-02-26,139,Spain,2
+2020-02-27,139,Spain,2
+2020-02-28,139,Spain,2
+2020-02-29,139,Spain,2
+2020-03-01,139,Spain,2
+2020-03-02,139,Spain,2
+2020-03-03,139,Spain,2
+2020-03-04,139,Spain,2
+2020-03-05,139,Spain,2
+2020-03-06,139,Spain,2
+2020-03-07,139,Spain,30
+2020-03-08,139,Spain,30
+2020-03-09,139,Spain,32
+2020-03-10,139,Spain,32
+2020-03-11,139,Spain,183
+2020-03-12,139,Spain,189
+2020-03-13,139,Spain,193
+2020-03-14,139,Spain,517
+2020-03-15,139,Spain,571
+2020-03-16,139,Spain,571
+2020-03-17,139,Spain,1028
+2020-03-18,139,Spain,1081
+2020-03-19,139,Spain,1107
+2020-03-20,139,Spain,1588
+2020-03-21,139,Spain,2125
+2020-03-22,139,Spain,2575
+2020-03-23,139,Spain,3355
+2020-03-24,139,Spain,3794
+2020-03-25,139,Spain,5367
+2020-03-26,139,Spain,7015
+2020-03-27,139,Spain,9357
+2020-03-28,139,Spain,12285
+2020-03-29,139,Spain,14709
+2020-03-30,139,Spain,16780
+2020-03-31,139,Spain,19259
+2020-04-01,139,Spain,22647
+2020-04-02,139,Spain,26743
+2020-04-03,139,Spain,30513
+2020-04-04,139,Spain,34219
+2020-04-05,139,Spain,38080
+2020-04-06,139,Spain,40437
+2020-04-07,139,Spain,43208
+2020-02-08,140,Sri Lanka,1
+2020-02-09,140,Sri Lanka,1
+2020-02-10,140,Sri Lanka,1
+2020-02-11,140,Sri Lanka,1
+2020-02-12,140,Sri Lanka,1
+2020-02-13,140,Sri Lanka,1
+2020-02-14,140,Sri Lanka,1
+2020-02-15,140,Sri Lanka,1
+2020-02-16,140,Sri Lanka,1
+2020-02-17,140,Sri Lanka,1
+2020-02-18,140,Sri Lanka,1
+2020-02-19,140,Sri Lanka,1
+2020-02-20,140,Sri Lanka,1
+2020-02-21,140,Sri Lanka,1
+2020-02-22,140,Sri Lanka,1
+2020-02-23,140,Sri Lanka,1
+2020-02-24,140,Sri Lanka,1
+2020-02-25,140,Sri Lanka,1
+2020-02-26,140,Sri Lanka,1
+2020-02-27,140,Sri Lanka,1
+2020-02-28,140,Sri Lanka,1
+2020-02-29,140,Sri Lanka,1
+2020-03-01,140,Sri Lanka,1
+2020-03-02,140,Sri Lanka,1
+2020-03-03,140,Sri Lanka,1
+2020-03-04,140,Sri Lanka,1
+2020-03-05,140,Sri Lanka,1
+2020-03-06,140,Sri Lanka,1
+2020-03-07,140,Sri Lanka,1
+2020-03-08,140,Sri Lanka,1
+2020-03-09,140,Sri Lanka,1
+2020-03-10,140,Sri Lanka,1
+2020-03-11,140,Sri Lanka,1
+2020-03-12,140,Sri Lanka,1
+2020-03-13,140,Sri Lanka,1
+2020-03-14,140,Sri Lanka,1
+2020-03-15,140,Sri Lanka,1
+2020-03-16,140,Sri Lanka,1
+2020-03-17,140,Sri Lanka,1
+2020-03-18,140,Sri Lanka,1
+2020-03-19,140,Sri Lanka,3
+2020-03-20,140,Sri Lanka,3
+2020-03-21,140,Sri Lanka,1
+2020-03-22,140,Sri Lanka,3
+2020-03-23,140,Sri Lanka,3
+2020-03-24,140,Sri Lanka,2
+2020-03-25,140,Sri Lanka,3
+2020-03-26,140,Sri Lanka,7
+2020-03-27,140,Sri Lanka,7
+2020-03-28,140,Sri Lanka,9
+2020-03-29,140,Sri Lanka,11
+2020-03-30,140,Sri Lanka,15
+2020-03-31,140,Sri Lanka,17
+2020-04-01,140,Sri Lanka,21
+2020-04-02,140,Sri Lanka,21
+2020-04-03,140,Sri Lanka,24
+2020-04-04,140,Sri Lanka,27
+2020-04-05,140,Sri Lanka,33
+2020-04-06,140,Sri Lanka,38
+2020-04-07,140,Sri Lanka,42
+2020-03-31,141,Sudan,1
+2020-04-01,141,Sudan,2
+2020-04-02,141,Sudan,2
+2020-04-03,141,Sudan,2
+2020-04-04,141,Sudan,2
+2020-04-05,141,Sudan,2
+2020-04-06,141,Sudan,2
+2020-04-07,141,Sudan,2
+2020-03-09,143,Sweden,1
+2020-03-10,143,Sweden,1
+2020-03-11,143,Sweden,1
+2020-03-12,143,Sweden,1
+2020-03-13,143,Sweden,1
+2020-03-14,143,Sweden,1
+2020-03-15,143,Sweden,1
+2020-03-16,143,Sweden,1
+2020-03-17,143,Sweden,1
+2020-03-18,143,Sweden,1
+2020-03-19,143,Sweden,16
+2020-03-20,143,Sweden,16
+2020-03-21,143,Sweden,17
+2020-03-22,143,Sweden,17
+2020-03-23,143,Sweden,17
+2020-03-24,143,Sweden,17
+2020-03-25,143,Sweden,17
+2020-03-26,143,Sweden,17
+2020-03-27,143,Sweden,17
+2020-03-28,143,Sweden,17
+2020-03-29,143,Sweden,17
+2020-03-30,143,Sweden,17
+2020-03-31,143,Sweden,17
+2020-04-01,143,Sweden,103
+2020-04-02,143,Sweden,103
+2020-04-03,143,Sweden,205
+2020-04-04,143,Sweden,205
+2020-04-05,143,Sweden,205
+2020-04-06,143,Sweden,205
+2020-04-07,143,Sweden,205
+2020-03-03,144,Switzerland,2
+2020-03-04,144,Switzerland,3
+2020-03-05,144,Switzerland,3
+2020-03-06,144,Switzerland,3
+2020-03-07,144,Switzerland,3
+2020-03-08,144,Switzerland,3
+2020-03-09,144,Switzerland,3
+2020-03-10,144,Switzerland,3
+2020-03-11,144,Switzerland,4
+2020-03-12,144,Switzerland,4
+2020-03-13,144,Switzerland,4
+2020-03-14,144,Switzerland,4
+2020-03-15,144,Switzerland,4
+2020-03-16,144,Switzerland,4
+2020-03-17,144,Switzerland,4
+2020-03-18,144,Switzerland,15
+2020-03-19,144,Switzerland,15
+2020-03-20,144,Switzerland,15
+2020-03-21,144,Switzerland,15
+2020-03-22,144,Switzerland,131
+2020-03-23,144,Switzerland,131
+2020-03-24,144,Switzerland,131
+2020-03-25,144,Switzerland,131
+2020-03-26,144,Switzerland,131
+2020-03-27,144,Switzerland,1530
+2020-03-28,144,Switzerland,1530
+2020-03-29,144,Switzerland,1595
+2020-03-30,144,Switzerland,1823
+2020-03-31,144,Switzerland,1823
+2020-04-01,144,Switzerland,2967
+2020-04-02,144,Switzerland,4013
+2020-04-03,144,Switzerland,5657
+2020-04-04,144,Switzerland,6415
+2020-04-05,144,Switzerland,6415
+2020-04-06,144,Switzerland,8056
+2020-04-07,144,Switzerland,8056
+2020-03-25,145,Tanzania,1
+2020-03-26,145,Tanzania,1
+2020-03-27,145,Tanzania,1
+2020-03-28,145,Tanzania,1
+2020-03-29,145,Tanzania,1
+2020-03-30,145,Tanzania,1
+2020-03-31,145,Tanzania,1
+2020-04-01,145,Tanzania,2
+2020-04-02,145,Tanzania,2
+2020-04-03,145,Tanzania,3
+2020-04-04,145,Tanzania,3
+2020-04-05,145,Tanzania,3
+2020-04-06,145,Tanzania,3
+2020-04-07,145,Tanzania,5
+2020-01-26,146,Thailand,2
+2020-01-27,146,Thailand,5
+2020-01-28,146,Thailand,5
+2020-01-29,146,Thailand,5
+2020-01-30,146,Thailand,5
+2020-01-31,146,Thailand,5
+2020-02-01,146,Thailand,5
+2020-02-02,146,Thailand,5
+2020-02-03,146,Thailand,5
+2020-02-04,146,Thailand,5
+2020-02-05,146,Thailand,5
+2020-02-06,146,Thailand,5
+2020-02-07,146,Thailand,5
+2020-02-08,146,Thailand,10
+2020-02-09,146,Thailand,10
+2020-02-10,146,Thailand,10
+2020-02-11,146,Thailand,10
+2020-02-12,146,Thailand,10
+2020-02-13,146,Thailand,12
+2020-02-14,146,Thailand,12
+2020-02-15,146,Thailand,13
+2020-02-16,146,Thailand,14
+2020-02-17,146,Thailand,15
+2020-02-18,146,Thailand,15
+2020-02-19,146,Thailand,15
+2020-02-20,146,Thailand,15
+2020-02-21,146,Thailand,17
+2020-02-22,146,Thailand,17
+2020-02-23,146,Thailand,21
+2020-02-24,146,Thailand,21
+2020-02-25,146,Thailand,22
+2020-02-26,146,Thailand,22
+2020-02-27,146,Thailand,22
+2020-02-28,146,Thailand,28
+2020-02-29,146,Thailand,28
+2020-03-01,146,Thailand,28
+2020-03-02,146,Thailand,31
+2020-03-03,146,Thailand,31
+2020-03-04,146,Thailand,31
+2020-03-05,146,Thailand,31
+2020-03-06,146,Thailand,31
+2020-03-07,146,Thailand,31
+2020-03-08,146,Thailand,31
+2020-03-09,146,Thailand,31
+2020-03-10,146,Thailand,33
+2020-03-11,146,Thailand,34
+2020-03-12,146,Thailand,34
+2020-03-13,146,Thailand,35
+2020-03-14,146,Thailand,35
+2020-03-15,146,Thailand,35
+2020-03-16,146,Thailand,35
+2020-03-17,146,Thailand,41
+2020-03-18,146,Thailand,42
+2020-03-19,146,Thailand,42
+2020-03-20,146,Thailand,43
+2020-03-21,146,Thailand,44
+2020-03-22,146,Thailand,45
+2020-03-23,146,Thailand,52
+2020-03-24,146,Thailand,57
+2020-03-25,146,Thailand,70
+2020-03-26,146,Thailand,88
+2020-03-27,146,Thailand,97
+2020-03-28,146,Thailand,97
+2020-03-29,146,Thailand,97
+2020-03-30,146,Thailand,229
+2020-03-31,146,Thailand,342
+2020-04-01,146,Thailand,505
+2020-04-02,146,Thailand,505
+2020-04-03,146,Thailand,612
+2020-04-04,146,Thailand,674
+2020-04-05,146,Thailand,793
+2020-04-06,146,Thailand,793
+2020-04-07,146,Thailand,824
+2020-03-20,147,Togo,1
+2020-03-21,147,Togo,1
+2020-03-22,147,Togo,1
+2020-03-23,147,Togo,1
+2020-03-24,147,Togo,1
+2020-03-25,147,Togo,1
+2020-03-26,147,Togo,1
+2020-03-27,147,Togo,1
+2020-03-28,147,Togo,1
+2020-03-29,147,Togo,7
+2020-03-30,147,Togo,7
+2020-03-31,147,Togo,10
+2020-04-01,147,Togo,10
+2020-04-02,147,Togo,17
+2020-04-03,147,Togo,17
+2020-04-04,147,Togo,17
+2020-04-05,147,Togo,20
+2020-04-06,147,Togo,23
+2020-04-07,147,Togo,23
+2020-03-21,148,Trinidad and Tobago,1
+2020-03-22,148,Trinidad and Tobago,1
+2020-03-23,148,Trinidad and Tobago,1
+2020-03-24,148,Trinidad and Tobago,0
+2020-03-25,148,Trinidad and Tobago,0
+2020-03-26,148,Trinidad and Tobago,0
+2020-03-27,148,Trinidad and Tobago,1
+2020-03-28,148,Trinidad and Tobago,1
+2020-03-29,148,Trinidad and Tobago,1
+2020-03-30,148,Trinidad and Tobago,1
+2020-03-31,148,Trinidad and Tobago,1
+2020-04-01,148,Trinidad and Tobago,1
+2020-04-02,148,Trinidad and Tobago,1
+2020-04-03,148,Trinidad and Tobago,1
+2020-04-04,148,Trinidad and Tobago,1
+2020-04-05,148,Trinidad and Tobago,1
+2020-04-06,148,Trinidad and Tobago,1
+2020-04-07,148,Trinidad and Tobago,1
+2020-03-22,149,Tunisia,1
+2020-03-23,149,Tunisia,1
+2020-03-24,149,Tunisia,1
+2020-03-25,149,Tunisia,2
+2020-03-26,149,Tunisia,2
+2020-03-27,149,Tunisia,2
+2020-03-28,149,Tunisia,2
+2020-03-29,149,Tunisia,2
+2020-03-30,149,Tunisia,3
+2020-03-31,149,Tunisia,3
+2020-04-01,149,Tunisia,5
+2020-04-02,149,Tunisia,5
+2020-04-03,149,Tunisia,5
+2020-04-04,149,Tunisia,5
+2020-04-05,149,Tunisia,5
+2020-04-06,149,Tunisia,5
+2020-04-07,149,Tunisia,5
+2020-03-25,150,Turkey,26
+2020-03-26,150,Turkey,26
+2020-03-27,150,Turkey,42
+2020-03-28,150,Turkey,70
+2020-03-29,150,Turkey,105
+2020-03-30,150,Turkey,162
+2020-03-31,150,Turkey,243
+2020-04-01,150,Turkey,333
+2020-04-02,150,Turkey,415
+2020-04-03,150,Turkey,484
+2020-04-04,150,Turkey,786
+2020-04-05,150,Turkey,1042
+2020-04-06,150,Turkey,1326
+2020-04-07,150,Turkey,1326
+2020-03-21,152,Ukraine,1
+2020-03-22,152,Ukraine,1
+2020-03-23,152,Ukraine,1
+2020-03-24,152,Ukraine,1
+2020-03-25,152,Ukraine,1
+2020-03-26,152,Ukraine,1
+2020-03-27,152,Ukraine,5
+2020-03-28,152,Ukraine,5
+2020-03-29,152,Ukraine,6
+2020-03-30,152,Ukraine,8
+2020-03-31,152,Ukraine,10
+2020-04-01,152,Ukraine,13
+2020-04-02,152,Ukraine,19
+2020-04-03,152,Ukraine,22
+2020-04-04,152,Ukraine,25
+2020-04-05,152,Ukraine,28
+2020-04-06,152,Ukraine,28
+2020-04-07,152,Ukraine,28
+2020-02-12,153,United Arab Emirates,1
+2020-02-13,153,United Arab Emirates,1
+2020-02-14,153,United Arab Emirates,1
+2020-02-15,153,United Arab Emirates,3
+2020-02-16,153,United Arab Emirates,4
+2020-02-17,153,United Arab Emirates,4
+2020-02-18,153,United Arab Emirates,4
+2020-02-19,153,United Arab Emirates,4
+2020-02-20,153,United Arab Emirates,4
+2020-02-21,153,United Arab Emirates,4
+2020-02-22,153,United Arab Emirates,4
+2020-02-23,153,United Arab Emirates,4
+2020-02-24,153,United Arab Emirates,4
+2020-02-25,153,United Arab Emirates,4
+2020-02-26,153,United Arab Emirates,4
+2020-02-27,153,United Arab Emirates,4
+2020-02-28,153,United Arab Emirates,5
+2020-02-29,153,United Arab Emirates,5
+2020-03-01,153,United Arab Emirates,5
+2020-03-02,153,United Arab Emirates,5
+2020-03-03,153,United Arab Emirates,5
+2020-03-04,153,United Arab Emirates,5
+2020-03-05,153,United Arab Emirates,5
+2020-03-06,153,United Arab Emirates,5
+2020-03-07,153,United Arab Emirates,7
+2020-03-08,153,United Arab Emirates,7
+2020-03-09,153,United Arab Emirates,7
+2020-03-10,153,United Arab Emirates,12
+2020-03-11,153,United Arab Emirates,17
+2020-03-12,153,United Arab Emirates,17
+2020-03-13,153,United Arab Emirates,20
+2020-03-14,153,United Arab Emirates,20
+2020-03-15,153,United Arab Emirates,23
+2020-03-16,153,United Arab Emirates,23
+2020-03-17,153,United Arab Emirates,26
+2020-03-18,153,United Arab Emirates,26
+2020-03-19,153,United Arab Emirates,31
+2020-03-20,153,United Arab Emirates,31
+2020-03-21,153,United Arab Emirates,38
+2020-03-22,153,United Arab Emirates,38
+2020-03-23,153,United Arab Emirates,41
+2020-03-24,153,United Arab Emirates,45
+2020-03-25,153,United Arab Emirates,52
+2020-03-26,153,United Arab Emirates,52
+2020-03-27,153,United Arab Emirates,55
+2020-03-28,153,United Arab Emirates,55
+2020-03-29,153,United Arab Emirates,58
+2020-03-30,153,United Arab Emirates,61
+2020-03-31,153,United Arab Emirates,61
+2020-04-01,153,United Arab Emirates,61
+2020-04-02,153,United Arab Emirates,96
+2020-04-03,153,United Arab Emirates,108
+2020-04-04,153,United Arab Emirates,125
+2020-04-05,153,United Arab Emirates,144
+2020-04-06,153,United Arab Emirates,167
+2020-04-07,153,United Arab Emirates,167
+2020-02-12,154,United Kingdom,1
+2020-02-13,154,United Kingdom,1
+2020-02-14,154,United Kingdom,1
+2020-02-15,154,United Kingdom,1
+2020-02-16,154,United Kingdom,8
+2020-02-17,154,United Kingdom,8
+2020-02-18,154,United Kingdom,8
+2020-02-19,154,United Kingdom,8
+2020-02-20,154,United Kingdom,8
+2020-02-21,154,United Kingdom,8
+2020-02-22,154,United Kingdom,8
+2020-02-23,154,United Kingdom,8
+2020-02-24,154,United Kingdom,8
+2020-02-25,154,United Kingdom,8
+2020-02-26,154,United Kingdom,8
+2020-02-27,154,United Kingdom,8
+2020-02-28,154,United Kingdom,8
+2020-02-29,154,United Kingdom,8
+2020-03-01,154,United Kingdom,8
+2020-03-02,154,United Kingdom,8
+2020-03-03,154,United Kingdom,8
+2020-03-04,154,United Kingdom,8
+2020-03-05,154,United Kingdom,8
+2020-03-06,154,United Kingdom,8
+2020-03-07,154,United Kingdom,18
+2020-03-08,154,United Kingdom,18
+2020-03-09,154,United Kingdom,18
+2020-03-10,154,United Kingdom,19
+2020-03-11,154,United Kingdom,19
+2020-03-12,154,United Kingdom,19
+2020-03-13,154,United Kingdom,19
+2020-03-14,154,United Kingdom,19
+2020-03-15,154,United Kingdom,19
+2020-03-16,154,United Kingdom,21
+2020-03-17,154,United Kingdom,53
+2020-03-18,154,United Kingdom,67
+2020-03-19,154,United Kingdom,67
+2020-03-20,154,United Kingdom,79
+2020-03-21,154,United Kingdom,79
+2020-03-22,154,United Kingdom,93
+2020-03-23,154,United Kingdom,135
+2020-03-24,154,United Kingdom,140
+2020-03-25,154,United Kingdom,140
+2020-03-26,154,United Kingdom,150
+2020-03-27,154,United Kingdom,151
+2020-03-28,154,United Kingdom,151
+2020-03-29,154,United Kingdom,151
+2020-03-30,154,United Kingdom,171
+2020-03-31,154,United Kingdom,179
+2020-04-01,154,United Kingdom,179
+2020-04-02,154,United Kingdom,192
+2020-04-03,154,United Kingdom,208
+2020-04-04,154,United Kingdom,215
+2020-04-05,154,United Kingdom,229
+2020-04-06,154,United Kingdom,287
+2020-04-07,154,United Kingdom,305
+2020-03-26,155,Uruguay,6
+2020-03-27,155,Uruguay,6
+2020-03-28,155,Uruguay,6
+2020-03-29,155,Uruguay,6
+2020-03-30,155,Uruguay,6
+2020-03-31,155,Uruguay,41
+2020-04-01,155,Uruguay,41
+2020-04-02,155,Uruguay,62
+2020-04-03,155,Uruguay,68
+2020-04-04,155,Uruguay,93
+2020-04-05,155,Uruguay,93
+2020-04-06,155,Uruguay,104
+2020-04-07,155,Uruguay,123
+2020-02-09,156,United States of America,3
+2020-02-10,156,United States of America,3
+2020-02-11,156,United States of America,3
+2020-02-12,156,United States of America,3
+2020-02-13,156,United States of America,3
+2020-02-14,156,United States of America,3
+2020-02-15,156,United States of America,3
+2020-02-16,156,United States of America,3
+2020-02-17,156,United States of America,3
+2020-02-18,156,United States of America,3
+2020-02-19,156,United States of America,3
+2020-02-20,156,United States of America,3
+2020-02-21,156,United States of America,5
+2020-02-22,156,United States of America,5
+2020-02-23,156,United States of America,5
+2020-02-24,156,United States of America,5
+2020-02-25,156,United States of America,6
+2020-02-26,156,United States of America,6
+2020-02-27,156,United States of America,6
+2020-02-28,156,United States of America,7
+2020-02-29,156,United States of America,7
+2020-03-01,156,United States of America,7
+2020-03-02,156,United States of America,7
+2020-03-03,156,United States of America,7
+2020-03-04,156,United States of America,7
+2020-03-05,156,United States of America,7
+2020-03-06,156,United States of America,7
+2020-03-07,156,United States of America,10
+2020-03-08,156,United States of America,10
+2020-03-09,156,United States of America,10
+2020-03-10,156,United States of America,10
+2020-03-11,156,United States of America,10
+2020-03-12,156,United States of America,12
+2020-03-13,156,United States of America,12
+2020-03-14,156,United States of America,12
+2020-03-15,156,United States of America,12
+2020-03-16,156,United States of America,48
+2020-03-17,156,United States of America,74
+2020-03-18,156,United States of America,105
+2020-03-19,156,United States of America,121
+2020-03-20,156,United States of America,147
+2020-03-21,156,United States of America,176
+2020-03-22,156,United States of America,178
+2020-03-23,156,United States of America,178
+2020-03-24,156,United States of America,348
+2020-03-25,156,United States of America,361
+2020-03-26,156,United States of America,681
+2020-03-27,156,United States of America,869
+2020-03-28,156,United States of America,1072
+2020-03-29,156,United States of America,2665
+2020-03-30,156,United States of America,5644
+2020-03-31,156,United States of America,7024
+2020-04-01,156,United States of America,8474
+2020-04-02,156,United States of America,9001
+2020-04-03,156,United States of America,9707
+2020-04-04,156,United States of America,14652
+2020-04-05,156,United States of America,17448
+2020-04-06,156,United States of America,19581
+2020-04-07,156,United States of America,19919
+2020-03-27,157,Uzbekistan,5
+2020-03-28,157,Uzbekistan,5
+2020-03-29,157,Uzbekistan,7
+2020-03-30,157,Uzbekistan,7
+2020-03-31,157,Uzbekistan,7
+2020-04-01,157,Uzbekistan,12
+2020-04-02,157,Uzbekistan,25
+2020-04-03,157,Uzbekistan,25
+2020-04-04,157,Uzbekistan,25
+2020-04-05,157,Uzbekistan,30
+2020-04-06,157,Uzbekistan,30
+2020-04-07,157,Uzbekistan,30
+2020-03-22,158,Venezuela,15
+2020-03-23,158,Venezuela,15
+2020-03-24,158,Venezuela,15
+2020-03-25,158,Venezuela,15
+2020-03-26,158,Venezuela,15
+2020-03-27,158,Venezuela,31
+2020-03-28,158,Venezuela,39
+2020-03-29,158,Venezuela,39
+2020-03-30,158,Venezuela,39
+2020-03-31,158,Venezuela,39
+2020-04-01,158,Venezuela,41
+2020-04-02,158,Venezuela,43
+2020-04-03,158,Venezuela,52
+2020-04-04,158,Venezuela,52
+2020-04-05,158,Venezuela,52
+2020-04-06,158,Venezuela,65
+2020-04-07,158,Venezuela,65
+2020-02-01,159,Vietnam,1
+2020-02-02,159,Vietnam,1
+2020-02-03,159,Vietnam,1
+2020-02-04,159,Vietnam,1
+2020-02-05,159,Vietnam,1
+2020-02-06,159,Vietnam,1
+2020-02-07,159,Vietnam,1
+2020-02-08,159,Vietnam,1
+2020-02-09,159,Vietnam,1
+2020-02-10,159,Vietnam,1
+2020-02-11,159,Vietnam,6
+2020-02-12,159,Vietnam,6
+2020-02-13,159,Vietnam,7
+2020-02-14,159,Vietnam,7
+2020-02-15,159,Vietnam,7
+2020-02-16,159,Vietnam,7
+2020-02-17,159,Vietnam,7
+2020-02-18,159,Vietnam,7
+2020-02-19,159,Vietnam,7
+2020-02-20,159,Vietnam,14
+2020-02-21,159,Vietnam,14
+2020-02-22,159,Vietnam,14
+2020-02-23,159,Vietnam,14
+2020-02-24,159,Vietnam,14
+2020-02-25,159,Vietnam,16
+2020-02-26,159,Vietnam,16
+2020-02-27,159,Vietnam,16
+2020-02-28,159,Vietnam,16
+2020-02-29,159,Vietnam,16
+2020-03-01,159,Vietnam,16
+2020-03-02,159,Vietnam,16
+2020-03-03,159,Vietnam,16
+2020-03-04,159,Vietnam,16
+2020-03-05,159,Vietnam,16
+2020-03-06,159,Vietnam,16
+2020-03-07,159,Vietnam,16
+2020-03-08,159,Vietnam,16
+2020-03-09,159,Vietnam,16
+2020-03-10,159,Vietnam,16
+2020-03-11,159,Vietnam,16
+2020-03-12,159,Vietnam,16
+2020-03-13,159,Vietnam,16
+2020-03-14,159,Vietnam,16
+2020-03-15,159,Vietnam,16
+2020-03-16,159,Vietnam,16
+2020-03-17,159,Vietnam,16
+2020-03-18,159,Vietnam,16
+2020-03-19,159,Vietnam,16
+2020-03-20,159,Vietnam,17
+2020-03-21,159,Vietnam,17
+2020-03-22,159,Vietnam,17
+2020-03-23,159,Vietnam,17
+2020-03-24,159,Vietnam,17
+2020-03-25,159,Vietnam,17
+2020-03-26,159,Vietnam,20
+2020-03-27,159,Vietnam,20
+2020-03-28,159,Vietnam,21
+2020-03-29,159,Vietnam,25
+2020-03-30,159,Vietnam,55
+2020-03-31,159,Vietnam,58
+2020-04-01,159,Vietnam,63
+2020-04-02,159,Vietnam,75
+2020-04-03,159,Vietnam,85
+2020-04-04,159,Vietnam,90
+2020-04-05,159,Vietnam,91
+2020-04-06,159,Vietnam,95
+2020-04-07,159,Vietnam,123
+2020-04-03,160,Zambia,2
+2020-04-04,160,Zambia,2
+2020-04-05,160,Zambia,3
+2020-04-06,160,Zambia,5
+2020-04-07,160,Zambia,5
+2020-04-06,162,Dominica,1
+2020-04-07,162,Dominica,1
+2020-04-04,164,Mozambique,1
+2020-04-05,164,Mozambique,1
+2020-04-06,164,Mozambique,1
+2020-04-07,164,Mozambique,1
+2020-04-04,165,Syria,2
+2020-04-05,165,Syria,2
+2020-04-06,165,Syria,2
+2020-04-07,165,Syria,2
+2020-03-31,169,Libya,1
+2020-04-01,169,Libya,0
+2020-04-02,169,Libya,0
+2020-04-03,169,Libya,0
+2020-04-04,169,Libya,0
+2020-04-05,169,Libya,0
+2020-04-06,169,Libya,1
+2020-04-07,169,Libya,1
+2020-03-20,170,Palestine,17
+2020-03-21,170,Palestine,17
+2020-03-22,170,Palestine,17
+2020-03-23,170,Palestine,17
+2020-03-24,170,Palestine,17
+2020-03-25,170,Palestine,17
+2020-03-26,170,Palestine,17
+2020-03-27,170,Palestine,17
+2020-03-28,170,Palestine,18
+2020-03-29,170,Palestine,18
+2020-03-30,170,Palestine,18
+2020-03-31,170,Palestine,18
+2020-04-01,170,Palestine,18
+2020-04-02,170,Palestine,18
+2020-04-03,170,Palestine,21
+2020-04-04,170,Palestine,21
+2020-04-05,170,Palestine,25
+2020-04-06,170,Palestine,24
+2020-04-07,170,Palestine,24
+2020-04-04,172,Mali,1
+2020-04-05,172,Mali,1
+2020-04-06,172,Mali,9
+2020-04-07,172,Mali,9
+2020-03-27,174,Kosovo,1
+2020-03-28,174,Kosovo,1
+2020-03-29,174,Kosovo,1
+2020-03-30,174,Kosovo,1
+2020-03-31,174,Kosovo,6
+2020-04-01,174,Kosovo,10
+2020-04-02,174,Kosovo,10
+2020-04-03,174,Kosovo,10
+2020-04-04,174,Kosovo,16
+2020-04-05,174,Kosovo,23
+2020-04-06,174,Kosovo,23
+2020-04-07,174,Kosovo,23
+2020-04-04,175,Myanmar,1
+2020-04-05,175,Myanmar,1
+2020-04-06,175,Myanmar,1
+2020-04-07,175,Myanmar,1

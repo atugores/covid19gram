@@ -1,3 +1,9 @@
 datasets
 images
+myvenv
 *.*pyc
+/.vscode
+__pycache__
+.directory
+covid19
+covid19bot.session

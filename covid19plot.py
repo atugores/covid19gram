@@ -41,7 +41,7 @@ class COVID19Plot(object):
     _translations = {}
     _df = None
 
-    def __init__(self, data_directory='datasets/COVID 19', images_dir='images/'):
+    def __init__(self, data_directory='data', images_dir='images/'):
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
         self._source_path = data_directory
