@@ -70,9 +70,10 @@ def normal(s):
 
 def cerca(paraula):
     global tot
+    cerca = normal(paraula).lower()
     resultats=[]
     for r in tot:
-        if normal(r).lower().find(paraula)>-1:
+        if normal(r).lower().find(cerca)>-1:
             resultats.append(r)
     return resultats
 
@@ -315,7 +316,7 @@ async def g_request(client, message):
             param = re.search('^/' + comm + ' (.+)$', message.text).group(1)
         await DoBot(comm, param, client, message)
     else:
-        param = re.escape(message.text)
+        param = message.text
         resultats = cerca(param)
         if len(resultats) == 0:
             await client.send_message(user, f'No results for `{param}`')
