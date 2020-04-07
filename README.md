@@ -6,6 +6,7 @@ Requirements:
 ```
  pip install -r requirements.txt
  git clone https://github.com/datadista/datasets
+ git clone https://github.com/stevenliuyi/covid19.git
  cp data/ccaa_poblacion.csv datasets/COVID\ 19/
 
 

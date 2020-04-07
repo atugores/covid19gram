@@ -75,7 +75,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,0,Global,64606
 2020-04-05,0,Global,69374
 2020-04-06,0,Global,74565
-2020-04-07,0,Global,75973
+2020-04-07,0,Global,76420
 2020-03-22,1,Afghanistan,1
 2020-03-23,1,Afghanistan,1
 2020-03-24,1,Afghanistan,1
@@ -92,7 +92,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,1,Afghanistan,7
 2020-04-05,1,Afghanistan,7
 2020-04-06,1,Afghanistan,11
-2020-04-07,1,Afghanistan,11
+2020-04-07,1,Afghanistan,14
 2020-03-11,2,Albania,1
 2020-03-12,2,Albania,1
 2020-03-13,2,Albania,1
@@ -164,7 +164,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,4,Andorra,17
 2020-04-05,4,Andorra,18
 2020-04-06,4,Andorra,21
-2020-04-07,4,Andorra,21
+2020-04-07,4,Andorra,22
 2020-03-29,5,Angola,2
 2020-03-30,5,Angola,2
 2020-03-31,5,Angola,2
@@ -205,7 +205,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,7,Argentina,43
 2020-04-05,7,Argentina,44
 2020-04-06,7,Argentina,48
-2020-04-07,7,Argentina,53
+2020-04-07,7,Argentina,54
 2020-03-26,8,Armenia,1
 2020-03-27,8,Armenia,1
 2020-03-28,8,Armenia,1
@@ -309,7 +309,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,11,Azerbaijan,5
 2020-04-05,11,Azerbaijan,7
 2020-04-06,11,Azerbaijan,7
-2020-04-07,11,Azerbaijan,7
+2020-04-07,11,Azerbaijan,8
 2020-04-01,12,Bahamas,1
 2020-04-02,12,Bahamas,1
 2020-04-03,12,Bahamas,1
@@ -756,7 +756,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,39,Croatia,12
 2020-04-05,39,Croatia,15
 2020-04-06,39,Croatia,16
-2020-04-07,39,Croatia,16
+2020-04-07,39,Croatia,18
 2020-02-20,40,International Conveyance,2
 2020-02-21,40,International Conveyance,2
 2020-02-22,40,International Conveyance,2
@@ -1008,7 +1008,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,56,Finland,25
 2020-04-05,56,Finland,28
 2020-04-06,56,Finland,28
-2020-04-07,56,Finland,28
+2020-04-07,56,Finland,34
 2020-02-14,57,France,1
 2020-02-15,57,France,1
 2020-02-16,57,France,1
@@ -1131,7 +1131,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,61,Germany,1444
 2020-04-05,61,Germany,1584
 2020-04-06,61,Germany,1810
-2020-04-07,61,Germany,1810
+2020-04-07,61,Germany,1822
 2020-03-21,62,Ghana,1
 2020-03-22,62,Ghana,1
 2020-03-23,62,Ghana,2
@@ -1177,7 +1177,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,63,Greece,68
 2020-04-05,63,Greece,73
 2020-04-06,63,Greece,79
-2020-04-07,63,Greece,79
+2020-04-07,63,Greece,81
 2020-03-16,64,Guatemala,1
 2020-03-17,64,Guatemala,1
 2020-03-18,64,Guatemala,1
@@ -1963,7 +1963,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,107,Netherlands,1656
 2020-04-05,107,Netherlands,1771
 2020-04-06,107,Netherlands,1874
-2020-04-07,107,Netherlands,1874
+2020-04-07,107,Netherlands,2108
 2020-03-29,108,New Zealand,1
 2020-03-30,108,New Zealand,1
 2020-03-31,108,New Zealand,1
@@ -2032,7 +2032,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,112,North Macedonia,17
 2020-04-05,112,North Macedonia,18
 2020-04-06,112,North Macedonia,23
-2020-04-07,112,North Macedonia,23
+2020-04-07,112,North Macedonia,26
 2020-03-14,113,Norway,3
 2020-03-15,113,Norway,3
 2020-03-16,113,Norway,3
@@ -2265,7 +2265,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,122,Portugal,266
 2020-04-05,122,Portugal,295
 2020-04-06,122,Portugal,311
-2020-04-07,122,Portugal,311
+2020-04-07,122,Portugal,345
 2020-03-28,123,Qatar,1
 2020-03-29,123,Qatar,1
 2020-03-30,123,Qatar,2
@@ -2293,7 +2293,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,124,Romania,146
 2020-04-05,124,Romania,151
 2020-04-06,124,Romania,176
-2020-04-07,124,Romania,182
+2020-04-07,124,Romania,197
 2020-03-19,125,Russia,1
 2020-03-20,125,Russia,1
 2020-03-21,125,Russia,1
@@ -2364,7 +2364,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,130,Saudi Arabia,29
 2020-04-05,130,Saudi Arabia,34
 2020-04-06,130,Saudi Arabia,38
-2020-04-07,130,Saudi Arabia,38
+2020-04-07,130,Saudi Arabia,41
 2020-04-01,131,Senegal,1
 2020-04-02,131,Senegal,1
 2020-04-03,131,Senegal,1
@@ -2572,7 +2572,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,143,Sweden,373
 2020-04-05,143,Sweden,401
 2020-04-06,143,Sweden,477
-2020-04-07,143,Sweden,477
+2020-04-07,143,Sweden,591
 2020-03-05,144,Switzerland,1
 2020-03-06,144,Switzerland,1
 2020-03-07,144,Switzerland,1
@@ -2848,7 +2848,7 @@ fecha,cod_ine,CCAA,total
 2020-04-04,156,United States of America,8407
 2020-04-05,156,United States of America,9619
 2020-04-06,156,United States of America,10783
-2020-04-07,156,United States of America,10993
+2020-04-07,156,United States of America,11008
 2020-03-27,157,Uzbekistan,1
 2020-03-28,157,Uzbekistan,2
 2020-03-29,157,Uzbekistan,2
