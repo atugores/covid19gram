@@ -7,3 +7,4 @@ __pycache__
 .directory
 covid19
 covid19bot.session
+conf.ini
