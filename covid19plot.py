@@ -6,6 +6,7 @@ import numpy as np
 import os
 from gettext import gettext as _
 import gettext
+import locale
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -138,6 +139,23 @@ class COVID19Plot(object):
                 break
         return region_scope
 
+    def get_plot_caption(self, plot_type, region, language='en'):
+        if plot_type not in self.PLOT_TYPES:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        region_scope = self.get_region_scope(region)
+        if not region_scope:
+            raise RuntimeError(_('Region not found in any scope'))
+
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data(region_scope)
+        source = self._sources.get(region_scope)
+
+        # get region data
+        region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        caption = self._get_caption(plot_type, region_scope, region, language, region_df)
+        return caption
+
     def generate_plot(self, plot_type, region, language='en'):
         if plot_type not in self.PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
@@ -199,6 +217,62 @@ class COVID19Plot(object):
             region_df['increase'] = region_df['deceased'] - region_df['deceased'].shift(1)
             region_df['rolling'] = region_df.rolling(window=3).mean()['increase']
         return region_df
+
+    def _get_caption(self, plot_type, scope, region, language, df):
+        _ = self._translations[language].gettext
+        try:
+            if language == 'es':
+                locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "es_ES.UTF-8")
+            elif language == 'ca':
+                locale.setlocale(locale.LC_TIME, "ca_ES.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "ca_ES.UTF-8")
+            elif language == 'en':
+                locale.setlocale(locale.LC_TIME, "en_GB.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "en_GB.UTF-8")
+        except locale.Error:
+            pass
+
+        last_data = None
+        last_date = df.index.get_level_values('fecha')[-1].strftime("%d/%B/%Y")
+        if plot_type == 'daily_cases':
+            v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
+            last_data = "  - " + _('Daily increment') + ": " + v + "\n"
+            v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
+            last_data = last_data + "  - " + \
+                _('Increment rolling avg (3 days)') + ": " + v
+        elif plot_type == 'daily_deceased':
+            v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
+            last_data = "  - " + _('Daily deaths') + ": " + v + "\n"
+            v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
+            last_data = last_data + "  - " + \
+                _('Deaths rolling avg (3 days)') + ": " + v
+        elif plot_type == 'active_recovered_deceased':
+            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+            last_data = "  - " + _('Currently infected') + ": " + v + "\n"
+            v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
+            last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            last_data = last_data + "  - " + _('Deceased') + ": " + v
+        elif plot_type == 'active':
+            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+            last_data = "  - " + _('Currently infected') + ": " + v + "\n"
+        elif plot_type == 'recovered':
+            v = locale.format_string(
+                '%.0f', df['recovered'][-1], grouping=True)
+            last_data = "  - " + _('Recovered') + ": " + v + "\n"
+        elif plot_type == 'deceased':
+            v = locale.format_string(
+                '%.0f', df['deceased'][-1], grouping=True)
+            last_data = "  - " + _('Deceased') + ": " + v + "\n"
+        elif plot_type == 'cases_normalized':
+            v = locale.format_string(
+                '%.1f', df['cases_per_100k'][-1], grouping=True)
+            last_data = "  - " + \
+                _('Cases per 100k inhabitants') + ": " + v + "\n"
+
+        updated = _("Information on last available data") + " (" + last_date + "):"
+        return f"{updated}\n{last_data}"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):
         # set translation to current language
@@ -274,7 +348,7 @@ class COVID19Plot(object):
             ax.set_xlim(xlim)
         ax.figure.autofmt_xdate()
         ax.legend(loc='upper left', fontsize=17)
-        self._add_footer(ax, scope)
+        self._add_footer(ax, scope, language)
         plt.savefig(image_path)
         plt.close()
 
@@ -322,7 +396,7 @@ class COVID19Plot(object):
         ax.figure.autofmt_xdate()
         if legend:
             ax.legend(loc='upper left', fontsize=17)
-        self._add_footer(ax, scope)
+        self._add_footer(ax, scope, language)
         plt.savefig(image_path)
         plt.close()
 
@@ -341,7 +415,10 @@ class COVID19Plot(object):
                 return dates_gt_5[0]
         return None
 
-    def _add_footer(self, ax, scope):
+    def _add_footer(self, ax, scope, language):
+        # set translation to current language
+        _ = self._translations[language].gettext
+
         ds_credits = None
         if scope == 'spain':
             ds_name = 'Datadista'
