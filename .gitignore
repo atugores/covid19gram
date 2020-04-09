@@ -11,3 +11,4 @@ covid19bot.session
 data/*
 !data/ccaa_poblacion.csv
 !data/WPP2019_TotalPopulation_UN_2019.csv
+!data/world_population.csv

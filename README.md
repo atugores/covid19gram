@@ -6,7 +6,7 @@ Requirements:
 ```
  pip install -r requirements.txt
  git clone https://github.com/datadista/datasets
- git clone https://github.com/stevenliuyi/covid19.git
+ git clone https://github.com/pomber/covid19.git
 ```
 
 
