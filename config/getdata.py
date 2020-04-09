@@ -45,8 +45,7 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
 
             country_code = country_code + 1
 
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") +
-          "] " + "Finish pulling global Data")
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish pulling global Data")
 
 
 def pull_datasets(base_directory="datasets/", data_directory="data/"):

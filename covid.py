@@ -41,11 +41,10 @@ app = Client(
     api_hash=config["API"]["API_HASH"]
 )
 cplt = COVID19Plot()
-tot = cplt.get_global_regions()
-world = cplt.get_global_regions()
-comunitat= cplt.get_regions()
+world = cplt.get_regions('world')
+comunitat = cplt.get_regions('spain')
 comunitat.sort()
-tot.extend(comunitat)
+tot = world + comunitat
 tot.sort()
 
 dbhd = DBHandler()
