@@ -6,55 +6,56 @@ import datetime
 from shutil import copy2
 
 
-#fetch db data
-def pull_global(base_directory="covid19/",data_directory="data"):
+def pull_global(base_directory="covid19/", data_directory="data/"):
     g = git.cmd.Git(base_directory)
     g.pull()
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] "+"Pulling global Data")
+    # TODO: change to logging
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start pulling global Data")
+
     import_file_path = base_directory + "/public/data/all.json"
-    export_file_path = "data/"
-    casos = open(export_file_path+'global_covid19_casos_long.csv', 'w')
-    altas = open(export_file_path+'global_covid19_altas_long.csv', 'w')
-    defun = open(export_file_path+'global_covid19_fallecidos_long.csv', 'w')
-    casos.write("fecha,cod_ine,CCAA,total\n")  # python will convert \n to os.linesep
-    altas.write("fecha,cod_ine,CCAA,total\n")
-    defun.write("fecha,cod_ine,CCAA,total\n")
-    codi = 0
+
     with open(import_file_path) as json_file:
         data = json.load(json_file)
-        for p in data:
-            # print(p)
-            # print(data[p]['ENGLISH'])
-            if 'confirmedCount' in  data[p]:
-                for d in data[p]['confirmedCount']:
-                    try:
-                        casos.write(d+","+str(codi)+","+data[p]['ENGLISH']+","+str(data[p]['confirmedCount'][d])+"\n")
-                    except:
-                        print("none")
-            if 'curedCount' in  data[p]:
-                for d in data[p]['curedCount']:
-                    try:
-                        altas.write(d+","+str(codi)+","+data[p]['ENGLISH']+","+str(data[p]['curedCount'][d])+"\n")
-                    except:
-                        print("none")
-            if 'deadCount' in  data[p]:
-                for d in data[p]['deadCount']:
-                    try:
-                        defun.write(d+","+str(codi)+","+data[p]['ENGLISH']+","+str(data[p]['deadCount'][d])+"\n")
-                    except:
-                        print("none")
-            codi += 1
 
-    casos.close()
-    altas.close()
-    defun.close()
+    export_cases = data_directory + 'world_cases.csv'
+    export_recovered = data_directory + 'world_recovered.csv'
+    export_deceased = data_directory + 'world_deceased.csv'
+    with open(export_cases, 'w') as cases_file, open(export_recovered, 'w') as recovered_file, open(export_deceased, 'w') as deceased_file:
+        cases_file.write("fecha,cod_ine,CCAA,total\n")
+        recovered_file.write("fecha,cod_ine,CCAA,total\n")
+        deceased_file.write("fecha,cod_ine,CCAA,total\n")
 
-def pull_datasets(base_directory="datasets/",data_directory="data/"):
+        country_code = 0
+        for country in data.values():
+            country_name = country.get('ENGLISH')
+            cases = country.get('confirmedCount', {})
+            for date, value in cases.items():
+                cases_file.write(
+                    f"{date},{country_code},{country_name},{value}\n")
+
+            cured = country.get('curedCount', {})
+            for date, value in cured.items():
+                recovered_file.write(
+                    f"{date},{country_code},{country_name},{value}\n")
+
+            dead = country.get('deadCount', {})
+            for date, value in dead.items():
+                deceased_file.write(
+                    f"{date},{country_code},{country_name},{value}\n")
+
+            country_code = country_code + 1
+
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") +
+          "] " + "Finish pulling global Data")
+
+
+def pull_datasets(base_directory="datasets/", data_directory="data/"):
     g = git.cmd.Git(base_directory)
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] "+"Pulling Spain Data")
-    import_file_path = base_directory +"COVID 19/"
+    # TODO: change to logging
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start pulling Spain Data")
+    import_file_path = base_directory + "COVID 19/"
     g.pull()
-    copy2(import_file_path + "ccaa_covid19_casos_long.csv", data_directory + "ccaa_covid19_casos_long.csv")
-    copy2(import_file_path + "ccaa_covid19_altas_long.csv", data_directory + "ccaa_covid19_altas_long.csv")
-    copy2(import_file_path + "ccaa_covid19_fallecidos_long.csv", data_directory + "ccaa_covid19_fallecidos_long.csv")
-
+    copy2(import_file_path + "ccaa_covid19_casos_long.csv", data_directory + "spain_cases.csv")
+    copy2(import_file_path + "ccaa_covid19_altas_long.csv", data_directory + "spain_recovered.csv")
+    copy2(import_file_path + "ccaa_covid19_fallecidos_long.csv", data_directory + "spain_deceased.csv")
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish pulling Spain Data")

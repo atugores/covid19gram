@@ -38,7 +38,7 @@ fi
 $I18NDUDE rebuild-pot --pot locales/$CATALOGNAME.pot $MERGE --create $CATALOGNAME .
 
 # Compile po files
-for lang in $(find locales -mindepth 0 -maxdepth 0 -type d); do
+for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do
     if test -d $lang/LC_MESSAGES; then
         PO=$lang/LC_MESSAGES/${CATALOGNAME}.po
         # Create po file if not exists

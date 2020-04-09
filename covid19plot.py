@@ -35,99 +35,83 @@ class COVID19Plot(object):
         'deceased_normalized',
     ]
 
-    _images_dir = None
+    SCOPES = [
+        'spain',
+        'world'
+    ]
+
     _source_path = None
-    _source_ts = None
+    _images_dir = None
     _footer_font = None
+    # 'world' and 'spain'
+    # each item will contain the dataframe (df), timestamp (ts)
+    _sources = {}
     _translations = {}
-    _df = None
-    _global_df = None
 
     def __init__(self, data_directory='data', images_dir='images/'):
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
         self._source_path = data_directory
         self._load_translations()
-        self._reload_data()
-        self._reload_global_data()
+        for scope in self.SCOPES:
+            self._reload_data(scope)
         self._images_dir = images_dir
         self._footer_font = FontProperties()
         self._footer_font.set_family('serif')
         self._footer_font.set_style('italic')
 
-    def _reload_data(self):
-        csv_path = self._source_path + '/ccaa_covid19_casos_long.csv'
+    def _reload_data(self, scope):
+        csv_path = f"{self._source_path}/{scope}_cases.csv"
         if not os.path.isfile(csv_path):
-            raise RuntimeError('Datasource not found')
+            raise RuntimeError(f"Datasource {scope} not found ({csv_path})")
 
-        self._df = pd.read_csv(csv_path)
+        df = pd.read_csv(csv_path)
         # convert date to datetime and set index
-        self._df['fecha'] = pd.to_datetime(self._df['fecha'])
-        self._df.set_index(['fecha', 'cod_ine'], inplace=True)
-        self._df.rename(columns={'total': 'cases'}, inplace=True)
+        df['fecha'] = pd.to_datetime(df['fecha'])
+        df.set_index(['fecha', 'cod_ine'], inplace=True)
+        df.rename(columns={'total': 'cases', 'CCAA': 'region'}, inplace=True)
         # column recovered
-        altas_df = pd.read_csv(self._source_path + '/ccaa_covid19_altas_long.csv')
-        altas_df['fecha'] = pd.to_datetime(altas_df['fecha'])
-        altas_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        altas_df.columns = ['CCAA_altas', 'recovered']
-        self._df = self._df.merge(altas_df, left_index=True, right_index=True, how='left')
-        self._df.drop(columns=['CCAA_altas'], inplace=True)
+        rec_df = pd.read_csv(f"{self._source_path}/{scope}_recovered.csv")
+        rec_df['fecha'] = pd.to_datetime(rec_df['fecha'])
+        rec_df.set_index(['fecha', 'cod_ine'], inplace=True)
+        rec_df.columns = ['CCAA_altas', 'recovered']
+        df = df.merge(rec_df, left_index=True, right_index=True, how='left')
+        df.drop(columns=['CCAA_altas'], inplace=True)
         # column deceased
-        fac_df = pd.read_csv(self._source_path + '/ccaa_covid19_fallecidos_long.csv')
-        fac_df['fecha'] = pd.to_datetime(fac_df['fecha'])
-        fac_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        fac_df.columns = ['CCAA_fac', 'deceased']
-        self._df = self._df.merge(fac_df, left_index=True, right_index=True, how='left')
-        self._df.drop(columns=['CCAA_fac'], inplace=True)
+        dec_df = pd.read_csv(f"{self._source_path}/{scope}_deceased.csv")
+        dec_df['fecha'] = pd.to_datetime(dec_df['fecha'])
+        dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
+        dec_df.columns = ['CCAA_fac', 'deceased']
+        df = df.merge(dec_df, left_index=True, right_index=True, how='left')
+        df.drop(columns=['CCAA_fac'], inplace=True)
         # column population
-        pob_df = pd.read_csv(self._source_path + '/ccaa_poblacion.csv')
-        pob_df.set_index('cod_ine', inplace=True)
-        self._df = self._df.merge(pob_df, left_index=True, right_index=True, how='left')
-        self._df['cases_per_100k'] = self._df['cases'] * 100_000 / self._df['population']
+        if os.path.isfile(f"{self._source_path}/{scope}_population.csv"):
+            pop_df = pd.read_csv(f"{self._source_path}/{scope}_population.csv")
+            pop_df.set_index('cod_ine', inplace=True)
+            df = df.merge(pop_df, left_index=True, right_index=True, how='left')
+        else:
+            df['population'] = 0
 
-        self._df.fillna(0, inplace=True)
-        self._df.sort_index()
-        self._df['active_cases'] = self._df['cases'] - self._df['recovered'] - self._df['deceased']
+        df.fillna(0, inplace=True)
+        df.sort_index()
 
-        self._source_ts = int(os.path.getmtime(csv_path))
+        df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
+        df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
+        df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
 
-    def _reload_global_data(self):
-        csv_path = self._source_path + '/global_covid19_casos_long.csv'
+        source = self._sources.get(scope, {})
+        source['df'] = df
+        source['ts'] = int(os.path.getmtime(csv_path))
+        self._sources[scope] = source
+
+    def _check_new_data(self, scope):
+        csv_path = f"{self._source_path}/{scope}_cases.csv"
         if not os.path.isfile(csv_path):
-            raise RuntimeError('Datasource not found')
+            raise RuntimeError(f"Datasource {scope} not found ({csv_path})")
 
-        self._global_df = pd.read_csv(csv_path)
-        # convert date to datetime and set index
-        self._global_df['fecha'] = pd.to_datetime(self._global_df['fecha'])
-        self._global_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        self._global_df.rename(columns={'total': 'cases'}, inplace=True)
-        # column recovered
-        altas_df = pd.read_csv(self._source_path + '/global_covid19_altas_long.csv')
-        altas_df['fecha'] = pd.to_datetime(altas_df['fecha'])
-        altas_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        altas_df.columns = ['CCAA_altas', 'recovered']
-        self._global_df = self._global_df.merge(altas_df, left_index=True, right_index=True, how='left')
-        self._global_df.drop(columns=['CCAA_altas'], inplace=True)
-        # column deceased
-        fac_df = pd.read_csv(self._source_path + '/global_covid19_fallecidos_long.csv')
-        fac_df['fecha'] = pd.to_datetime(fac_df['fecha'])
-        fac_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        fac_df.columns = ['CCAA_fac', 'deceased']
-        self._global_df = self._global_df.merge(fac_df, left_index=True, right_index=True, how='left')
-        self._global_df.drop(columns=['CCAA_fac'], inplace=True)
-
-        self._global_df.fillna(0, inplace=True)
-        self._global_df.sort_index()
-        self._global_df['active_cases'] = self._global_df['cases'] - self._global_df['recovered'] - self._global_df['deceased']
-
-        self._source_ts = int(os.path.getmtime(csv_path))
-
-    def _check_new_data(self):
-        csv_path = self._source_path + '/ccaa_covid19_casos_long.csv'
-        if not os.path.isfile(csv_path):
-            raise RuntimeError('Datasource not found')
-        if int(os.path.getmtime(csv_path)) != self._source_ts:
-            self._reload_data()
+        source = self._sources.get(scope, {})
+        if int(os.path.getmtime(csv_path)) != source.get('ts'):
+            self._reload_data(scope)
 
     def _load_translations(self):
         for language in self.LANGUAGES:
@@ -135,73 +119,82 @@ class COVID19Plot(object):
             translation.install()
             self._translations[language] = translation
 
-    def get_regions(self):
-        return list(self._df.CCAA.unique())
+    def get_regions(self, scope):
+        source = self._sources.get(scope, {})
+        df = source.get('df')
+        return list(df.region.unique())
 
-    def get_global_regions(self):
-        return list(self._global_df.CCAA.unique())
+    def get_region_scope(self, region):
+        region_scope = None
+        for scope in self.SCOPES:
+            if region in self.get_regions(scope):
+                region_scope = scope
+                break
+        return region_scope
 
     def generate_plot(self, plot_type, region, language='en'):
         if plot_type not in self.PLOT_TYPES:
-            raise RuntimeError('Plot type is not recognized')
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        region_scope = self.get_region_scope(region)
+        if not region_scope:
+            raise RuntimeError(_('Region not found in any scope'))
 
         # check if data source has been modified, and reload it if necessary
-        self._check_new_data()
-
+        self._check_new_data(region_scope)
+        source = self._sources.get(region_scope)
         # check if image has already been generated
-        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{self._source_ts}.png"
+        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
         if os.path.isfile(image_fpath):
             return image_fpath
 
-        # select region
-        if region in self.get_regions():
-            df_reduced = self._get_plot_data(plot_type, region)
-        elif region in self.get_global_regions():
-            df_reduced = self._get_global_plot_data(plot_type, region)
-        self._plot(plot_type, region, language, df_reduced, image_fpath)
+        # get region data
+        region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        self._plot(plot_type, region_scope, region, language, region_df, image_fpath)
         return image_fpath
 
     def generate_multiregion_plot(self, plot_type, regions, language='en'):
         if plot_type not in self.MULTIREGION_PLOT_TYPES:
-            raise RuntimeError('Plot type is not recognized')
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        if len(regions) == 0:
+            raise RuntimeError(_('No regions given to generate a multiregion plot'))
+
+        region_scope = self.get_region_scope(regions[0])
+        if not region_scope:
+            raise RuntimeError(_('First region not found in any scope'))
+
+        for region in regions[1:]:
+            if region not in self.get_regions(region_scope):
+                raise RuntimeError(_("Region {region} not found in first region scope ({region_scope})".format(region=region, region_scope=region_scope)))
 
         # check if data source has been modified, and reload it if necessary
-        self._check_new_data()
+        self._check_new_data(region_scope)
+        source = self._sources.get(region_scope)
 
         # check if image has already been generated
         region = '-'.join([region for region in sorted(regions)])
-        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{self._source_ts}.png"
+        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
         if os.path.isfile(image_fpath):
             return image_fpath
 
-        self._multiregion_plot(plot_type, regions, language, image_fpath)
+        df = source.get('df')
+        self._multiregion_plot(plot_type, region_scope, regions, language, df, image_fpath)
         return image_fpath
 
-    def _get_plot_data(self, plot_type, region):
-        df_reduced = self._df[self._df.CCAA == region]
+    def _get_plot_data(self, plot_type, df, region):
+        region_df = df[df.region == region]
         if plot_type == 'daily_cases':
             # calculate daily increase and rolling avg
-            df_reduced['increase'] = df_reduced['cases'] - df_reduced['cases'].shift(1)
-            df_reduced['rolling'] = df_reduced.rolling(window=3).mean()['increase']
+            region_df['increase'] = region_df['cases'] - region_df['cases'].shift(1)
+            region_df['rolling'] = region_df.rolling(window=3).mean()['increase']
         elif plot_type == 'daily_deceased':
             # calculate daily increase and rolling avg
-            df_reduced['increase'] = df_reduced['deceased'] - df_reduced['deceased'].shift(1)
-            df_reduced['rolling'] = df_reduced.rolling(window=3).mean()['increase']
-        return df_reduced
+            region_df['increase'] = region_df['deceased'] - region_df['deceased'].shift(1)
+            region_df['rolling'] = region_df.rolling(window=3).mean()['increase']
+        return region_df
 
-    def _get_global_plot_data(self, plot_type, region):
-        df_reduced = self._global_df[self._global_df.CCAA == region]
-        if plot_type == 'daily_cases':
-            # calculate daily increase and rolling avg
-            df_reduced['increase'] = df_reduced['cases'] - df_reduced['cases'].shift(1)
-            df_reduced['rolling'] = df_reduced.rolling(window=3).mean()['increase']
-        elif plot_type == 'daily_deceased':
-            # calculate daily increase and rolling avg
-            df_reduced['increase'] = df_reduced['deceased'] - df_reduced['deceased'].shift(1)
-            df_reduced['rolling'] = df_reduced.rolling(window=3).mean()['increase']
-        return df_reduced
-
-    def _plot(self, plot_type, region, language, df, image_path):
+    def _plot(self, plot_type, scope, region, language, df, image_path):
         # set translation to current language
         _ = self._translations[language].gettext
 
@@ -268,14 +261,11 @@ class COVID19Plot(object):
         ax.set_xlim(np.datetime64('2020-03-01'))
         ax.figure.autofmt_xdate()
         ax.legend(loc='upper left', fontsize=17)
-        if region in self.get_regions():
-            self._add_footer(ax)
-        elif region in self.get_global_regions():
-            self._add_global_footer(ax)
+        self._add_footer(ax, scope)
         plt.savefig(image_path)
         plt.close()
 
-    def _multiregion_plot(self, plot_type, regions, language, image_path):
+    def _multiregion_plot(self, plot_type, scope, regions, language, df, image_path):
         # set translation to current language
         _ = self._translations[language].gettext
 
@@ -290,22 +280,23 @@ class COVID19Plot(object):
             title = _('Cases per 100k inhabitants')
             y_label = _('Cases')
             for region in regions:
-                df_region = self._df[self._df.CCAA == region]
+                df_region = df[df.region == region]
                 x = df_region.index.get_level_values('fecha')
                 plt.plot(x, df_region['cases_per_100k'])
                 region_name = _(region)
-                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})", xy=(x[-1] - np.timedelta64(12, 'h'), df_region['cases_per_100k'][-1]))
+                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})", xy=(
+                    x[-1] - np.timedelta64(12, 'h'), df_region['cases_per_100k'][-1]))
         elif plot_type == 'deceased_normalized':
             legend = False
             title = _('Deceased per 100k inhabitants')
             y_label = _('Deaths')
             for region in regions:
-                df_region = self._df[self._df.CCAA == region]
+                df_region = df[df.region == region]
                 x = df_region.index.get_level_values('fecha')
-                df_region['deaths_per_100k'] = self._df['deceased'] * 100_000 / self._df['population']
-                plt.plot(x, df_region['deaths_per_100k'])
+                plt.plot(x, df_region['deceased_per_100k'])
                 region_name = _(region)
-                ax.annotate(f"{df_region['deaths_per_100k'][-1]:0,.0f} ({region_name})", xy=(x[-1] - np.timedelta64(12, 'h'), df_region['deaths_per_100k'][-1]))
+                ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})", xy=(
+                    x[-1] - np.timedelta64(12, 'h'), df_region['deceased_per_100k'][-1]))
 
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label, fontsize=15)
@@ -313,20 +304,23 @@ class COVID19Plot(object):
         ax.figure.autofmt_xdate()
         if legend:
             ax.legend(loc='upper left', fontsize=17)
-        self._add_footer(ax)
+        self._add_footer(ax, scope)
         plt.savefig(image_path)
         plt.close()
 
-    def _add_footer(self, ax):
-        ax.set_xlabel(
-            _('Generated by COVID19gram (telegram bot)\n Data source from Datadista (see https://github.com/datadista/datasets/)'),
-            position=(1., 0.),
-            fontproperties=self._footer_font,
-            horizontalalignment='right')
+    def _add_footer(self, ax, scope):
+        ds_credits = None
+        if scope == 'spain':
+            ds_name = 'Datadista'
+            ds_url = "https://github.com/datadista/datasets/"
+            ds_credits = _("Data source from {ds_name} (see {ds_url})".format(ds_name=ds_name, ds_url=ds_url))
+        else:
+            ds_name = 'covid19.health'
+            ds_url = "https://github.com/stevenliuyi/covid19/"
+            ds_credits = _("Data source from {ds_name} (see {ds_url})".format(ds_name=ds_name, ds_url=ds_url))
 
-    def _add_global_footer(self, ax):
         ax.set_xlabel(
-            _('Generated by COVID19gram (telegram bot)\n Data source from covid19.health (see https://github.com/stevenliuyi/covid19/)'),
+            _('Generated by COVID19gram (telegram bot)') + "\n" + ds_credits,
             position=(1., 0.),
             fontproperties=self._footer_font,
             horizontalalignment='right')
