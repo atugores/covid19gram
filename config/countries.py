@@ -588,7 +588,7 @@ countries = {
     "flag": "🇲🇱",
     "code": "ML"
   },
-  "Myanmar": {
+  "Burma": {
     "flag": "🇲🇲",
     "code": "MM"
   },
@@ -1015,5 +1015,9 @@ countries = {
   "MS Zaandam": {
     "flag": "🛳",
     "code": "MSZ"
+  },
+  "Diamond Princess": {
+  "flag": "🛳",
+  "code": "DMP"
   }
 }
