@@ -216,51 +216,56 @@ class COVID19Plot(object):
             plt.bar(x, df['increase'], alpha=0.3, width=0.9, label=_('Daily increment'))
             plt.fill_between(x, 0, df['rolling'], color='red', alpha=0.5, label=_('Increment rolling avg (3 days)'))
             plt.plot(x, df['rolling'], color='red')
-            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['increase'][-1]))
+            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1], df['increase'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'daily_deceased':
             title = _('Daily deaths evolution at {region}').format(region=_(region))
             y_label = _('Deaths')
             plt.bar(x, df['increase'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
             plt.fill_between(x, 0, df['rolling'], color='red', alpha=0.2, label=_('Deaths rolling avg (3 days)'))
             plt.plot(x, df['rolling'], color='red')
-            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['increase'][-1]))
+            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1], df['increase'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'active_recovered_deceased':
             title = _('Active cases, recovered and deceased at {region}').format(region=_(region))
             y_label = _('Cases')
             alpha = 0.3
             plt.fill_between(x, 0, df['active_cases'], alpha=alpha, label=_('Currently infected'))
             plt.plot(x, df['active_cases'])
-            ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]))
+            ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
+                        xytext=(0, 3), textcoords="offset points")
             plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
             plt.plot(x, df['recovered'], color='g')
-            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]))
+            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
+                        xytext=(0, 3), textcoords="offset points")
             plt.fill_between(x, 0, df['deceased'], color='red', alpha=alpha, label=_('Deceased'))
             plt.plot(x, df['deceased'], color='red')
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]))
-            # ax.set_ylim(top=np.max(df['active_cases'])*1.05)
-            # ax.bar(x, df['active_cases'], width=width, alpha=alpha, label=_('Currently infected'))
-            # ax.bar(x, df['recovered'], color='g', width=width, alpha=alpha, label=_('Recovered'))
-            # ax.bar(x + np.timedelta64(11,'h'), df['deceased'], color='r', width=width, alpha=alpha, label=_('Deceased'))
+            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
+                        xytext=(0, 3), textcoords="offset points")
         elif plot_type == 'active':
             title = _('Active cases at {region}').format(region=_(region))
             y_label = _('Cases')
             plt.bar(x, df['active_cases'], alpha=0.5, width=1, label=_('Active cases'))
-            ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['active_cases'][-1]))
+            ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'recovered':
             title = _('Recovered cases at {region}').format(region=_(region))
             y_label = _('Cases')
             plt.bar(x, df['recovered'], alpha=0.5, width=1, color='g', label=_('Recovered cases'))
-            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['recovered'][-1]))
+            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'deceased':
             title = _('Deaths evolution at {region}').format(region=_(region))
             y_label = _('Deaths')
             plt.bar(x, df['deceased'], alpha=0.5, width=1, color='r', label=_('Deceased'))
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['deceased'][-1]))
+            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants at {region}').format(region=_(region))
             y_label = _('Cases')
             plt.bar(x, df['cases_per_100k'], alpha=0.5, width=1, label=_('Active cases'))
-            ax.annotate(f"{df['cases_per_100k'][-1]:0,.0f}", xy=(x[-1] - np.timedelta64(12, 'h'), df['cases_per_100k'][-1]))
+            ax.annotate(f"{df['cases_per_100k'][-1]:0,.0f}", xy=(x[-1], df['cases_per_100k'][-1]),
+                        xytext=(0, 3), textcoords="offset points", ha='center')
 
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label, fontsize=15)
@@ -292,8 +297,10 @@ class COVID19Plot(object):
                 x = df_region.index.get_level_values('fecha')
                 plt.plot(x, df_region['cases_per_100k'])
                 region_name = _(region)
-                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})", xy=(
-                    x[-1] - np.timedelta64(12, 'h'), df_region['cases_per_100k'][-1]))
+                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})",
+                            xy=(x[-1], df_region['cases_per_100k'][-1]), xytext=(0, 3),
+                            textcoords="offset points")
+
         elif plot_type == 'deceased_normalized':
             legend = False
             title = _('Deceased per 100k inhabitants')
@@ -303,8 +310,9 @@ class COVID19Plot(object):
                 x = df_region.index.get_level_values('fecha')
                 plt.plot(x, df_region['deceased_per_100k'])
                 region_name = _(region)
-                ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})", xy=(
-                    x[-1] - np.timedelta64(12, 'h'), df_region['deceased_per_100k'][-1]))
+                ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})",
+                            xy=(x[-1], df_region['deceased_per_100k'][-1]), xytext=(0, 3),
+                            textcoords="offset points")
 
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label, fontsize=15)
