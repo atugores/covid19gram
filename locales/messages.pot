@@ -885,7 +885,7 @@ msgid "Palau"
 msgstr ""
 
 #: regions_translate.py:214
-msgid "Palestine"
+msgid "West Bank and Gaza"
 msgstr ""
 
 #: regions_translate.py:204
