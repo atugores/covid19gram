@@ -258,7 +258,9 @@ class COVID19Plot(object):
 
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label, fontsize=15)
-        ax.set_xlim(np.datetime64('2020-03-01'))
+        xlim = self._get_plot_xlim(scope, df)
+        if xlim:
+            ax.set_xlim(xlim)
         ax.figure.autofmt_xdate()
         ax.legend(loc='upper left', fontsize=17)
         self._add_footer(ax, scope)
@@ -300,13 +302,30 @@ class COVID19Plot(object):
 
         plt.title(title, fontsize=26)
         ax.set_ylabel(y_label, fontsize=15)
-        ax.set_xlim(np.datetime64('2020-03-01'))
+        xlim = self._get_plot_xlim(scope, df)
+        if xlim:
+            ax.set_xlim(xlim)
         ax.figure.autofmt_xdate()
         if legend:
             ax.legend(loc='upper left', fontsize=17)
         self._add_footer(ax, scope)
         plt.savefig(image_path)
         plt.close()
+
+    def _get_plot_xlim(self, scope, df):
+        if scope == 'spain':
+            return np.datetime64('2020-03-01')
+
+        # if cases have reached at least 1000, show since it reached 100. Else, 5 cases
+        max_cases = np.max(df['cases'])
+        if max_cases > 1000:
+            dates_gt_100 = df[df.cases > 100].index.get_level_values('fecha')
+            return dates_gt_100[0]
+        else:
+            dates_gt_5 = df[df.cases > 5].index.get_level_values('fecha')
+            if len(dates_gt_5) > 0:
+                return dates_gt_5[0]
+        return None
 
     def _add_footer(self, ax, scope):
         ds_credits = None
