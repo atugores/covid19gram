@@ -1,5 +1,8 @@
+#!/bin/env python
+# -*- coding: utf-8 -*-
 import git
 import json
+import datetime
 from shutil import copy2
 
 
@@ -7,6 +10,7 @@ from shutil import copy2
 def pull_global(base_directory="covid19/",data_directory="data"):
     g = git.cmd.Git(base_directory)
     g.pull()
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] "+"Pulling global Data")
     import_file_path = base_directory + "/public/data/all.json"
     export_file_path = "data/"
     casos = open(export_file_path+'global_covid19_casos_long.csv', 'w')
@@ -47,12 +51,10 @@ def pull_global(base_directory="covid19/",data_directory="data"):
 
 def pull_datasets(base_directory="datasets/",data_directory="data/"):
     g = git.cmd.Git(base_directory)
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] "+"Pulling Spain Data")
     import_file_path = base_directory +"COVID 19/"
     g.pull()
     copy2(import_file_path + "ccaa_covid19_casos_long.csv", data_directory + "ccaa_covid19_casos_long.csv")
     copy2(import_file_path + "ccaa_covid19_altas_long.csv", data_directory + "ccaa_covid19_altas_long.csv")
     copy2(import_file_path + "ccaa_covid19_fallecidos_long.csv", data_directory + "ccaa_covid19_fallecidos_long.csv")
 
-
-pull_datasets()
-pull_global()

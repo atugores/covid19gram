@@ -56,9 +56,9 @@ fecha,cod_ine,CCAA,total
 2020-03-16,0,Global,181574
 2020-03-17,0,Global,197102
 2020-03-18,0,Global,214821
-2020-03-19,0,Global,242500
-2020-03-20,0,Global,272035
-2020-03-21,0,Global,304396
+2020-03-19,0,Global,242570
+2020-03-20,0,Global,272208
+2020-03-21,0,Global,304507
 2020-03-22,0,Global,336953
 2020-03-23,0,Global,378235
 2020-03-24,0,Global,418045
@@ -66,16 +66,17 @@ fecha,cod_ine,CCAA,total
 2020-03-26,0,Global,529591
 2020-03-27,0,Global,593291
 2020-03-28,0,Global,660706
-2020-03-29,0,Global,720117
-2020-03-30,0,Global,782365
+2020-03-29,0,Global,720140
+2020-03-30,0,Global,782395
 2020-03-31,0,Global,857487
 2020-04-01,0,Global,932605
-2020-04-02,0,Global,1013157
+2020-04-02,0,Global,1013320
 2020-04-03,0,Global,1095917
 2020-04-04,0,Global,1176057
 2020-04-05,0,Global,1272115
-2020-04-06,0,Global,1345048
-2020-04-07,0,Global,1363363
+2020-04-06,0,Global,1345101
+2020-04-07,0,Global,1426096
+2020-04-08,0,Global,1504971
 2020-02-24,1,Afghanistan,1
 2020-02-25,1,Afghanistan,1
 2020-02-26,1,Afghanistan,1
@@ -120,6 +121,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,1,Afghanistan,349
 2020-04-06,1,Afghanistan,367
 2020-04-07,1,Afghanistan,423
+2020-04-08,1,Afghanistan,444
 2020-03-09,2,Albania,2
 2020-03-10,2,Albania,10
 2020-03-11,2,Albania,15
@@ -150,6 +152,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,2,Albania,361
 2020-04-06,2,Albania,377
 2020-04-07,2,Albania,383
+2020-04-08,2,Albania,400
 2020-02-25,3,Algeria,1
 2020-02-26,3,Algeria,1
 2020-02-27,3,Algeria,1
@@ -192,7 +195,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,3,Algeria,1251
 2020-04-05,3,Algeria,1320
 2020-04-06,3,Algeria,1423
-2020-04-07,3,Algeria,1423
+2020-04-07,3,Algeria,1468
+2020-04-08,3,Algeria,1572
 2020-03-02,4,Andorra,1
 2020-03-03,4,Andorra,1
 2020-03-04,4,Andorra,1
@@ -230,6 +234,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,4,Andorra,501
 2020-04-06,4,Andorra,526
 2020-04-07,4,Andorra,545
+2020-04-08,4,Andorra,564
 2020-03-20,5,Angola,1
 2020-03-21,5,Angola,2
 2020-03-22,5,Angola,2
@@ -248,7 +253,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,5,Angola,10
 2020-04-05,5,Angola,14
 2020-04-06,5,Angola,16
-2020-04-07,5,Angola,16
+2020-04-07,5,Angola,17
+2020-04-08,5,Angola,19
 2020-03-13,6,Antigua and Barbuda,1
 2020-03-14,6,Antigua and Barbuda,1
 2020-03-15,6,Antigua and Barbuda,1
@@ -274,7 +280,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,6,Antigua and Barbuda,15
 2020-04-05,6,Antigua and Barbuda,15
 2020-04-06,6,Antigua and Barbuda,15
-2020-04-07,6,Antigua and Barbuda,15
+2020-04-07,6,Antigua and Barbuda,19
+2020-04-08,6,Antigua and Barbuda,19
 2020-03-03,7,Argentina,1
 2020-03-04,7,Argentina,1
 2020-03-05,7,Argentina,1
@@ -311,6 +318,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,7,Argentina,1451
 2020-04-06,7,Argentina,1554
 2020-04-07,7,Argentina,1628
+2020-04-08,7,Argentina,1715
 2020-03-01,8,Armenia,1
 2020-03-02,8,Armenia,1
 2020-03-03,8,Armenia,1
@@ -349,6 +357,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,8,Armenia,822
 2020-04-06,8,Armenia,833
 2020-04-07,8,Armenia,853
+2020-04-08,8,Armenia,881
 2020-01-26,9,Australia,4
 2020-01-27,9,Australia,5
 2020-01-28,9,Australia,5
@@ -422,6 +431,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,9,Australia,5687
 2020-04-06,9,Australia,5797
 2020-04-07,9,Australia,5895
+2020-04-08,9,Australia,6010
 2020-02-25,10,Austria,2
 2020-02-26,10,Austria,2
 2020-02-27,10,Austria,3
@@ -464,7 +474,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,10,Austria,11781
 2020-04-05,10,Austria,12051
 2020-04-06,10,Austria,12297
-2020-04-07,10,Austria,12519
+2020-04-07,10,Austria,12639
+2020-04-08,10,Austria,12942
 2020-02-29,11,Azerbaijan,1
 2020-03-01,11,Azerbaijan,3
 2020-03-02,11,Azerbaijan,3
@@ -504,6 +515,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,11,Azerbaijan,584
 2020-04-06,11,Azerbaijan,641
 2020-04-07,11,Azerbaijan,717
+2020-04-08,11,Azerbaijan,822
 2020-03-16,12,Bahamas,1
 2020-03-17,12,Bahamas,1
 2020-03-18,12,Bahamas,1
@@ -527,6 +539,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,12,Bahamas,28
 2020-04-06,12,Bahamas,29
 2020-04-07,12,Bahamas,33
+2020-04-08,12,Bahamas,40
 2020-02-24,13,Bahrain,1
 2020-02-25,13,Bahrain,23
 2020-02-26,13,Bahrain,33
@@ -570,7 +583,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,13,Bahrain,688
 2020-04-05,13,Bahrain,700
 2020-04-06,13,Bahrain,756
-2020-04-07,13,Bahrain,756
+2020-04-07,13,Bahrain,811
+2020-04-08,13,Bahrain,823
 2020-03-08,14,Bangladesh,3
 2020-03-09,14,Bangladesh,3
 2020-03-10,14,Bangladesh,3
@@ -602,6 +616,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,14,Bangladesh,88
 2020-04-06,14,Bangladesh,123
 2020-04-07,14,Bangladesh,164
+2020-04-08,14,Bangladesh,218
 2020-03-17,15,Barbados,2
 2020-03-18,15,Barbados,2
 2020-03-19,15,Barbados,5
@@ -623,7 +638,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,15,Barbados,52
 2020-04-05,15,Barbados,56
 2020-04-06,15,Barbados,60
-2020-04-07,15,Barbados,60
+2020-04-07,15,Barbados,63
+2020-04-08,15,Barbados,63
 2020-02-28,16,Belarus,1
 2020-02-29,16,Belarus,1
 2020-03-01,16,Belarus,1
@@ -663,7 +679,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,16,Belarus,440
 2020-04-05,16,Belarus,562
 2020-04-06,16,Belarus,700
-2020-04-07,16,Belarus,860
+2020-04-07,16,Belarus,861
+2020-04-08,16,Belarus,1066
 2020-02-04,17,Belgium,1
 2020-02-05,17,Belgium,1
 2020-02-06,17,Belgium,1
@@ -728,6 +745,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,17,Belgium,19961
 2020-04-06,17,Belgium,20814
 2020-04-07,17,Belgium,22194
+2020-04-08,17,Belgium,23403
 2020-03-16,18,Benin,1
 2020-03-17,18,Benin,1
 2020-03-18,18,Benin,2
@@ -751,6 +769,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,18,Benin,22
 2020-04-06,18,Benin,26
 2020-04-07,18,Benin,26
+2020-04-08,18,Benin,26
 2020-03-06,19,Bhutan,1
 2020-03-07,19,Bhutan,1
 2020-03-08,19,Bhutan,1
@@ -784,6 +803,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,19,Bhutan,5
 2020-04-06,19,Bhutan,5
 2020-04-07,19,Bhutan,5
+2020-04-08,19,Bhutan,5
 2020-03-11,20,Bolivia,2
 2020-03-12,20,Bolivia,2
 2020-03-13,20,Bolivia,3
@@ -812,6 +832,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,20,Bolivia,157
 2020-04-06,20,Bolivia,183
 2020-04-07,20,Bolivia,194
+2020-04-08,20,Bolivia,210
 2020-03-05,21,Bosnia and Herzegovina,2
 2020-03-06,21,Bosnia and Herzegovina,2
 2020-03-07,21,Bosnia and Herzegovina,3
@@ -845,7 +866,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,21,Bosnia and Herzegovina,624
 2020-04-05,21,Bosnia and Herzegovina,654
 2020-04-06,21,Bosnia and Herzegovina,674
-2020-04-07,21,Bosnia and Herzegovina,754
+2020-04-07,21,Bosnia and Herzegovina,764
+2020-04-08,21,Bosnia and Herzegovina,804
 2020-02-26,22,Brazil,1
 2020-02-27,22,Brazil,1
 2020-02-28,22,Brazil,1
@@ -887,7 +909,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,22,Brazil,10360
 2020-04-05,22,Brazil,11130
 2020-04-06,22,Brazil,12161
-2020-04-07,22,Brazil,12240
+2020-04-07,22,Brazil,14034
+2020-04-08,22,Brazil,15927
 2020-03-09,23,Brunei,1
 2020-03-10,23,Brunei,1
 2020-03-11,23,Brunei,11
@@ -918,6 +941,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,23,Brunei,135
 2020-04-06,23,Brunei,135
 2020-04-07,23,Brunei,135
+2020-04-08,23,Brunei,135
 2020-03-08,24,Bulgaria,4
 2020-03-09,24,Bulgaria,4
 2020-03-10,24,Bulgaria,4
@@ -948,7 +972,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,24,Bulgaria,503
 2020-04-05,24,Bulgaria,531
 2020-04-06,24,Bulgaria,549
-2020-04-07,24,Bulgaria,565
+2020-04-07,24,Bulgaria,577
+2020-04-08,24,Bulgaria,593
 2020-03-09,25,Burkina Faso,2
 2020-03-10,25,Burkina Faso,2
 2020-03-11,25,Burkina Faso,2
@@ -978,7 +1003,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,25,Burkina Faso,318
 2020-04-05,25,Burkina Faso,345
 2020-04-06,25,Burkina Faso,364
-2020-04-07,25,Burkina Faso,364
+2020-04-07,25,Burkina Faso,384
+2020-04-08,25,Burkina Faso,414
 2020-03-20,26,Cabo Verde,1
 2020-03-21,26,Cabo Verde,3
 2020-03-22,26,Cabo Verde,3
@@ -998,6 +1024,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,26,Cabo Verde,7
 2020-04-06,26,Cabo Verde,7
 2020-04-07,26,Cabo Verde,7
+2020-04-08,26,Cabo Verde,7
 2020-01-27,27,Cambodia,1
 2020-01-28,27,Cambodia,1
 2020-01-29,27,Cambodia,1
@@ -1070,6 +1097,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,27,Cambodia,114
 2020-04-06,27,Cambodia,114
 2020-04-07,27,Cambodia,115
+2020-04-08,27,Cambodia,117
 2020-03-06,28,Cameroon,2
 2020-03-07,28,Cameroon,2
 2020-03-08,28,Cameroon,2
@@ -1102,7 +1130,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,28,Cameroon,555
 2020-04-05,28,Cameroon,650
 2020-04-06,28,Cameroon,658
-2020-04-07,28,Cameroon,658
+2020-04-07,28,Cameroon,685
+2020-04-08,28,Cameroon,730
 2020-01-26,29,Canada,1
 2020-01-27,29,Canada,1
 2020-01-28,29,Canada,2
@@ -1175,7 +1204,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,29,Canada,12978
 2020-04-05,29,Canada,15756
 2020-04-06,29,Canada,16563
-2020-04-07,29,Canada,16667
+2020-04-07,29,Canada,17872
+2020-04-08,29,Canada,18447
 2020-03-15,30,Central African Republic,1
 2020-03-16,30,Central African Republic,1
 2020-03-17,30,Central African Republic,1
@@ -1200,6 +1230,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,30,Central African Republic,9
 2020-04-06,30,Central African Republic,9
 2020-04-07,30,Central African Republic,9
+2020-04-08,30,Central African Republic,10
 2020-03-19,31,Chad,1
 2020-03-20,31,Chad,1
 2020-03-21,31,Chad,1
@@ -1219,7 +1250,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,31,Chad,9
 2020-04-05,31,Chad,9
 2020-04-06,31,Chad,9
-2020-04-07,31,Chad,9
+2020-04-07,31,Chad,10
+2020-04-08,31,Chad,10
 2020-03-03,32,Chile,1
 2020-03-04,32,Chile,1
 2020-03-05,32,Chile,4
@@ -1255,7 +1287,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,32,Chile,4161
 2020-04-05,32,Chile,4471
 2020-04-06,32,Chile,4815
-2020-04-07,32,Chile,4815
+2020-04-07,32,Chile,5116
+2020-04-08,32,Chile,5546
 2020-01-24,33,China,871
 2020-01-25,33,China,1334
 2020-01-26,33,China,2036
@@ -1331,6 +1364,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,33,China,82965
 2020-04-06,33,China,83038
 2020-04-07,33,China,83094
+2020-04-08,33,China,83188
 2020-03-06,34,Colombia,1
 2020-03-07,34,Colombia,1
 2020-03-08,34,Colombia,1
@@ -1363,7 +1397,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,34,Colombia,1406
 2020-04-05,34,Colombia,1485
 2020-04-06,34,Colombia,1579
-2020-04-07,34,Colombia,1579
+2020-04-07,34,Colombia,1780
+2020-04-08,34,Colombia,2054
 2020-03-15,35,Congo (Brazzaville),1
 2020-03-16,35,Congo (Brazzaville),1
 2020-03-17,35,Congo (Brazzaville),1
@@ -1388,6 +1423,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,35,Congo (Brazzaville),45
 2020-04-06,35,Congo (Brazzaville),49
 2020-04-07,35,Congo (Brazzaville),49
+2020-04-08,35,Congo (Brazzaville),60
 2020-03-11,36,Congo (Kinshasa),1
 2020-03-12,36,Congo (Kinshasa),2
 2020-03-13,36,Congo (Kinshasa),2
@@ -1416,6 +1452,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,36,Congo (Kinshasa),154
 2020-04-06,36,Congo (Kinshasa),161
 2020-04-07,36,Congo (Kinshasa),180
+2020-04-08,36,Congo (Kinshasa),183
 2020-03-06,37,Costa Rica,1
 2020-03-07,37,Costa Rica,1
 2020-03-08,37,Costa Rica,5
@@ -1448,7 +1485,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,37,Costa Rica,435
 2020-04-05,37,Costa Rica,454
 2020-04-06,37,Costa Rica,467
-2020-04-07,37,Costa Rica,467
+2020-04-07,37,Costa Rica,483
+2020-04-08,37,Costa Rica,502
 2020-03-11,38,Cote d'Ivoire,1
 2020-03-12,38,Cote d'Ivoire,1
 2020-03-13,38,Cote d'Ivoire,1
@@ -1476,7 +1514,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,38,Cote d'Ivoire,245
 2020-04-05,38,Cote d'Ivoire,261
 2020-04-06,38,Cote d'Ivoire,323
-2020-04-07,38,Cote d'Ivoire,323
+2020-04-07,38,Cote d'Ivoire,349
+2020-04-08,38,Cote d'Ivoire,384
 2020-02-25,39,Croatia,1
 2020-02-26,39,Croatia,3
 2020-02-27,39,Croatia,3
@@ -1520,6 +1559,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,39,Croatia,1182
 2020-04-06,39,Croatia,1222
 2020-04-07,39,Croatia,1282
+2020-04-08,39,Croatia,1343
 2020-02-07,40,International Conveyance,61
 2020-02-08,40,International Conveyance,61
 2020-02-09,40,International Conveyance,64
@@ -1581,6 +1621,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,40,International Conveyance,712
 2020-04-06,40,International Conveyance,712
 2020-04-07,40,International Conveyance,712
+2020-04-08,40,International Conveyance,712
 2020-03-12,41,Cuba,3
 2020-03-13,41,Cuba,4
 2020-03-14,41,Cuba,4
@@ -1607,7 +1648,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,41,Cuba,288
 2020-04-05,41,Cuba,320
 2020-04-06,41,Cuba,350
-2020-04-07,41,Cuba,363
+2020-04-07,41,Cuba,396
+2020-04-08,41,Cuba,457
 2020-03-09,42,Cyprus,2
 2020-03-10,42,Cyprus,3
 2020-03-11,42,Cyprus,6
@@ -1637,7 +1679,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,42,Cyprus,426
 2020-04-05,42,Cyprus,446
 2020-04-06,42,Cyprus,465
-2020-04-07,42,Cyprus,465
+2020-04-07,42,Cyprus,494
+2020-04-08,42,Cyprus,526
 2020-03-01,43,Czechia,3
 2020-03-02,43,Czechia,3
 2020-03-03,43,Czechia,5
@@ -1675,7 +1718,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,43,Czechia,4472
 2020-04-05,43,Czechia,4587
 2020-04-06,43,Czechia,4822
-2020-04-07,43,Czechia,4828
+2020-04-07,43,Czechia,5017
+2020-04-08,43,Czechia,5221
 2020-02-27,44,Denmark,1
 2020-02-28,44,Denmark,1
 2020-02-29,44,Denmark,3
@@ -1716,7 +1760,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,44,Denmark,4269
 2020-04-05,44,Denmark,4561
 2020-04-06,44,Denmark,4875
-2020-04-07,44,Denmark,5173
+2020-04-07,44,Denmark,5266
+2020-04-08,44,Denmark,5597
 2020-03-18,45,Djibouti,1
 2020-03-19,45,Djibouti,1
 2020-03-20,45,Djibouti,1
@@ -1737,7 +1782,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,45,Djibouti,50
 2020-04-05,45,Djibouti,59
 2020-04-06,45,Djibouti,90
-2020-04-07,45,Djibouti,90
+2020-04-07,45,Djibouti,121
+2020-04-08,45,Djibouti,135
 2020-03-01,46,Dominican Republic,1
 2020-03-02,46,Dominican Republic,1
 2020-03-03,46,Dominican Republic,1
@@ -1775,7 +1821,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,46,Dominican Republic,1488
 2020-04-05,46,Dominican Republic,1745
 2020-04-06,46,Dominican Republic,1828
-2020-04-07,46,Dominican Republic,1828
+2020-04-07,46,Dominican Republic,1956
+2020-04-08,46,Dominican Republic,2111
 2020-02-29,47,Ecuador,1
 2020-03-01,47,Ecuador,6
 2020-03-02,47,Ecuador,6
@@ -1815,6 +1862,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,47,Ecuador,3646
 2020-04-06,47,Ecuador,3747
 2020-04-07,47,Ecuador,3747
+2020-04-08,47,Ecuador,4450
 2020-02-14,48,Egypt,1
 2020-02-15,48,Egypt,1
 2020-02-16,48,Egypt,1
@@ -1868,7 +1916,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,48,Egypt,1070
 2020-04-05,48,Egypt,1173
 2020-04-06,48,Egypt,1322
-2020-04-07,48,Egypt,1322
+2020-04-07,48,Egypt,1450
+2020-04-08,48,Egypt,1560
 2020-03-19,49,El Salvador,1
 2020-03-20,49,El Salvador,1
 2020-03-21,49,El Salvador,3
@@ -1889,6 +1938,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,49,El Salvador,62
 2020-04-06,49,El Salvador,69
 2020-04-07,49,El Salvador,78
+2020-04-08,49,El Salvador,93
 2020-03-15,50,Equatorial Guinea,1
 2020-03-16,50,Equatorial Guinea,1
 2020-03-17,50,Equatorial Guinea,1
@@ -1913,6 +1963,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,50,Equatorial Guinea,16
 2020-04-06,50,Equatorial Guinea,16
 2020-04-07,50,Equatorial Guinea,16
+2020-04-08,50,Equatorial Guinea,18
 2020-03-21,51,Eritrea,1
 2020-03-22,51,Eritrea,1
 2020-03-23,51,Eritrea,1
@@ -1931,6 +1982,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,51,Eritrea,29
 2020-04-06,51,Eritrea,31
 2020-04-07,51,Eritrea,31
+2020-04-08,51,Eritrea,33
 2020-02-27,52,Estonia,1
 2020-02-28,52,Estonia,1
 2020-02-29,52,Estonia,1
@@ -1972,6 +2024,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,52,Estonia,1097
 2020-04-06,52,Estonia,1108
 2020-04-07,52,Estonia,1149
+2020-04-08,52,Estonia,1185
 2020-03-14,53,Eswatini,1
 2020-03-15,53,Eswatini,1
 2020-03-16,53,Eswatini,1
@@ -1997,6 +2050,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,53,Eswatini,9
 2020-04-06,53,Eswatini,10
 2020-04-07,53,Eswatini,10
+2020-04-08,53,Eswatini,12
 2020-03-13,54,Ethiopia,1
 2020-03-14,54,Ethiopia,1
 2020-03-15,54,Ethiopia,4
@@ -2023,6 +2077,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,54,Ethiopia,43
 2020-04-06,54,Ethiopia,44
 2020-04-07,54,Ethiopia,52
+2020-04-08,54,Ethiopia,55
 2020-03-19,55,Fiji,1
 2020-03-20,55,Fiji,1
 2020-03-21,55,Fiji,1
@@ -2043,6 +2098,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,55,Fiji,12
 2020-04-06,55,Fiji,14
 2020-04-07,55,Fiji,15
+2020-04-08,55,Fiji,15
 2020-01-29,56,Finland,1
 2020-01-30,56,Finland,1
 2020-01-31,56,Finland,1
@@ -2113,6 +2169,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,56,Finland,1927
 2020-04-06,56,Finland,2176
 2020-04-07,56,Finland,2308
+2020-04-08,56,Finland,2487
 2020-01-24,57,France,3
 2020-01-25,57,France,3
 2020-01-26,57,France,3
@@ -2187,7 +2244,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,57,France,69102
 2020-04-05,57,France,70976
 2020-04-06,57,France,74889
-2020-04-07,57,France,74889
+2020-04-07,57,France,78671
+2020-04-08,57,France,82556
 2020-03-13,58,Gabon,1
 2020-03-14,58,Gabon,1
 2020-03-15,58,Gabon,1
@@ -2214,6 +2272,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,58,Gabon,24
 2020-04-06,58,Gabon,30
 2020-04-07,58,Gabon,30
+2020-04-08,58,Gabon,33
 2020-03-17,59,Gambia,1
 2020-03-18,59,Gambia,1
 2020-03-19,59,Gambia,1
@@ -2236,6 +2295,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,59,Gambia,4
 2020-04-06,59,Gambia,4
 2020-04-07,59,Gambia,4
+2020-04-08,59,Gambia,4
 2020-02-26,60,Georgia,1
 2020-02-27,60,Georgia,1
 2020-02-28,60,Georgia,1
@@ -2277,7 +2337,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,60,Georgia,162
 2020-04-05,60,Georgia,174
 2020-04-06,60,Georgia,188
-2020-04-07,60,Georgia,195
+2020-04-07,60,Georgia,196
+2020-04-08,60,Georgia,211
 2020-01-27,61,Germany,1
 2020-01-28,61,Germany,4
 2020-01-29,61,Germany,4
@@ -2349,7 +2410,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,61,Germany,96092
 2020-04-05,61,Germany,100123
 2020-04-06,61,Germany,103374
-2020-04-07,61,Germany,103717
+2020-04-07,61,Germany,107663
+2020-04-08,61,Germany,112113
 2020-03-13,62,Ghana,2
 2020-03-14,62,Ghana,3
 2020-03-15,62,Ghana,6
@@ -2376,6 +2438,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,62,Ghana,214
 2020-04-06,62,Ghana,214
 2020-04-07,62,Ghana,287
+2020-04-08,62,Ghana,313
 2020-02-26,63,Greece,1
 2020-02-27,63,Greece,3
 2020-02-28,63,Greece,4
@@ -2417,7 +2480,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,63,Greece,1673
 2020-04-05,63,Greece,1735
 2020-04-06,63,Greece,1755
-2020-04-07,63,Greece,1755
+2020-04-07,63,Greece,1832
+2020-04-08,63,Greece,1884
 2020-03-14,64,Guatemala,1
 2020-03-15,64,Guatemala,1
 2020-03-16,64,Guatemala,2
@@ -2442,7 +2506,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,64,Guatemala,61
 2020-04-05,64,Guatemala,61
 2020-04-06,64,Guatemala,70
-2020-04-07,64,Guatemala,74
+2020-04-07,64,Guatemala,77
+2020-04-08,64,Guatemala,87
 2020-03-13,65,Guinea,1
 2020-03-14,65,Guinea,1
 2020-03-15,65,Guinea,1
@@ -2468,7 +2533,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,65,Guinea,111
 2020-04-05,65,Guinea,121
 2020-04-06,65,Guinea,128
-2020-04-07,65,Guinea,128
+2020-04-07,65,Guinea,144
+2020-04-08,65,Guinea,164
 2020-03-12,66,Guyana,1
 2020-03-13,66,Guyana,1
 2020-03-14,66,Guyana,1
@@ -2495,7 +2561,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,66,Guyana,23
 2020-04-05,66,Guyana,24
 2020-04-06,66,Guyana,31
-2020-04-07,66,Guyana,31
+2020-04-07,66,Guyana,33
+2020-04-08,66,Guyana,37
 2020-03-20,67,Haiti,2
 2020-03-21,67,Haiti,2
 2020-03-22,67,Haiti,2
@@ -2514,7 +2581,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,67,Haiti,20
 2020-04-05,67,Haiti,21
 2020-04-06,67,Haiti,24
-2020-04-07,67,Haiti,24
+2020-04-07,67,Haiti,25
+2020-04-08,67,Haiti,27
 2020-03-06,68,Holy See,1
 2020-03-07,68,Holy See,1
 2020-03-08,68,Holy See,1
@@ -2548,6 +2616,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,68,Holy See,7
 2020-04-06,68,Holy See,7
 2020-04-07,68,Holy See,7
+2020-04-08,68,Holy See,8
 2020-03-11,69,Honduras,2
 2020-03-12,69,Honduras,2
 2020-03-13,69,Honduras,2
@@ -2576,6 +2645,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,69,Honduras,268
 2020-04-06,69,Honduras,298
 2020-04-07,69,Honduras,305
+2020-04-08,69,Honduras,312
 2020-03-04,70,Hungary,2
 2020-03-05,70,Hungary,2
 2020-03-06,70,Hungary,3
@@ -2611,6 +2681,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,70,Hungary,733
 2020-04-06,70,Hungary,744
 2020-04-07,70,Hungary,817
+2020-04-08,70,Hungary,895
 2020-02-28,71,Iceland,1
 2020-02-29,71,Iceland,1
 2020-03-01,71,Iceland,3
@@ -2651,6 +2722,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,71,Iceland,1486
 2020-04-06,71,Iceland,1562
 2020-04-07,71,Iceland,1586
+2020-04-08,71,Iceland,1616
 2020-01-30,72,India,1
 2020-01-31,72,India,1
 2020-02-01,72,India,1
@@ -2719,7 +2791,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,72,India,3082
 2020-04-05,72,India,3588
 2020-04-06,72,India,4778
-2020-04-07,72,India,4911
+2020-04-07,72,India,5311
+2020-04-08,72,India,5916
 2020-03-02,73,Indonesia,2
 2020-03-03,73,Indonesia,2
 2020-03-04,73,Indonesia,2
@@ -2757,6 +2830,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,73,Indonesia,2273
 2020-04-06,73,Indonesia,2491
 2020-04-07,73,Indonesia,2738
+2020-04-08,73,Indonesia,2956
 2020-02-19,74,Iran,2
 2020-02-20,74,Iran,5
 2020-02-21,74,Iran,18
@@ -2806,6 +2880,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,74,Iran,58226
 2020-04-06,74,Iran,60500
 2020-04-07,74,Iran,62589
+2020-04-08,74,Iran,67286
 2020-02-23,75,Iraq,1
 2020-02-24,75,Iraq,1
 2020-02-25,75,Iraq,1
@@ -2850,7 +2925,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,75,Iraq,878
 2020-04-05,75,Iraq,961
 2020-04-06,75,Iraq,1031
-2020-04-07,75,Iraq,1031
+2020-04-07,75,Iraq,1122
+2020-04-08,75,Iraq,1202
 2020-02-29,76,Ireland,1
 2020-03-01,76,Ireland,1
 2020-03-02,76,Ireland,1
@@ -2889,7 +2965,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,76,Ireland,4604
 2020-04-05,76,Ireland,4994
 2020-04-06,76,Ireland,5364
-2020-04-07,76,Ireland,5364
+2020-04-07,76,Ireland,5709
+2020-04-08,76,Ireland,6074
 2020-02-21,77,Israel,1
 2020-02-22,77,Israel,1
 2020-02-23,77,Israel,1
@@ -2936,7 +3013,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,77,Israel,7851
 2020-04-05,77,Israel,8430
 2020-04-06,77,Israel,8904
-2020-04-07,77,Israel,9006
+2020-04-07,77,Israel,9248
+2020-04-08,77,Israel,9404
 2020-01-30,78,Italy,2
 2020-01-31,78,Italy,2
 2020-02-01,78,Italy,2
@@ -3005,7 +3083,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,78,Italy,124632
 2020-04-05,78,Italy,129317
 2020-04-06,78,Italy,132547
-2020-04-07,78,Italy,132810
+2020-04-07,78,Italy,135586
+2020-04-08,78,Italy,139422
 2020-03-11,79,Jamaica,1
 2020-03-12,79,Jamaica,2
 2020-03-13,79,Jamaica,8
@@ -3033,7 +3112,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,79,Jamaica,53
 2020-04-05,79,Jamaica,58
 2020-04-06,79,Jamaica,58
-2020-04-07,79,Jamaica,59
+2020-04-07,79,Jamaica,63
+2020-04-08,79,Jamaica,63
 2020-01-22,80,Japan,2
 2020-01-23,80,Japan,2
 2020-01-24,80,Japan,2
@@ -3110,7 +3190,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,80,Japan,3497
 2020-04-05,80,Japan,3858
 2020-04-06,80,Japan,4083
-2020-04-07,80,Japan,4340
+2020-04-07,80,Japan,4459
+2020-04-08,80,Japan,4953
 2020-03-03,81,Jordan,1
 2020-03-04,81,Jordan,1
 2020-03-05,81,Jordan,1
@@ -3146,7 +3227,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,81,Jordan,323
 2020-04-05,81,Jordan,345
 2020-04-06,81,Jordan,349
-2020-04-07,81,Jordan,349
+2020-04-07,81,Jordan,353
+2020-04-08,81,Jordan,358
 2020-03-13,82,Kazakhstan,4
 2020-03-14,82,Kazakhstan,6
 2020-03-15,82,Kazakhstan,9
@@ -3172,7 +3254,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,82,Kazakhstan,531
 2020-04-05,82,Kazakhstan,584
 2020-04-06,82,Kazakhstan,662
-2020-04-07,82,Kazakhstan,685
+2020-04-07,82,Kazakhstan,697
+2020-04-08,82,Kazakhstan,727
 2020-03-13,83,Kenya,1
 2020-03-14,83,Kenya,1
 2020-03-15,83,Kenya,3
@@ -3199,6 +3282,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,83,Kenya,142
 2020-04-06,83,Kenya,158
 2020-04-07,83,Kenya,172
+2020-04-08,83,Kenya,179
 2020-01-22,84,South Korea,1
 2020-01-23,84,South Korea,1
 2020-01-24,84,South Korea,2
@@ -3276,6 +3360,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,84,South Korea,10237
 2020-04-06,84,South Korea,10284
 2020-04-07,84,South Korea,10331
+2020-04-08,84,South Korea,10384
 2020-02-24,85,Kuwait,1
 2020-02-25,85,Kuwait,11
 2020-02-26,85,Kuwait,26
@@ -3320,6 +3405,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,85,Kuwait,556
 2020-04-06,85,Kuwait,665
 2020-04-07,85,Kuwait,743
+2020-04-08,85,Kuwait,855
 2020-03-18,86,Kyrgyzstan,3
 2020-03-19,86,Kyrgyzstan,3
 2020-03-20,86,Kyrgyzstan,6
@@ -3341,6 +3427,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,86,Kyrgyzstan,147
 2020-04-06,86,Kyrgyzstan,216
 2020-04-07,86,Kyrgyzstan,228
+2020-04-08,86,Kyrgyzstan,270
 2020-03-02,87,Latvia,1
 2020-03-03,87,Latvia,1
 2020-03-04,87,Latvia,1
@@ -3378,6 +3465,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,87,Latvia,533
 2020-04-06,87,Latvia,542
 2020-04-07,87,Latvia,548
+2020-04-08,87,Latvia,577
 2020-02-21,88,Lebanon,1
 2020-02-22,88,Lebanon,1
 2020-02-23,88,Lebanon,1
@@ -3425,6 +3513,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,88,Lebanon,527
 2020-04-06,88,Lebanon,541
 2020-04-07,88,Lebanon,548
+2020-04-08,88,Lebanon,576
 2020-03-16,89,Liberia,1
 2020-03-17,89,Liberia,2
 2020-03-18,89,Liberia,2
@@ -3448,6 +3537,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,89,Liberia,13
 2020-04-06,89,Liberia,14
 2020-04-07,89,Liberia,14
+2020-04-08,89,Liberia,31
 2020-03-04,90,Liechtenstein,1
 2020-03-05,90,Liechtenstein,1
 2020-03-06,90,Liechtenstein,1
@@ -3483,6 +3573,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,90,Liechtenstein,77
 2020-04-06,90,Liechtenstein,78
 2020-04-07,90,Liechtenstein,78
+2020-04-08,90,Liechtenstein,78
 2020-02-28,91,Lithuania,1
 2020-02-29,91,Lithuania,1
 2020-03-01,91,Lithuania,1
@@ -3523,6 +3614,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,91,Lithuania,811
 2020-04-06,91,Lithuania,843
 2020-04-07,91,Lithuania,880
+2020-04-08,91,Lithuania,912
 2020-02-29,92,Luxembourg,1
 2020-03-01,92,Luxembourg,1
 2020-03-02,92,Luxembourg,1
@@ -3561,7 +3653,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,92,Luxembourg,2729
 2020-04-05,92,Luxembourg,2804
 2020-04-06,92,Luxembourg,2843
-2020-04-07,92,Luxembourg,2843
+2020-04-07,92,Luxembourg,2970
+2020-04-08,92,Luxembourg,3034
 2020-03-20,93,Madagascar,3
 2020-03-21,93,Madagascar,3
 2020-03-22,93,Madagascar,3
@@ -3580,7 +3673,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,93,Madagascar,70
 2020-04-05,93,Madagascar,72
 2020-04-06,93,Madagascar,82
-2020-04-07,93,Madagascar,82
+2020-04-07,93,Madagascar,88
+2020-04-08,93,Madagascar,93
 2020-01-25,94,Malaysia,3
 2020-01-26,94,Malaysia,4
 2020-01-27,94,Malaysia,4
@@ -3655,6 +3749,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,94,Malaysia,3662
 2020-04-06,94,Malaysia,3793
 2020-04-07,94,Malaysia,3963
+2020-04-08,94,Malaysia,4119
 2020-03-08,95,Maldives,4
 2020-03-09,95,Maldives,6
 2020-03-10,95,Maldives,6
@@ -3686,6 +3781,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,95,Maldives,19
 2020-04-06,95,Maldives,19
 2020-04-07,95,Maldives,19
+2020-04-08,95,Maldives,19
 2020-03-07,96,Malta,3
 2020-03-08,96,Malta,3
 2020-03-09,96,Malta,3
@@ -3718,6 +3814,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,96,Malta,227
 2020-04-06,96,Malta,241
 2020-04-07,96,Malta,293
+2020-04-08,96,Malta,299
 2020-03-14,97,Mauritania,1
 2020-03-15,97,Mauritania,1
 2020-03-16,97,Mauritania,1
@@ -3743,6 +3840,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,97,Mauritania,6
 2020-04-06,97,Mauritania,6
 2020-04-07,97,Mauritania,6
+2020-04-08,97,Mauritania,6
 2020-03-18,98,Mauritius,3
 2020-03-19,98,Mauritius,3
 2020-03-20,98,Mauritius,12
@@ -3763,7 +3861,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,98,Mauritius,196
 2020-04-05,98,Mauritius,227
 2020-04-06,98,Mauritius,244
-2020-04-07,98,Mauritius,244
+2020-04-07,98,Mauritius,268
+2020-04-08,98,Mauritius,273
 2020-02-28,99,Mexico,1
 2020-02-29,99,Mexico,4
 2020-03-01,99,Mexico,5
@@ -3804,6 +3903,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,99,Mexico,1890
 2020-04-06,99,Mexico,2143
 2020-04-07,99,Mexico,2439
+2020-04-08,99,Mexico,2785
 2020-03-08,100,Moldova,1
 2020-03-09,100,Moldova,1
 2020-03-10,100,Moldova,3
@@ -3834,7 +3934,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,100,Moldova,752
 2020-04-05,100,Moldova,864
 2020-04-06,100,Moldova,965
-2020-04-07,100,Moldova,965
+2020-04-07,100,Moldova,1056
+2020-04-08,100,Moldova,1174
 2020-02-29,101,Monaco,1
 2020-03-01,101,Monaco,1
 2020-03-02,101,Monaco,1
@@ -3873,7 +3974,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,101,Monaco,66
 2020-04-05,101,Monaco,73
 2020-04-06,101,Monaco,77
-2020-04-07,101,Monaco,77
+2020-04-07,101,Monaco,79
+2020-04-08,101,Monaco,81
 2020-03-10,102,Mongolia,1
 2020-03-11,102,Mongolia,1
 2020-03-12,102,Mongolia,1
@@ -3903,6 +4005,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,102,Mongolia,14
 2020-04-06,102,Mongolia,15
 2020-04-07,102,Mongolia,15
+2020-04-08,102,Mongolia,16
 2020-03-17,103,Montenegro,2
 2020-03-18,103,Montenegro,2
 2020-03-19,103,Montenegro,3
@@ -3924,7 +4027,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,103,Montenegro,201
 2020-04-05,103,Montenegro,214
 2020-04-06,103,Montenegro,233
-2020-04-07,103,Montenegro,239
+2020-04-07,103,Montenegro,241
+2020-04-08,103,Montenegro,248
 2020-03-02,104,Morocco,1
 2020-03-03,104,Morocco,1
 2020-03-04,104,Morocco,1
@@ -3961,7 +4065,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,104,Morocco,919
 2020-04-05,104,Morocco,1021
 2020-04-06,104,Morocco,1120
-2020-04-07,104,Morocco,1141
+2020-04-07,104,Morocco,1184
+2020-04-08,104,Morocco,1275
 2020-03-14,105,Namibia,2
 2020-03-15,105,Namibia,2
 2020-03-16,105,Namibia,2
@@ -3987,6 +4092,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,105,Namibia,16
 2020-04-06,105,Namibia,16
 2020-04-07,105,Namibia,16
+2020-04-08,105,Namibia,16
 2020-01-25,106,Nepal,1
 2020-01-26,106,Nepal,1
 2020-01-27,106,Nepal,1
@@ -4061,6 +4167,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,106,Nepal,9
 2020-04-06,106,Nepal,9
 2020-04-07,106,Nepal,9
+2020-04-08,106,Nepal,9
 2020-02-27,107,Netherlands,1
 2020-02-28,107,Netherlands,1
 2020-02-29,107,Netherlands,7
@@ -4101,7 +4208,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,107,Netherlands,16727
 2020-04-05,107,Netherlands,17953
 2020-04-06,107,Netherlands,18926
-2020-04-07,107,Netherlands,19703
+2020-04-07,107,Netherlands,19709
+2020-04-08,107,Netherlands,20682
 2020-02-28,108,New Zealand,1
 2020-02-29,108,New Zealand,1
 2020-03-01,108,New Zealand,1
@@ -4142,6 +4250,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,108,New Zealand,1039
 2020-04-06,108,New Zealand,1106
 2020-04-07,108,New Zealand,1160
+2020-04-08,108,New Zealand,1210
 2020-03-19,109,Nicaragua,1
 2020-03-20,109,Nicaragua,1
 2020-03-21,109,Nicaragua,2
@@ -4162,6 +4271,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,109,Nicaragua,6
 2020-04-06,109,Nicaragua,6
 2020-04-07,109,Nicaragua,6
+2020-04-08,109,Nicaragua,6
 2020-03-20,110,Niger,1
 2020-03-21,110,Niger,1
 2020-03-22,110,Niger,2
@@ -4180,7 +4290,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,110,Niger,144
 2020-04-05,110,Niger,184
 2020-04-06,110,Niger,253
-2020-04-07,110,Niger,253
+2020-04-07,110,Niger,278
+2020-04-08,110,Niger,342
 2020-02-28,111,Nigeria,1
 2020-02-29,111,Nigeria,1
 2020-03-01,111,Nigeria,1
@@ -4220,7 +4331,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,111,Nigeria,214
 2020-04-05,111,Nigeria,232
 2020-04-06,111,Nigeria,238
-2020-04-07,111,Nigeria,238
+2020-04-07,111,Nigeria,254
+2020-04-08,111,Nigeria,276
 2020-02-26,112,North Macedonia,1
 2020-02-27,112,North Macedonia,1
 2020-02-28,112,North Macedonia,1
@@ -4263,6 +4375,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,112,North Macedonia,555
 2020-04-06,112,North Macedonia,570
 2020-04-07,112,North Macedonia,599
+2020-04-08,112,North Macedonia,617
 2020-02-26,113,Norway,1
 2020-02-27,113,Norway,1
 2020-02-28,113,Norway,6
@@ -4304,7 +4417,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,113,Norway,5550
 2020-04-05,113,Norway,5687
 2020-04-06,113,Norway,5865
-2020-04-07,113,Norway,5866
+2020-04-07,113,Norway,6086
+2020-04-08,113,Norway,6086
 2020-02-24,114,Oman,2
 2020-02-25,114,Oman,2
 2020-02-26,114,Oman,4
@@ -4349,6 +4463,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,114,Oman,298
 2020-04-06,114,Oman,331
 2020-04-07,114,Oman,371
+2020-04-08,114,Oman,419
 2020-02-26,115,Pakistan,2
 2020-02-27,115,Pakistan,2
 2020-02-28,115,Pakistan,2
@@ -4390,7 +4505,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,115,Pakistan,2818
 2020-04-05,115,Pakistan,3157
 2020-04-06,115,Pakistan,3766
-2020-04-07,115,Pakistan,4004
+2020-04-07,115,Pakistan,4035
+2020-04-08,115,Pakistan,4263
 2020-03-10,116,Panama,1
 2020-03-11,116,Panama,11
 2020-03-12,116,Panama,11
@@ -4420,6 +4536,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,116,Panama,1801
 2020-04-06,116,Panama,1988
 2020-04-07,116,Panama,2100
+2020-04-08,116,Panama,2249
 2020-03-20,117,Papua New Guinea,1
 2020-03-21,117,Papua New Guinea,1
 2020-03-22,117,Papua New Guinea,1
@@ -4439,6 +4556,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,117,Papua New Guinea,1
 2020-04-06,117,Papua New Guinea,2
 2020-04-07,117,Papua New Guinea,2
+2020-04-08,117,Papua New Guinea,2
 2020-03-08,118,Paraguay,1
 2020-03-09,118,Paraguay,1
 2020-03-10,118,Paraguay,1
@@ -4470,6 +4588,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,118,Paraguay,104
 2020-04-06,118,Paraguay,113
 2020-04-07,118,Paraguay,115
+2020-04-08,118,Paraguay,119
 2020-03-06,119,Peru,1
 2020-03-07,119,Peru,1
 2020-03-08,119,Peru,6
@@ -4502,7 +4621,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,119,Peru,1746
 2020-04-05,119,Peru,2281
 2020-04-06,119,Peru,2561
-2020-04-07,119,Peru,2561
+2020-04-07,119,Peru,2954
+2020-04-08,119,Peru,4342
 2020-01-30,120,Philippines,1
 2020-01-31,120,Philippines,1
 2020-02-01,120,Philippines,1
@@ -4572,6 +4692,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,120,Philippines,3246
 2020-04-06,120,Philippines,3660
 2020-04-07,120,Philippines,3764
+2020-04-08,120,Philippines,3870
 2020-03-04,121,Poland,1
 2020-03-05,121,Poland,1
 2020-03-06,121,Poland,5
@@ -4606,7 +4727,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,121,Poland,3627
 2020-04-05,121,Poland,4102
 2020-04-06,121,Poland,4413
-2020-04-07,121,Poland,4532
+2020-04-07,121,Poland,4848
+2020-04-08,121,Poland,5205
 2020-03-02,122,Portugal,2
 2020-03-03,122,Portugal,2
 2020-03-04,122,Portugal,5
@@ -4644,6 +4766,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,122,Portugal,11278
 2020-04-06,122,Portugal,11730
 2020-04-07,122,Portugal,12442
+2020-04-08,122,Portugal,13141
 2020-02-29,123,Qatar,1
 2020-03-01,123,Qatar,3
 2020-03-02,123,Qatar,3
@@ -4682,7 +4805,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,123,Qatar,1325
 2020-04-05,123,Qatar,1604
 2020-04-06,123,Qatar,1832
-2020-04-07,123,Qatar,1832
+2020-04-07,123,Qatar,2057
+2020-04-08,123,Qatar,2210
 2020-02-26,124,Romania,1
 2020-02-27,124,Romania,1
 2020-02-28,124,Romania,3
@@ -4725,6 +4849,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,124,Romania,3864
 2020-04-06,124,Romania,4057
 2020-04-07,124,Romania,4417
+2020-04-08,124,Romania,4761
 2020-01-31,125,Russia,2
 2020-02-01,125,Russia,2
 2020-02-02,125,Russia,2
@@ -4793,6 +4918,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,125,Russia,5389
 2020-04-06,125,Russia,6343
 2020-04-07,125,Russia,7497
+2020-04-08,125,Russia,8672
 2020-03-14,126,Rwanda,1
 2020-03-15,126,Rwanda,5
 2020-03-16,126,Rwanda,7
@@ -4818,6 +4944,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,126,Rwanda,104
 2020-04-06,126,Rwanda,105
 2020-04-07,126,Rwanda,105
+2020-04-08,126,Rwanda,110
 2020-03-14,127,Saint Lucia,1
 2020-03-15,127,Saint Lucia,2
 2020-03-16,127,Saint Lucia,2
@@ -4843,6 +4970,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,127,Saint Lucia,14
 2020-04-06,127,Saint Lucia,14
 2020-04-07,127,Saint Lucia,14
+2020-04-08,127,Saint Lucia,14
 2020-03-14,128,Saint Vincent and the Grenadines,1
 2020-03-15,128,Saint Vincent and the Grenadines,1
 2020-03-16,128,Saint Vincent and the Grenadines,1
@@ -4867,7 +4995,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,128,Saint Vincent and the Grenadines,7
 2020-04-05,128,Saint Vincent and the Grenadines,7
 2020-04-06,128,Saint Vincent and the Grenadines,7
-2020-04-07,128,Saint Vincent and the Grenadines,7
+2020-04-07,128,Saint Vincent and the Grenadines,8
+2020-04-08,128,Saint Vincent and the Grenadines,8
 2020-02-27,129,San Marino,1
 2020-02-28,129,San Marino,1
 2020-02-29,129,San Marino,1
@@ -4908,7 +5037,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,129,San Marino,259
 2020-04-05,129,San Marino,266
 2020-04-06,129,San Marino,266
-2020-04-07,129,San Marino,277
+2020-04-07,129,San Marino,279
+2020-04-08,129,San Marino,279
 2020-03-02,130,Saudi Arabia,1
 2020-03-03,130,Saudi Arabia,1
 2020-03-04,130,Saudi Arabia,1
@@ -4946,6 +5076,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,130,Saudi Arabia,2402
 2020-04-06,130,Saudi Arabia,2605
 2020-04-07,130,Saudi Arabia,2795
+2020-04-08,130,Saudi Arabia,3122
 2020-03-02,131,Senegal,1
 2020-03-03,131,Senegal,2
 2020-03-04,131,Senegal,4
@@ -4983,6 +5114,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,131,Senegal,222
 2020-04-06,131,Senegal,226
 2020-04-07,131,Senegal,237
+2020-04-08,131,Senegal,244
 2020-03-06,132,Serbia,1
 2020-03-07,132,Serbia,1
 2020-03-08,132,Serbia,1
@@ -5015,7 +5147,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,132,Serbia,1624
 2020-04-05,132,Serbia,1980
 2020-04-06,132,Serbia,2200
-2020-04-07,132,Serbia,2200
+2020-04-07,132,Serbia,2447
+2020-04-08,132,Serbia,2666
 2020-03-14,133,Seychelles,2
 2020-03-15,133,Seychelles,2
 2020-03-16,133,Seychelles,4
@@ -5041,6 +5174,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,133,Seychelles,10
 2020-04-06,133,Seychelles,11
 2020-04-07,133,Seychelles,11
+2020-04-08,133,Seychelles,11
 2020-01-23,134,Singapore,1
 2020-01-24,134,Singapore,3
 2020-01-25,134,Singapore,3
@@ -5116,7 +5250,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,134,Singapore,1189
 2020-04-05,134,Singapore,1309
 2020-04-06,134,Singapore,1375
-2020-04-07,134,Singapore,1375
+2020-04-07,134,Singapore,1481
+2020-04-08,134,Singapore,1623
 2020-03-06,135,Slovakia,1
 2020-03-07,135,Slovakia,1
 2020-03-08,135,Slovakia,3
@@ -5150,6 +5285,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,135,Slovakia,485
 2020-04-06,135,Slovakia,534
 2020-04-07,135,Slovakia,581
+2020-04-08,135,Slovakia,682
 2020-03-05,136,Slovenia,3
 2020-03-06,136,Slovenia,7
 2020-03-07,136,Slovenia,7
@@ -5184,6 +5320,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,136,Slovenia,997
 2020-04-06,136,Slovenia,1021
 2020-04-07,136,Slovenia,1059
+2020-04-08,136,Slovenia,1091
 2020-03-16,137,Somalia,1
 2020-03-17,137,Somalia,1
 2020-03-18,137,Somalia,1
@@ -5206,7 +5343,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,137,Somalia,7
 2020-04-05,137,Somalia,7
 2020-04-06,137,Somalia,7
-2020-04-07,137,Somalia,7
+2020-04-07,137,Somalia,8
+2020-04-08,137,Somalia,12
 2020-03-05,138,South Africa,1
 2020-03-06,138,South Africa,1
 2020-03-07,138,South Africa,1
@@ -5240,7 +5378,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,138,South Africa,1585
 2020-04-05,138,South Africa,1655
 2020-04-06,138,South Africa,1686
-2020-04-07,138,South Africa,1686
+2020-04-07,138,South Africa,1749
+2020-04-08,138,South Africa,1845
 2020-01-31,139,Spain,7
 2020-02-01,139,Spain,1
 2020-02-02,139,Spain,1
@@ -5308,7 +5447,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,139,Spain,126168
 2020-04-05,139,Spain,131646
 2020-04-06,139,Spain,136675
-2020-04-07,139,Spain,140510
+2020-04-07,139,Spain,141942
+2020-04-08,139,Spain,148220
 2020-01-27,140,Sri Lanka,1
 2020-01-28,140,Sri Lanka,1
 2020-01-29,140,Sri Lanka,1
@@ -5381,6 +5521,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,140,Sri Lanka,176
 2020-04-06,140,Sri Lanka,178
 2020-04-07,140,Sri Lanka,185
+2020-04-08,140,Sri Lanka,189
 2020-03-13,141,Sudan,1
 2020-03-14,141,Sudan,1
 2020-03-15,141,Sudan,1
@@ -5407,6 +5548,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,141,Sudan,12
 2020-04-06,141,Sudan,12
 2020-04-07,141,Sudan,14
+2020-04-08,141,Sudan,14
 2020-03-14,142,Suriname,1
 2020-03-15,142,Suriname,1
 2020-03-16,142,Suriname,1
@@ -5432,6 +5574,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,142,Suriname,10
 2020-04-06,142,Suriname,10
 2020-04-07,142,Suriname,10
+2020-04-08,142,Suriname,10
 2020-01-31,143,Sweden,1
 2020-02-01,143,Sweden,1
 2020-02-02,143,Sweden,1
@@ -5500,6 +5643,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,143,Sweden,6830
 2020-04-06,143,Sweden,7206
 2020-04-07,143,Sweden,7693
+2020-04-08,143,Sweden,8419
 2020-02-25,144,Switzerland,1
 2020-02-26,144,Switzerland,1
 2020-02-27,144,Switzerland,8
@@ -5542,7 +5686,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,144,Switzerland,20505
 2020-04-05,144,Switzerland,21100
 2020-04-06,144,Switzerland,21657
-2020-04-07,144,Switzerland,22242
+2020-04-07,144,Switzerland,22253
+2020-04-08,144,Switzerland,23280
 2020-03-16,145,Tanzania,1
 2020-03-17,145,Tanzania,1
 2020-03-18,145,Tanzania,3
@@ -5566,6 +5711,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,145,Tanzania,22
 2020-04-06,145,Tanzania,24
 2020-04-07,145,Tanzania,24
+2020-04-08,145,Tanzania,25
 2020-01-22,146,Thailand,2
 2020-01-23,146,Thailand,3
 2020-01-24,146,Thailand,5
@@ -5643,6 +5789,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,146,Thailand,2169
 2020-04-06,146,Thailand,2220
 2020-04-07,146,Thailand,2258
+2020-04-08,146,Thailand,2369
 2020-03-06,147,Togo,1
 2020-03-07,147,Togo,1
 2020-03-08,147,Togo,1
@@ -5675,7 +5822,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,147,Togo,41
 2020-04-05,147,Togo,44
 2020-04-06,147,Togo,58
-2020-04-07,147,Togo,58
+2020-04-07,147,Togo,65
+2020-04-08,147,Togo,70
 2020-03-13,148,Trinidad and Tobago,1
 2020-03-14,148,Trinidad and Tobago,2
 2020-03-15,148,Trinidad and Tobago,2
@@ -5701,7 +5849,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,148,Trinidad and Tobago,103
 2020-04-05,148,Trinidad and Tobago,104
 2020-04-06,148,Trinidad and Tobago,105
-2020-04-07,148,Trinidad and Tobago,105
+2020-04-07,148,Trinidad and Tobago,107
+2020-04-08,148,Trinidad and Tobago,107
 2020-03-04,149,Tunisia,1
 2020-03-05,149,Tunisia,1
 2020-03-06,149,Tunisia,1
@@ -5736,7 +5885,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,149,Tunisia,553
 2020-04-05,149,Tunisia,574
 2020-04-06,149,Tunisia,596
-2020-04-07,149,Tunisia,596
+2020-04-07,149,Tunisia,623
+2020-04-08,149,Tunisia,628
 2020-03-11,150,Turkey,1
 2020-03-12,150,Turkey,1
 2020-03-13,150,Turkey,5
@@ -5764,7 +5914,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,150,Turkey,23934
 2020-04-05,150,Turkey,27069
 2020-04-06,150,Turkey,30217
-2020-04-07,150,Turkey,30217
+2020-04-07,150,Turkey,34109
+2020-04-08,150,Turkey,38226
 2020-03-21,151,Uganda,1
 2020-03-22,151,Uganda,1
 2020-03-23,151,Uganda,9
@@ -5783,6 +5934,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,151,Uganda,52
 2020-04-06,151,Uganda,52
 2020-04-07,151,Uganda,52
+2020-04-08,151,Uganda,53
 2020-03-03,152,Ukraine,1
 2020-03-04,152,Ukraine,1
 2020-03-05,152,Ukraine,1
@@ -5819,6 +5971,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,152,Ukraine,1308
 2020-04-06,152,Ukraine,1319
 2020-04-07,152,Ukraine,1462
+2020-04-08,152,Ukraine,1668
 2020-01-29,153,United Arab Emirates,4
 2020-01-30,153,United Arab Emirates,4
 2020-01-31,153,United Arab Emirates,4
@@ -5888,7 +6041,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,153,United Arab Emirates,1505
 2020-04-05,153,United Arab Emirates,1799
 2020-04-06,153,United Arab Emirates,2076
-2020-04-07,153,United Arab Emirates,2076
+2020-04-07,153,United Arab Emirates,2359
+2020-04-08,153,United Arab Emirates,2659
 2020-01-31,154,United Kingdom,2
 2020-02-01,154,United Kingdom,2
 2020-02-02,154,United Kingdom,2
@@ -5956,7 +6110,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,154,United Kingdom,42477
 2020-04-05,154,United Kingdom,48436
 2020-04-06,154,United Kingdom,52279
-2020-04-07,154,United Kingdom,52300
+2020-04-07,154,United Kingdom,55949
+2020-04-08,154,United Kingdom,61474
 2020-03-14,155,Uruguay,4
 2020-03-15,155,Uruguay,6
 2020-03-16,155,Uruguay,8
@@ -5981,7 +6136,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,155,Uruguay,400
 2020-04-05,155,Uruguay,400
 2020-04-06,155,Uruguay,406
-2020-04-07,155,Uruguay,415
+2020-04-07,155,Uruguay,424
+2020-04-08,155,Uruguay,424
 2020-01-22,156,United States of America,1
 2020-01-23,156,United States of America,1
 2020-01-24,156,United States of America,2
@@ -6039,9 +6195,9 @@ fecha,cod_ine,CCAA,total
 2020-03-16,156,United States of America,4632
 2020-03-17,156,United States of America,6421
 2020-03-18,156,United States of America,7783
-2020-03-19,156,United States of America,13677
-2020-03-20,156,United States of America,19100
-2020-03-21,156,United States of America,25489
+2020-03-19,156,United States of America,13747
+2020-03-20,156,United States of America,19273
+2020-03-21,156,United States of America,25600
 2020-03-22,156,United States of America,33276
 2020-03-23,156,United States of America,43847
 2020-03-24,156,United States of America,53740
@@ -6049,16 +6205,17 @@ fecha,cod_ine,CCAA,total
 2020-03-26,156,United States of America,83836
 2020-03-27,156,United States of America,101657
 2020-03-28,156,United States of America,121478
-2020-03-29,156,United States of America,140886
-2020-03-30,156,United States of America,161807
+2020-03-29,156,United States of America,140909
+2020-03-30,156,United States of America,161837
 2020-03-31,156,United States of America,188172
 2020-04-01,156,United States of America,213372
-2020-04-02,156,United States of America,243453
+2020-04-02,156,United States of America,243616
 2020-04-03,156,United States of America,275586
 2020-04-04,156,United States of America,308850
 2020-04-05,156,United States of America,337072
-2020-04-06,156,United States of America,366614
-2020-04-07,156,United States of America,368533
+2020-04-06,156,United States of America,366667
+2020-04-07,156,United States of America,396223
+2020-04-08,156,United States of America,424945
 2020-03-15,157,Uzbekistan,1
 2020-03-16,157,Uzbekistan,6
 2020-03-17,157,Uzbekistan,10
@@ -6082,7 +6239,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,157,Uzbekistan,266
 2020-04-05,157,Uzbekistan,342
 2020-04-06,157,Uzbekistan,457
-2020-04-07,157,Uzbekistan,504
+2020-04-07,157,Uzbekistan,520
+2020-04-08,157,Uzbekistan,545
 2020-03-14,158,Venezuela,2
 2020-03-15,158,Venezuela,10
 2020-03-16,158,Venezuela,17
@@ -6108,6 +6266,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,158,Venezuela,159
 2020-04-06,158,Venezuela,165
 2020-04-07,158,Venezuela,165
+2020-04-08,158,Venezuela,166
 2020-01-23,159,Vietnam,2
 2020-01-24,159,Vietnam,2
 2020-01-25,159,Vietnam,2
@@ -6184,6 +6343,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,159,Vietnam,241
 2020-04-06,159,Vietnam,245
 2020-04-07,159,Vietnam,249
+2020-04-08,159,Vietnam,251
 2020-03-18,160,Zambia,2
 2020-03-19,160,Zambia,2
 2020-03-20,160,Zambia,2
@@ -6205,6 +6365,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,160,Zambia,39
 2020-04-06,160,Zambia,39
 2020-04-07,160,Zambia,39
+2020-04-08,160,Zambia,39
 2020-03-20,161,Zimbabwe,1
 2020-03-21,161,Zimbabwe,3
 2020-03-22,161,Zimbabwe,3
@@ -6223,7 +6384,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,161,Zimbabwe,9
 2020-04-05,161,Zimbabwe,9
 2020-04-06,161,Zimbabwe,10
-2020-04-07,161,Zimbabwe,10
+2020-04-07,161,Zimbabwe,11
+2020-04-08,161,Zimbabwe,11
 2020-03-22,162,Dominica,1
 2020-03-23,162,Dominica,2
 2020-03-24,162,Dominica,2
@@ -6241,6 +6403,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,162,Dominica,14
 2020-04-06,162,Dominica,15
 2020-04-07,162,Dominica,15
+2020-04-08,162,Dominica,15
 2020-03-22,163,Grenada,1
 2020-03-23,163,Grenada,1
 2020-03-24,163,Grenada,1
@@ -6258,6 +6421,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,163,Grenada,12
 2020-04-06,163,Grenada,12
 2020-04-07,163,Grenada,12
+2020-04-08,163,Grenada,12
 2020-03-22,164,Mozambique,1
 2020-03-23,164,Mozambique,1
 2020-03-24,164,Mozambique,3
@@ -6275,6 +6439,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,164,Mozambique,10
 2020-04-06,164,Mozambique,10
 2020-04-07,164,Mozambique,10
+2020-04-08,164,Mozambique,17
 2020-03-22,165,Syria,1
 2020-03-23,165,Syria,1
 2020-03-24,165,Syria,1
@@ -6292,6 +6457,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,165,Syria,19
 2020-04-06,165,Syria,19
 2020-04-07,165,Syria,19
+2020-04-08,165,Syria,19
 2020-03-21,166,Timor-Leste,1
 2020-03-22,166,Timor-Leste,1
 2020-03-23,166,Timor-Leste,1
@@ -6310,6 +6476,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,166,Timor-Leste,1
 2020-04-06,166,Timor-Leste,1
 2020-04-07,166,Timor-Leste,1
+2020-04-08,166,Timor-Leste,1
 2020-03-23,167,Belize,1
 2020-03-24,167,Belize,1
 2020-03-25,167,Belize,2
@@ -6326,6 +6493,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,167,Belize,5
 2020-04-06,167,Belize,7
 2020-04-07,167,Belize,7
+2020-04-08,167,Belize,8
 2020-03-24,168,Laos,2
 2020-03-25,168,Laos,3
 2020-03-26,168,Laos,6
@@ -6341,6 +6509,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,168,Laos,11
 2020-04-06,168,Laos,12
 2020-04-07,168,Laos,14
+2020-04-08,168,Laos,15
 2020-03-24,169,Libya,1
 2020-03-25,169,Libya,1
 2020-03-26,169,Libya,1
@@ -6355,7 +6524,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,169,Libya,18
 2020-04-05,169,Libya,18
 2020-04-06,169,Libya,19
-2020-04-07,169,Libya,19
+2020-04-07,169,Libya,20
+2020-04-08,169,Libya,21
 2020-03-05,170,Palestine,4
 2020-03-06,170,Palestine,16
 2020-03-07,170,Palestine,16
@@ -6389,7 +6559,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,170,Palestine,217
 2020-04-05,170,Palestine,237
 2020-04-06,170,Palestine,254
-2020-04-07,170,Palestine,260
+2020-04-07,170,Palestine,261
+2020-04-08,170,Palestine,263
 2020-03-25,171,Guinea-Bissau,2
 2020-03-26,171,Guinea-Bissau,2
 2020-03-27,171,Guinea-Bissau,2
@@ -6404,6 +6575,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,171,Guinea-Bissau,18
 2020-04-06,171,Guinea-Bissau,33
 2020-04-07,171,Guinea-Bissau,33
+2020-04-08,171,Guinea-Bissau,33
 2020-03-25,172,Mali,2
 2020-03-26,172,Mali,4
 2020-03-27,172,Mali,11
@@ -6417,7 +6589,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,172,Mali,41
 2020-04-05,172,Mali,45
 2020-04-06,172,Mali,47
-2020-04-07,172,Mali,47
+2020-04-07,172,Mali,56
+2020-04-08,172,Mali,59
 2020-03-25,173,Saint Kitts and Nevis,2
 2020-03-26,173,Saint Kitts and Nevis,2
 2020-03-27,173,Saint Kitts and Nevis,2
@@ -6432,6 +6605,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,173,Saint Kitts and Nevis,10
 2020-04-06,173,Saint Kitts and Nevis,10
 2020-04-07,173,Saint Kitts and Nevis,11
+2020-04-08,173,Saint Kitts and Nevis,11
 2020-03-23,174,Kosovo,31
 2020-03-24,174,Kosovo,31
 2020-03-25,174,Kosovo,0
@@ -6447,7 +6621,8 @@ fecha,cod_ine,CCAA,total
 2020-04-04,174,Kosovo,135
 2020-04-05,174,Kosovo,145
 2020-04-06,174,Kosovo,145
-2020-04-07,174,Kosovo,145
+2020-04-07,174,Kosovo,170
+2020-04-08,174,Kosovo,184
 2020-03-23,175,Myanmar,2
 2020-03-24,175,Myanmar,2
 2020-03-25,175,Myanmar,3
@@ -6464,6 +6639,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,175,Myanmar,21
 2020-04-06,175,Myanmar,22
 2020-04-07,175,Myanmar,22
+2020-04-08,175,Myanmar,22
 2020-03-28,176,MS Zaandam,2
 2020-03-29,176,MS Zaandam,2
 2020-03-30,176,MS Zaandam,2
@@ -6475,6 +6651,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,176,MS Zaandam,9
 2020-04-06,176,MS Zaandam,9
 2020-04-07,176,MS Zaandam,9
+2020-04-08,176,MS Zaandam,9
 2020-03-30,177,Botswana,3
 2020-03-31,177,Botswana,4
 2020-04-01,177,Botswana,4
@@ -6484,6 +6661,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,177,Botswana,6
 2020-04-06,177,Botswana,6
 2020-04-07,177,Botswana,6
+2020-04-08,177,Botswana,6
 2020-03-31,178,Burundi,2
 2020-04-01,178,Burundi,2
 2020-04-02,178,Burundi,3
@@ -6492,6 +6670,7 @@ fecha,cod_ine,CCAA,total
 2020-04-05,178,Burundi,3
 2020-04-06,178,Burundi,3
 2020-04-07,178,Burundi,3
+2020-04-08,178,Burundi,3
 2020-03-31,179,Sierra Leone,1
 2020-04-01,179,Sierra Leone,2
 2020-04-02,179,Sierra Leone,2
@@ -6500,17 +6679,22 @@ fecha,cod_ine,CCAA,total
 2020-04-05,179,Sierra Leone,6
 2020-04-06,179,Sierra Leone,6
 2020-04-07,179,Sierra Leone,6
+2020-04-08,179,Sierra Leone,7
 2020-04-02,180,Malawi,3
 2020-04-03,180,Malawi,3
 2020-04-04,180,Malawi,4
 2020-04-05,180,Malawi,4
 2020-04-06,180,Malawi,5
 2020-04-07,180,Malawi,8
+2020-04-08,180,Malawi,8
 2020-04-05,181,South Sudan,1
 2020-04-06,181,South Sudan,1
-2020-04-07,181,South Sudan,1
+2020-04-07,181,South Sudan,2
+2020-04-08,181,South Sudan,2
 2020-04-05,182,Western Sahara,4
 2020-04-06,182,Western Sahara,4
 2020-04-07,182,Western Sahara,4
+2020-04-08,182,Western Sahara,4
 2020-04-06,183,Sao Tome and Principe,4
 2020-04-07,183,Sao Tome and Principe,4
+2020-04-08,183,Sao Tome and Principe,4
