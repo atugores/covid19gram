@@ -388,7 +388,11 @@ msgstr ""
 msgid "Deaths"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: covid.py:129
+=======
+#: covid.py:126
+>>>>>>> Stashed changes
 #: covid19plot.py:346
 msgid "Deaths evolution at {region}"
 msgstr ""
@@ -529,8 +533,13 @@ msgstr ""
 msgid "Gibraltar"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: covid.py:165
 #: regions_translate.py:283
+=======
+#: covid.py:162
+#: regions_translate.py:282
+>>>>>>> Stashed changes
 msgid "Global"
 msgstr ""
 
@@ -726,7 +735,11 @@ msgstr ""
 msgid "Luxembourg"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: regions_translate.py:284
+=======
+#: regions_translate.py:283
+>>>>>>> Stashed changes
 msgid "MS Zaandam"
 msgstr ""
 
@@ -886,7 +899,11 @@ msgstr ""
 msgid "No regions given to generate a multiregion plot"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: covid.py:322
+=======
+#: covid.py:319
+>>>>>>> Stashed changes
 msgid "No results for `{param}`"
 msgstr ""
 
@@ -922,6 +939,13 @@ msgstr ""
 msgid "Palestine"
 msgstr ""
 
+<<<<<<< Updated upstream
+=======
+#: regions_translate.py:214
+msgid "West Bank and Gaza"
+msgstr ""
+
+>>>>>>> Stashed changes
 #: regions_translate.py:204
 msgid "Panama"
 msgstr ""
@@ -978,7 +1002,11 @@ msgstr ""
 msgid "Recovered cases"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: covid.py:127
+=======
+#: covid.py:124
+>>>>>>> Stashed changes
 #: covid19plot.py:340
 msgid "Recovered cases at {region}"
 msgstr ""
@@ -1051,7 +1079,11 @@ msgstr ""
 msgid "Saudi Arabia"
 msgstr ""
 
+<<<<<<< Updated upstream
 #: covid.py:381
+=======
+#: covid.py:375
+>>>>>>> Stashed changes
 msgid "Search results for `{param}`"
 msgstr ""
 

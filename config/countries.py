@@ -492,7 +492,7 @@ countries = {
     "flag": "🇰🇵",
     "code": "KP"
   },
-  "South Korea": {
+  "Korea South": {
     "flag": "🇰🇷",
     "code": "KR"
   },
@@ -530,7 +530,7 @@ countries = {
   },
   "Liberia": {
     "flag": "🇱🇷",
-    "code": "LR"
+    #"code": "LR"
   },
   "Lesotho": {
     "flag": "🇱🇸",
@@ -736,7 +736,7 @@ countries = {
     "flag": "🇵🇷",
     "code": "PR"
   },
-  "Palestine": {
+  "West Bank and Gaza": {
     "flag": "🇵🇸",
     "code": "PS"
   },
@@ -936,7 +936,7 @@ countries = {
     "flag": "🇺🇲",
     "code": "UM"
   },
-  "United States of America": {
+  "US": {
     "flag": "🇺🇸",
     "code": "US"
   },
