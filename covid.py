@@ -109,21 +109,24 @@ def get_img(region, dades="casos", language ="en"):
         filename = cplt.generate_plot(plot_type="daily_deceased", region = region, language = language)
     return filename
 
-def get_caption(region,dades="casos",language="en"):
+
+def get_caption(region, dades="casos", language="en"):
     _ = translations[language].gettext
     flaged_region = region
     if region in countries:
         flaged_region = countries[region]['flag'] + _(region)
+    else:
+        flaged_region = _(region)
     if dades == "casos":
-        return _('Cases increase at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_cases", region = region, language = language)
+        return _('Cases increase at {region}').format(region=flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_cases", region=region, language=language)
     elif dades == "tot":
-        return _('Active cases, recovered and deceased at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active_recovered_deceased", region = region, language = language)
+        return _('Active cases, recovered and deceased at {region}').format(region=flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active_recovered_deceased", region=region, language=language)
     elif dades == "actius":
-        return _('Active cases at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active", region = region, language = language)
+        return _('Active cases at {region}').format(region=flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active", region=region, language=language)
     elif dades == "altes":
-        return _('Recovered cases at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="recovered", region = region, language = language) + ''
+        return _('Recovered cases at {region}').format(region=flaged_region) + '\n' + cplt.get_plot_caption(plot_type="recovered", region=region, language=language) + ''
     elif dades == "def":
-        return _('Deaths evolution at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_deceased", region = region, language = language)
+        return _('Deaths evolution at {region}').format(region=flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_deceased", region=region, language=language)
 
 def botons(taula, dades="casos", regio="Total", font="spain", language="en"):
     _ = translations[language].gettext
