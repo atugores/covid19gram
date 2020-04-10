@@ -36,6 +36,13 @@ class COVID19Plot(object):
         'deceased_normalized',
     ]
 
+    SCOPE_PLOT_TYPES = [
+        'cases_normalized',
+        'deceased_normalized',
+        'daily_cases_normalized',
+        'daily_deceased_normalized',
+    ]
+
     SCOPES = [
         'spain',
         'world'
@@ -206,6 +213,23 @@ class COVID19Plot(object):
         self._multiregion_plot(plot_type, region_scope, regions, language, df, image_fpath)
         return image_fpath
 
+    def generate_scope_plot(self, plot_type, scope, language='en'):
+        if plot_type not in self.SCOPE_PLOT_TYPES:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data(scope)
+        source = self._sources.get(scope)
+        # check if image has already been generated
+        image_fpath = f"{self._images_dir}/{language}_{scope}_{plot_type}_{source.get('ts')}.png"
+        if os.path.isfile(image_fpath):
+            return image_fpath
+
+        # get region data
+        df = source.get('df')
+        self._scope_plot(plot_type, scope, language, df, image_fpath)
+        return image_fpath
+
     def _get_plot_data(self, plot_type, df, region):
         region_df = df[df.region == region]
         if plot_type == 'daily_cases':
@@ -220,18 +244,7 @@ class COVID19Plot(object):
 
     def _get_caption(self, plot_type, scope, region, language, df):
         _ = self._translations[language].gettext
-        try:
-            if language == 'es':
-                locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-                locale.setlocale(locale.LC_NUMERIC, "es_ES.UTF-8")
-            elif language == 'ca':
-                locale.setlocale(locale.LC_TIME, "ca_ES.UTF-8")
-                locale.setlocale(locale.LC_NUMERIC, "ca_ES.UTF-8")
-            elif language == 'en':
-                locale.setlocale(locale.LC_TIME, "en_GB.UTF-8")
-                locale.setlocale(locale.LC_NUMERIC, "en_GB.UTF-8")
-        except locale.Error:
-            pass
+        self._set_locale(language)
 
         last_data = None
         last_date = df.index.get_level_values('fecha')[-1].strftime("%d/%B/%Y")
@@ -277,6 +290,7 @@ class COVID19Plot(object):
     def _plot(self, plot_type, scope, region, language, df, image_path):
         # set translation to current language
         _ = self._translations[language].gettext
+        self._set_locale(language)
 
         fig, ax = plt.subplots(figsize=(12, 6))
         x = df.index.get_level_values('fecha')
@@ -355,6 +369,7 @@ class COVID19Plot(object):
     def _multiregion_plot(self, plot_type, scope, regions, language, df, image_path):
         # set translation to current language
         _ = self._translations[language].gettext
+        self._set_locale(language)
 
         fig, ax = plt.subplots(figsize=(12, 6))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
@@ -400,6 +415,102 @@ class COVID19Plot(object):
         plt.savefig(image_path)
         plt.close()
 
+    def _scope_plot(self, plot_type, scope, language, df, image_path):
+        # set translation to current language
+        _ = self._translations[language].gettext
+        self._set_locale(language)
+        title = None
+        legend = False
+        color = 'b'
+        label = _('Cases')
+        last_date = df.index.get_level_values('fecha')[-1]
+
+        if plot_type == 'cases_normalized':
+            title = _('Cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+            field = 'cases_per_100k'
+        elif plot_type == 'deceased_normalized':
+            title = _('Deceased per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+            field = 'deceased_per_100k'
+            color = 'r'
+        elif plot_type == 'daily_cases_normalized':
+            title = _('New cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+            field = 'new_cases_per_100k'
+            legend = True
+            label = _('Increment rolling avg (3 days)')
+            # generate new df with new_cases_per_100k
+            if scope == 'world':
+                df = df[df.cases > 1000]
+            df['increase'] = 0.0
+            df['rolling'] = 0.0
+            for region in self.get_regions(scope):
+                reg_df = df[df.region == region]
+                increase = reg_df['cases'] - reg_df['cases'].shift(1)
+                rolling = increase.rolling(window=3).mean()
+                df['increase'].mask(df.region == region, increase, inplace=True)
+                df['rolling'].mask(df.region == region, rolling, inplace=True)
+                df['new_cases_per_100k'] = df['rolling'] * 100_000 / df['population']
+                df.fillna(0, inplace=True)
+        elif plot_type == 'daily_deceased_normalized':
+            title = _('New deceased per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+            field = 'new_deceased_per_100k'
+            legend = True
+            color = 'r'
+            label = _('Increment rolling avg (3 days)')
+            # generate new df with new_cases_per_100k
+            if scope == 'world':
+                df = df[df.cases > 1000]
+            df['increase'] = 0.0
+            df['rolling'] = 0.0
+            for region in self.get_regions(scope):
+                reg_df = df[df.region == region]
+                increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
+                rolling = increase.rolling(window=3).mean()
+                df['increase'].mask(df.region == region, increase, inplace=True)
+                df['rolling'].mask(df.region == region, rolling, inplace=True)
+                df['new_deceased_per_100k'] = df['rolling'] * 100_000 / df['population']
+                df.fillna(0, inplace=True)
+
+        total_region = 'Global'
+        if scope == 'spain':
+            total_region = 'Total'
+
+        today_df = df.loc[last_date]
+        top20_df = today_df[today_df.region != total_region]
+        if scope == 'world':
+            top20_df = top20_df[today_df.cases > 1000]
+        top20_df = top20_df.sort_values(field, ascending=True)
+        top20_df = top20_df.tail(20)
+
+        fig, ax = plt.subplots(figsize=(12, 8))
+        ax.xaxis.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
+        plt.barh(y=top20_df['region'], width=top20_df[field], alpha=0.4, color=color, label=label)
+        for region in top20_df['region'].unique():
+            value = top20_df[top20_df.region == region][field].values[0]
+            value_f = locale.format_string('%.1f', value, grouping=True)
+            ax.annotate(value_f, xy=(value, region),
+                        xytext=(3, 0),
+                        textcoords="offset points", va='center')
+
+        if scope == 'spain':
+            total_value = today_df[today_df.region == total_region][field].values[0]
+            ax.axvline(total_value, color=color, alpha=0.5)
+            total_value_f = locale.format_string('%.1f', total_value, grouping=True)
+            ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
+                        xytext=(3, -20),
+                        textcoords="offset points", va='center')
+        elif scope == 'world':
+            ax.annotate(_("Countries with more than 1,000 cases"), xy=(1, 0), xycoords='axes fraction',
+                        xytext=(-20, 20), textcoords='offset pixels',
+                        horizontalalignment='right',
+                        verticalalignment='bottom')
+
+        plt.title(title, fontsize=20)
+        if legend:
+            ax.legend(loc='center right', fontsize=10)
+        self._add_footer(ax, scope, language)
+        plt.savefig(image_path)
+        plt.close()
+
     def _get_plot_xlim(self, scope, df):
         if scope == 'spain':
             return np.datetime64('2020-03-01')
@@ -434,3 +545,17 @@ class COVID19Plot(object):
             position=(1., 0.),
             fontproperties=self._footer_font,
             horizontalalignment='right')
+
+    def _set_locale(self, language):
+        try:
+            if language == 'es':
+                locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "es_ES.UTF-8")
+            elif language == 'ca':
+                locale.setlocale(locale.LC_TIME, "ca_ES.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "ca_ES.UTF-8")
+            elif language == 'en':
+                locale.setlocale(locale.LC_TIME, "en_GB.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "en_GB.UTF-8")
+        except locale.Error:
+            pass
