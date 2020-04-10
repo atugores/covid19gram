@@ -448,8 +448,6 @@ async def answer(client, callback_query):
 
 
 async def main():
-    pull_datasets()
-    pull_global()
     scheduler = AsyncIOScheduler()
     scheduler.add_job(pull_datasets, "interval", hours=1)
     scheduler.add_job(pull_global, "interval", hours=1)
