@@ -113,7 +113,7 @@ def get_caption(region,dades="casos",language="en"):
     _ = translations[language].gettext
     flaged_region = region
     if region in countries:
-        flaged_region = countries[region]['flag'] + region
+        flaged_region = countries[region]['flag'] + _(region)
     if dades == "casos":
         return _('Cases increase at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_cases", region = region, language = language)
     elif dades == "tot":

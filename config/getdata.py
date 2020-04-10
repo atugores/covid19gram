@@ -98,7 +98,7 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
                     f"{date},{country_code},{country_name},{recovered}\n")
                 deceased_file.write(
                     f"{date},{country_code},Global,{global_deceased[date]}\n")
-        print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish pulling global Data")
+            country_code += 1
 
         # add global information for each date
         for date in global_cases.keys():
@@ -110,6 +110,10 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
         for date in global_deceased.keys():
             deceased_file.write(
                 f"{date},{country_code},Global,{global_deceased[date]}\n")
+        cases_file.close()
+        recovered_file.close()
+        deceased_file.close()
+        print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish pulling global Data")
 
 
 def pull_datasets(base_directory="datasets/", data_directory="data/"):
