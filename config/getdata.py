@@ -52,7 +52,7 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
     g = git.cmd.Git(base_directory)
     g.pull()
     # TODO: change to logging
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Pulling global Data")
+    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] "+"Start pulling global Data")
     import_file_path = base_directory + "docs/timeseries.json"
     with open(import_file_path) as json_file:
         data = json.load(json_file)
@@ -97,8 +97,8 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
                 recovered_file.write(
                     f"{date},{country_code},{country_name},{recovered}\n")
                 deceased_file.write(
-                    f"{date},{country_code},{country_name},{deaths}\n")
-            country_code += 1
+                    f"{date},{country_code},Global,{global_deceased[date]}\n")
+        print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish pulling global Data")
 
         # add global information for each date
         for date in global_cases.keys():

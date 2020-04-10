@@ -109,22 +109,21 @@ def get_img(region, dades="casos", language ="en"):
         filename = cplt.generate_plot(plot_type="daily_deceased", region = region, language = language)
     return filename
 
-def get_caption(c_id,dades="casos",language="en"):
+def get_caption(region,dades="casos",language="en"):
     _ = translations[language].gettext
-    flag = ""
-    if c_id in countries:
-        flag = countries[c_id]['flag']
-    region = flag + _(c_id)
+    flaged_region = region
+    if region in countries:
+        flaged_region = countries[region]['flag'] + region
     if dades == "casos":
-        return _('Cases increase at {region}').format(region=region)
+        return _('Cases increase at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_cases", region = region, language = language)
     elif dades == "tot":
-        return _('Active cases, recovered and deceased at {region}').format(region=region)
+        return _('Active cases, recovered and deceased at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active_recovered_deceased", region = region, language = language)
     elif dades == "actius":
-        return _('Active cases at {region}').format(region=region)
+        return _('Active cases at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="active", region = region, language = language)
     elif dades == "altes":
-        return _('Recovered cases at {region}').format(region=region)
+        return _('Recovered cases at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="recovered", region = region, language = language) + ''
     elif dades == "def":
-        return _('Deaths evolution at {region}').format(region=region)
+        return _('Deaths evolution at {region}').format(region = flaged_region) + '\n' + cplt.get_plot_caption(plot_type="daily_deceased", region = region, language = language)
 
 def botons(taula, dades="casos", regio="Total", font="spain", language="en"):
     _ = translations[language].gettext
@@ -238,7 +237,7 @@ def b_lang(language="en"):
 def b_start(language="en"):
     _ = translations[language].gettext
     rep_markup = ReplyKeyboardMarkup([
-            [_("🌐Global"),_("🇪🇸Spain")],[_("💬Language"),_("❓help")] # row 1
+            [_("🌐Global"),_("🇪🇸Spain")],[_("💬Language"),_("❓About")] # row 1
             ],
             resize_keyboard = True
             )
@@ -261,7 +260,7 @@ async def show_region(client, chat, dataSource = "casos",region = "Total", langu
     _ = translations[language].gettext
     btns = b_single(dades=dataSource, regio=region, language = language )
     flname = get_img(region,dataSource, language = language)
-    caption = get_caption(region,dataSource, language = language)+get_label(region, language = language)
+    caption = get_caption(region,dataSource, language = language)
     try:
         await client.send_photo(chat, photo=flname, caption = caption, reply_markup=btns)
     except BadRequest as e:
@@ -279,7 +278,7 @@ async def edit_region(client, chat, mid, dataSource = "casos",region = "Total", 
     _ = translations[language].gettext
     btns = b_single(dades=dataSource, regio=region, language = language)
     flname = get_img(region,dataSource, language = language)
-    caption = get_caption(region,dataSource, language = language)+get_label(region, language = language)
+    caption = get_caption(region,dataSource, language = language)
     try:
         await client.edit_message_media(chat,mid,InputMediaPhoto(media=flname,caption = caption),reply_markup=btns)
     except BadRequest as e:
@@ -326,6 +325,20 @@ async def DoBot(comm, param, client, message, language = "en",**kwargs):
                 caption = f'Search Results for `{param}`'
                 await client.send_message(chat, caption,   reply_markup=btns)
 
+    elif comm == "about":
+        about = _("**Chart Buttons**") + "\n\n"
+        about += _("🦠 - __Case increase.__") + "\n"
+        about += _("📊 - __Active cases, recovered and deceased.__") + "\n"
+        about += _("📈 - __Active cases.__") +" \n"
+        about += _("✅ - __Recovered cases.__") + "\n"
+        about += _("❌ - __Daily deaths evolution.__") + "\n\n"
+        about += _("**Data Sources**") + "\n\n"
+        about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n\n'
+        about += _('__World data source from__') + ' __[CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)__, '
+        about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__' + '\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
+
+        await client.send_message(chat, about, disable_web_page_preview=True)
+
 
 
 
@@ -348,6 +361,8 @@ async def g_request(client, message):
     elif message.text == _("💬Language"):
         btns= b_lang(language)
         await client.send_message(chat, _("Choose Language"), reply_markup=btns)
+    elif message.text == _("❓About"):
+        await DoBot("about", "", client, message,language)
     else:
         param = message.text
         resultats = cerca(param, language)
