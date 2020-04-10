@@ -295,7 +295,9 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
     if comm == "spain":
         btns = b_spain(comunitat, language=language)
         caption = _("Choose a Region")
-        await client.send_message(chat, caption, reply_markup=btns)
+        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope="spain", language=language)
+        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        # await client.send_message(chat, caption, reply_markup=btns)
     if comm == "world":
         btns = b_alphabet(world, scope="world", language=language)
         caption = _("Choose a Region")
