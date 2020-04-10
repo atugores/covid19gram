@@ -97,7 +97,7 @@ def pull_global(base_directory="covid19/", data_directory="data/"):
                 recovered_file.write(
                     f"{date},{country_code},{country_name},{recovered}\n")
                 deceased_file.write(
-                    f"{date},{country_code},Global,{global_deceased[date]}\n")
+                    f"{date},{country_code},Global,{deaths}\n")
             country_code += 1
 
         # add global information for each date
