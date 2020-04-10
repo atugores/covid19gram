@@ -279,6 +279,7 @@ COUNTRIES = {
     'South Africa': _('South Africa'),
     'Zambia': _('Zambia'),
     'Zimbabwe': _('Zimbabwe'),
+    'West Bank and Gaza': _('West Bank and Gaza'),
     'Global': _('Global'),
     'MS Zaandam': _('MS Zaandam')
 }

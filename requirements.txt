@@ -12,6 +12,7 @@ numpy==1.18.1
 pandas==1.0.3
 pyaes==1.6.1
 pyparsing==2.4.7
+mysqlclient==1.4.6
 # Pyrogram===0.16.0.asyncio
 # pip3 install -U https://github.com/pyrogram/pyrogram/archive/asyncio.zip
 PySocks==1.7.0

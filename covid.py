@@ -305,12 +305,14 @@ async def DoBot(comm, param, client, message, language = "en",**kwargs):
         await client.send_message(chat, _("⚙️Main Menu"),   reply_markup=rep_markup)
     if comm == "spain":
         btns = b_spain(comunitat,language = language)
-        caption = "Choose a Region"
-        await client.send_message(chat, _("Choose a Region"),   reply_markup=btns)
+        caption = _("Choose a Region")
+        await client.send_message(chat, caption, reply_markup=btns)
     if comm == "world":
-        btns = b_alphabet(world,font="world",language = language)
-        caption = "Choose a Region"
-        await client.send_message(chat, _("Choose a Region"),   reply_markup=btns)
+        btns = b_alphabet(world, font="world", language = language)
+        caption = _("Choose a Region")
+        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope = "world", language = language)
+        # await client.send_photo(chat, photo=flname, caption = caption, reply_markup=btns)
+        await client.send_message(chat, caption,   reply_markup=btns)
     elif comm == "clean" and user == me:
         filelist = [ f for f in os.listdir("images") if f.endswith(".png") ]
         for f in filelist:
@@ -329,16 +331,19 @@ async def DoBot(comm, param, client, message, language = "en",**kwargs):
                 await client.send_message(chat, caption,   reply_markup=btns)
 
     elif comm == "about":
-        about = _("**Chart Buttons**") + "\n\n"
+        about = _("**Chart Buttons**") + "\n"
         about += _("🦠 - __Case increase.__") + "\n"
         about += _("📊 - __Active cases, recovered and deceased.__") + "\n"
         about += _("📈 - __Active cases.__") +" \n"
         about += _("✅ - __Recovered cases.__") + "\n"
         about += _("❌ - __Daily deaths evolution.__") + "\n\n"
-        about += _("**Data Sources**") + "\n\n"
+        about += _("**Data Sources**") + "\n"
         about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n\n'
-        about += _('__World data source from__') + ' __[CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)__, '
-        about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__' + '\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
+        about += _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
+        about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n\n'
+        about += _("**Contact**")+'\n'
+        about += _("You can contact us using")+" [@C19G_feedbackbot](t.me/C19G_feedbackbot)"
+        about += '\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
         await client.send_message(chat, about, disable_web_page_preview=True)
 
