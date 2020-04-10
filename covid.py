@@ -81,21 +81,6 @@ def get_label(region='Global', language='en'):
     return label
 
 
-def get_img(region, plot_type="daily_cases", language="en"):
-    filename = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
-    # if dades == "casos":
-    #     filename = cplt.generate_plot(plot_type="daily_cases", region = region, language = language)
-    # elif dades == "tot":
-    #     filename = cplt.generate_plot(plot_type="active_recovered_deceased", region = region, language = language)
-    # elif dades == "actius":
-    #     filename = cplt.generate_plot(plot_type="active", region = region, language = language)
-    # elif dades == "altes":
-    #     filename = cplt.generate_plot(plot_type="recovered", region = region, language = language)
-    # elif dades == "def":
-    #     filename = cplt.generate_plot(plot_type="daily_deceased", region = region, language = language)
-    return filename
-
-
 def get_caption(region, plot_type="daily_cases", language="en"):
     _ = translations[language].gettext
     flaged_region = region
@@ -105,7 +90,7 @@ def get_caption(region, plot_type="daily_cases", language="en"):
         flaged_region = _(region)
     title = ""
     if plot_type == "daily_cases":
-        title =  _('Cases increase at {region}').format(region=flaged_region)
+        title = _('Cases increase at {region}').format(region=flaged_region)
     elif plot_type == "active_recovered_deceased":
         title = _('Active cases, recovered and deceased at {region}').format(region=flaged_region)
     elif plot_type == "active":
@@ -117,265 +102,276 @@ def get_caption(region, plot_type="daily_cases", language="en"):
     return title + "\n" + cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
 
 
-def botons(taula, plot_type="daily_cases", regio="Total", font="spain", language="en"):
+def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
     _ = translations[language].gettext
     ibt = []
     l_botns = []
     botonets = []
     result_all = []
-    len_all = 0
     for chart in list(string.ascii_lowercase):
         result = [i for i in taula if _(i)[0].lower() == chart and i != "Global"]
         result_all.extend(result)
         if len(result_all) > 7 or chart == "z":
-            len_all = 0
             for item in result_all:
                 flag = ""
                 if item in countries:
                     flag = countries[item]['flag']
-                ibt.append(InlineKeyboardButton(flag+_(item),callback_data=item+"_"+dades))
-            botonets = [ibt[i*3 : (i+1)*3] for i in range((len(ibt)//4)+2)]
-            botonets.extend([[InlineKeyboardButton(_("⬅️Back"),callback_data="back_"+font)]])
+                ibt.append(InlineKeyboardButton(flag + _(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+            botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
+            botonets.extend([[InlineKeyboardButton(_("⬅️Back"), callback_data="back_" + scope)]])
             btns = InlineKeyboardMarkup(botonets)
             l_botns.append(btns)
-            ibt=[]
+            ibt = []
             botonets = []
             result_all = []
     return l_botns
 
-def b_alphabet(taula, dades="casos", regio="Total", font="spain", language="en"):
+
+def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
     _ = translations[language].gettext
-    ibt=[]
+    ibt = []
     botonets = []
     ordre = 0
     text = ""
     len_all = 0
     s_char = ""
-    ibt.append(InlineKeyboardButton("🌐" + _("Global") , callback_data = _("Global")+ "_" + dades))
+    ibt.append(InlineKeyboardButton("🌐" + _("Global"), callback_data=_("Global") + "_" + plot_type.replace('_', '-')))
     for chart in list(string.ascii_lowercase):
         result = [i for i in taula if _(i)[0].lower() == chart and i != "Global"]
         len_all += len(result)
-        if len_all>7 or chart == "z":
-            if s_char =="":
+        if len_all > 7 or chart == "z":
+            if s_char == "":
                 text = chart.upper()
             else:
                 text = s_char + "-" + chart.upper()
             s_char = ""
             len_all = 0
-            ibt.append(InlineKeyboardButton(text, callback_data = "alph_" + str(ordre) + "_" + font))
-            ordre +=1
-        elif len(result)>0:
-            if s_char =="":
+            ibt.append(InlineKeyboardButton(text, callback_data="alph_" + str(ordre) + "_" + scope))
+            ordre += 1
+        elif len(result) > 0:
+            if s_char == "":
                 s_char = chart.upper()
-    botonets = [ibt[i*3 : (i+1)*3] for i in range((len(ibt)//4)+2)]
+    botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
     btns = InlineKeyboardMarkup(botonets)
     return btns
 
-def b_single(dades="casos", regio="Total", language="en"):
+
+def b_single(plot_type="daily_cases", region="Total", language="en"):
     _ = translations[language].gettext
-    ibt=[]
-    botonets = [[InlineKeyboardButton("🦠",callback_data="s_"+regio+"_casos"),InlineKeyboardButton("📊",callback_data="s_"+regio+"_tot"),InlineKeyboardButton("📈",callback_data="s_"+regio+"_actius"),InlineKeyboardButton("✅",callback_data="s_"+regio+"_altes"),InlineKeyboardButton("❌",callback_data="s_"+regio+"_def")]]
-    btns = InlineKeyboardMarkup(botonets)
+    buttons = [[
+        InlineKeyboardButton("🦠", callback_data="s_" + region + "_daily-cases"),
+        InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
+        InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
+        InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
+        InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased")]]
+    btns = InlineKeyboardMarkup(buttons)
     return btns
 
-def b_find(search,dades="casos",language="en"):
+
+def b_find(search, plot_type="daily_cases", language="en"):
     _ = translations[language].gettext
     taula = cerca(search, language)
     ibt = []
-    l_botns =[]
+    l_botns = []
     botonets = []
     pageSize = 18
-    max = len(taula)//pageSize
+    max = len(taula) // pageSize
 
-    if len(taula)%pageSize != 0:
-        max = len(taula)//pageSize + 1
+    if len(taula) % pageSize != 0:
+        max = len(taula) // pageSize + 1
 
     for pag in range(max):
-        for item in taula[pag*pageSize : (pag+1)*pageSize]:
+        for item in taula[pag * pageSize:(pag + 1) * pageSize]:
             flag = ""
             if item in countries:
                 flag = countries[item]['flag']
-            ibt.append(InlineKeyboardButton(flag+_(item),callback_data=item+"_"+dades))
-        botonets = [ibt[i*3 : (i+1)*3] for i in range((len(ibt)//4)+2)]
-        if pag == 0 and pag != max-1:
-            botonets.extend([[InlineKeyboardButton(">>",callback_data="f_"+str(pag+1)+"_"+search)]])
-        elif pag == max-1 and pag != 0:
-            botonets.extend([[InlineKeyboardButton("<<",callback_data="f_"+str(pag-1)+"_"+search)]])
-        elif pag >0 and pag < max-1:
-            botonets.extend([[InlineKeyboardButton("<<",callback_data="f_"+str(pag-1)+"_"+search),InlineKeyboardButton(">>",callback_data="f_"+str(pag+1)+"_"+search)]])
+            ibt.append(InlineKeyboardButton(flag + _(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+        botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
+        if pag == 0 and pag != max - 1:
+            botonets.extend([[InlineKeyboardButton(">>", callback_data="f_" + str(pag + 1) + "_" + search)]])
+        elif pag == max - 1 and pag != 0:
+            botonets.extend([[InlineKeyboardButton("<<", callback_data="f_" + str(pag - 1) + "_" + search)]])
+        elif pag > 0 and pag < max - 1:
+            botonets.extend([[
+                InlineKeyboardButton("<<", callback_data="f_" + str(pag - 1) + "_" + search),
+                InlineKeyboardButton(">>", callback_data="f_" + str(pag + 1) + "_" + search)]])
         btns = InlineKeyboardMarkup(botonets)
         l_botns.append(btns)
-        ibt=[]
+        ibt = []
         botonets = []
-
     return l_botns
 
-def b_spain(taula,dades="casos",language="en"):
+
+def b_spain(taula, plot_type="daily_cases", language="en"):
     _ = translations[language].gettext
     ibt = []
-    l_botns =[]
+    l_botns = []
     botonets = []
     for item in taula:
-        ibt.append(InlineKeyboardButton(_(item),callback_data=item+"_"+dades))
-    botonets = [ibt[i*3 : (i+1)*3] for i in range((len(ibt)//4)+2)]
+        ibt.append(InlineKeyboardButton(_(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+    botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
     btns = InlineKeyboardMarkup(botonets)
     l_botns.append(btns)
     return l_botns[0]
 
+
 def b_lang(language="en"):
     _ = translations[language].gettext
-    return InlineKeyboardMarkup([[InlineKeyboardButton("English",callback_data="lang_en"),InlineKeyboardButton("Català",callback_data="lang_ca"),InlineKeyboardButton("Español",callback_data="lang_es")]])
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton("English", callback_data="lang_en"),
+        InlineKeyboardButton("Català", callback_data="lang_ca"),
+        InlineKeyboardButton("Español", callback_data="lang_es")]])
+
 
 def b_start(language="en"):
     _ = translations[language].gettext
     rep_markup = ReplyKeyboardMarkup([
-            [_("🌐Global"),_("🇪🇸Spain")],[_("💬Language"),_("❓About")] # row 1
-            ],
-            resize_keyboard = True
-            )
+        [_("🌐Global"), _("🇪🇸Spain")],
+        [_("💬Language"), _("❓About")]],
+        resize_keyboard=True)
     return rep_markup
 
+
 async def set_language(user_id, language):
-        await dbhd.set_language(user_id, language)
+    await dbhd.set_language(user_id, language)
+
 
 async def get_language(user):
     user_id = user.id
     language = await dbhd.get_language(user_id)
-    if  language != 'None':
+    if language != 'None':
         return language
     elif user.language_code and user.language_code in cplt.LANGUAGES:
         return user.language_code
     else:
         return 'en'
 
+
 async def show_region(client, chat, plot_type="daily_cases", region="Total", language='en'):
     _ = translations[language].gettext
-    btns = b_single(dades=plot_type, regio=region, language=language)
-    flname = get_img(region, plot_type, language=language)
+    btns = b_single(plot_type=plot_type, region=region, language=language)
+    flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
     caption = get_caption(region, plot_type, language=language)
     try:
-        await client.send_photo(chat, photo=flname, caption = caption, reply_markup=btns)
+        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
-        if str(e).find("IMAGE_PROCESS_FAILED")>-1:
+        if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
-            flname = get_img(region,dataSource, language = language)
-            await client.send_photo(chat, photo=flname, caption = caption, reply_markup=btns)
-        elif str(e).find("MESSAGE_NOT_MODIFIED")>-1:
-            print("Error: "+str(e))
-    except:
-        print("Unexpected error:")
+            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
+            print("Error: " + str(e))
+    except Exception as err:
+        print("Unexpected error:" + type(err) + " - " + err)
         raise
 
-async def edit_region(client, chat, mid, dataSource = "casos",region = "Total", language = "en"):
-    _ = translations[language].gettext
-    btns = b_single(dades=dataSource, regio=region, language = language)
-    flname = get_img(region,dataSource, language = language)
-    caption = get_caption(region,dataSource, language = language)
+
+async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en"):
+    btns = b_single(plot_type=plot_type, region=region, language=language)
+    flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+    caption = get_caption(region, plot_type=plot_type, language=language)
     try:
-        await client.edit_message_media(chat,mid,InputMediaPhoto(media=flname,caption = caption),reply_markup=btns)
+        await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
     except BadRequest as e:
-        if str(e).find("IMAGE_PROCESS_FAILED")>-1:
+        if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
-            flname = get_img(region,dataSource, language = language)
-            await client.edit_message_media(chat,mid,InputMediaPhoto(media=flname,caption = caption),reply_markup=btns)
-        elif str(e).find("MESSAGE_NOT_MODIFIED")>-1:
-            print("Error: "+str(e))
-    except:
-        print("Unexpected error:")
+            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
+        elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
+            print("Error: " + str(e))
+    except Exception as err:
+        print("Unexpected error:" + type(err) + " - " + err)
         raise
 
-async def DoBot(comm, param, client, message, language = "en",**kwargs):
+
+async def DoBot(comm, param, client, message, language="en", **kwargs):
     _ = translations[language].gettext
     user = message.from_user.id
     chat = message.chat.id
     if comm == "start":
-        btns = b_alphabet(comunitat,language = language)
+        btns = b_alphabet(comunitat, language=language)
         rep_markup = b_start(language)
-        await client.send_message(chat, _("⚙️Main Menu"),   reply_markup=rep_markup)
+        await client.send_message(chat, _("⚙️Main Menu"), reply_markup=rep_markup)
     if comm == "spain":
-        btns = b_spain(comunitat,language = language)
+        btns = b_spain(comunitat, language=language)
         caption = _("Choose a Region")
         await client.send_message(chat, caption, reply_markup=btns)
     if comm == "world":
-        btns = b_alphabet(world, font="world", language = language)
+        btns = b_alphabet(world, scope="world", language=language)
         caption = _("Choose a Region")
-        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope = "world", language = language)
-        # await client.send_photo(chat, photo=flname, caption = caption, reply_markup=btns)
-        await client.send_message(chat, caption,   reply_markup=btns)
+        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope="world", language=language)
+        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        # await client.send_message(chat, caption, reply_markup=btns)
     elif comm == "clean" and user == me:
-        filelist = [ f for f in os.listdir("images") if f.endswith(".png") ]
+        filelist = [f for f in os.listdir("images") if f.endswith(".png")]
         for f in filelist:
             os.remove(os.path.join("images", f))
     elif comm == "find":
-        if len(param)>0:
-            resultats = cerca(param,language = language)
+        if len(param) > 0:
+            resultats = cerca(param, language=language)
             if len(resultats) == 0:
                 await client.send_message(chat, _('No results for `{param}`').format(param=param))
             elif len(resultats) == 1:
-                await show_region(client, chat, region =
-                                  resultats[0])
+                await show_region(client, chat, region=resultats[0])
             else:
-                btns = b_find(param,language = language)[0]
+                btns = b_find(param, language=language)[0]
                 caption = f'Search Results for `{param}`'
-                await client.send_message(chat, caption,   reply_markup=btns)
+                await client.send_message(chat, caption, reply_markup=btns)
 
     elif comm == "about":
         about = _("**Chart Buttons**") + "\n"
         about += _("🦠 - __Case increase.__") + "\n"
         about += _("📊 - __Active cases, recovered and deceased.__") + "\n"
-        about += _("📈 - __Active cases.__") +" \n"
+        about += _("📈 - __Active cases.__") + " \n"
         about += _("✅ - __Recovered cases.__") + "\n"
         about += _("❌ - __Daily deaths evolution.__") + "\n\n"
         about += _("**Data Sources**") + "\n"
         about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n\n'
         about += _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
         about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n\n'
-        about += _("**Contact**")+'\n'
-        about += _("You can contact us using")+" [@C19G_feedbackbot](t.me/C19G_feedbackbot)"
+        about += _("**Contact**") + '\n'
+        about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)"
         about += '\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
         await client.send_message(chat, about, disable_web_page_preview=True)
 
 
-
-
 @app.on_message(Filters.text)
 async def g_request(client, message):
-    user = message.from_user.id
     chat = message.chat.id
     language = await get_language(message.from_user)
     _ = translations[language].gettext
     if message.text.startswith('/'):
         comm = message.text.split()[0].strip('/')
         param = ""
-        if re.match ('^/' + comm + ' .+$', message.text):
+        if re.match('^/' + comm + ' .+$', message.text):
             param = re.search('^/' + comm + ' (.+)$', message.text).group(1)
-        await DoBot(comm, param, client, message,language)
+        await DoBot(comm, param, client, message, language)
     elif message.text == _("🌐Global"):
-        await DoBot("world", "", client, message,language)
+        await DoBot("world", "", client, message, language)
     elif message.text == _("🇪🇸Spain"):
-        await DoBot("spain", "", client, message,language)
+        await DoBot("spain", "", client, message, language)
     elif message.text == _("💬Language"):
-        btns= b_lang(language)
+        btns = b_lang(language)
         await client.send_message(chat, _("Choose Language"), reply_markup=btns)
     elif message.text == _("❓About"):
-        await DoBot("about", "", client, message,language)
+        await DoBot("about", "", client, message, language)
     else:
         param = message.text
         resultats = cerca(param, language)
         if len(resultats) == 0:
             await client.send_message(chat, _('No results for `{param}`').format(param=param))
         elif len(resultats) == 1:
-            await show_region(client, chat, region = resultats[0], language = language)
+            await show_region(client, chat, region=resultats[0], language=language)
         else:
-            btns = b_find(param, language = language)[0]
-            caption =  _('Search results for `{param}`').format(param=param)
-            await client.send_message(chat, caption,   reply_markup=btns)
+            btns = b_find(param, language=language)[0]
+            caption = _('Search results for `{param}`').format(param=param)
+            await client.send_message(chat, caption, reply_markup=btns)
 
 
 @app.on_callback_query()
 async def answer(client, callback_query):
-    cbdata = callback_query.data
+    # cbdata = callback_query.data
     user = callback_query.from_user
     chat = callback_query.message.chat.id
     mid = callback_query.message.message_id
@@ -387,23 +383,22 @@ async def answer(client, callback_query):
         pag = int(params[1])
         btns = botons(comunitat)[pag]
         caption = _("Choose a Region")
-        await client.edit_message_text(chat,mid,caption,reply_markup=btns)
+        await client.edit_message_text(chat, mid, caption, reply_markup=btns)
 
     elif comm == "back":
         font = params[1]
         if font == "world":
-            btns = b_alphabet(world,font="world", language = language)
+            btns = b_alphabet(world, scope="world", language=language)
         else:
-            btns = b_alphabet(comunitat, language = language)
+            btns = b_alphabet(comunitat, language=language)
         text = _("Choose a Region")
-        await client.edit_message_text(chat,mid, text, reply_markup=btns)
+        await client.edit_message_text(chat, mid, text, reply_markup=btns)
 
     elif comm == "s":
         region = params[1]
-        dataSource = params[2]
-        flname =""
+        plot_type = params[2].replace('-', '_')
         if region in tot:
-            await edit_region(client, chat, mid, dataSource,region, language = language)
+            await edit_region(client, chat, mid, plot_type, region, language=language)
 
     if comm == "lang":
         language = params[1]
@@ -417,23 +412,23 @@ async def answer(client, callback_query):
         font = params[2]
         btns = []
         if font == "world":
-            btns = botons(world,font="world", language = language)[pag]
+            btns = botons(world, scope="world", language=language)[pag]
         else:
-            btns = botons(comunitat, language = language)[pag]
+            btns = botons(comunitat, language=language)[pag]
         caption = _("Choose a Region")
-        await client.edit_message_text(chat,mid,caption,reply_markup=btns)
+        await client.edit_message_text(chat, mid, caption, reply_markup=btns)
 
     elif comm == "f":
         pag = int(params[1])
         param = params[2]
-        btns = b_find(param, language = language)[pag]
+        btns = b_find(param, language=language)[pag]
         caption = _('Search results for `{param}`').format(param=param)
         await client.edit_message_text(chat, mid, caption, reply_markup=btns)
 
     elif comm in tot:
         region = comm
-        dataSource = params[1]
-        await show_region(client, chat, dataSource,region, language = language)
+        plot_type = params[1].replace('-', '_')
+        await show_region(client, chat, plot_type, region, language=language)
 
 
 async def main():
@@ -450,5 +445,3 @@ async def main():
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
-
-
