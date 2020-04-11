@@ -37,6 +37,7 @@ class COVID19Plot(object):
     ]
 
     SCOPE_PLOT_TYPES = [
+        'cases',
         'cases_normalized',
         'deceased_normalized',
         'daily_cases_normalized',
@@ -428,6 +429,10 @@ class COVID19Plot(object):
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'cases_per_100k'
+        elif plot_type == 'cases':
+            title = _('Active cases') + f" ({last_date:%d/%B/%Y})"
+            field = 'cases'
+            color = 'dodgerblue'
         elif plot_type == 'deceased_normalized':
             title = _('Deceased per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'deceased_per_100k'
@@ -495,10 +500,11 @@ class COVID19Plot(object):
             total_value = today_df[today_df.region == total_region][field].values[0]
             ax.axvline(total_value, color=color, alpha=0.5)
             total_value_f = locale.format_string('%.1f', total_value, grouping=True)
-            ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
+            if plot_type != 'cases':
+                ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
                         xytext=(3, -20),
                         textcoords="offset points", va='center')
-        elif scope == 'world':
+        elif scope == 'world' and plot_type != 'cases':
             ax.annotate(_("Countries with more than 1,000 cases"), xy=(1, 0), xycoords='axes fraction',
                         xytext=(-20, 20), textcoords='offset pixels',
                         horizontalalignment='right',
@@ -553,7 +559,7 @@ class COVID19Plot(object):
                 locale.setlocale(locale.LC_NUMERIC, "es_ES.UTF-8")
             elif language == 'ca':
                 locale.setlocale(locale.LC_TIME, "ca_ES.UTF-8")
-                locale.setlocale(locale.LC_NUMERIC, "ca_ES.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "es_ES.UTF-8")
             elif language == 'en':
                 locale.setlocale(locale.LC_TIME, "en_GB.UTF-8")
                 locale.setlocale(locale.LC_NUMERIC, "en_GB.UTF-8")

@@ -295,13 +295,13 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
     if comm == "spain":
         btns = b_spain(comunitat, language=language)
         caption = _("Choose a Region")
-        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope="spain", language=language)
+        flname = cplt.generate_scope_plot(plot_type='cases', scope="spain", language=language)
         await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
     if comm == "world":
         btns = b_alphabet(world, scope="world", language=language)
         caption = _("Choose a Region")
-        flname = cplt.generate_scope_plot(plot_type='cases_normalized', scope="world", language=language)
+        flname = cplt.generate_scope_plot(plot_type='cases', scope="world", language=language)
         await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
     elif comm == "clean" and user == me:
@@ -434,6 +434,8 @@ async def answer(client, callback_query):
 
 
 async def main():
+    pull_datasets()
+    pull_global()
     scheduler = AsyncIOScheduler()
     scheduler.add_job(pull_datasets, "interval", hours=1)
     scheduler.add_job(pull_global, "interval", hours=1)
