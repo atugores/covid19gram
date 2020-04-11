@@ -4,6 +4,7 @@ Telegram bot to generate Spain's disease evolution using datadista dataset
 
 Requirements:
 ```
+ sudo apt install redis-server
  pip install -r requirements.txt
  git clone https://github.com/datadista/datasets
  git clone https://github.com/pomber/covid19.git
