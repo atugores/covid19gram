@@ -502,8 +502,8 @@ class COVID19Plot(object):
             total_value_f = locale.format_string('%.1f', total_value, grouping=True)
             if plot_type != 'cases':
                 ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
-                        xytext=(3, -20),
-                        textcoords="offset points", va='center')
+                            xytext=(3, -20),
+                            textcoords="offset points", va='center')
         elif scope == 'world' and plot_type != 'cases':
             ax.annotate(_("Countries with more than 1,000 cases"), xy=(1, 0), xycoords='axes fraction',
                         xytext=(-20, 20), textcoords='offset pixels',
