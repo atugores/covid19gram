@@ -12,3 +12,4 @@ data/*
 !data/ccaa_poblacion.csv
 !data/WPP2019_TotalPopulation_UN_2019.csv
 !data/world_population.csv
+!data/spain_population.csv
