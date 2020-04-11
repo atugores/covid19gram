@@ -332,6 +332,9 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
         for f in filelist:
             os.remove(os.path.join("images", f))
+    elif comm == "update" and user == me:
+        pull_datasets()
+        pull_global()
     elif comm == "find":
         if len(param) > 0:
             resultats = cerca(param, language=language)
