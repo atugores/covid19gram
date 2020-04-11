@@ -82,6 +82,13 @@ def get_label(region='Global', language='en'):
 
 
 def get_caption(region, plot_type="daily_cases", language="en", scope=False):
+    if scope:
+        scope_region = 'spain'
+        if region == 'Global':
+            scope_region = 'world'
+        plot_caption = cplt.get_scope_plot_caption(plot_type=plot_type, scope=scope_region, language=language)
+        return plot_caption
+
     _ = translations[language].gettext
     flaged_region = region
     if region in countries:
@@ -99,9 +106,7 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
         title = _('Recovered cases at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
-    plot_caption = ""
-    if not scope:
-        plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
+    plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
     return f'**{title}**\n\n{plot_caption}'
 
 

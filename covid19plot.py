@@ -164,6 +164,19 @@ class COVID19Plot(object):
         caption = self._get_caption(plot_type, region_scope, region, language, region_df)
         return caption
 
+    def get_scope_plot_caption(self, plot_type, scope, language='en'):
+        if plot_type not in self.SCOPE_PLOT_TYPES:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data(scope)
+        source = self._sources.get(scope)
+
+        # get region data
+        df = source.get('df')
+        caption = self._get_scope_caption(plot_type, scope, language, df)
+        return caption
+
     def generate_plot(self, plot_type, region, language='en'):
         if plot_type not in self.PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
@@ -250,20 +263,26 @@ class COVID19Plot(object):
         last_data = None
         last_date = df.index.get_level_values('fecha')[-1].strftime("%d/%B/%Y")
         if plot_type == 'daily_cases':
+            v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+            last_data = "  - " + _('Total cases') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
-            last_data = "  - " + _('Daily increment') + ": " + v + "\n"
+            last_data = last_data + "  - " + _('Daily increment') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Increment rolling avg (3 days)') + ": " + v
         elif plot_type == 'daily_deceased':
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            last_data = "  - " + _('Total deceased') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
-            last_data = "  - " + _('Daily deaths') + ": " + v + "\n"
+            last_data = last_data + "  - " + _('Daily deaths') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Deaths rolling avg (3 days)') + ": " + v
         elif plot_type == 'active_recovered_deceased':
+            v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+            last_data = "  - " + _('Total cases') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
-            last_data = "  - " + _('Currently infected') + ": " + v + "\n"
+            last_data = last_data + "  - " + _('Currently infected') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
             last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
@@ -475,30 +494,25 @@ class COVID19Plot(object):
                 df['new_deceased_per_100k'] = df['rolling'] * 100_000 / df['population']
                 df.fillna(0, inplace=True)
 
-        total_region = 'Global'
-        if scope == 'spain':
-            total_region = 'Total'
-
         today_df = df.loc[last_date]
-        top20_df = today_df[today_df.region != total_region]
-        if scope == 'world':
-            top20_df = top20_df[today_df.cases > 1000]
-        top20_df = top20_df.sort_values(field, ascending=True)
-        top20_df = top20_df.tail(20)
+        top_df = self._get_scope_df(plot_type, scope, today_df, field)
 
         fig, ax = plt.subplots(figsize=(12, 8))
         ax.xaxis.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
-        plt.barh(y=top20_df['region'], width=top20_df[field], alpha=0.4, color=color, label=label)
-        for region in top20_df['region'].unique():
-            value = top20_df[top20_df.region == region][field].values[0]
-            value_f = locale.format_string('%.1f', value, grouping=True)
+        plt.barh(y=top_df['region'], width=top_df[field], alpha=0.4, color=color, label=label)
+        for region in top_df['region'].unique():
+            value = top_df[top_df.region == region][field].values[0]
+            fmt = '%.1f'
+            if plot_type == 'cases':
+                fmt = '%.0f'
+            value_f = locale.format_string(fmt, value, grouping=True)
             ax.annotate(value_f, xy=(value, region),
                         xytext=(3, 0),
                         textcoords="offset points", va='center')
 
         if plot_type != 'cases':
             if scope == 'spain':
-                total_value = today_df[today_df.region == total_region][field].values[0]
+                total_value = today_df[today_df.region == 'Total'][field].values[0]
                 ax.axvline(total_value, color=color, alpha=0.5)
                 total_value_f = locale.format_string('%.1f', total_value, grouping=True)
                 ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
@@ -517,6 +531,82 @@ class COVID19Plot(object):
         self._add_footer(ax, scope, language)
         plt.savefig(image_path)
         plt.close()
+
+    def _get_scope_caption(self, plot_type, scope, language, df):
+        _ = self._translations[language].gettext
+        self._set_locale(language)
+
+        last_date = df.index.get_level_values('fecha')[-1]
+        title = None
+        field = None
+        if plot_type == 'cases_normalized':
+            title = _('Cases per 100k inhabitants')
+            field = 'cases_per_100k'
+        elif plot_type == 'cases':
+            title = _('Active cases')
+            field = 'cases'
+        elif plot_type == 'deceased_normalized':
+            title = _('Deceased per 100k inhabitants')
+            field = 'deceased_per_100k'
+        elif plot_type == 'daily_cases_normalized':
+            title = _('New cases per 100k inhabitants')
+            field = 'new_cases_per_100k'
+            # generate new df with new_cases_per_100k
+            if scope == 'world':
+                df = df[df.cases > 1000]
+            df['increase'] = 0.0
+            df['rolling'] = 0.0
+            for region in self.get_regions(scope):
+                reg_df = df[df.region == region]
+                increase = reg_df['cases'] - reg_df['cases'].shift(1)
+                rolling = increase.rolling(window=3).mean()
+                df['increase'].mask(df.region == region, increase, inplace=True)
+                df['rolling'].mask(df.region == region, rolling, inplace=True)
+                df['new_cases_per_100k'] = df['rolling'] * 100_000 / df['population']
+                df.fillna(0, inplace=True)
+        elif plot_type == 'daily_deceased_normalized':
+            title = _('New deceased per 100k inhabitants')
+            field = 'new_deceased_per_100k'
+            # generate new df with new_cases_per_100k
+            if scope == 'world':
+                df = df[df.cases > 1000]
+            df['increase'] = 0.0
+            df['rolling'] = 0.0
+            for region in self.get_regions(scope):
+                reg_df = df[df.region == region]
+                increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
+                rolling = increase.rolling(window=3).mean()
+                df['increase'].mask(df.region == region, increase, inplace=True)
+                df['rolling'].mask(df.region == region, rolling, inplace=True)
+                df['new_deceased_per_100k'] = df['rolling'] * 100_000 / df['population']
+                df.fillna(0, inplace=True)
+        today_df = df.loc[last_date]
+        top_df = self._get_scope_df(plot_type, scope, today_df, field)
+        top_df = top_df.sort_values(field, ascending=False)
+
+        last_data = ""
+        last_date = last_date.strftime("%d/%B/%Y")
+
+        for region in top_df['region'].unique():
+            value = top_df[top_df.region == region][field].values[0]
+            fmt = '%.1f'
+            if plot_type == 'cases':
+                fmt = '%.0f'
+            value_f = locale.format_string(fmt, value, grouping=True)
+            last_data = last_data + " - " + _(region) + ": " + value_f + "\n"
+        updated = _("Information on last available data") + " (" + last_date + "):"
+        return f"**{title}**\n\n{updated}\n{last_data}"
+
+    def _get_scope_df(self, plot_type, scope, today_df, field, max_records=20):
+        total_region = 'Global'
+        if scope == 'spain':
+            total_region = 'Total'
+        top_df = today_df[today_df.region != total_region]
+        if scope == 'world':
+            top_df = top_df[today_df.cases > 1000]
+        top_df = top_df.sort_values(field, ascending=True)
+        top_df = top_df.tail(max_records)
+        return top_df
 
     def _get_plot_xlim(self, scope, df):
         if scope == 'spain':
