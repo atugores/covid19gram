@@ -6,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
 import re
 import asyncio
+from datetime import timedelta
 from pyrogram import Client
 from pyrogram import Filters, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup
 from pyrogram.errors import BadRequest
@@ -14,6 +15,7 @@ from config.getdata import pull_datasets, pull_global
 from config.countries import countries
 from config.settings import DBHandler
 import gettext
+import redis
 
 
 config_file = "conf.ini"
@@ -36,6 +38,8 @@ tot.extend(comunitat)
 tot.sort()
 translations = {}
 dbhd = DBHandler()
+cache = redis.Redis(host='localhost', port=6379, db=0)
+CACHE_PREFIX = 'COVID'
 
 for language in cplt.LANGUAGES:
     translation = gettext.translation('messages', localedir='locales', languages=[language])
@@ -110,23 +114,38 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
     return f'**{title}**\n\n{plot_caption}'
 
 
-def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
+def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en", method=None, acum_regions_key=None):
     _ = translations[language].gettext
     ibt = []
     l_botns = []
     botonets = []
     result_all = []
+    acum_regions = []
+    if acum_regions_key:
+        regions = cache.get(acum_regions_key)
+        if regions:
+            acum_regions = regions.decode("utf-8").split('_')
+
     for chart in list(string.ascii_lowercase):
-        result = [i for i in taula if _(i)[0].lower() == chart and i != "Global"]
+        result = [i for i in taula if _(i)[0].lower() == chart and i != "Global" and i not in acum_regions]
         result_all.extend(result)
         if len(result_all) > 7 or chart == "z":
             for item in result_all:
                 flag = ""
                 if item in countries:
                     flag = countries[item]['flag']
-                ibt.append(InlineKeyboardButton(flag + _(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+                cb = ""
+                if method:
+                    cb = method + "_"
+                cb = cb + item + "_" + plot_type.replace('_', '-')
+                ibt.append(InlineKeyboardButton(flag + _(item), callback_data=cb))
             botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
-            botonets.extend([[InlineKeyboardButton(_("⬅️Back"), callback_data="back_" + scope)]])
+            cb = "back_" + scope
+            if method:
+                cb = cb + '_' + method
+                if acum_regions_key:
+                    cb = cb + '_' + acum_regions_key
+            botonets.extend([[InlineKeyboardButton(_("⬅️Back"), callback_data=cb)]])
             btns = InlineKeyboardMarkup(botonets)
             l_botns.append(btns)
             ibt = []
@@ -135,7 +154,7 @@ def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", languag
     return l_botns
 
 
-def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
+def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", method=None, acum_regions_key=None, language="en"):
     _ = translations[language].gettext
     ibt = []
     botonets = []
@@ -154,12 +173,21 @@ def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", lan
                 text = s_char + "-" + chart.upper()
             s_char = ""
             len_all = 0
-            ibt.append(InlineKeyboardButton(text, callback_data="alph_" + str(ordre) + "_" + scope))
+            cb = "alph_" + str(ordre) + "_" + scope
+            if method:
+                cb = cb + "_" + method
+                if acum_regions_key:
+                    cb = cb + '_' + acum_regions_key
+            ibt.append(InlineKeyboardButton(text, callback_data=cb))
             ordre += 1
         elif len(result) > 0:
             if s_char == "":
                 s_char = chart.upper()
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
+    if method == 'compare':
+        botonets.append([
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish")
+        ])
     btns = InlineKeyboardMarkup(botonets)
     return btns
 
@@ -181,7 +209,8 @@ def b_single(plot_type="daily_cases", region="Total", language="en"):
             InlineKeyboardButton("🧮❌📈", callback_data="scope_" + region + "_daily-deceased-normalized"),
         ])
     buttons.append([
-        InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region)
+        # InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
+        InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + region),
     ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
@@ -221,17 +250,25 @@ def b_find(search, plot_type="daily_cases", language="en"):
     return l_botns
 
 
-def b_spain(taula, plot_type="daily_cases", language="en"):
+def b_spain(taula, plot_type="daily_cases", method=None, acum_regions=[], language="en"):
     _ = translations[language].gettext
     ibt = []
-    l_botns = []
     botonets = []
     for item in taula:
-        ibt.append(InlineKeyboardButton(_(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+        if item in acum_regions:
+            continue
+        cb = ""
+        if method:
+            cb = method + "_"
+        cb = cb + item + "_" + plot_type.replace('_', '-')
+        ibt.append(InlineKeyboardButton(_(item), callback_data=cb))
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
+    if method == 'compare':
+        botonets.append([
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish")
+        ])
     btns = InlineKeyboardMarkup(botonets)
-    l_botns.append(btns)
-    return l_botns[0]
+    return btns
 
 
 def b_lang(language="en"):
@@ -297,7 +334,8 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
         raise
 
 
-async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False):
+async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False, compare=False):
+    _ = translations[language].gettext
     btns = b_single(plot_type=plot_type, region=region, language=language)
     if scope:
         scope = 'spain'
@@ -305,6 +343,15 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
             scope = 'world'
         flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language, scope=True)
+    elif compare:
+        regions = cache.get(f"{CACHE_PREFIX}_compare_{chat}_{mid}")
+        if not regions:
+            regions = []
+        else:
+            regions = regions.decode("utf-8").split('_')
+        flname = cplt.generate_multiregion_plot(plot_type='cases_normalized', regions=regions, language=language)
+        caption = _("Comparison of cases in ") + ', '.join([_(region) for region in regions])
+        btns = []
     else:
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
@@ -435,13 +482,22 @@ async def answer(client, callback_query):
         await client.edit_message_text(chat, mid, caption, reply_markup=btns)
 
     elif comm == "back":
-        font = params[1]
-        if font == "world":
-            btns = b_alphabet(world, scope="world", language=language)
+        scope = params[1]
+        method = None
+        if len(params) > 2:
+            method = params[2]
+        acum_regions_key = None
+        if len(params) > 3:
+            acum_regions_key = params[3]
+        if scope == "world":
+            btns = b_alphabet(world, scope="world", language=language, method=method, acum_regions_key=acum_regions_key)
         else:
-            btns = b_alphabet(comunitat, language=language)
-        text = _("Choose a Region")
-        await client.edit_message_text(chat, mid, text, reply_markup=btns)
+            btns = b_alphabet(comunitat, language=language, method=method, acum_regions_key=acum_regions_key)
+        if not method:
+            caption = _("Choose a Region")
+            await client.edit_message_text(chat, mid, caption, reply_markup=btns)
+        else:
+            await client.edit_message_reply_markup(chat, mid, reply_markup=btns)
 
     elif comm == "s":
         region = params[1]
@@ -458,6 +514,29 @@ async def answer(client, callback_query):
                 for plot_type in cplt.SCOPE_PLOT_TYPES:
                     await show_region(client, chat, plot_type, region, language=language, scope=True, simple=True)
 
+    elif comm == "compare":
+        region = params[1]
+        if region == 'finish':
+            await edit_region(client, chat, mid, language=language, compare=True)
+            return
+        cache_key = f"{CACHE_PREFIX}_{comm}_{chat}_{mid}"
+        regions = cache.get(cache_key)
+        if not regions:
+            regions = []
+        else:
+            regions = regions.decode("utf-8").split('_')
+        regions.append(region)
+        cache.setex(
+            cache_key,
+            timedelta(minutes=60),
+            value='_'.join(regions))
+        if region in comunitat:
+            btns = b_spain(comunitat, method='compare', acum_regions=regions, language=language)
+        else:
+            btns = b_alphabet(world, scope="world", method='compare', acum_regions_key=cache_key, language=language)
+        text = _("Choose a Region to compare with ") + ', '.join([_(region) for region in regions])
+        await client.edit_message_text(chat, mid, text, reply_markup=btns)
+
     elif comm == "scope":
         region = params[1]
         plot_type = params[2].replace('-', '_')
@@ -473,14 +552,20 @@ async def answer(client, callback_query):
 
     elif comm == "alph":
         pag = int(params[1])
-        font = params[2]
+        scope = params[2]
+        method = None
+        if len(params) > 3:
+            method = params[3]
         btns = []
-        if font == "world":
-            btns = botons(world, scope="world", language=language)[pag]
+        if scope == 'world':
+            btns = botons(world, scope=scope, language=language, method=method)[pag]
         else:
-            btns = botons(comunitat, language=language)[pag]
-        caption = _("Choose a Region")
-        await client.edit_message_text(chat, mid, caption, reply_markup=btns)
+            btns = botons(comunitat, scope=scope, language=language, method=method)[pag]
+        if not method:
+            caption = _("Choose a Region")
+            await client.edit_message_text(chat, mid, caption, reply_markup=btns)
+        else:
+            await client.edit_message_reply_markup(chat, mid, reply_markup=btns)
 
     elif comm == "f":
         pag = int(params[1])

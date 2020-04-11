@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
-sns.set_context("paper")
+sns.set_context("notebook")
 sns.set_style("whitegrid")
 matplotlib.use('Agg')
 
@@ -404,7 +404,7 @@ class COVID19Plot(object):
             for region in regions:
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('fecha')
-                plt.plot(x, df_region['cases_per_100k'])
+                plt.plot(x, df_region['cases_per_100k'], linewidth=2)
                 region_name = _(region)
                 ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})",
                             xy=(x[-1], df_region['cases_per_100k'][-1]), xytext=(0, 3),
@@ -417,7 +417,7 @@ class COVID19Plot(object):
             for region in regions:
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('fecha')
-                plt.plot(x, df_region['deceased_per_100k'])
+                plt.plot(x, df_region['deceased_per_100k'], linewidth=2)
                 region_name = _(region)
                 ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})",
                             xy=(x[-1], df_region['deceased_per_100k'][-1]), xytext=(0, 3),
