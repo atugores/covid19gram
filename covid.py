@@ -201,15 +201,16 @@ def b_single(plot_type="daily_cases", region="Total", language="en"):
         InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased")]]
     if region in ["Total", "Global"]:
-        buttons.append([
-            InlineKeyboardButton("🧮🦠", callback_data="scope_" + region + "_cases"),
-            InlineKeyboardButton("🧮🦠📟", callback_data="scope_" + region + "_cases-normalized"),
-            InlineKeyboardButton("🧮🦠📈", callback_data="scope_" + region + "_daily-cases-normalized"),
-            InlineKeyboardButton("🧮❌📟", callback_data="scope_" + region + "_deceased-normalized"),
-            InlineKeyboardButton("🧮❌📈", callback_data="scope_" + region + "_daily-deceased-normalized"),
-        ])
+        buttons.extend([[
+            InlineKeyboardButton("🦠🗺", callback_data="scope_" + region + "_cases"),
+            InlineKeyboardButton("🦠%", callback_data="scope_" + region + "_cases-normalized"),
+            InlineKeyboardButton("📈🆕", callback_data="scope_" + region + "_daily-cases-normalized")],
+            [
+            InlineKeyboardButton("❌%", callback_data="scope_" + region + "_deceased-normalized"),
+            InlineKeyboardButton("❌🆕", callback_data="scope_" + region + "_daily-deceased-normalized"),
+        ]])
     buttons.append([
-        # InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
+        InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
         InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + region),
     ])
     btns = InlineKeyboardMarkup(buttons)
@@ -333,6 +334,41 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
         print("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
+async def send_regions(client, chat, region="Total", language='en', scope=False):
+    _ = translations[language].gettext
+    media = []
+    if scope:
+        scope = 'spain'
+        if region == 'Global':
+            scope = 'world'
+        for plot_type in cplt.PLOT_TYPES:
+            media.append(InputMediaPhoto(
+                cplt.generate_plot(plot_type=plot_type, region=region, language=language),
+                caption=get_caption(region, plot_type=plot_type, language=language)
+            ))
+        for plot_type in cplt.SCOPE_PLOT_TYPES:
+            media.append(InputMediaPhoto(
+                cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language),
+                caption=get_caption(region, plot_type=plot_type, language=language, scope=True)
+            ))
+    else:
+        for plot_type in cplt.PLOT_TYPES:
+            media.append(InputMediaPhoto(
+                cplt.generate_plot(plot_type=plot_type, region=region, language=language),
+                caption=get_caption(region, plot_type=plot_type, language=language)
+            ))
+
+    try:
+        await client.send_media_group(chat, media=media)
+    except BadRequest as e:
+        if str(e).find("IMAGE_PROCESS_FAILED") > -1:
+            for photo in media:
+                os.remove(photo.media)
+        elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
+            print("Error: " + str(e))
+    except Exception as err:
+        print("Unexpected error:" + str(type(err)) + " - " + str(err))
+        raise
 
 async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False, compare=False):
     _ = translations[language].gettext
@@ -507,12 +543,12 @@ async def answer(client, callback_query):
 
     elif comm == "sendall":
         region = params[1]
+        await client.send_message(chat,_("Generating all plots, it may take some time."))
         if region in tot:
-            for plot_type in cplt.PLOT_TYPES:
-                await show_region(client, chat, plot_type, region, language=language, simple=True)
             if region in ['Global', 'Total']:
-                for plot_type in cplt.SCOPE_PLOT_TYPES:
-                    await show_region(client, chat, plot_type, region, language=language, scope=True, simple=True)
+                await send_regions(client, chat, region=region, language=language, scope=True)
+            else:
+                await send_regions(client, chat, region=region, language=language)
 
     elif comm == "compare":
         region = params[1]
