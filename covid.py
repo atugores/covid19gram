@@ -180,6 +180,9 @@ def b_single(plot_type="daily_cases", region="Total", language="en"):
             InlineKeyboardButton("🧮❌📟", callback_data="scope_" + region + "_deceased-normalized"),
             InlineKeyboardButton("🧮❌📈", callback_data="scope_" + region + "_daily-deceased-normalized"),
         ])
+    buttons.append([
+        InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region)
+    ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
 
@@ -263,17 +266,29 @@ async def get_language(user):
         return 'en'
 
 
-async def show_region(client, chat, plot_type="daily_cases", region="Total", language='en'):
+async def show_region(client, chat, plot_type="daily_cases", region="Total", language='en', scope=False, simple=False):
     _ = translations[language].gettext
-    btns = b_single(plot_type=plot_type, region=region, language=language)
-    flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
-    caption = get_caption(region, plot_type, language=language)
+    btns = []
+    if not simple:
+        btns = b_single(plot_type=plot_type, region=region, language=language)
+    if scope:
+        scope = 'spain'
+        if region == 'Global':
+            scope = 'world'
+        flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
+        caption = get_caption(region, plot_type=plot_type, language=language, scope=True)
+    else:
+        flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+        caption = get_caption(region, plot_type=plot_type, language=language)
     try:
         await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
-            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            if scope:
+                flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
+            else:
+                flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
             print("Error: " + str(e))
@@ -433,6 +448,15 @@ async def answer(client, callback_query):
         plot_type = params[2].replace('-', '_')
         if region in tot:
             await edit_region(client, chat, mid, plot_type, region, language=language)
+
+    elif comm == "sendall":
+        region = params[1]
+        if region in tot:
+            for plot_type in cplt.PLOT_TYPES:
+                await show_region(client, chat, plot_type, region, language=language, simple=True)
+            if region in ['Global', 'Total']:
+                for plot_type in cplt.SCOPE_PLOT_TYPES:
+                    await show_region(client, chat, plot_type, region, language=language, scope=True, simple=True)
 
     elif comm == "scope":
         region = params[1]

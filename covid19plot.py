@@ -23,12 +23,12 @@ class COVID19Plot(object):
     LANGUAGES = ['ca', 'es', 'en']
     PLOT_TYPES = [
         'daily_cases',
-        'daily_deceased',
         'active_recovered_deceased',
         'active',
-        'deceased',
+        # 'deceased',
         'recovered',
-        'cases_normalized'
+        'daily_deceased',
+        # 'cases_normalized'
     ]
 
     MULTIREGION_PLOT_TYPES = [
@@ -39,8 +39,8 @@ class COVID19Plot(object):
     SCOPE_PLOT_TYPES = [
         'cases',
         'cases_normalized',
-        'deceased_normalized',
         'daily_cases_normalized',
+        'deceased_normalized',
         'daily_deceased_normalized',
     ]
 
