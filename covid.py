@@ -99,7 +99,7 @@ def get_caption(region, plot_type="daily_cases", language="en"):
         title = _('Recovered cases at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
-    return "**" + title + "**" + "\n\n" + cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
+    return f'**{title}**\n\n' + cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
 
 
 def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
