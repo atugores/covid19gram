@@ -81,7 +81,7 @@ def get_label(region='Global', language='en'):
     return label
 
 
-def get_caption(region, plot_type="daily_cases", language="en"):
+def get_caption(region, plot_type="daily_cases", language="en", scope=False):
     _ = translations[language].gettext
     flaged_region = region
     if region in countries:
@@ -99,7 +99,10 @@ def get_caption(region, plot_type="daily_cases", language="en"):
         title = _('Recovered cases at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
-    return f'**{title}**\n\n' + cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
+    plot_caption = ""
+    if not scope:
+        plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
+    return f'**{title}**\n\n{plot_caption}'
 
 
 def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en"):
@@ -164,6 +167,14 @@ def b_single(plot_type="daily_cases", region="Total", language="en"):
         InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
         InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased")]]
+    if region in ["Total", "Global"]:
+        buttons.append([
+            InlineKeyboardButton("🧮🦠", callback_data="scope_" + region + "_cases"),
+            InlineKeyboardButton("🧮🦠📟", callback_data="scope_" + region + "_cases-normalized"),
+            InlineKeyboardButton("🧮🦠📈", callback_data="scope_" + region + "_daily-cases-normalized"),
+            InlineKeyboardButton("🧮❌📟", callback_data="scope_" + region + "_deceased-normalized"),
+            InlineKeyboardButton("🧮❌📈", callback_data="scope_" + region + "_daily-deceased-normalized"),
+        ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
 
@@ -262,25 +273,38 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
             print("Error: " + str(e))
     except Exception as err:
-        print("Unexpected error:" + type(err) + " - " + err)
+        print("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
 
-async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en"):
+async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False):
     btns = b_single(plot_type=plot_type, region=region, language=language)
-    flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
-    caption = get_caption(region, plot_type=plot_type, language=language)
+    if scope:
+        scope = 'spain'
+        if region == 'Global':
+            scope = 'world'
+        flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
+        caption = get_caption(region, plot_type=plot_type, language=language, scope=True)
+    else:
+        flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+        caption = get_caption(region, plot_type=plot_type, language=language)
     try:
         await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
-            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            if scope:
+                scope = 'spain'
+                if region == 'Global':
+                    scope = 'world'
+                flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
+            else:
+                flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
             print("Error: " + str(e))
     except Exception as err:
-        print("Unexpected error:" + type(err) + " - " + err)
+        print("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
 
@@ -401,6 +425,12 @@ async def answer(client, callback_query):
         plot_type = params[2].replace('-', '_')
         if region in tot:
             await edit_region(client, chat, mid, plot_type, region, language=language)
+
+    elif comm == "scope":
+        region = params[1]
+        plot_type = params[2].replace('-', '_')
+        if region in ["Global", "Total"]:
+            await edit_region(client, chat, mid, plot_type, region, language=language, scope=True)
 
     if comm == "lang":
         language = params[1]
