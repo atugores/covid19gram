@@ -70,57 +70,22 @@ class COVID19Plot(object):
         self._footer_font.set_style('italic')
 
     def _reload_data(self, scope):
-        csv_path = f"{self._source_path}/{scope}_cases.csv"
+        csv_path = f"{self._source_path}/{scope}_covid19gram.csv"
         if not os.path.isfile(csv_path):
             raise RuntimeError(f"Datasource {scope} not found ({csv_path})")
 
         df = pd.read_csv(csv_path)
         # convert date to datetime and set index
-        df['fecha'] = pd.to_datetime(df['fecha'])
-        df.set_index(['fecha', 'cod_ine'], inplace=True)
-        df.rename(columns={'total': 'cases', 'CCAA': 'region'}, inplace=True)
-        # column recovered
-        rec_df = pd.read_csv(f"{self._source_path}/{scope}_recovered.csv")
-        rec_df['fecha'] = pd.to_datetime(rec_df['fecha'])
-        rec_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        rec_df.columns = ['CCAA_altas', 'recovered']
-        df = df.merge(rec_df, left_index=True, right_index=True, how='left')
-        df.drop(columns=['CCAA_altas'], inplace=True)
-        # column deceased
-        dec_df = pd.read_csv(f"{self._source_path}/{scope}_deceased.csv")
-        dec_df['fecha'] = pd.to_datetime(dec_df['fecha'])
-        dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
-        dec_df.columns = ['CCAA_fac', 'deceased']
-        df = df.merge(dec_df, left_index=True, right_index=True, how='left')
-        df.drop(columns=['CCAA_fac'], inplace=True)
-        # column population
-        if os.path.isfile(f"{self._source_path}/{scope}_population.csv"):
-            pop_df = pd.read_csv(f"{self._source_path}/{scope}_population.csv")
-            if scope == 'world':
-                pop_df.set_index('country_name', inplace=True)
-                df = df.merge(pop_df, left_on='region',
-                              right_index=True, how='left')
-            else:
-                pop_df.set_index('cod_ine', inplace=True)
-                df = df.merge(pop_df, left_index=True,
-                              right_index=True, how='left')
-        else:
-            df['population'] = 0
-
-        df.fillna(0, inplace=True)
+        df['date'] = pd.to_datetime(df['date'])
+        df.set_index(['date', 'region_code'], inplace=True)
         df.sort_index()
-
-        df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
-        df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
-        df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
-
         source = self._sources.get(scope, {})
         source['df'] = df
         source['ts'] = int(os.path.getmtime(csv_path))
         self._sources[scope] = source
 
     def _check_new_data(self, scope):
-        csv_path = f"{self._source_path}/{scope}_cases.csv"
+        csv_path = f"{self._source_path}/{scope}_covid19gram.csv"
         if not os.path.isfile(csv_path):
             raise RuntimeError(f"Datasource {scope} not found ({csv_path})")
 
@@ -246,14 +211,6 @@ class COVID19Plot(object):
 
     def _get_plot_data(self, plot_type, df, region):
         region_df = df[df.region == region]
-        if plot_type == 'daily_cases':
-            # calculate daily increase and rolling avg
-            region_df['increase'] = region_df['cases'] - region_df['cases'].shift(1)
-            region_df['rolling'] = region_df.rolling(window=3).mean()['increase']
-        elif plot_type == 'daily_deceased':
-            # calculate daily increase and rolling avg
-            region_df['increase'] = region_df['deceased'] - region_df['deceased'].shift(1)
-            region_df['rolling'] = region_df.rolling(window=3).mean()['increase']
         return region_df
 
     def _get_caption(self, plot_type, scope, region, language, df):
@@ -261,21 +218,21 @@ class COVID19Plot(object):
         self._set_locale(language)
 
         last_data = None
-        last_date = df.index.get_level_values('fecha')[-1].strftime("%d/%B/%Y")
+        last_date = df.index.get_level_values('date')[-1].strftime("%d/%B/%Y")
         if plot_type == 'daily_cases':
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
             last_data = "  - " + _('Total cases') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True)
             last_data = last_data + "  - " + _('Daily increment') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
+            v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Increment rolling avg (3 days)') + ": " + v
         elif plot_type == 'daily_deceased':
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
             last_data = "  - " + _('Total deceased') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['increase_deceased'][-1], grouping=True)
             last_data = last_data + "  - " + _('Daily deaths') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling'][-1], grouping=True)
+            v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Deaths rolling avg (3 days)') + ": " + v
         elif plot_type == 'active_recovered_deceased':
@@ -313,7 +270,7 @@ class COVID19Plot(object):
         self._set_locale(language)
 
         fig, ax = plt.subplots(figsize=(12, 6))
-        x = df.index.get_level_values('fecha')
+        x = df.index.get_level_values('date')
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
         title = None
         y_label = None
@@ -321,18 +278,18 @@ class COVID19Plot(object):
         if plot_type == 'daily_cases':
             title = _('Cases increase at {region}').format(region=_(region))
             y_label = _('Cases')
-            plt.bar(x, df['increase'], alpha=0.3, width=0.9, label=_('Daily increment'))
-            plt.fill_between(x, 0, df['rolling'], color='red', alpha=0.5, label=_('Increment rolling avg (3 days)'))
-            plt.plot(x, df['rolling'], color='red')
-            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1], df['increase'][-1]),
+            plt.bar(x, df['increase_cases'], alpha=0.3, width=0.9, label=_('Daily increment'))
+            plt.fill_between(x, 0, df['rolling_cases'], color='red', alpha=0.5, label=_('Increment rolling avg (3 days)'))
+            plt.plot(x, df['rolling_cases'], color='red')
+            ax.annotate(f"{df['increase_cases'][-1]:0,.0f}", xy=(x[-1], df['increase_cases'][-1]),
                         xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'daily_deceased':
             title = _('Daily deaths evolution at {region}').format(region=_(region))
             y_label = _('Deaths')
-            plt.bar(x, df['increase'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
-            plt.fill_between(x, 0, df['rolling'], color='red', alpha=0.2, label=_('Deaths rolling avg (3 days)'))
-            plt.plot(x, df['rolling'], color='red')
-            ax.annotate(f"{df['increase'][-1]:0,.0f}", xy=(x[-1], df['increase'][-1]),
+            plt.bar(x, df['increase_deceased'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
+            plt.fill_between(x, 0, df['rolling_deceased'], color='red', alpha=0.2, label=_('Deaths rolling avg (3 days)'))
+            plt.plot(x, df['rolling_deceased'], color='red')
+            ax.annotate(f"{df['increase_deceased'][-1]:0,.0f}", xy=(x[-1], df['increase_deceased'][-1]),
                         xytext=(0, 3), textcoords="offset points", ha='center')
         elif plot_type == 'active_recovered_deceased':
             title = _('Active cases, recovered and deceased at {region}').format(region=_(region))
@@ -403,7 +360,7 @@ class COVID19Plot(object):
             y_label = _('Cases')
             for region in regions:
                 df_region = df[df.region == region]
-                x = df_region.index.get_level_values('fecha')
+                x = df_region.index.get_level_values('date')
                 plt.plot(x, df_region['cases_per_100k'], linewidth=2)
                 region_name = _(region)
                 ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})",
@@ -416,7 +373,7 @@ class COVID19Plot(object):
             y_label = _('Deaths')
             for region in regions:
                 df_region = df[df.region == region]
-                x = df_region.index.get_level_values('fecha')
+                x = df_region.index.get_level_values('date')
                 plt.plot(x, df_region['deceased_per_100k'], linewidth=2)
                 region_name = _(region)
                 ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})",
@@ -443,7 +400,7 @@ class COVID19Plot(object):
         legend = False
         color = 'b'
         label = _('Cases')
-        last_date = df.index.get_level_values('fecha')[-1]
+        last_date = df.index.get_level_values('date')[-1]
 
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
@@ -458,41 +415,15 @@ class COVID19Plot(object):
             color = 'r'
         elif plot_type == 'daily_cases_normalized':
             title = _('New cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
-            field = 'new_cases_per_100k'
+            field = 'rolling_cases_per_100k'
             legend = True
             label = _('Increment rolling avg (3 days)')
-            # generate new df with new_cases_per_100k
-            if scope == 'world':
-                df = df[df.cases > 1000]
-            df['increase'] = 0.0
-            df['rolling'] = 0.0
-            for region in self.get_regions(scope):
-                reg_df = df[df.region == region]
-                increase = reg_df['cases'] - reg_df['cases'].shift(1)
-                rolling = increase.rolling(window=3).mean()
-                df['increase'].mask(df.region == region, increase, inplace=True)
-                df['rolling'].mask(df.region == region, rolling, inplace=True)
-                df['new_cases_per_100k'] = df['rolling'] * 100_000 / df['population']
-                df.fillna(0, inplace=True)
         elif plot_type == 'daily_deceased_normalized':
             title = _('New deceased per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
-            field = 'new_deceased_per_100k'
+            field = 'rolling_deceased_per_100k'
             legend = True
             color = 'r'
             label = _('Increment rolling avg (3 days)')
-            # generate new df with new_cases_per_100k
-            if scope == 'world':
-                df = df[df.cases > 1000]
-            df['increase'] = 0.0
-            df['rolling'] = 0.0
-            for region in self.get_regions(scope):
-                reg_df = df[df.region == region]
-                increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
-                rolling = increase.rolling(window=3).mean()
-                df['increase'].mask(df.region == region, increase, inplace=True)
-                df['rolling'].mask(df.region == region, rolling, inplace=True)
-                df['new_deceased_per_100k'] = df['rolling'] * 100_000 / df['population']
-                df.fillna(0, inplace=True)
 
         today_df = df.loc[last_date]
         top_df = self._get_scope_df(plot_type, scope, today_df, field)
@@ -536,7 +467,7 @@ class COVID19Plot(object):
         _ = self._translations[language].gettext
         self._set_locale(language)
 
-        last_date = df.index.get_level_values('fecha')[-1]
+        last_date = df.index.get_level_values('date')[-1]
         title = None
         field = None
         if plot_type == 'cases_normalized':
@@ -550,38 +481,12 @@ class COVID19Plot(object):
             field = 'deceased_per_100k'
         elif plot_type == 'daily_cases_normalized':
             title = _('New cases per 100k inhabitants')
-            field = 'new_cases_per_100k'
-            # generate new df with new_cases_per_100k
-            if scope == 'world':
-                df = df[df.cases > 1000]
-            df['increase'] = 0.0
-            df['rolling'] = 0.0
-            for region in self.get_regions(scope):
-                reg_df = df[df.region == region]
-                increase = reg_df['cases'] - reg_df['cases'].shift(1)
-                rolling = increase.rolling(window=3).mean()
-                df['increase'].mask(df.region == region, increase, inplace=True)
-                df['rolling'].mask(df.region == region, rolling, inplace=True)
-                df['new_cases_per_100k'] = df['rolling'] * 100_000 / df['population']
-                df.fillna(0, inplace=True)
+            field = 'rolling_cases_per_100k'
         elif plot_type == 'daily_deceased_normalized':
             title = _('New deceased per 100k inhabitants')
-            field = 'new_deceased_per_100k'
-            # generate new df with new_cases_per_100k
-            if scope == 'world':
-                df = df[df.cases > 1000]
-            df['increase'] = 0.0
-            df['rolling'] = 0.0
-            for region in self.get_regions(scope):
-                reg_df = df[df.region == region]
-                increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
-                rolling = increase.rolling(window=3).mean()
-                df['increase'].mask(df.region == region, increase, inplace=True)
-                df['rolling'].mask(df.region == region, rolling, inplace=True)
-                df['new_deceased_per_100k'] = df['rolling'] * 100_000 / df['population']
-                df.fillna(0, inplace=True)
+            field = 'rolling_deceased_per_100k'
         today_df = df.loc[last_date]
-        top_df = self._get_scope_df(plot_type, scope, today_df, field)
+        top_df = self._get_scope_df(plot_type, scope, today_df, field, max_records=5)
         top_df = top_df.sort_values(field, ascending=False)
 
         last_data = ""
@@ -615,10 +520,10 @@ class COVID19Plot(object):
         # if cases have reached at least 1000, show since it reached 100. Else, 5 cases
         max_cases = np.max(df['cases'])
         if max_cases > 1000:
-            dates_gt_100 = df[df.cases > 100].index.get_level_values('fecha')
+            dates_gt_100 = df[df.cases > 100].index.get_level_values('date')
             return dates_gt_100[0]
         else:
-            dates_gt_5 = df[df.cases > 5].index.get_level_values('fecha')
+            dates_gt_5 = df[df.cases > 5].index.get_level_values('date')
             if len(dates_gt_5) > 0:
                 return dates_gt_5[0]
         return None
