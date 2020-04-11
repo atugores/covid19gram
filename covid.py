@@ -127,7 +127,7 @@ def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", languag
             acum_regions = regions.decode("utf-8").split('_')
 
     for chart in list(string.ascii_lowercase):
-        result = [i for i in taula if _(i)[0].lower() == chart and i != "Global" and i not in acum_regions]
+        result = [i for i in taula if normal(_(i)[0]).lower() == chart and i != "Global" and i not in acum_regions]
         result_all.extend(result)
         if len(result_all) > 7 or chart == "z":
             for item in result_all:
@@ -164,7 +164,7 @@ def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", met
     s_char = ""
     ibt.append(InlineKeyboardButton("🌐" + _("Global"), callback_data=_("Global") + "_" + plot_type.replace('_', '-')))
     for chart in list(string.ascii_lowercase):
-        result = [i for i in taula if _(i)[0].lower() == chart and i != "Global"]
+        result = [i for i in taula if normal(_(i)[0]).lower() == chart and i != "Global"]
         len_all += len(result)
         if len_all > 7 or chart == "z":
             if s_char == "":
