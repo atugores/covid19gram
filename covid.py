@@ -452,18 +452,33 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
 
     elif comm == "about":
         about = _("**Chart Buttons**") + "\n"
-        about += _("🦠 - __Case increase.__") + "\n"
-        about += _("📊 - __Active cases, recovered and deceased.__") + "\n"
-        about += _("📈 - __Active cases.__") + " \n"
-        about += _("✅ - __Recovered cases.__") + "\n"
-        about += _("❌ - __Daily deaths evolution.__") + "\n\n"
+        about += "🦠 - __" + _("Case increase") + ".__\n"
+        about += "📊 - __" + _("Active cases, recovered and deceased") + ".__\n"
+        about += "📈 - __" + _("Active cases") + ".__\n"
+        about += "✅ - __" + _("Recovered cases") + ".__\n"
+        about += "❌ - __" + _("Daily deaths evolution") + ".__\n"
+        about += "⬇️ - __" + _("Send all plots as an album") + ".__\n"
+        about += "📊  - __" + _("Add region to compare") + ".__\n"
+        about += '\n'
+        about += "**" + _("Additional buttons. Top 20s for 🌐Global and detailed Spain scopes") + ":**\n"
+        about += "🦠🗺 - __" + _("Active cases per region") + ".__\n"
+        about += "🦠% - __" + _("Cases rate per 100K inhabitants") + ".__\n"
+        about += "📈🆕 - __" + _("New cases rate per 100K inhabitants") + ".__\n"
+        about += "❌% - __" + _("Deceased rate per 100K inhabitants") + ".__\n"
+        about += "❌🆕 - __" + _("New deceased rate per 100K inhabitants") + ".__\n"
+        about += '\n'
+
         about += _("**Data Sources**") + "\n"
-        about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n\n'
+        about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n'
         about += _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
-        about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n\n'
+        about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n'
+        about += '\n'
         about += _("**Contact**") + '\n'
-        about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)"
-        about += '\n\n＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
+        about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)" + "\n"
+
+        about += _("**Code availability**") + "\n"
+        about += _('Source code available soon.') + '\n'
+        about += '\n＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
         await client.send_message(chat, about, disable_web_page_preview=True)
 

@@ -46,7 +46,7 @@ msgstr "Casos actius, recuperats i defuncions a {region}"
 
 #: covid.py:214
 msgid "Add region to compare"
-msgstr "Afegeix un regió per comparar"
+msgstr "Afegeix una regió a comparar"
 
 #: regions_translate.py:32
 msgid "Afghanistan"
@@ -323,7 +323,7 @@ msgstr "Comores"
 
 #: covid.py:389
 msgid "Comparison of cases in "
-msgstr "Comparació de casos en "
+msgstr "Comparació de casos a "
 
 #: regions_translate.py:71
 msgid "Congo (Brazzaville)"
@@ -1078,7 +1078,7 @@ msgstr "Resultats per `{param}`"
 
 #: covid.py:213
 msgid "Send all plots"
-msgstr "Enviar tot"
+msgstr "Envia-ho tot"
 
 #: regions_translate.py:236
 msgid "Senegal"

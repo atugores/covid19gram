@@ -323,7 +323,7 @@ msgstr "Comoras"
 
 #: covid.py:389
 msgid "Comparison of cases in "
-msgstr "Coparación de casos en "
+msgstr "Comparación de casos en "
 
 #: regions_translate.py:71
 msgid "Congo (Brazzaville)"
