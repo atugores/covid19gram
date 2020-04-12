@@ -477,8 +477,10 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         # await client.send_message(chat, caption, reply_markup=btns)
     elif comm == "clean" and user == me:
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
+        await dbhd.clean_hashes()
         for f in filelist:
             os.remove(os.path.join("images", f))
+
     elif comm == "update" and user == me:
         pull_datasets()
         pull_global()

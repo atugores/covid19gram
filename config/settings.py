@@ -61,9 +61,9 @@ class DBHandler:
         sql = f'SELECT file_id FROM `hashImage` WHERE filename = "{filename}"'
         self._get_cursor()
         self._cur.execute(sql)
-        language = self._cur.fetchone()
-        if language:
-            return language[0]
+        file_id = self._cur.fetchone()
+        if file_id:
+            return file_id[0]
         else:
             return None
 
@@ -71,8 +71,8 @@ class DBHandler:
         sql = f'SELECT * FROM `hashImage` WHERE filename = "{filename}"'
         self._get_cursor()
         self._cur.execute(sql)
-        language = self._cur.fetchall()
-        if language:
+        result = self._cur.fetchall()
+        if result:
             return True
         else:
             return False
@@ -81,8 +81,13 @@ class DBHandler:
         sql = f'SELECT * FROM `hashImage` WHERE file_id = "{hash}"'
         self._get_cursor()
         self._cur.execute(sql)
-        language = self._cur.fetchall()
-        if language:
+        result = self._cur.fetchall()
+        if result:
             return True
         else:
             return False
+
+    async def clean_hashes(self):
+        sql = 'DELETE FROM `hashImage`'
+        self._get_cursor()
+        self._cur.execute(sql)
