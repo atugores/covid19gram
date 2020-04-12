@@ -406,7 +406,7 @@ class COVID19Plot(object):
             title = _('Cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'cases_per_100k'
         elif plot_type == 'cases':
-            title = _('Active cases') + f" ({last_date:%d/%B/%Y})"
+            title = _('Cases') + f" ({last_date:%d/%B/%Y})"
             field = 'cases'
             color = 'dodgerblue'
         elif plot_type == 'deceased_normalized':
@@ -474,7 +474,7 @@ class COVID19Plot(object):
             title = _('Cases per 100k inhabitants')
             field = 'cases_per_100k'
         elif plot_type == 'cases':
-            title = _('Active cases')
+            title = _('Cases')
             field = 'cases'
         elif plot_type == 'deceased_normalized':
             title = _('Deceased per 100k inhabitants')
