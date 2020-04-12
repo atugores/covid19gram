@@ -51,3 +51,38 @@ class DBHandler:
             return language[0]
         else:
             return 'None'
+
+    async def set_image_hash(self, hash, filename):
+        sql = f'INSERT INTO `hashImage` (file_id,filename) VALUES ("{hash}","{filename}")'
+        self._get_cursor()
+        self._cur.execute(sql)
+
+    async def get_image_hash(self, filename):
+        sql = f'SELECT file_id FROM `hashImage` WHERE filename = "{filename}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        language = self._cur.fetchone()
+        if language:
+            return language[0]
+        else:
+            return None
+
+    async def has_image_hash(self, filename):
+        sql = f'SELECT * FROM `hashImage` WHERE filename = "{filename}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        language = self._cur.fetchall()
+        if language:
+            return True
+        else:
+            return False
+
+    async def has_image_filename(self, hash):
+        sql = f'SELECT * FROM `hashImage` WHERE file_id = "{hash}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        language = self._cur.fetchall()
+        if language:
+            return True
+        else:
+            return False

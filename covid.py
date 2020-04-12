@@ -303,6 +303,29 @@ async def get_language(user):
     else:
         return 'en'
 
+async def send_photo(client, chat, photo, caption="", reply_markup=[]):
+    if await dbhd.has_image_hash(photo):
+        flname = await dbhd.get_image_hash(photo)
+        message = await client.send_photo(chat, photo=flname, caption=caption, reply_markup=reply_markup)
+    else:
+        flname = photo
+        message = await client.send_photo(chat, photo=flname, caption=caption, reply_markup=reply_markup)
+        hash = message.photo.file_id
+        await dbhd.set_image_hash(hash,flname)
+    return message
+
+
+async def edit_message_media(client, chat, mid, photo, caption, reply_markup):
+    message = None
+    if await dbhd.has_image_hash(photo):
+        message = flname = await dbhd.get_image_hash(photo)
+        await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=reply_markup)
+    else:
+        flname = photo
+        message = await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=reply_markup)
+        hash = message.photo.file_id
+        await dbhd.set_image_hash(hash,flname)
+    return message
 
 async def show_region(client, chat, plot_type="daily_cases", region="Total", language='en', scope=False, simple=False):
     _ = translations[language].gettext
@@ -319,7 +342,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
     try:
-        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
@@ -327,7 +350,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
                 flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
             else:
                 flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
-            await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+            await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
             print("Error: " + str(e))
     except Exception as err:
@@ -337,29 +360,49 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
 async def send_regions(client, chat, region="Total", language='en', scope=False):
     _ = translations[language].gettext
     media = []
+    flnames = []
     if scope:
         scope = 'spain'
         if region == 'Global':
             scope = 'world'
         for plot_type in cplt.PLOT_TYPES:
+            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            flnames.append(flname)
+            if await dbhd.has_image_hash(flname):
+                flname = await dbhd.get_image_hash(flname)
             media.append(InputMediaPhoto(
-                cplt.generate_plot(plot_type=plot_type, region=region, language=language),
+                flname,
                 caption=get_caption(region, plot_type=plot_type, language=language)
             ))
         for plot_type in cplt.SCOPE_PLOT_TYPES:
+            flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
+            flnames.append(flname)
+            if await dbhd.has_image_hash(flname):
+                flname = await dbhd.get_image_hash(flname)
             media.append(InputMediaPhoto(
-                cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language),
+                flname,
                 caption=get_caption(region, plot_type=plot_type, language=language, scope=True)
             ))
     else:
         for plot_type in cplt.PLOT_TYPES:
+            flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
+            flnames.append(flname)
+            if await dbhd.has_image_hash(flname):
+                flname = await dbhd.get_image_hash(flname)
             media.append(InputMediaPhoto(
-                cplt.generate_plot(plot_type=plot_type, region=region, language=language),
+                flname,
                 caption=get_caption(region, plot_type=plot_type, language=language)
             ))
 
     try:
-        await client.send_media_group(chat, media=media)
+        messages = await client.send_media_group(chat, media=media)
+        media_index = 0
+        for msg in messages:
+            if not await dbhd.has_image_filename(msg.photo.file_id):
+                hash = msg.photo.file_id
+                flname = flnames[media_index]
+                await dbhd.set_image_hash(hash, flname)
+            media_index += 1
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             for photo in media:
@@ -392,7 +435,7 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
     try:
-        await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
+        await edit_message_media(client, chat, mid,flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
@@ -403,7 +446,7 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
                 flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
             else:
                 flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
-            await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=btns)
+            await edit_message_media(client, chat, mid, flname, caption=caption, reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
             print("Error: " + str(e))
     except Exception as err:
@@ -416,20 +459,21 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
     user = message.from_user.id
     chat = message.chat.id
     if comm == "start":
-        btns = b_alphabet(comunitat, language=language)
+        language = await get_language(message.from_user)
+        _ = translations[language].gettext
         rep_markup = b_start(language)
         await client.send_message(chat, _("⚙️Main Menu"), reply_markup=rep_markup)
     if comm == "spain":
         btns = b_spain(comunitat, language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='cases', scope="spain", language=language)
-        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
     if comm == "world":
         btns = b_alphabet(world, scope="world", language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='cases', scope="world", language=language)
-        await client.send_photo(chat, photo=flname, caption=caption, reply_markup=btns)
+        await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
     elif comm == "clean" and user == me:
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
