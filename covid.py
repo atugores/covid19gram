@@ -302,8 +302,10 @@ async def get_language(user):
     if language != 'None':
         return language
     elif user.language_code and user.language_code in cplt.LANGUAGES:
+        await set_language(user_id,user.language_code)
         return user.language_code
     else:
+        await set_language(user_id,'en')
         return 'en'
 
 async def send_photo(client, chat, photo, caption="", reply_markup=[]):
