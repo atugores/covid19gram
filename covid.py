@@ -103,6 +103,7 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
     else:
         flaged_region = _(region)
     title = ""
+    footer = ""
     if plot_type == "daily_cases":
         title = _('Cases increase at {region}').format(region=flaged_region)
     elif plot_type == "active_recovered_deceased":
@@ -113,8 +114,14 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
         title = _('Recovered cases at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
-    plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
-    return f'**{title}**\n\n{plot_caption}'
+
+    if plot_type == "summary":
+        title = _('COVID-19 status at {region}').format(region=flaged_region)
+        plot_caption = cplt.get_summary(region=region, language=language)
+        footer = "\n__" + _("More information and plots at") + " @COVID19gram_bot__\n"
+    else:
+        plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
+    return f'**{title}**\n\n{plot_caption}{footer}'
 
 
 def botons(taula, plot_type="daily_cases", regio="Total", scope="spain", language="en", method=None, acum_regions_key=None):
@@ -297,16 +304,16 @@ async def set_language(user_id, language):
 
 
 async def get_language(user):
-    user_id = user.id
-    language = await dbhd.get_language(user_id)
+    language = await dbhd.get_language(user.id)
     if language != 'None':
         return language
     elif user.language_code and user.language_code in cplt.LANGUAGES:
-        await set_language(user_id,user.language_code)
+        await set_language(user.id, user.language_code)
         return user.language_code
     else:
-        await set_language(user_id,'en')
+        await set_language(user.id, 'en')
         return 'en'
+
 
 async def send_photo(client, chat, photo, caption="", reply_markup=[]):
     if await dbhd.has_image_hash(photo):
@@ -316,7 +323,7 @@ async def send_photo(client, chat, photo, caption="", reply_markup=[]):
         flname = photo
         message = await client.send_photo(chat, photo=flname, caption=caption, reply_markup=reply_markup)
         hash = message.photo.file_id
-        await dbhd.set_image_hash(hash,flname)
+        await dbhd.set_image_hash(hash, flname)
     return message
 
 
@@ -329,8 +336,9 @@ async def edit_message_media(client, chat, mid, photo, caption, reply_markup):
         flname = photo
         message = await client.edit_message_media(chat, mid, InputMediaPhoto(media=flname, caption=caption), reply_markup=reply_markup)
         hash = message.photo.file_id
-        await dbhd.set_image_hash(hash,flname)
+        await dbhd.set_image_hash(hash, flname)
     return message
+
 
 async def show_region(client, chat, plot_type="daily_cases", region="Total", language='en', scope=False, simple=False):
     _ = translations[language].gettext
@@ -361,6 +369,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
     except Exception as err:
         print("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
+
 
 async def send_regions(client, chat, region="Total", language='en', scope=False):
     _ = translations[language].gettext
@@ -418,6 +427,7 @@ async def send_regions(client, chat, region="Total", language='en', scope=False)
         print("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
+
 async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False, compare=False):
     _ = translations[language].gettext
     btns = b_single(plot_type=plot_type, region=region, language=language)
@@ -440,7 +450,7 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
     try:
-        await edit_message_media(client, chat, mid,flname, caption=caption, reply_markup=btns)
+        await edit_message_media(client, chat, mid, flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
         if str(e).find("IMAGE_PROCESS_FAILED") > -1:
             os.remove(flname)
@@ -481,17 +491,17 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
     elif comm == "clean" and user in admins:
-        await client.send_message(chat,"Cleanig images cache.")
+        await client.send_message(chat, "Cleanig images cache.")
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
         await dbhd.clean_hashes()
         for f in filelist:
             os.remove(os.path.join("images", f))
-        await client.send_message(chat,"Cleaned.")
+        await client.send_message(chat, "Cleaned.")
     elif comm == "update" and user in admins:
-        await client.send_message(chat,"Updating data.")
+        await client.send_message(chat, "Updating data.")
         pull_datasets()
         pull_global()
-        await client.send_message(chat,"Data Updated.")
+        await client.send_message(chat, "Data Updated.")
     elif comm == "find":
         if len(param) > 0:
             resultats = cerca(param, language=language)
@@ -612,7 +622,7 @@ async def answer(client, callback_query):
 
     elif comm == "sendall":
         region = params[1]
-        await client.send_message(chat,_("Generating all plots, it may take some time."))
+        await client.send_message(chat, _("Generating all plots, it may take some time."))
         if region in tot:
             if region in ['Global', 'Total']:
                 await send_regions(client, chat, region=region, language=language, scope=True)
@@ -684,42 +694,42 @@ async def answer(client, callback_query):
         plot_type = params[1].replace('-', '_')
         await show_region(client, chat, plot_type, region, language=language)
 
-# @app.on_inline_query()
-# async def answer(client, inline_query):
-#     language = await get_language(inline_query.from_user)
-#     print(language)
-#     _ = translations[language].gettext
-#     rslts =[]
-#     resultats =[]
-#     if len(inline_query.query)>2:
-#         if re.match("^[c|a|d] .+", inline_query.query):
-#             plot_tp = re.search('^([c|a|d]) .*', inline_query.query).group(1)
-#             if plot_tp == "c":
-#                 plot_type = 'daily_cases'
-#             elif plot_tp == "a":
-#                 plot_type = "active_recovered_deceased"
-#             elif plot_tp == "d":
-#                 plot_type = "daily_deceased"
-#             reg_f = re.search('^[c|a|d] (.+)', inline_query.query).group(1)
-#             resultats = cerca(reg_f)
-#             resultats = resultats[0:40]
-#             for result in resultats:
-#                 text = get_caption(result, plot_type=plot_type, language=language)
-#                 inlansw=InlineQueryResultArticle(
-#                         id=uuid4(),
-#                         title=_(result),
-#                         input_message_content=InputTextMessageContent(text),
-#                         # url="t.me/gtrck_bot"
-#                 )
 
-#                 rslts.append(inlansw)
+@app.on_inline_query()
+async def answer_inline(client, inline_query):
+    if len(inline_query.query) < 3:
+        await inline_query.answer(
+            results=[],
+            is_personal=True,
+            cache_time=20
+        )
+        return
 
+    language = await get_language(inline_query.from_user)
+    _ = translations[language].gettext
 
-#             await inline_query.answer(
-#                 results=rslts,
-#                 is_personal=True,
-#                 cache_time = 20
-#             )
+    rslts = []
+    resultats = cerca(inline_query.query, language)
+    resultats = resultats[0:40]
+    for result in resultats:
+        text = get_caption(result, plot_type="summary", language=language)
+        flag = ""
+        if result in countries:
+            flag = countries[result]['flag']
+
+        inlansw = InlineQueryResultArticle(
+            id=uuid4(),
+            title=flag + _(result),
+            input_message_content=InputTextMessageContent(text),
+        )
+        rslts.append(inlansw)
+
+    await inline_query.answer(
+        results=rslts,
+        is_personal=True,
+        cache_time=20
+    )
+
 
 async def main():
     pull_datasets()

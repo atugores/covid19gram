@@ -112,6 +112,20 @@ class COVID19Plot(object):
                 break
         return region_scope
 
+    def get_summary(self, region, language='en'):
+        region_scope = self.get_region_scope(region)
+        if not region_scope:
+            raise RuntimeError(_('Region not found in any scope'))
+
+        # check if data source has been modified, and reload it if necessary
+        self._check_new_data(region_scope)
+        source = self._sources.get(region_scope)
+
+        # get region data
+        region_df = self._get_plot_data('summary', source.get('df'), region)
+        caption = self._get_caption('summary', region_scope, region, language, region_df)
+        return caption
+
     def get_plot_caption(self, plot_type, region, language='en'):
         if plot_type not in self.PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
@@ -223,7 +237,7 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
             last_data = "  - " + _('Total cases') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True)
-            last_data = last_data + "  - " + _('Daily increment') + ": " + v + "\n"
+            last_data = last_data + "  - " + _('Last day increment') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Increment rolling avg (3 days)') + ": " + v
@@ -231,7 +245,7 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
             last_data = "  - " + _('Total deceased') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase_deceased'][-1], grouping=True)
-            last_data = last_data + "  - " + _('Daily deaths') + ": " + v + "\n"
+            last_data = last_data + "  - " + _('Deaths on last day') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True)
             last_data = last_data + "  - " + \
                 _('Deaths rolling avg (3 days)') + ": " + v
@@ -260,6 +274,26 @@ class COVID19Plot(object):
                 '%.1f', df['cases_per_100k'][-1], grouping=True)
             last_data = "  - " + \
                 _('Cases per 100k inhabitants') + ": " + v + "\n"
+        elif plot_type == 'summary':
+            v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+            last_data = "  - " + _('Total cases') + ": " + v
+            v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True)
+            last_data += " (" + v + " | "
+            v = locale.format_string(
+                '%.1f', df['cases_per_100k'][-1], grouping=True)
+            last_data += v + " " + _('per 100k inhabitants') + ")\n"
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            last_data += "  - " + _('Total deceased') + ": " + v
+            v = locale.format_string('%+.0f', df['increase_deceased'][-1], grouping=True)
+            last_data += " (" + v + " | "
+            v = locale.format_string(
+                '%.1f', df['deceased_per_100k'][-1], grouping=True)
+            last_data += v + " " + _('per 100k inhabitants') + ")\n"
+            v = locale.format_string(
+                '%.0f', df['recovered'][-1], grouping=True)
+            last_data += "  - " + _('Recovered') + ": " + v + "\n"
+            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+            last_data += "  - " + _('Active') + ": " + v + "\n"
 
         updated = _("Information on last available data") + " (" + last_date + "):"
         return f"{updated}\n{last_data}"
