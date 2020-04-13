@@ -8,7 +8,7 @@ import re
 import asyncio
 from datetime import timedelta
 from pyrogram import Client
-from pyrogram import Filters, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup
+from pyrogram import Filters, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import BadRequest
 from covid19plot import COVID19Plot
 from config.getdata import pull_datasets, pull_global
@@ -16,13 +16,16 @@ from config.countries import countries
 from config.settings import DBHandler
 import gettext
 import redis
+from uuid import uuid4
 
 
 config_file = "conf.ini"
 config = configparser.ConfigParser()
 config.read(config_file, encoding="utf-8")
 
-me = int(config["USER"]["admin"])
+# me = int(config["USER"]["admin"])
+admins = list(map(int, config["USER"]["admin"].split(',')))
+# admins = [int(config["USER"]["admin"])]
 app = Client(
     "covid19bot",
     bot_token=config["API"]["api_token"],
@@ -475,15 +478,18 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         flname = cplt.generate_scope_plot(plot_type='cases', scope="world", language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
-    elif comm == "clean" and user == me:
+    elif comm == "clean" and user in admins:
+        await client.send_message(chat,"Cleanig images cache.")
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
         await dbhd.clean_hashes()
         for f in filelist:
             os.remove(os.path.join("images", f))
-
-    elif comm == "update" and user == me:
+        await client.send_message(chat,"Cleaned.")
+    elif comm == "update" and user in admins:
+        await client.send_message(chat,"Updating data.")
         pull_datasets()
         pull_global()
+        await client.send_message(chat,"Data Updated.")
     elif comm == "find":
         if len(param) > 0:
             resultats = cerca(param, language=language)
@@ -676,6 +682,42 @@ async def answer(client, callback_query):
         plot_type = params[1].replace('-', '_')
         await show_region(client, chat, plot_type, region, language=language)
 
+# @app.on_inline_query()
+# async def answer(client, inline_query):
+#     language = await get_language(inline_query.from_user)
+#     print(language)
+#     _ = translations[language].gettext
+#     rslts =[]
+#     resultats =[]
+#     if len(inline_query.query)>2:
+#         if re.match("^[c|a|d] .+", inline_query.query):
+#             plot_tp = re.search('^([c|a|d]) .*', inline_query.query).group(1)
+#             if plot_tp == "c":
+#                 plot_type = 'daily_cases'
+#             elif plot_tp == "a":
+#                 plot_type = "active_recovered_deceased"
+#             elif plot_tp == "d":
+#                 plot_type = "daily_deceased"
+#             reg_f = re.search('^[c|a|d] (.+)', inline_query.query).group(1)
+#             resultats = cerca(reg_f)
+#             resultats = resultats[0:40]
+#             for result in resultats:
+#                 text = get_caption(result, plot_type=plot_type, language=language)
+#                 inlansw=InlineQueryResultArticle(
+#                         id=uuid4(),
+#                         title=_(result),
+#                         input_message_content=InputTextMessageContent(text),
+#                         # url="t.me/gtrck_bot"
+#                 )
+
+#                 rslts.append(inlansw)
+
+
+#             await inline_query.answer(
+#                 results=rslts,
+#                 is_personal=True,
+#                 cache_time = 20
+#             )
 
 async def main():
     pull_datasets()

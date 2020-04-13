@@ -1,4 +1,5 @@
-import MySQLdb
+import mysql.connector
+from mysql.connector import Error
 import configparser
 
 
@@ -22,17 +23,18 @@ class DBHandler:
         self._create_connection()
 
     def _create_connection(self):
-        self._conn = MySQLdb.connect(
+        self._conn = mysql.connector.connect(
             host=config["DB"]["host"],
             user=config["DB"]["user"],
             passwd=config["DB"]["passwd"],
-            db=config["DB"]["db"])
-        self._conn.autocommit(True)
+            db=config["DB"]["db"],
+            autocommit=True
+            )
 
     def _get_cursor(self):
         try:
             self._conn.ping(True)
-        except MySQLdb.Error:
+        except Error:
             # reconnect your cursor
             self._create_connection()
         self._cur = self._conn.cursor()
