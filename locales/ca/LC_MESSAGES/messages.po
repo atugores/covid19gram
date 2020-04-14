@@ -1412,11 +1412,11 @@ msgstr "__Generat per [COVID19gram](t.me/COVID19gram_bot)__"
 
 #: covid.py:643
 msgid "__Italy data source from__"
-msgstr "__Fonts de dades per Z de__"
+msgstr "__Fonts de dades per Itàlia de__"
 
 #: covid.py:640
 msgid "__Spain data source from__"
-msgstr "__Fonts de dades per Itàlia de__"
+msgstr "__Fonts de dades per Espanya de__"
 
 #: covid.py:641
 msgid "__World data source from__"
