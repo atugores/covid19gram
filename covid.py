@@ -558,10 +558,10 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
                 await client.send_message(chat, caption, reply_markup=btns)
     if comm == "favs":
         lbtns = await b_fav(user, language=language)
-        btns = lbtns[0]
         if len(lbtns) == 0:
             await client.send_message(chat, _("You have no subscription").format(param=param))
         else:
+            btns = lbtns[0]
             caption = _("**Your subscriptions:**")
             await client.send_message(chat, caption, reply_markup=btns)
 
