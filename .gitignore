@@ -7,7 +7,7 @@ myvenv
 __pycache__
 .directory
 covid19
-covid19bot.session
+covid19bot.session*
 data/*
 !data/ccaa_poblacion.csv
 !data/WPP2019_TotalPopulation_UN_2019.csv
