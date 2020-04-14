@@ -23,7 +23,8 @@ REGIONS = {
     'Navarra': _('Navarra'),
     'País Vasco': _('País Vasco'),
     'La Rioja': _('La Rioja'),
-    'Total': _('Total')
+    'Total': _('Total'),
+    'Total - Italy': _('Total - Italy')
 }
 
 COUNTRIES = {

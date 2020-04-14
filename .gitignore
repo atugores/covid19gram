@@ -8,8 +8,6 @@ __pycache__
 .directory
 covid19
 covid19bot.session*
+external-data
 data/*
-!data/ccaa_poblacion.csv
-!data/WPP2019_TotalPopulation_UN_2019.csv
-!data/world_population.csv
-!data/spain_population.csv
+!data/*_population.csv
