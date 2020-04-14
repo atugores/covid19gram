@@ -595,7 +595,8 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += _('Source code available soon.') + '\n'
         about += '\n＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
-        await client.send_message(chat, about, disable_web_page_preview=True)
+        rep_markup = b_start(language)
+        await client.send_message(chat, about, disable_web_page_preview=True, reply_markup=rep_markup)
 
 
 @app.on_message(Filters.text)
