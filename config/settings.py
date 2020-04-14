@@ -104,13 +104,13 @@ class DBHandler:
             return False
 
     async def add_subcription(self, user_id, region):
-        if not self.is_subcribed(user_id, region):
+        if not self.is_subscribed(user_id, region):
             sql = f'INSERT INTO `subs` (user_id,region) VALUES ("{user_id}","{region}")'
             self._get_cursor()
             self._cur.execute(sql)
 
     async def remove_subscription(self, user_id, region):
-        if self.is_subcribed(user_id, region):
+        if self.is_subscribed(user_id, region):
             sql = f'DELETE FROM `subs` WHERE user_id="{user_id}" AND region="{region}"'
             self._get_cursor()
             self._cur.execute(sql)
