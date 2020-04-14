@@ -262,8 +262,8 @@ def b_compare(language="en"):
     _ = translations[language].gettext
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="compare_finish_cases-normalized"),
-        # InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
-        # InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
+        InlineKeyboardButton("📊", callback_data="compare_finish_cases"),
+        InlineKeyboardButton("🗂", callback_data="compare_finish_cases-logarithmic"),
         # InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="compare_finish_deceased-normalized"),
     ]]
@@ -377,7 +377,7 @@ def b_lang(language="en"):
 def b_start(language="en"):
     _ = translations[language].gettext
     rep_markup = ReplyKeyboardMarkup([
-        [_("🌐Global"), _("🇪🇸Spain")],
+        [_("🌐Global"), _("🇪🇸Spain"), _("🇮🇹Italy")],
         [_("💬Language"), _("❓About"), _("💛FAVs")]],
         resize_keyboard=True)
     return rep_markup
@@ -637,9 +637,10 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += '\n'
 
         about += _("**Data Sources**") + "\n"
-        about += _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n'
-        about += _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
+        about += "🗂" + _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n'
+        about += "🗂" + _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
         about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n'
+        about += "🗂" + _('__Italy data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__\n'
         about += '\n'
         about += _("**Contact**") + '\n'
         about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)" + "\n"
@@ -667,6 +668,8 @@ async def g_request(client, message):
         await DoBot("world", "", client, message, language)
     elif message.text == _("🇪🇸Spain"):
         await DoBot("spain", "", client, message, language)
+    elif message.text == _("🇮🇹Italy"):
+        await DoBot("italy", "", client, message, language)
     elif message.text == _("💬Language"):
         btns = b_lang(language)
         await client.send_message(chat, _("Choose Language"), reply_markup=btns)
@@ -751,6 +754,10 @@ async def answer(client, callback_query):
             cache_key,
             timedelta(minutes=60),
             value='_'.join(regions))
+        if len(regions) > 8:
+            plot_type = 'cases_normalized'
+            await edit_region(client, chat, mid, plot_type=plot_type, language=language, compare=True)
+            return
         scope = cplt.get_region_scope(region)
         if scope == 'world':
             btns = b_alphabet(scope="world", method='compare', acum_regions_key=cache_key, language=language)
