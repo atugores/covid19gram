@@ -197,19 +197,19 @@ def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", met
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
     if method == 'compare':
         botonets.append([
-            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish")
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish_cases-normalized")
         ])
     btns = InlineKeyboardMarkup(botonets)
     return btns
 
 
-def b_single(user_id, plot_type="daily-cases", region="Total", language="en"):
+def b_single(user_id, plot_type="daily_cases", region="Total", language="en"):
     _ = translations[language].gettext
-    fav_emoji="🖤"
+    fav_emoji = "🖤"
     fav_label = "fav"
-    p_type=plot_type.replace('_', '-')
-    if dbhd.is_subcribed(user_id,region):
-        fav_emoji="💛"
+    p_type = plot_type.replace('_', '-')
+    if dbhd.is_subscribed(user_id, region):
+        fav_emoji = "💛"
         fav_label = "unfav"
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="s_" + region + "_daily-cases"),
@@ -217,8 +217,8 @@ def b_single(user_id, plot_type="daily-cases", region="Total", language="en"):
         InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
         InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased"),
-        InlineKeyboardButton(fav_emoji, callback_data=fav_label+"_"+region+"_"+p_type),
-        ]]
+        InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + region + "_" + p_type),
+    ]]
     if region in ["Total", "Global"]:
         buttons.extend([[
             InlineKeyboardButton("🦠🗺", callback_data="scope_" + region + "_cases"),
@@ -233,6 +233,23 @@ def b_single(user_id, plot_type="daily-cases", region="Total", language="en"):
         InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
         InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + region),
     ])
+    btns = InlineKeyboardMarkup(buttons)
+    return btns
+
+
+def b_compare(language="en"):
+    _ = translations[language].gettext
+    buttons = [[
+        InlineKeyboardButton("🦠", callback_data="compare_finish_cases-normalized"),
+        # InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
+        # InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
+        # InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
+        InlineKeyboardButton("❌", callback_data="compare_finish_deceased-normalized"),
+    ]]
+
+    # buttons.append([
+    #     InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
+    # ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
 
@@ -269,6 +286,7 @@ def b_find(search, plot_type="daily_cases", language="en"):
         ibt = []
         botonets = []
     return l_botns
+
 
 async def b_fav(user, plot_type="daily_cases", language="en"):
     _ = translations[language].gettext
@@ -319,7 +337,7 @@ def b_spain(taula, plot_type="daily_cases", method=None, acum_regions=[], langua
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
     if method == 'compare':
         botonets.append([
-            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish")
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_finish_cases-normalized")
         ])
     btns = InlineKeyboardMarkup(botonets)
     return btns
@@ -387,7 +405,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
     _ = translations[language].gettext
     btns = []
     if not simple:
-        btns = b_single(chat,plot_type=plot_type, region=region, language=language)
+        btns = b_single(chat, plot_type=plot_type, region=region, language=language)
     if scope:
         scope = 'spain'
         if region == 'Global':
@@ -473,7 +491,7 @@ async def send_regions(client, chat, region="Total", language='en', scope=False)
 
 async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False, compare=False):
     _ = translations[language].gettext
-    btns = b_single(chat,plot_type=plot_type, region=region, language=language)
+    btns = b_single(chat, plot_type=plot_type, region=region, language=language)
     if scope:
         scope = 'spain'
         if region == 'Global':
@@ -486,9 +504,9 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
             regions = []
         else:
             regions = regions.decode("utf-8").split('_')
-        flname = cplt.generate_multiregion_plot(plot_type='cases_normalized', regions=regions, language=language)
+        flname = cplt.generate_multiregion_plot(plot_type=plot_type, regions=regions, language=language)
         caption = _("Comparison of cases in ") + ', '.join([_(region) for region in regions])
-        btns = []
+        btns = b_compare(language)
     else:
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
@@ -684,8 +702,10 @@ async def answer(client, callback_query):
 
     elif comm == "compare":
         region = params[1]
+
         if region == 'finish':
-            await edit_region(client, chat, mid, language=language, compare=True)
+            plot_type = params[2].replace('-', '_')
+            await edit_region(client, chat, mid, plot_type=plot_type, language=language, compare=True)
             return
         cache_key = f"{CACHE_PREFIX}_{comm}_{chat}_{mid}"
         regions = cache.get(cache_key)
@@ -755,7 +775,7 @@ async def answer(client, callback_query):
         region = params[1]
         plot_type = params[2].replace('-', '_')
         scope = False
-        await dbhd.add_subcription(user_id,region)
+        await dbhd.add_subcription(user_id, region)
         if plot_type in cplt.SCOPE_PLOT_TYPES:
             scope = True
         await edit_region(client, chat, mid, plot_type, region, language=language, scope=scope)
@@ -765,11 +785,10 @@ async def answer(client, callback_query):
         region = params[1]
         plot_type = params[2].replace('-', '_')
         scope = False
-        await dbhd.remove_subscription(user_id,region)
+        await dbhd.remove_subscription(user_id, region)
         if plot_type in cplt.SCOPE_PLOT_TYPES:
             scope = True
         await edit_region(client, chat, mid, plot_type, region, language=language, scope=scope)
-
 
     elif comm in tot:
         region = comm
@@ -779,7 +798,7 @@ async def answer(client, callback_query):
 
 @app.on_inline_query()
 async def answer_inline(client, inline_query):
-    if len(inline_query.query) >6:
+    if len(inline_query.query) > 6:
         await inline_query.answer(
             results=[],
             is_personal=True,
@@ -794,7 +813,7 @@ async def answer_inline(client, inline_query):
 
     if len(inline_query.query) < 1:
         regions = await dbhd.get_subscriptions(inline_query.from_user.id)
-        if len(regions)>0:
+        if len(regions) > 0:
             resultats = regions[0:40]
         else:
             await inline_query.answer(
