@@ -118,7 +118,8 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
     if plot_type == "summary":
         title = _('COVID-19 status at {region}').format(region=flaged_region)
         plot_caption = cplt.get_summary(region=region, language=language)
-        footer = "\n__" + _("More information and plots at") + " @COVID19gram_bot__\n"
+        # footer = "\n__" + _("More information and plots at") + " @COVID19gram_bot__\n"
+        footer = ""
     else:
         plot_caption = cplt.get_plot_caption(plot_type=plot_type, region=region, language=language)
     return f'**{title}**\n\n{plot_caption}{footer}'
@@ -202,14 +203,22 @@ def b_alphabet(taula, plot_type="daily_cases", regio="Total", scope="spain", met
     return btns
 
 
-def b_single(plot_type="daily_cases", region="Total", language="en"):
+def b_single(user_id, plot_type="daily-cases", region="Total", language="en"):
     _ = translations[language].gettext
+    fav_emoji="🖤"
+    fav_label = "fav"
+    p_type=plot_type.replace('_', '-')
+    if dbhd.is_subcribed(user_id,region):
+        fav_emoji="💛"
+        fav_label = "unfav"
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="s_" + region + "_daily-cases"),
         InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
         InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
         InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
-        InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased")]]
+        InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased"),
+        InlineKeyboardButton(fav_emoji, callback_data=fav_label+"_"+region+"_"+p_type),
+        ]]
     if region in ["Total", "Global"]:
         buttons.extend([[
             InlineKeyboardButton("🦠🗺", callback_data="scope_" + region + "_cases"),
@@ -219,6 +228,7 @@ def b_single(plot_type="daily_cases", region="Total", language="en"):
             InlineKeyboardButton("❌%", callback_data="scope_" + region + "_deceased-normalized"),
             InlineKeyboardButton("❌🆕", callback_data="scope_" + region + "_daily-deceased-normalized"),
         ]])
+
     buttons.append([
         InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
         InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + region),
@@ -260,6 +270,39 @@ def b_find(search, plot_type="daily_cases", language="en"):
         botonets = []
     return l_botns
 
+async def b_fav(user, plot_type="daily_cases", language="en"):
+    _ = translations[language].gettext
+    regions = await dbhd.get_subscriptions(user)
+    ibt = []
+    l_botns = []
+    botonets = []
+    pageSize = 18
+    max = len(regions) // pageSize
+
+    if len(regions) % pageSize != 0:
+        max = len(regions) // pageSize + 1
+
+    for pag in range(max):
+        for item in regions[pag * pageSize:(pag + 1) * pageSize]:
+            flag = ""
+            if item in countries:
+                flag = countries[item]['flag']
+            ibt.append(InlineKeyboardButton(flag + _(item), callback_data=item + "_" + plot_type.replace('_', '-')))
+        botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 4) + 2)]
+        if pag == 0 and pag != max - 1:
+            botonets.extend([[InlineKeyboardButton(">>", callback_data="subs_" + str(pag + 1))]])
+        elif pag == max - 1 and pag != 0:
+            botonets.extend([[InlineKeyboardButton("<<", callback_data="subs_" + str(pag - 1))]])
+        elif pag > 0 and pag < max - 1:
+            botonets.extend([[
+                InlineKeyboardButton("<<", callback_data="subs_" + str(pag - 1)),
+                InlineKeyboardButton(">>", callback_data="subs_" + str(pag + 1))]])
+        btns = InlineKeyboardMarkup(botonets)
+        l_botns.append(btns)
+        ibt = []
+        botonets = []
+    return l_botns
+
 
 def b_spain(taula, plot_type="daily_cases", method=None, acum_regions=[], language="en"):
     _ = translations[language].gettext
@@ -294,7 +337,7 @@ def b_start(language="en"):
     _ = translations[language].gettext
     rep_markup = ReplyKeyboardMarkup([
         [_("🌐Global"), _("🇪🇸Spain")],
-        [_("💬Language"), _("❓About")]],
+        [_("💬Language"), _("❓About"), _("💛FAVs")]],
         resize_keyboard=True)
     return rep_markup
 
@@ -344,7 +387,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="Total", lan
     _ = translations[language].gettext
     btns = []
     if not simple:
-        btns = b_single(plot_type=plot_type, region=region, language=language)
+        btns = b_single(chat,plot_type=plot_type, region=region, language=language)
     if scope:
         scope = 'spain'
         if region == 'Global':
@@ -430,7 +473,7 @@ async def send_regions(client, chat, region="Total", language='en', scope=False)
 
 async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", scope=False, compare=False):
     _ = translations[language].gettext
-    btns = b_single(plot_type=plot_type, region=region, language=language)
+    btns = b_single(chat,plot_type=plot_type, region=region, language=language)
     if scope:
         scope = 'spain'
         if region == 'Global':
@@ -513,6 +556,14 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
                 btns = b_find(param, language=language)[0]
                 caption = f'Search Results for `{param}`'
                 await client.send_message(chat, caption, reply_markup=btns)
+    if comm == "favs":
+        lbtns = await b_fav(user, language=language)
+        btns = lbtns[0]
+        if len(lbtns) == 0:
+            await client.send_message(chat, _("You have no subscription").format(param=param))
+        else:
+            caption = _("**Your subscriptions:**")
+            await client.send_message(chat, caption, reply_markup=btns)
 
     elif comm == "about":
         about = _("**Chart Buttons**") + "\n"
@@ -567,6 +618,8 @@ async def g_request(client, message):
         await client.send_message(chat, _("Choose Language"), reply_markup=btns)
     elif message.text == _("❓About"):
         await DoBot("about", "", client, message, language)
+    elif message.text == _("💛FAVs"):
+        await DoBot("favs", "", client, message, language)
     else:
         param = message.text
         resultats = cerca(param, language)
@@ -582,7 +635,6 @@ async def g_request(client, message):
 
 @app.on_callback_query()
 async def answer(client, callback_query):
-    # cbdata = callback_query.data
     user = callback_query.from_user
     chat = callback_query.message.chat.id
     mid = callback_query.message.message_id
@@ -689,6 +741,35 @@ async def answer(client, callback_query):
         caption = _('Search results for `{param}`').format(param=param)
         await client.edit_message_text(chat, mid, caption, reply_markup=btns)
 
+    elif comm == "subs":
+        pag = int(params[1])
+        user_id = user.id
+        lbtns = await b_fav(user_id, language=language)
+        btns = lbtns[pag]
+        caption = _("**Your subscriptions:**")
+        await client.edit_message_text(chat, mid, caption, reply_markup=btns)
+
+    elif comm == "fav":
+        user_id = user.id
+        region = params[1]
+        plot_type = params[2].replace('-', '_')
+        scope = False
+        await dbhd.add_subcription(user_id,region)
+        if plot_type in cplt.SCOPE_PLOT_TYPES:
+            scope = True
+        await edit_region(client, chat, mid, plot_type, region, language=language, scope=scope)
+
+    elif comm == "unfav":
+        user_id = user.id
+        region = params[1]
+        plot_type = params[2].replace('-', '_')
+        scope = False
+        await dbhd.remove_subscription(user_id,region)
+        if plot_type in cplt.SCOPE_PLOT_TYPES:
+            scope = True
+        await edit_region(client, chat, mid, plot_type, region, language=language, scope=scope)
+
+
     elif comm in tot:
         region = comm
         plot_type = params[1].replace('-', '_')
@@ -697,7 +778,7 @@ async def answer(client, callback_query):
 
 @app.on_inline_query()
 async def answer_inline(client, inline_query):
-    if len(inline_query.query) < 3:
+    if len(inline_query.query) >6:
         await inline_query.answer(
             results=[],
             is_personal=True,
@@ -705,12 +786,26 @@ async def answer_inline(client, inline_query):
         )
         return
 
+    rslts = []
+    resultats = []
     language = await get_language(inline_query.from_user)
     _ = translations[language].gettext
 
-    rslts = []
-    resultats = cerca(inline_query.query, language)
-    resultats = resultats[0:40]
+    if len(inline_query.query) < 1:
+        regions = await dbhd.get_subscriptions(inline_query.from_user.id)
+        if len(regions)>0:
+            resultats = regions[0:40]
+        else:
+            await inline_query.answer(
+                results=[],
+                is_personal=True,
+                cache_time=20
+            )
+            return
+    else:
+        resultats = cerca(inline_query.query, language)
+        resultats = resultats[0:40]
+
     for result in resultats:
         text = get_caption(result, plot_type="summary", language=language)
         flag = ""
@@ -732,8 +827,8 @@ async def answer_inline(client, inline_query):
 
 
 async def main():
-    pull_datasets()
-    pull_global()
+    # pull_datasets()
+    # pull_global()
     scheduler = AsyncIOScheduler()
     scheduler.add_job(pull_datasets, "interval", hours=1)
     scheduler.add_job(pull_global, "interval", hours=1)

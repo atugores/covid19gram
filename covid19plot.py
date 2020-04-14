@@ -276,27 +276,27 @@ class COVID19Plot(object):
                 _('Cases per 100k inhabitants') + ": " + v + "\n"
         elif plot_type == 'summary':
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
-            last_data = "  - " + _('Total cases') + ": " + v
+            last_data = "  🦠 " + _('Total cases') + ": `" + v
             v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True)
-            last_data += " (" + v + " | "
+            last_data += " (" + v + ")`\n"
             v = locale.format_string(
                 '%.1f', df['cases_per_100k'][-1], grouping=True)
-            last_data += v + " " + _('per 100k inhabitants') + ")\n"
+            last_data += "    `" + v + "` __" + _('per 100k inhabitants') + "__\n\n"
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
-            last_data += "  - " + _('Total deceased') + ": " + v
+            last_data += "  ❌ " + _('Total deceased') + ": `" + v
             v = locale.format_string('%+.0f', df['increase_deceased'][-1], grouping=True)
-            last_data += " (" + v + " | "
+            last_data += " (" + v + ")`\n"
             v = locale.format_string(
                 '%.1f', df['deceased_per_100k'][-1], grouping=True)
-            last_data += v + " " + _('per 100k inhabitants') + ")\n"
+            last_data += "    `" + v + "` __" + _('per 100k inhabitants') + "__\n\n"
             v = locale.format_string(
                 '%.0f', df['recovered'][-1], grouping=True)
-            last_data += "  - " + _('Recovered') + ": " + v + "\n"
+            last_data += "  ✅ " + _('Recovered') + ": `" + v + "`\n\n"
             v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
-            last_data += "  - " + _('Active') + ": " + v + "\n"
+            last_data += "  😷 " + _('Active') + ": `" + v + "`\n"
 
         updated = _("Information on last available data") + " (" + last_date + "):"
-        return f"{updated}\n{last_data}"
+        return f"{last_data}\n__{updated}__"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):
         # set translation to current language

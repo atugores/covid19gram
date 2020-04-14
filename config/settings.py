@@ -92,3 +92,41 @@ class DBHandler:
         sql = 'DELETE FROM `hashImage`'
         self._get_cursor()
         self._cur.execute(sql)
+
+    def is_subcribed(self, user_id, region):
+        sql = f'SELECT * FROM `subs` WHERE user_id="{user_id}" AND region="{region}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        if result:
+            return True
+        else:
+            return False
+
+    async def add_subcription(self, user_id, region):
+        if not self.is_subcribed( user_id, region):
+            sql = f'INSERT INTO `subs` (user_id,region) VALUES ("{user_id}","{region}")'
+            self._get_cursor()
+            self._cur.execute(sql)
+
+    async def remove_subscription(self, user_id, region):
+        if self.is_subcribed( user_id, region):
+            sql = f'DELETE FROM `subs` WHERE user_id="{user_id}" AND region="{region}"'
+            self._get_cursor()
+            self._cur.execute(sql)
+
+    async def get_subscribed(self, region):
+        sql = f'SELECT user_id FROM `subs` WHERE region="{region}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        users_ids = [val for sublist in result for val in sublist]
+        return users_ids
+
+    async def get_subscriptions(self, user_id):
+        sql = f'SELECT region FROM `subs` WHERE user_id="{user_id}"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        regions = [val for sublist in result for val in sublist]
+        return regions
