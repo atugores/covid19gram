@@ -295,7 +295,7 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
             last_data += "  😷 " + _('Active') + ": `" + v + "`\n"
 
-        updated = _("Information on last available data") + " (" + last_date + "):"
+        updated = _("Information on last available data") + " (" + last_date + ")"
         return f"{last_data}\n__{updated}__"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):

@@ -1384,7 +1384,7 @@ msgstr ""
 
 #: covid.py:562
 msgid "You have no subscription"
-msgstr ""
+msgstr "You have no subscriptions"
 
 #: covid.py:717
 msgid "Your language is now English"
