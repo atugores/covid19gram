@@ -243,7 +243,7 @@ msgstr "C. Valenciana"
 
 #: covid.py:119
 msgid "COVID-19 status at {region}"
-msgstr "Estat de la COVID-10 a {region}"
+msgstr "Estat de la COVID-19 a {region}"
 
 #: regions_translate.py:81
 msgid "Cabo Verde"
