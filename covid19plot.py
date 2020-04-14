@@ -520,7 +520,10 @@ class COVID19Plot(object):
 
         if plot_type != 'cases':
             if scope in ['spain', 'italy']:
-                total_value = today_df[today_df.region == 'Total'][field].values[0]
+                total_region = 'Total'
+                if scope == 'italy':
+                    total_region = 'Total - Italy'
+                total_value = today_df[today_df.region == total_region][field].values[0]
                 ax.axvline(total_value, color=color, alpha=0.5)
                 total_value_f = locale.format_string('%.1f', total_value, grouping=True)
                 ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
