@@ -397,7 +397,7 @@ class COVID19Plot(object):
                 x = df_region.index.get_level_values('date')
                 plt.plot(x, df_region['cases_per_100k'], linewidth=2)
                 region_name = _(region)
-                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.0f} ({region_name})",
+                ax.annotate(f"{df_region['cases_per_100k'][-1]:0,.2f} ({region_name})",
                             xy=(x[-1], df_region['cases_per_100k'][-1]), xytext=(0, 3),
                             textcoords="offset points")
 
@@ -410,7 +410,7 @@ class COVID19Plot(object):
                 x = df_region.index.get_level_values('date')
                 plt.plot(x, df_region['deceased_per_100k'], linewidth=2)
                 region_name = _(region)
-                ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.0f} ({region_name})",
+                ax.annotate(f"{df_region['deceased_per_100k'][-1]:0,.2f} ({region_name})",
                             xy=(x[-1], df_region['deceased_per_100k'][-1]), xytext=(0, 3),
                             textcoords="offset points")
 
