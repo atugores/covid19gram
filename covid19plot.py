@@ -645,5 +645,8 @@ class COVID19Plot(object):
             elif language == 'en':
                 locale.setlocale(locale.LC_TIME, "en_GB.UTF-8")
                 locale.setlocale(locale.LC_NUMERIC, "en_GB.UTF-8")
+            elif language == 'it':
+                locale.setlocale(locale.LC_TIME, "it_IT.UTF-8")
+                locale.setlocale(locale.LC_NUMERIC, "it_IT.UTF-8")
         except locale.Error:
             pass
