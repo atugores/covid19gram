@@ -371,7 +371,8 @@ def b_lang(language="en"):
     return InlineKeyboardMarkup([[
         InlineKeyboardButton("English", callback_data="lang_en"),
         InlineKeyboardButton("Català", callback_data="lang_ca"),
-        InlineKeyboardButton("Español", callback_data="lang_es")]])
+        InlineKeyboardButton("Español", callback_data="lang_es"),
+        InlineKeyboardButton("Italiano", callback_data="lang_it")]])
 
 
 def b_start(language="en"):

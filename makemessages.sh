@@ -7,7 +7,7 @@
 CATALOGNAME="messages"
 
 # List of languages
-LANGUAGES="en ca es"
+LANGUAGES="en ca es it"
 
 # Create locales folder structure for languages
 install -d locales

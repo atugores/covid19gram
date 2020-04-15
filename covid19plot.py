@@ -20,7 +20,7 @@ matplotlib.use('Agg')
 
 class COVID19Plot(object):
 
-    LANGUAGES = ['ca', 'es', 'en']
+    LANGUAGES = ['ca', 'es', 'en', 'it']
     PLOT_TYPES = [
         'daily_cases',
         'active_recovered_deceased',

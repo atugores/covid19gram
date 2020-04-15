@@ -65,6 +65,15 @@ def get_or_generate_input_files(scope, data_directory="data/"):
     ]
 
 
+def repository_last_changes(scope):
+    base_directory = SCOPES[scope]['base_directory']
+    files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
+    files_mtime = []
+    for f in files:
+        files_mtime.append(int(os.path.getmtime(f)))
+    return np.max(files_mtime)
+
+
 def repository_has_changes(scope, data_directory):
     # check if repository exists
     base_directory = SCOPES[scope]['base_directory']
@@ -72,21 +81,14 @@ def repository_has_changes(scope, data_directory):
         os.makedirs(base_directory)
         git.Repo.clone_from(SCOPES[scope]['repo_url'], base_directory)
         return True
+    original_mtime = repository_last_changes(scope)
 
-    files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
-    files_mtime = []
-    for f in files:
-        files_mtime.append(int(os.path.getmtime(f)))
-    original_mtime = np.max(files_mtime)
     # update repository
     g = git.cmd.Git(base_directory)
     g.pull()
 
     # check if files changed
-    files_mtime = []
-    for f in files:
-        files_mtime.append(int(os.path.getmtime(f)))
-    new_mtime = np.max(files_mtime)
+    new_mtime = repository_last_changes(scope)
     if original_mtime != new_mtime:
         return True
     # check if exists covid19gram file for this scope and its mtime
