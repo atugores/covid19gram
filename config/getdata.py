@@ -39,6 +39,17 @@ def update_data():
         update_scope_data(scope)
 
 
+def status_data():
+    text = "**Data sources updated at:**\n"
+    for scope in SCOPES.keys():
+        base_directory = SCOPES[scope]['base_directory']
+        repo = git.Repo(base_directory)
+        headcommit = repo.head.commit
+        mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
+        text += f"- {scope}: {mtime:%d %b %Y %H:%M:%S}\n"
+    return text
+
+
 def update_scope_data(scope, data_directory="data/"):
     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
     if not repository_has_changes(scope, data_directory):

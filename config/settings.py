@@ -1,5 +1,6 @@
 import configparser
 import MySQLdb
+from datetime import datetime
 
 
 config_file = "conf.ini"
@@ -130,3 +131,27 @@ class DBHandler:
         result = self._cur.fetchall()
         regions = [val for sublist in result for val in sublist]
         return regions
+
+    async def status_users(self):
+        sql = f'SELECT lang, count(1) as users FROM `lang` GROUP BY lang'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        lang_users = [val for val in result]
+        text = "**User stats**\n"
+        for lang, users in lang_users:
+            text += f"- {lang}: {users}\n"
+        return text
+
+    async def status_files(self):
+        sql = f"Select date, count(1) as num_files from (SELECT file_id, SUBSTRING_INDEX(filename, '_', -1) as date FROM `hashImage`) as T group by date"
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        date_files = [val for val in result]
+        text = "**Files stats**\n"
+        for date, num_files in date_files:
+            date = int(date.replace('.png', ''))
+            date = datetime.fromtimestamp(date)
+            text += f"- {date:%d %b %Y %H:%M:%S}: {num_files}\n"
+        return text

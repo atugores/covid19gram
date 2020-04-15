@@ -11,7 +11,7 @@ from pyrogram import Client
 from pyrogram import Filters, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import BadRequest
 from covid19plot import COVID19Plot
-from config.getdata import update_data
+from config.getdata import update_data, status_data
 from config.countries import countries
 from config.settings import DBHandler
 import gettext
@@ -599,6 +599,11 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         await client.send_message(chat, "Updating data.")
         update_data()
         await client.send_message(chat, "Data Updated.")
+    elif comm == "status" and user in admins:
+        text = status_data()
+        text += "\n" + await dbhd.status_users()
+        text += "\n" + await dbhd.status_files()
+        await client.send_message(chat, text)
     elif comm == "find":
         if len(param) > 0:
             resultats = cerca(param, language=language)
