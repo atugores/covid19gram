@@ -171,10 +171,12 @@ class DBHandler:
         self._cur.execute(sql)
         result = self._cur.fetchall()
         lang_users = [val for val in result]
-        text = "**User stats**\n"
+        text = ""
+        total = 0
         for lang, users in lang_users:
             text += f"- {lang}: {users}\n"
-        return text
+            total += users
+        return f"**User stats ({total})**\n" + text
 
     async def status_files(self):
         sql = f"Select date, count(1) as num_files from (SELECT file_id, SUBSTRING_INDEX(filename, '_', -1) as date FROM `hashImage`) as T group by date"
