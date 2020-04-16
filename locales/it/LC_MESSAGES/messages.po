@@ -20,7 +20,7 @@ msgstr ""
 
 #: covid.py:793
 msgid "**Announcement:**"
-msgstr ""
+msgstr "**Comunicazione:**"
 
 #: covid.py:698
 msgid "**Chart Buttons**"
@@ -998,7 +998,7 @@ msgstr "Norvegia"
 
 #: covid.py:389
 msgid "Notify me of updates to"
-msgstr ""
+msgstr "Notificami della presenza di aggiornamenti per"
 
 #: regions_translate.py:204
 msgid "Oman"
@@ -1444,7 +1444,7 @@ msgstr "Isole Åland"
 
 #: covid.py:753
 msgid "⚙️ **Configuration:**"
-msgstr ""
+msgstr "⚙️ **Configurazione:**"
 
 #: covid.py:414
 msgid "⚙️Conf."
@@ -1464,11 +1464,11 @@ msgstr "⬅️Indietro"
 
 #: covid.py:393
 msgid "🇪🇸Spain"
-msgstr "🇪🇸Espagna"
+msgstr "🇪🇸Spagna"
 
 #: covid.py:602
 msgid "🇪🇸Spain data updated"
-msgstr ""
+msgstr "Dati aggiornati in 🇪🇸Spagna"
 
 #: covid.py:394
 msgid "🇮🇹Italy"
@@ -1476,7 +1476,7 @@ msgstr "🇮🇹Italia"
 
 #: covid.py:603
 msgid "🇮🇹Italy data updated"
-msgstr ""
+msgstr "Dati aggiornati in 🇮🇹Italia"
 
 #: covid.py:392
 msgid "🌐Global"
@@ -1484,7 +1484,7 @@ msgstr "🌐Globale"
 
 #: covid.py:601
 msgid "🌐Global data updated"
-msgstr ""
+msgstr "Dati aggiornati in 🌐Global"
 
 #: covid.py:414
 msgid "💛FAVs"

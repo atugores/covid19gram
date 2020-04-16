@@ -652,7 +652,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         await client.send_message(chat, "Cleaned.")
     elif comm == "update" and user in admins:
         await client.send_message(chat, "Updating data.")
-        send_notifications()
+        await send_notifications()
         await client.send_message(chat, "Data Updated.")
     elif comm == "status" and user in admins:
         text = status_data()
