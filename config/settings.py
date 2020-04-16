@@ -39,6 +39,21 @@ class DBHandler:
             self._create_connection()
         self._cur = self._conn.cursor()
 
+    async def set_notification(self, user_id, scope, status):
+        set_ntf = 0
+        if status == 'on':
+            set_ntf = 1
+        sql = f'UPDATE lang SET n_{scope}={set_ntf} WHERE tg_id = {user_id}'
+        self._get_cursor()
+        self._cur.execute(sql)
+
+    def get_notifications(self, user_id):
+        sql = f'SELECT n_world, n_spain, n_italy FROM lang WHERE tg_id = {user_id}'
+        self._get_cursor()
+        self._cur.execute(sql)
+        notifications = self._cur.fetchone()
+        return notifications
+
     async def set_language(self, user_id, language):
         sql = f'INSERT INTO lang (tg_id,lang) VALUES ({user_id},"{language}") ON DUPLICATE KEY UPDATE lang = "{language}"'
         self._get_cursor()
@@ -53,6 +68,24 @@ class DBHandler:
             return language[0]
         else:
             return 'None'
+
+    async def get_users_lang(self, language="all"):
+        sql = f'SELECT tg_id FROM lang WHERE lang = "{language}"'
+        if language == "all":
+            sql = f'SELECT tg_id FROM lang'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        flat_result = [item for sublist in result for item in sublist]
+        return flat_result
+
+    async def get_users_scope(self, scope="world"):
+        sql = f'SELECT tg_id FROM lang WHERE n_{scope} = 1'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        flat_result = [item for sublist in result for item in sublist]
+        return flat_result
 
     async def set_image_hash(self, hash, filename):
         sql = f'INSERT INTO `hashImage` (file_id,filename) VALUES ("{hash}","{filename}")'

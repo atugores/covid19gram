@@ -35,8 +35,10 @@ SCOPES = {
 
 
 def update_data():
+    updated = {}
     for scope in SCOPES.keys():
-        update_scope_data(scope)
+        updated[scope] = update_scope_data(scope)
+    return updated
 
 
 def status_data():
@@ -54,10 +56,11 @@ def update_scope_data(scope, data_directory="data/"):
     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
     if not repository_has_changes(scope, data_directory):
         print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". No changes in repository")
-        return
+        return False
     input_files = get_or_generate_input_files(scope, data_directory)
     generate_covidgram_dataset(scope, input_files, data_directory)
     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". New file created")
+    return True
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
