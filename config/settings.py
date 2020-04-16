@@ -178,6 +178,17 @@ class DBHandler:
             total += users
         return f"**User stats ({total})**\n" + text
 
+    async def status_notifications(self):
+        sql = f"SELECT 'world', COUNT(*) FROM lang WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM lang WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM lang WHERE n_italy=1"
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        notf_users = [val for val in result]
+        text = ""
+        for notf, users in notf_users:
+            text += f"- {notf}: {users}\n"
+        return f"**Subscription stats**\n" + text
+
     async def status_files(self):
         sql = f"Select date, count(1) as num_files from (SELECT file_id, SUBSTRING_INDEX(filename, '_', -1) as date FROM `hashImage`) as T group by date"
         self._get_cursor()

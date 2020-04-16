@@ -657,6 +657,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
     elif comm == "status" and user in admins:
         text = status_data()
         text += "\n" + await dbhd.status_users()
+        text += "\n" + await dbhd.status_notifications()
         text += "\n" + await dbhd.status_files()
         await client.send_message(chat, text)
     elif comm == 'bc' and user in admins:
