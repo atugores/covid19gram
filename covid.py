@@ -792,6 +792,7 @@ async def answer(client, callback_query):
                 # await asyncio.sleep(1)
                 try:
                     language = await get_language(await client.get_users(user_id))
+                    _ = translations[language].gettext
                     rep_markup = b_start(language)
                     await client.send_message(user_id, _("**Announcement:**") + "\n\n" + callback_query.message.text.markdown, disable_web_page_preview=True, reply_markup=rep_markup, disable_notification=True)
                 except Exception as e:
