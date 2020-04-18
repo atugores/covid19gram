@@ -53,6 +53,22 @@ class COVID19Plot(object):
         'daily_deceased_normalized',
     ]
 
+    BUTTON_PLOT_TYPES = [
+        'daily_cases',
+        'active_recovered_deceased',
+        'active',
+        'recovered',
+        'daily_deceased',
+    ]
+
+    BUTTON_SCOPE_PLOT_TYPES = [
+        'cases',
+        'cases_normalized',
+        'daily_cases_normalized',
+        'deceased_normalized',
+        'daily_deceased_normalized',
+    ]
+
     SCOPES = [
         'spain',
         'italy',
@@ -282,7 +298,7 @@ class COVID19Plot(object):
                 last_data = last_data + "  - " + _('Currently infected') + ": " + v + "\n"
             else:
                 last_data = ""
-            if 'hospitalized' in df.columns:
+            if 'hospitalized' in df.columns and region != "france":
                 v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
@@ -290,8 +306,15 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
             last_data = last_data + "  - " + _('Deceased') + ": " + v
         elif plot_type == 'active':
-            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
-            last_data = "  - " + _('Currently infected') + ": " + v + "\n"
+            last_data = ""
+            if np.max(df['cases'] > 0):
+                v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+                last_data = "  - " + _('Currently infected') + ": " + v + "\n"
+            else:
+                last_data = ""
+            if 'hospitalized' in df.columns and region != "france":
+                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
+                last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
         elif plot_type == 'recovered':
             v = locale.format_string(
                 '%.0f', df['recovered'][-1], grouping=True)
@@ -374,6 +397,7 @@ class COVID19Plot(object):
                 ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
                             xytext=(0, 3), textcoords="offset points")
             if 'hospitalized' in df.columns:
+                title = _('Currently hospitalized, recovered and deceased at {region}').format(region=_(region))
                 plt.fill_between(x, 0, df['hospitalized'], color='y', alpha=alpha, label=_('Currently hospitalized'))
                 plt.plot(x, df['hospitalized'], color='y')
                 ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
@@ -393,7 +417,7 @@ class COVID19Plot(object):
                 plt.bar(x, df['active_cases'], alpha=0.5, width=1, label=_('Active cases'))
                 ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
                             xytext=(0, 3), textcoords="offset points", ha='center')
-            elif 'hospitalized' in df.columns:
+            elif 'hospitalized' in df.columns and region != "total-france":
                 title = _('Active hospitalizations at {region}').format(region=_(region))
                 y_label = _('Hospitalizations')
                 plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'))
@@ -560,9 +584,15 @@ class COVID19Plot(object):
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'cases_per_100k'
+            if scope == 'france':
+                title = _('Hospitalizations per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+                field = 'hosp_per_100k'
         elif plot_type == 'cases':
             title = _('Cases') + f" ({last_date:%d/%B/%Y})"
             field = 'cases'
+            if scope == 'france':
+                title = _('Currently hospitalized') + f" ({last_date:%d/%B/%Y})"
+                field = 'hospitalized'
             color = 'dodgerblue'
         elif plot_type == 'hospitalized':
             title = _('Hospitalizations') + f" ({last_date:%d/%B/%Y})"
@@ -575,6 +605,9 @@ class COVID19Plot(object):
         elif plot_type == 'daily_cases_normalized':
             title = _('New cases per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'rolling_cases_per_100k'
+            if scope == 'france':
+                title = _('New hospitalizations per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
+                field = 'rolling_hosp_per_100k'
             legend = True
             label = _('Increment rolling avg (3 days)')
         elif plot_type == 'daily_deceased_normalized':

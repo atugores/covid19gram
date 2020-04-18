@@ -37,6 +37,7 @@ all_regions = []
 for scope in cplt.SCOPES:
     all_regions.extend(cplt.get_regions(scope))
 all_regions.sort()
+cplt.get_regions(scope)
 
 translations = {}
 dbhd = DBHandler()
@@ -134,13 +135,18 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
         title = _('Hospitalization evolution at {region}').format(region=flaged_region)
     elif plot_type == "active_recovered_deceased":
         title = _('Active cases, recovered and deceased at {region}').format(region=flaged_region)
+        if region in cplt.get_regions('france'):
+            title = _('Currently hospitalized, recovered and deceased at {region}').format(region=_(region))
     elif plot_type == "active":
         title = _('Active cases at {region}').format(region=flaged_region)
+        if region in cplt.get_regions('france') and region != "total-france":
+            title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "recovered":
         title = _('Recovered cases at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
-
+    elif plot_type == "hospitalized":
+        title = _('Active hospitalizations at {region}').format(region=_(region))
     if plot_type == "summary":
         title = _('COVID-19 status at {region}').format(region=flaged_region)
         plot_caption = cplt.get_summary(region=region, language=language)
@@ -380,6 +386,11 @@ def b_conf(user_id, language="en"):
     _ = translations[language].gettext
     lang_dicc = {'en': '⚫️', 'es': '⚫️', 'ca': '⚫️', 'it': '⚫️'}
     lang_dicc[language] = '🔵'
+    buttons = {'gl': '⚫️', 'es': '⚫️', 'it': '⚫️', 'fr': '⚫️'}
+    btn_status = {'gl': 'on', 'es': 'on', 'it': 'on', 'fr': 'on'}
+    for button in dbhd.get_buttons(user_id):
+        buttons[button] = '🔵'
+        btn_status[button] = 'off'
     cb_estat = 'on'
     notificacions = dbhd.get_notifications(user_id)
     emj_notf = ['🔵' if x == 1 else '⚫️' for x in notificacions]
@@ -406,14 +417,36 @@ def b_conf(user_id, language="en"):
         [
             InlineKeyboardButton(lang_dicc['es'] + " " + "Español", callback_data="lang_es"),
             InlineKeyboardButton(lang_dicc['it'] + " " + "Italiano", callback_data="lang_it"),
+        ],
+        [
+            InlineKeyboardButton(_("Show buttons for:"), callback_data="blank")
+        ],
+        [
+            InlineKeyboardButton(buttons['gl'] + " " + _("🌐Global"), callback_data=f"button_{btn_status['gl']}_gl"),
+            InlineKeyboardButton(buttons['es'] + " " + _("🇪🇸Spain"), callback_data=f"button_{btn_status['es']}_es"),
+        ],
+        [
+            InlineKeyboardButton(buttons['it'] + " " + _("🇮🇹Italy"), callback_data=f"button_{btn_status['it']}_it"),
+            InlineKeyboardButton(buttons['fr'] + " " + _("🇫🇷France"), callback_data=f"button_{btn_status['fr']}_fr"),
         ]
     ])
 
 
-def b_start(language="en"):
+def b_start(user_id, language="en"):
     _ = translations[language].gettext
+    names = {
+        'gl': _("🌐Global"),
+        'es': _("🇪🇸Spain"),
+        'it': _("🇮🇹Italy"),
+        'fr': _("🇫🇷France")
+    }
+    buttons = dbhd.get_buttons(user_id)
+    scopes = []
+    for button in buttons:
+        scopes.append(names[button])
+
     rep_markup = ReplyKeyboardMarkup([
-        [_("🌐Global"), _("🇪🇸Spain"), _("🇮🇹Italy")],
+        scopes,
         [_("⚙️Conf."), _("❓About"), _("💛FAVs")]],
         resize_keyboard=True)
     return rep_markup
@@ -498,7 +531,7 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
     flnames = []
     if is_scope:
         scope = region.replace('total-', '')
-        for plot_type in cplt.PLOT_TYPES:
+        for plot_type in cplt.BUTTON_PLOT_TYPES:
             flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):
@@ -507,7 +540,7 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
                 flname,
                 caption=get_caption(region, plot_type=plot_type, language=language)
             ))
-        for plot_type in cplt.SCOPE_PLOT_TYPES:
+        for plot_type in cplt.BUTTON_SCOPE_PLOT_TYPES:
             flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):
@@ -517,7 +550,7 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
                 caption=get_caption(region, plot_type=plot_type, language=language, scope=True)
             ))
     else:
-        for plot_type in cplt.PLOT_TYPES:
+        for plot_type in cplt.BUTTON_PLOT_TYPES:
             flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):
@@ -597,6 +630,7 @@ async def send_notifications():
         'world': _('🌐Global data updated'),
         'spain': _('🇪🇸Spain data updated'),
         'italy': _('🇮🇹Italy data updated'),
+        'france': _('🇫🇷France data updated'),
     }
     for scope in cplt.SCOPES:
         if updated[scope]:
@@ -620,7 +654,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
     if comm == "start":
         language = await get_language(message.from_user)
         _ = translations[language].gettext
-        rep_markup = b_start(language)
+        rep_markup = b_start(user, language)
         await client.send_message(chat, _("⚙️Main Menu"), reply_markup=rep_markup)
     elif comm == "italy":
         btns = b_regions('italy', language=language)
@@ -680,7 +714,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         if len(param) > 0:
             resultats = cerca(param, language=language)
             if len(resultats) == 0:
-                rep_markup = b_start(language)
+                rep_markup = b_start(user, language)
                 await client.send_message(chat, _('No results for `{param}`').format(param=param), reply_markup=rep_markup)
             elif len(resultats) == 1:
                 await show_region(client, chat, region=resultats[0])
@@ -729,7 +763,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += _('Source code available soon.') + '\n'
         about += '\n＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
-        rep_markup = b_start(language)
+        rep_markup = b_start(user, language)
         await client.send_message(chat, about, disable_web_page_preview=True, reply_markup=rep_markup)
 
 
@@ -752,6 +786,8 @@ async def g_request(client, message):
         await DoBot("spain", "", client, message, language)
     elif message.text == _("🇮🇹Italy"):
         await DoBot("italy", "", client, message, language)
+    elif message.text == _("🇫🇷France"):
+        await DoBot("france", "", client, message, language)
     elif message.text == _("⚙️Conf."):
         btns = b_conf(user_id, language)
         await client.send_message(chat, _("⚙️ **Configuration:**"), reply_markup=btns)
@@ -775,6 +811,7 @@ async def g_request(client, message):
 @app.on_callback_query()
 async def answer(client, callback_query):
     user = callback_query.from_user
+    user_id = callback_query.from_user.id
     chat = callback_query.message.chat.id
     mid = callback_query.message.message_id
     params = callback_query.data.split("_")
@@ -796,7 +833,7 @@ async def answer(client, callback_query):
                 try:
                     language = await get_language(await client.get_users(user_id))
                     _ = translations[language].gettext
-                    rep_markup = b_start(language)
+                    rep_markup = b_start(user_id, language)
                     await client.send_message(user_id, _("**Announcement:**") + "\n\n" + callback_query.message.text.markdown, disable_web_page_preview=True, reply_markup=rep_markup, disable_notification=True)
                 except Exception as e:
                     await exception_handle(user_id, e)
@@ -875,15 +912,26 @@ async def answer(client, callback_query):
         language = params[1]
         _ = translations[language].gettext
         await set_language(user.id, language)
-        rep_markup = b_start(language)
+        rep_markup = b_start(user.id, language)
         await client.send_message(chat, _("Your language is now English"), reply_markup=rep_markup, disable_notification=True)
         rep_markup = b_conf(user.id, language)
         await client.edit_message_text(chat, mid, _("⚙️ **Configuration:**"), reply_markup=rep_markup)
 
+    if comm == "button":
+        button = params[2]
+        status = params[1]
+        if await dbhd.set_button(user.id, button, status):
+            rep_markup = b_start(user.id, language)
+            await client.send_message(chat, _("Buttons updated"), reply_markup=rep_markup, disable_notification=True)
+            rep_markup = b_conf(user.id, language)
+            await client.edit_message_text(chat, mid, _("⚙️ **Configuration:**"), reply_markup=rep_markup)
+        else:
+            await client.send_message(chat, _("You must select at least one button"), disable_notification=True)
+
     if comm == "notf":
         scope = params[1]
         status = params[2]
-        rep_markup = b_start(language)
+        rep_markup = b_start(user.id, language)
         await dbhd.set_notification(user.id, scope, status)
         # await client.send_message(chat, text, reply_markup=rep_markup, disable_notification=True)
         rep_markup = b_conf(user.id, language)

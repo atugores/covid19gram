@@ -16,6 +16,9 @@ class DBHandler:
     lang VARCHAR(4) NOT NULL
     )
     """
+
+    SCOPES = ['gl', 'es', 'it', 'fr']
+
     _conn = None
     _cur = None
 
@@ -53,6 +56,32 @@ class DBHandler:
         self._cur.execute(sql)
         notifications = self._cur.fetchone()
         return notifications
+
+    def get_buttons(self, user_id):
+        sql = f'SELECT botons FROM lang WHERE tg_id = {user_id}'
+        self._get_cursor()
+        self._cur.execute(sql)
+        results = self._cur.fetchone()[0].strip("'").split(',')
+        if '' in results:
+            return []
+        else:
+            return results
+
+    async def set_button(self, user_id, button, status='on'):
+        buttons_list = self.get_buttons(user_id)
+        if button in self.SCOPES:
+            if status == 'on':
+                buttons_list.append(button)
+            elif len(buttons_list) > 1:
+                buttons_list.remove(button)
+            else:
+                return False
+            buttons = ','.join(buttons_list)
+            sql = f"UPDATE lang SET botons = '{buttons}' WHERE tg_id = {user_id}"
+            self._get_cursor()
+            self._cur.execute(sql)
+            return True
+        return False
 
     async def set_language(self, user_id, language):
         sql = f'INSERT INTO lang (tg_id,lang) VALUES ({user_id},"{language}") ON DUPLICATE KEY UPDATE lang = "{language}"'
