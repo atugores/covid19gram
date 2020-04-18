@@ -23,8 +23,9 @@ REGIONS = {
     'Navarra': _('Navarra'),
     'País Vasco': _('País Vasco'),
     'La Rioja': _('La Rioja'),
-    'Total': _('Total'),
-    'Total - Italy': _('Total - Italy')
+    'total-spain': _('total-spain'),
+    'total-italy': _('total-italy'),
+    'total-france': _('total-france')
 }
 
 COUNTRIES = {
@@ -281,6 +282,6 @@ COUNTRIES = {
     'Zambia': _('Zambia'),
     'Zimbabwe': _('Zimbabwe'),
     'West Bank and Gaza': _('West Bank and Gaza'),
-    'Global': _('Global'),
+    'total-world': _('total-world'),
     'MS Zaandam': _('MS Zaandam')
 }

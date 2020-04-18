@@ -48,7 +48,7 @@ class DBHandler:
         self._cur.execute(sql)
 
     def get_notifications(self, user_id):
-        sql = f'SELECT n_world, n_spain, n_italy FROM lang WHERE tg_id = {user_id}'
+        sql = f'SELECT n_world, n_spain, n_italy, n_france FROM lang WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
         notifications = self._cur.fetchone()
@@ -179,7 +179,7 @@ class DBHandler:
         return f"**User stats ({total})**\n" + text
 
     async def status_notifications(self):
-        sql = f"SELECT 'world', COUNT(*) FROM lang WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM lang WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM lang WHERE n_italy=1"
+        sql = f"SELECT 'world', COUNT(*) FROM lang WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM lang WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM lang WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM lang WHERE n_france=1"
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()

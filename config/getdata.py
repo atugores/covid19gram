@@ -21,7 +21,8 @@ SCOPES = {
         'watch': [
             'COVID 19/ccaa_covid19_casos_long.csv',
             'COVID 19/ccaa_covid19_altas_long.csv',
-            'COVID 19/ccaa_covid19_fallecidos_long.csv'
+            'COVID 19/ccaa_covid19_fallecidos_long.csv',
+            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv'
         ]
     },
     'italy': {
@@ -29,6 +30,13 @@ SCOPES = {
         'repo_url': 'https://github.com/pcm-dpc/COVID-19',
         'watch': [
             'dati-regioni/dpc-covid19-ita-regioni.csv'
+        ]
+    },
+    'france': {
+        'base_directory': 'external-data/france',
+        'repo_url': 'https://github.com/opencovid19-fr/data',
+        'watch': [
+            'dist/chiffres-cles.csv'
         ]
     },
 }
@@ -64,7 +72,7 @@ def update_scope_data(scope, data_directory="data/"):
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
-    if scope in ['spain', 'italy']:
+    if scope in ['spain', 'italy', 'france']:
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
@@ -167,22 +175,25 @@ def generate_world_input_files(data_directory="data/"):
         # add global information for each date
         for date in global_cases.keys():
             cases_file.write(
-                f"{date},{country_code},Global,{global_cases[date]}\n")
+                f"{date},{country_code},total-world,{global_cases[date]}\n")
         for date in global_recovered.keys():
             recovered_file.write(
-                f"{date},{country_code},Global,{global_recovered[date]}\n")
+                f"{date},{country_code},total-world,{global_recovered[date]}\n")
         for date in global_deceased.keys():
             deceased_file.write(
-                f"{date},{country_code},Global,{global_deceased[date]}\n")
+                f"{date},{country_code},total-world,{global_deceased[date]}\n")
 
 
 def generate_covidgram_dataset(scope, files, data_directory):
     csv_cases = None
     csv_recovered = None
     csv_deceased = None
+    csv_hospitalized = None
 
     if len(files) == 3:
         csv_cases, csv_recovered, csv_deceased = files
+    elif len(files) == 4:
+        csv_cases, csv_recovered, csv_deceased, csv_hospitalized = files
     else:
         csv_cases = files[0]
 
@@ -193,20 +204,39 @@ def generate_covidgram_dataset(scope, files, data_directory):
         'total': 'cases', 'CCAA': 'region'}, inplace=True)
 
     # italy: data,stato,codice_regione,denominazione_regione,lat,long,ricoverati_con_sintomi,terapia_intensiva,totale_ospedalizzati,isolamento_domiciliare,totale_positivi,variazione_totale_positivi,nuovi_positivi,dimessi_guariti,deceduti,totale_casi,tamponi,note_it,note_en
-    if scope == 'italy':
+    if scope == 'spain':
+        df['region'].mask(df.region_code == 0, 'total-spain', inplace=True)
+    elif scope == 'italy':
         df.drop(columns=[
             'stato', 'lat', 'long', 'ricoverati_con_sintomi',
-            'terapia_intensiva', 'totale_ospedalizzati', 'isolamento_domiciliare',
+            'terapia_intensiva', 'isolamento_domiciliare',
             'totale_positivi', 'variazione_totale_positivi',
             'nuovi_positivi', 'tamponi', 'note_it', 'note_en'], inplace=True)
 
         df.rename(columns={
             'data': 'date', 'codice_regione': 'region_code',
             'totale_casi': 'cases', 'denominazione_regione': 'region',
+            'totale_ospedalizzati': 'hospitalized',
             'dimessi_guariti': 'recovered', 'deceduti': 'deceased'}, inplace=True)
         # avoid duplicates
         df['region_code'].mask(df.region == "P.A. Bolzano", '4A', inplace=True)
         df['region_code'].mask(df.region == "P.A. Trento", '4B', inplace=True)
+    elif scope == 'france':
+        # france date,granularite,maille_code,maille_nom,cas_confirmes,cas_ehpad,cas_confirmes_ehpad,cas_possibles_ehpad,deces,deces_ehpad,reanimation,hospitalises,gueris,depistes,source_nom,source_url,source_archive,source_type
+        # accept:
+        #   - granularite=pays + source_type=ministere-sante
+        #   - granularite=region + source_type=opencovid19-fr
+        # columns: date,maille_code,maille_nom - deces,hospitalises,gueris and cas_confirmes (only availabre for pays)
+        df = df[((df.granularite == 'pays') & (df.source_type == 'ministere-sante')) | ((df.granularite == 'region') & (df.source_type == 'opencovid19-fr'))]
+        df.drop(columns=[
+            'cas_ehpad', 'granularite', 'cas_confirmes_ehpad', 'cas_possibles_ehpad',
+            'deces_ehpad', 'reanimation', 'depistes', 'source_nom', 'source_url', 'source_archive', 'source_type'], inplace=True)
+        df.rename(columns={
+            'maille_code': 'region_code',
+            'cas_confirmes': 'cases', 'maille_nom': 'region',
+            'hospitalises': 'hospitalized',
+            'gueris': 'recovered', 'deces': 'deceased'}, inplace=True)
+        df['region'].mask(df.region_code == 'FRA', 'total-france', inplace=True)
 
     df['date'] = pd.to_datetime(df['date'])
     df.set_index(['date', 'region_code'], inplace=True)
@@ -233,6 +263,17 @@ def generate_covidgram_dataset(scope, files, data_directory):
         dec_df.set_index(['date', 'region_code'], inplace=True)
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
+    # column deceased
+    if csv_hospitalized:
+        hos_df = pd.read_csv(csv_hospitalized)
+        hos_df.drop(columns=['CCAA'], inplace=True)
+        hos_df.rename(columns={
+            'fecha': 'date', 'cod_ine': 'region_code',
+            'total': 'hospitalized'}, inplace=True)
+        hos_df['date'] = pd.to_datetime(hos_df['date'])
+        hos_df.set_index(['date', 'region_code'], inplace=True)
+        df = df.merge(hos_df, left_index=True, right_index=True, how='left')
+
     # column population
     if os.path.isfile(f"{data_directory}/{scope}_population.csv"):
         pop_df = pd.read_csv(f"{data_directory}/{scope}_population.csv")
@@ -240,7 +281,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             pop_df.set_index('country_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
-        elif scope == 'italy':
+        elif scope in ['italy', 'france']:
             pop_df.set_index('region_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
@@ -260,12 +301,17 @@ def generate_covidgram_dataset(scope, files, data_directory):
         for date in dates:
             date_df = df.loc[date]
             total = date_df.sum()
-            total['region'] = 'Total - Italy'
+            total['region'] = 'total-italy'
             df.loc[(date, 0), df.columns] = total.values
 
     df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
     df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
     df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
+    if 'hospitalized' in df.columns:
+        df['hosp_per_100k'] = df['hospitalized'] * 100_000 / df['population']
+        df['increase_hosp'] = 0.0
+        df['rolling_hosp'] = 0.0
+        df['rolling_hosp_per_100k'] = 0.0
 
     df['increase_cases'] = 0.0
     df['rolling_cases'] = 0.0
@@ -273,6 +319,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['increase_deceased'] = 0.0
     df['rolling_deceased'] = 0.0
     df['rolling_deceased_per_100k'] = 0.0
+
     for region in df['region'].unique():
         reg_df = df[df.region == region]
         # cases
@@ -287,6 +334,13 @@ def generate_covidgram_dataset(scope, files, data_directory):
         df['increase_deceased'].mask(df.region == region, increase, inplace=True)
         df['rolling_deceased'].mask(df.region == region, rolling, inplace=True)
         df['rolling_deceased_per_100k'] = df['rolling_deceased'] * 100_000 / df['population']
+        # hospitalized
+        if 'hospitalized' in df.columns:
+            increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
+            rolling = increase.rolling(window=3).mean()
+            df['increase_hosp'].mask(df.region == region, increase, inplace=True)
+            df['rolling_hosp'].mask(df.region == region, rolling, inplace=True)
+            df['rolling_hosp_per_100k'] = df['rolling_hosp'] * 100_000 / df['population']
 
     df.fillna(0, inplace=True)
     df.sort_index(inplace=True)
