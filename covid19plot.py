@@ -294,7 +294,7 @@ class COVID19Plot(object):
         elif plot_type == 'active_recovered_deceased':
             if np.max(df['cases'] > 0):
                 v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
-                last_data = "  - " + _('Active cases') + ": " + v + "\n"
+                last_data = "  - " + _('Total cases') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
                 last_data = last_data + "  - " + _('Currently infected') + ": " + v + "\n"
             else:
