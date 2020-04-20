@@ -42,10 +42,10 @@ SCOPES = {
 }
 
 
-def update_data():
+def update_data(force=False):
     updated = {}
     for scope in SCOPES.keys():
-        updated[scope] = update_scope_data(scope)
+        updated[scope] = update_scope_data(scope, force=force)
     return updated
 
 
@@ -60,9 +60,9 @@ def status_data():
     return text
 
 
-def update_scope_data(scope, data_directory="data/"):
+def update_scope_data(scope, data_directory="data/", force=False):
     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
-    if not repository_has_changes(scope, data_directory):
+    if not repository_has_changes(scope, data_directory) and not force:
         print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". No changes in repository")
         return False
     input_files = get_or_generate_input_files(scope, data_directory)
@@ -240,6 +240,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     df['date'] = pd.to_datetime(df['date'])
     df.set_index(['date', 'region_code'], inplace=True)
+    last_date = df.index.get_level_values('date')[-1]
 
     # column recovered
     if csv_recovered:
@@ -250,6 +251,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'recovered'}, inplace=True)
         rec_df['date'] = pd.to_datetime(rec_df['date'])
         rec_df.set_index(['date', 'region_code'], inplace=True)
+        last_date_rec = rec_df.index.get_level_values('date')[-1]
+        if last_date_rec != last_date:
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
+            return
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -261,6 +266,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'deceased'}, inplace=True)
         dec_df['date'] = pd.to_datetime(dec_df['date'])
         dec_df.set_index(['date', 'region_code'], inplace=True)
+        last_date_dec = dec_df.index.get_level_values('date')[-1]
+        if last_date_dec != last_date:
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
+            return
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -272,6 +281,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'hospitalized'}, inplace=True)
         hos_df['date'] = pd.to_datetime(hos_df['date'])
         hos_df.set_index(['date', 'region_code'], inplace=True)
+        last_date_hos = hos_df.index.get_level_values('date')[-1]
+        if last_date_hos != last_date:
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
+            return
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
 
     # column population
@@ -307,6 +320,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
     df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
     df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
+    df['active_cases_per_100k'] = df['active_cases'] * 100_000 / df['population']
     if 'hospitalized' in df.columns:
         df['hosp_per_100k'] = df['hospitalized'] * 100_000 / df['population']
         df['increase_hosp'] = 0.0
@@ -348,4 +362,4 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
 
 if __name__ == "__main__":
-    update_data()
+    update_data(force=False)
