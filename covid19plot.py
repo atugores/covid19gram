@@ -664,7 +664,7 @@ class COVID19Plot(object):
                         textcoords="offset points", va='center')
 
         if plot_type != 'cases':
-            if scope != 'world':
+            if scope != 'world' and  scope != 'france':
                 total_region = f"total-{scope}"
                 total_value = today_df[today_df.region == total_region][field].values[0]
                 ax.axvline(total_value, color=color, alpha=0.5)
