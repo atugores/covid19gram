@@ -135,10 +135,16 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
         title = _('Hospitalization evolution at {region}').format(region=flaged_region)
     elif plot_type == "active_recovered_deceased":
         title = _('Active cases, recovered and deceased at {region}').format(region=flaged_region)
-        if region in cplt.get_regions('france'):
+        if region in cplt.get_regions('italy') or region == 'total-france':
+            title = _('Active cases, hospitalized, recovered and deceased at {region}').format(region=_(region))
+        elif region in cplt.get_regions('france'):
             title = _('Currently hospitalized, recovered and deceased at {region}').format(region=_(region))
     elif plot_type == "active":
         title = _('Active cases at {region}').format(region=flaged_region)
+        if region in cplt.get_regions('france') and region != "total-france":
+            title = _('Active hospitalizations at {region}').format(region=flaged_region)
+    elif plot_type == "cases":
+        title = _('Cumulative cases at {region}').format(region=flaged_region)
         if region in cplt.get_regions('france') and region != "total-france":
             title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "recovered":
@@ -251,7 +257,7 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", language="e
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="s_" + region + "_daily-cases"),
         InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
-        InlineKeyboardButton("📈", callback_data="s_" + region + "_active"),
+        InlineKeyboardButton("📈", callback_data="s_" + region + "_cases"),
         InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased"),
         InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + region + "_" + p_type),
@@ -504,7 +510,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="total-world
         caption = get_caption(region, plot_type=plot_type, language=language, scope=True)
     else:
         region_scope = cplt.get_region_scope(region)
-        if region_scope == 'france' and plot_type == 'daily_cases':
+        if region_scope == 'france' and plot_type == 'daily_cases' and region != 'total-france':
             plot_type = 'daily_hospitalized'
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
@@ -550,7 +556,10 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
                 caption=get_caption(region, plot_type=plot_type, language=language, scope=True)
             ))
     else:
+        region_scope = cplt.get_region_scope(region)
         for plot_type in cplt.BUTTON_PLOT_TYPES:
+            if region_scope == 'france' and plot_type == 'daily_cases' and region != 'total-france':
+                plot_type = 'daily_hospitalized'
             flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):
@@ -602,7 +611,7 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
         btns = b_compare(language)
     else:
         region_scope = cplt.get_region_scope(region)
-        if region_scope == 'france' and plot_type == 'daily_cases':
+        if region_scope == 'france' and plot_type == 'daily_cases' and region != 'total-france':
             plot_type = 'daily_hospitalized'
         flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
         caption = get_caption(region, plot_type=plot_type, language=language)
@@ -735,7 +744,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about = _("**Chart Buttons**") + "\n"
         about += "🦠 - __" + _("Case increase") + ".__\n"
         about += "📊 - __" + _("Active cases, recovered and deceased") + ".__\n"
-        about += "📈 - __" + _("Active cases") + ".__\n"
+        about += "📈 - __" + _("Cumulative cases") + ".__\n"
         about += "✅ - __" + _("Recovered cases") + ".__\n"
         about += "❌ - __" + _("Daily deaths evolution") + ".__\n"
         about += "⬇️ - __" + _("Send all plots as an album") + ".__\n"

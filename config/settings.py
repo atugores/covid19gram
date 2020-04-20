@@ -11,10 +11,39 @@ config.read(config_file, encoding="utf-8")
 class DBHandler:
     """
     Create a database with this table:
-    CREATE TABLE lang (
-    tg_id INT(16) UNSIGNED PRIMARY KEY,
-    lang VARCHAR(4) NOT NULL
-    )
+        CREATE TABLE hashImage (
+        id int(11) NOT NULL,
+        file_id text NOT NULL,
+        filename text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+        date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+        CREATE TABLE subs (
+        user_id bigint(20) NOT NULL,
+        region text CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+        CREATE TABLE users (
+        tg_id bigint(20) NOT NULL,
+        lang text NOT NULL,
+        n_world tinyint(1) NOT NULL DEFAULT '0',
+        n_spain tinyint(1) NOT NULL DEFAULT '0',
+        n_italy tinyint(1) NOT NULL DEFAULT '0',
+        n_france tinyint(1) NOT NULL DEFAULT '0',
+        botons set('gl','es','it','fr') NOT NULL DEFAULT 'gl,es,it'
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+        ALTER TABLE hashImage
+        ADD PRIMARY KEY (id);
+
+        ALTER TABLE subs
+        ADD KEY s_key (user_id,region(255));
+
+        ALTER TABLE users
+        ADD UNIQUE KEY id (tg_id);
+
+        ALTER TABLE hashImage
+        MODIFY id int(11) NOT NULL AUTO_INCREMENT;
     """
 
     SCOPES = ['gl', 'es', 'it', 'fr']
@@ -46,19 +75,19 @@ class DBHandler:
         set_ntf = 0
         if status == 'on':
             set_ntf = 1
-        sql = f'UPDATE lang SET n_{scope}={set_ntf} WHERE tg_id = {user_id}'
+        sql = f'UPDATE users SET n_{scope}={set_ntf} WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
 
     def get_notifications(self, user_id):
-        sql = f'SELECT n_world, n_spain, n_italy, n_france FROM lang WHERE tg_id = {user_id}'
+        sql = f'SELECT n_world, n_spain, n_italy, n_france FROM users WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
         notifications = self._cur.fetchone()
         return notifications
 
     def get_buttons(self, user_id):
-        sql = f'SELECT botons FROM lang WHERE tg_id = {user_id}'
+        sql = f'SELECT botons FROM users WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
         results = self._cur.fetchone()[0].strip("'").split(',')
@@ -77,19 +106,19 @@ class DBHandler:
             else:
                 return False
             buttons = ','.join(buttons_list)
-            sql = f"UPDATE lang SET botons = '{buttons}' WHERE tg_id = {user_id}"
+            sql = f"UPDATE users SET botons = '{buttons}' WHERE tg_id = {user_id}"
             self._get_cursor()
             self._cur.execute(sql)
             return True
         return False
 
     async def set_language(self, user_id, language):
-        sql = f'INSERT INTO lang (tg_id,lang) VALUES ({user_id},"{language}") ON DUPLICATE KEY UPDATE lang = "{language}"'
+        sql = f'INSERT INTO users (tg_id,lang) VALUES ({user_id},"{language}") ON DUPLICATE KEY UPDATE lang = "{language}"'
         self._get_cursor()
         self._cur.execute(sql)
 
     async def get_language(self, user_id):
-        sql = f'SELECT lang FROM lang WHERE tg_id = {user_id}'
+        sql = f'SELECT lang FROM users WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
         language = self._cur.fetchone()
@@ -99,9 +128,9 @@ class DBHandler:
             return 'None'
 
     async def get_users_lang(self, language="all"):
-        sql = f'SELECT tg_id FROM lang WHERE lang = "{language}"'
+        sql = f'SELECT tg_id FROM users WHERE lang = "{language}"'
         if language == "all":
-            sql = f'SELECT tg_id FROM lang'
+            sql = f'SELECT tg_id FROM users'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -109,7 +138,7 @@ class DBHandler:
         return flat_result
 
     async def get_users_scope(self, scope="world"):
-        sql = f'SELECT tg_id FROM lang WHERE n_{scope} = 1'
+        sql = f'SELECT tg_id FROM users WHERE n_{scope} = 1'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -195,7 +224,7 @@ class DBHandler:
         return regions
 
     async def status_users(self):
-        sql = f'SELECT lang, count(1) as users FROM `lang` GROUP BY lang'
+        sql = f'SELECT lang, count(1) as users FROM users GROUP BY lang'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -208,7 +237,7 @@ class DBHandler:
         return f"**User stats ({total})**\n" + text
 
     async def status_notifications(self):
-        sql = f"SELECT 'world', COUNT(*) FROM lang WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM lang WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM lang WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM lang WHERE n_france=1"
+        sql = f"SELECT 'world', COUNT(*) FROM users WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM users WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM users WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM users WHERE n_france=1"
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()

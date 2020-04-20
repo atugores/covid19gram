@@ -255,7 +255,7 @@ British Virgin Islands,VGB,29802
 Virgin Islands (U.S.),VIR,106977
 Vietnam,VNM,95540395
 Vanuatu,VUT,292680
-World,WLD,7594270356
+World,WLD,7778947306
 Samoa,WSM,196130
 Kosovo,XKX,1845300
 "Yemen, Rep.",YEM,28498687
@@ -265,4 +265,5 @@ Zimbabwe,ZWE,14439018
 Western Sahara,ESH,567402
 Holy See,VAT,618
 Taiwan*,TWN,23780452
-Global,ZZZ,80521871489
+Global,ZZX,7778947306
+total-world,ZZZ,7778947306
