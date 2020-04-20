@@ -241,6 +241,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['date'] = pd.to_datetime(df['date'])
     df.set_index(['date', 'region_code'], inplace=True)
     last_date = df.index.get_level_values('date')[-1]
+    dates = df.index.get_level_values(0)
 
     # column recovered
     if csv_recovered:
@@ -252,9 +253,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
         rec_df['date'] = pd.to_datetime(rec_df['date'])
         rec_df.set_index(['date', 'region_code'], inplace=True)
         last_date_rec = rec_df.index.get_level_values('date')[-1]
-        if last_date_rec != last_date:
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
-            return
+        if last_date_rec < last_date:
+            df = df[dates <= last_date_rec]
+            last_date = last_date_rec
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -267,9 +269,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
         dec_df['date'] = pd.to_datetime(dec_df['date'])
         dec_df.set_index(['date', 'region_code'], inplace=True)
         last_date_dec = dec_df.index.get_level_values('date')[-1]
-        if last_date_dec != last_date:
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
-            return
+        if last_date_dec < last_date:
+            df = df[dates <= last_date_dec]
+            last_date = last_date_dec
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -282,9 +285,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
         hos_df['date'] = pd.to_datetime(hos_df['date'])
         hos_df.set_index(['date', 'region_code'], inplace=True)
         last_date_hos = hos_df.index.get_level_values('date')[-1]
-        if last_date_hos != last_date:
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". Can not generate new file. Last dates are different on files")
-            return
+        if last_date_hos < last_date:
+            df = df[dates <= last_date_hos]
+            last_date = last_date_hos
+            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
 
     # column population
