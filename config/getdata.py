@@ -107,8 +107,16 @@ def repository_has_changes(scope, data_directory):
 
     # update repository
     g = git.cmd.Git(base_directory)
-    g.pull()
-
+    try:
+        g.pull()
+    except git.GitCommandError as e:
+        print("Error pulling data from " + scope + ": " + e.stderr)
+        try:
+            g.reset('--hard', 'origin/master')
+            g.pull()
+            print("Error solved with reset --hard")
+        except git.GitCommandError as e:
+            raise e
     # check if files changed
     new_mtime = repository_last_changes(scope)
     if original_mtime != new_mtime:
