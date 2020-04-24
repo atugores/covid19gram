@@ -6,6 +6,7 @@ import datetime
 import pandas as pd
 import numpy as np
 import os
+from shutil import copy2
 
 SCOPES = {
     'world': {
@@ -22,7 +23,8 @@ SCOPES = {
             'COVID 19/ccaa_covid19_casos_long.csv',
             'COVID 19/ccaa_covid19_altas_long.csv',
             'COVID 19/ccaa_covid19_fallecidos_long.csv',
-            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv'
+            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv',
+            'COVID 19/nacional_covid19_rango_edad.csv',
         ]
     },
     'italy': {
@@ -200,8 +202,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     if len(files) == 3:
         csv_cases, csv_recovered, csv_deceased = files
+    # elif len(files) == 4:
+    #     csv_cases, csv_recovered, csv_deceased, csv_hospitalized = files
     elif len(files) == 4:
-        csv_cases, csv_recovered, csv_deceased, csv_hospitalized = files
+        csv_cases, csv_recovered, csv_deceased, csv_ages = files
     else:
         csv_cases = files[0]
 
@@ -298,6 +302,9 @@ def generate_covidgram_dataset(scope, files, data_directory):
             last_date = last_date_hos
             print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
+    # jut copy by ages data to the date directory
+    if csv_ages:
+        copy2(csv_ages, f"{data_directory}/{scope}_ages.csv")
 
     # column population
     if os.path.isfile(f"{data_directory}/{scope}_population.csv"):

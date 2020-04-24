@@ -116,6 +116,9 @@ def get_label(region='total-world', language='en'):
 
 
 def get_caption(region, plot_type="daily_cases", language="en", scope=False):
+    # scp = cplt.get_region_scope(region)
+    # if plot_type == 'recovered' and region == f"total-{scope}" and scp in cplt.AGES:
+    #     return cplt.get_plot_caption(plot_type, region, language)
     if scope:
         scope_region = region.replace('total-', '')
         plot_caption = cplt.get_scope_plot_caption(plot_type=plot_type, scope=scope_region, language=language)
@@ -149,6 +152,9 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
             title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "recovered":
         title = _('Recovered cases at {region}').format(region=flaged_region)
+        scp = cplt.get_region_scope(region)
+        if region == f"total-{scp}" and scp in cplt.AGES:
+            title = _("Cases (Deaths) by age:")
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
     elif plot_type == "hospitalized":
@@ -251,14 +257,18 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", language="e
     fav_emoji = "🖤"
     fav_label = "fav"
     p_type = plot_type.replace('_', '-')
+    recovered_emoji = "✅"
     if dbhd.is_subscribed(user_id, region):
         fav_emoji = "💛"
         fav_label = "unfav"
+    scope = cplt.get_region_scope(region)
+    if region == f"total-{scope}" and scope in cplt.AGES:
+        recovered_emoji = "🚻"
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="s_" + region + "_daily-cases"),
         InlineKeyboardButton("📊", callback_data="s_" + region + "_active-recovered-deceased"),
         InlineKeyboardButton("📈", callback_data="s_" + region + "_cases"),
-        InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
+        InlineKeyboardButton(recovered_emoji, callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="s_" + region + "_daily-deceased"),
         InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + region + "_" + p_type),
     ]]
@@ -592,6 +602,7 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
 async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total", language="en", is_scope=False, compare=False):
     _ = translations[language].gettext
     btns = b_single(chat, plot_type=plot_type, region=region, language=language)
+
     if is_scope:
         scope = region.replace('total-', '')
         flname = cplt.generate_scope_plot(plot_type=plot_type, scope=scope, language=language)

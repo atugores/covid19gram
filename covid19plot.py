@@ -11,6 +11,7 @@ import locale
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.patches as patches
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
 sns.set_context("notebook")
@@ -77,6 +78,10 @@ class COVID19Plot(object):
         'world'
     ]
 
+    AGES = [
+        'spain'
+    ]
+
     CB_color_cycle = [
         '#377eb8', '#ff7f00', '#4daf4a',
         '#f781bf', '#a65628', '#984ea3',
@@ -116,6 +121,16 @@ class COVID19Plot(object):
         source = self._sources.get(scope, {})
         source['df'] = df
         source['ts'] = int(os.path.getmtime(csv_path))
+        if scope in self.AGES:
+            csv_path = f"{self._source_path}/{scope}_ages.csv"
+            if not os.path.isfile(csv_path):
+                raise RuntimeError(f"Datasource {scope}(Ages) not found ({csv_path})")
+            df_ages = pd.read_csv(csv_path)
+            df_ages['date'] = pd.to_datetime(df_ages['fecha'])
+            df_ages.set_index(['date'], inplace=True)
+            df_ages.sort_index(ascending=True)
+            source['df_ages'] = df_ages
+            # source['ts_ages'] = int(os.path.getmtime(csv_path))
         self._sources[scope] = source
 
     def _check_new_data(self, scope):
@@ -137,6 +152,18 @@ class COVID19Plot(object):
         source = self._sources.get(scope, {})
         df = source.get('df')
         return list(df.region.unique())
+
+    def get_ages(self, scope):
+        t = None
+        if scope in self.AGES:
+            source = self._sources.get(scope, {})
+            df = source.get('df_ages')
+            last_date = df.index.get_level_values('date')[-1]
+            today_df = df.loc[last_date]
+            t = today_df['rango_edad'].unique().tolist()
+            t.remove('Total')
+            t.sort()
+        return t
 
     def get_region_scope(self, region):
         region_scope = None
@@ -202,7 +229,10 @@ class COVID19Plot(object):
         self._check_new_data(region_scope)
         source = self._sources.get(region_scope)
         # check if image has already been generated
-        image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
+        if plot_type == 'recovered' and region == f"total-{region_scope}" and region_scope in self.AGES:
+            image_fpath = f"{self._images_dir}/{language}_{region}_ages_{source.get('ts')}.png"
+        else:
+            image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
         if os.path.isfile(image_fpath):
             return image_fpath
 
@@ -327,9 +357,26 @@ class COVID19Plot(object):
                 v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
         elif plot_type == 'recovered':
-            v = locale.format_string(
-                '%.0f', df['recovered'][-1], grouping=True)
-            last_data = "  - " + _('Recovered') + ": " + v + "\n"
+            if region == f"total-{scope}" and scope in self.AGES:
+                ages = self.get_ages(scope)
+                ages.append('Total')
+                ambos_df = self._get_ages_df(scope, sex='ambos', total=True)
+                last_data = ""
+                last_date = ambos_df.index.get_level_values('date')[-1].strftime("%d %B %Y")
+                for age in ages:
+                    edad_df = ambos_df[ambos_df['rango_edad'] == age]
+                    E = edad_df['casos_confirmados'][-1]
+                    E_t = locale.format_string('%.0f', E, grouping=True)
+                    F = edad_df['fallecidos'][-1]
+                    F_t = locale.format_string('%.0f', F, grouping=True)
+                    L = 100 * F / E
+                    L_t = locale.format_string('%.2f', L)
+                    letal = _('case-fatality rate')
+                    last_data = last_data + f"**    {age}**: {E_t} ({F_t})  __{letal}:__ {L_t}%\n"
+            else:
+                v = locale.format_string(
+                    '%.0f', df['recovered'][-1], grouping=True)
+                last_data = "  - " + _('Recovered') + ": " + v + "\n"
         elif plot_type == 'deceased':
             v = locale.format_string(
                 '%.0f', df['deceased'][-1], grouping=True)
@@ -452,6 +499,10 @@ class COVID19Plot(object):
                             xytext=(0, 3), textcoords="offset points", ha='center')
 
         elif plot_type == 'recovered':
+            if region == f"total-{scope}" and scope in self.AGES:
+                plt.close()
+                self._ages_plot(scope, language, image_path)
+                return
             title = _('Recovered cases at {region}').format(region=_(region))
             y_label = _('Cases')
             plt.bar(x, df['recovered'], alpha=0.5, width=1, color='g', label=_('Recovered cases'))
@@ -598,6 +649,157 @@ class COVID19Plot(object):
         plt.savefig(image_path)
         plt.close()
 
+    def _ages_plot(self, scope, language, image_path):
+        _ = self._translations[language].gettext
+        self._set_locale(language)
+        ages_df = self._get_ages_df(scope)
+        last_date = ages_df.index.get_level_values('date')[-1]
+        title = _('Cases by age') + f" ({last_date:%d %B %Y})"
+        edades = self.get_ages(scope)
+
+        women_deaths = list(ages_df[ages_df.sexo == 'mujeres']['fallecidos'])
+        women_cases = list(ages_df[ages_df.sexo == 'mujeres']['casos_confirmados'])
+        men_deaths = list(ages_df[ages_df.sexo == 'hombres']['fallecidos'])
+        men_cases = list(ages_df[ages_df.sexo == 'hombres']['casos_confirmados'])
+
+        matplotlib.rc('axes', facecolor='white')
+        matplotlib.rc('figure.subplot', wspace=.25)
+
+        # Make figure background the same colors as axes
+        fig = plt.figure(figsize=(12, 6), facecolor='white')
+
+        # ---MEN data ---
+        axes_left = plt.subplot(121)
+        # Keep only top and right spines
+        axes_left.spines['left'].set_color('none')
+        axes_left.spines['right'].set_zorder(10)
+        axes_left.spines['bottom'].set_color('none')
+        axes_left.xaxis.set_ticks_position('top')
+        axes_left.yaxis.set_ticks_position('right')
+        axes_left.spines['top'].set_position(('data', len(edades)))
+        axes_left.spines['top'].set_color('w')
+
+        # Set axes limits
+        plt.xlim(17550, 0)
+        plt.ylim(0, len(edades))
+
+        # Set ticks label
+        m_xticks = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500]
+        m_xticks_t = [_('MEN') if xtck == 0 else locale.format_string('%.0f', xtck, grouping=True) for xtck in m_xticks]
+        w_xticks = m_xticks
+        m_xticks.reverse()
+        w_xticks_t = [_('WOMEN') if xtck == _('MEN') else xtck for xtck in m_xticks_t]
+        m_xticks_t.reverse()
+        plt.xticks(m_xticks, m_xticks_t)
+        axes_left.get_xticklabels()[-1].set_weight('bold')
+        axes_left.get_xticklines()[-1].set_markeredgewidth(0)
+        for label in axes_left.get_xticklabels():
+            label.set_fontsize(10)
+        plt.yticks([])
+
+        # Plot data
+        for i in range(len(men_deaths)):
+            H, h = 0.8, 0.55
+            # Death
+            value = men_cases[i]
+            p = patches.Rectangle(
+                (0, i + (1 - H) / 2.0), value, H, fill=True, transform=axes_left.transData,
+                lw=0, facecolor='blue', alpha=0.4)
+            axes_left.add_patch(p)
+            # New cases
+            value = men_deaths[i]
+            p = patches.Rectangle(
+                (0, i + (1 - h) / 2.0), value, h, fill=True, transform=axes_left.transData,
+                lw=0, facecolor='blue', alpha=0.9)
+            axes_left.add_patch(p)
+
+        # Add a grid
+        axes_left.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
+
+        # --- WOMEN data ---
+        axes_right = plt.subplot(122, sharey=axes_left)
+        # Keep only top and left spines
+        axes_right.spines['right'].set_color('none')
+        axes_right.spines['left'].set_zorder(10)
+        axes_right.spines['bottom'].set_color('none')
+        axes_right.xaxis.set_ticks_position('top')
+        axes_right.yaxis.set_ticks_position('left')
+        axes_right.spines['top'].set_position(('data', len(edades)))
+        axes_right.spines['top'].set_color('w')
+
+        # Set axes limits
+        plt.xlim(0, 17550)
+        plt.ylim(0, len(edades))
+
+        # Set ticks labels
+        w_xticks.reverse()
+        # m_xticks_t.reverse()
+        plt.xticks(w_xticks, w_xticks_t)
+        axes_right.get_xticklabels()[0].set_weight('bold')
+        for label in axes_right.get_xticklabels():
+            label.set_fontsize(10)
+        axes_right.get_xticklines()[1].set_markeredgewidth(0)
+        plt.yticks([])
+
+        # Plot data
+        for i in range(len(women_deaths)):
+            H, h = 0.8, 0.55
+            # Death
+            value = women_cases[i]
+            p = patches.Rectangle(
+                (0, i + (1 - H) / 2.0), value, H, fill=True, transform=axes_right.transData,
+                lw=0, facecolor='red', alpha=0.4)
+            axes_right.add_patch(p)
+            # New cases
+            value = women_deaths[i]
+            p = patches.Rectangle(
+                (0, i + (1 - h) / 2.0), value, h, fill=True, transform=axes_right.transData,
+                lw=0, facecolor='red', alpha=0.9)
+            axes_right.add_patch(p)
+
+        # Add a grid
+        axes_right.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
+
+        # Y axis labels
+        # We want them to be exactly in the middle of the two y spines
+        for i in range(len(edades)):
+            x1, y1 = axes_left.transData.transform_point((0, i + .5))
+            x2, y2 = axes_right.transData.transform_point((0, i + .5))
+            x, y = fig.transFigure.inverted().transform_point(((x1 + x2) / 2, y1))
+            plt.text(x, y, edades[i], transform=fig.transFigure, fontsize=15, weight='bold',
+                     horizontalalignment='center', verticalalignment='center')
+
+        # Legend
+        arrowprops = dict(arrowstyle="-", color='black',
+                          connectionstyle="angle,angleA=0,angleB=90,rad=0")
+        x = men_cases[-1]
+        axes_left.annotate(_('NEW CASES'), xy=(x + 6000, 8.5), xycoords='data',
+                           horizontalalignment='right', fontsize=10,
+                           xytext=(-40, -3), textcoords='offset points',
+                           arrowprops=arrowprops)
+
+        x = men_deaths[-1]
+        axes_left.annotate(_('DEATHS'), xy=(.85 * x, 8.5), xycoords='data',
+                           horizontalalignment='right', fontsize=10, xytext=(-50, -25), textcoords='offset points',
+                           arrowprops=arrowprops)
+
+        x = women_cases[-1]
+        axes_right.annotate(_('NEW CASES'), xy=(x + 5000, 8.5), xycoords='data',
+                            horizontalalignment='left', fontsize=10, xytext=(+40, -3), textcoords='offset points',
+                            arrowprops=arrowprops)
+
+        x = women_deaths[-1]
+        axes_right.annotate(_('DEATHS'), xy=(.9 * x, 8.5), xycoords='data',
+                            horizontalalignment='left', fontsize=10,
+                            xytext=(+50, -25), textcoords='offset points',
+                            arrowprops=arrowprops)
+
+        fig.text(0.5, 0.955, title, horizontalalignment='center', color='black', weight='bold', fontsize='20')
+        # Done
+        self._add_footer(axes_right, scope, language)
+        plt.savefig(image_path)
+        plt.close()
+
     def _scope_plot(self, plot_type, scope, language, df, image_path):
         # set translation to current language
         _ = self._translations[language].gettext
@@ -664,7 +866,7 @@ class COVID19Plot(object):
                         textcoords="offset points", va='center')
 
         if plot_type != 'cases':
-            if scope != 'world' and  scope != 'france':
+            if scope != 'world' and scope != 'france':
                 total_region = f"total-{scope}"
                 total_value = today_df[today_df.region == total_region][field].values[0]
                 ax.axvline(total_value, color=color, alpha=0.5)
@@ -741,6 +943,17 @@ class COVID19Plot(object):
         top_df = top_df.sort_values(field, ascending=True)
         top_df = top_df.tail(max_records)
         return top_df
+
+    def _get_ages_df(self, scope, sex=None, total=False):
+        source = self._sources.get(scope)
+        df = source.get('df_ages')
+        last_date = df.index.get_level_values('date')[-1]
+        today_df = df.loc[last_date]
+        if sex:
+            today_df = today_df[today_df['sexo'] == sex]
+        if not total:
+            today_df = today_df[today_df['rango_edad'] != "Total"]
+        return today_df
 
     def _get_plot_xlim(self, scope, df):
         if scope in ['spain', 'italy']:
