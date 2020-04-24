@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2020-04-24 13:45+0000\n"
+"POT-Creation-Date: 2020-04-24 22:06+0000\n"
 "PO-Revision-Date: 2020-04-05 11:55+CEST\n"
 "Last-Translator: antonia <antoniatugores@gmail.com>\n"
 "Language-Team: antonia <antoniatugores@gmail.com>\n"
@@ -18,31 +18,35 @@ msgstr ""
 "Domain: messages\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: covid.py:857
+#: covid.py:855
 msgid "**Announcement:**"
 msgstr "**Anuncio:**"
 
-#: covid.py:755
+#: covid.py:753
 msgid "**Chart Buttons**"
 msgstr "**Botones de gráficos**"
 
-#: covid.py:782
+#: covid.py:780
 msgid "**Code availability**"
 msgstr "**Publicación del código fuente**"
 
-#: covid.py:779
+#: covid.py:777
 msgid "**Contact**"
 msgstr "**Contacto**"
 
-#: covid.py:772
+#: covid.py:770
 msgid "**Data Sources**"
 msgstr "**Fuentes de datos**"
 
-#: covid.py:751
+#: covid.py:749
 msgid "**Your subscriptions:**"
 msgstr "**Tus suscripciones:**"
 
-#: covid19plot.py:408
+#: covid19plot.py:379
+msgid "*Data obtained from the analysis of reported cases with available information on age and sex."
+msgstr "*Datos obtenidos del análisis sobre los casos notificados con información disponible de edad y sexo."
+
+#: covid19plot.py:412
 msgid "Active"
 msgstr "Activos"
 
@@ -50,42 +54,42 @@ msgstr "Activos"
 msgid "Active cases"
 msgstr "Casos activos"
 
-#: covid.py:146
-#: covid19plot.py:476
+#: covid.py:144
+#: covid19plot.py:480
 msgid "Active cases at {region}"
 msgstr "Casos activos en {region}"
 
-#: covid.py:765
+#: covid.py:763
 msgid "Active cases per region"
 msgstr "Casos activos por región"
 
-#: covid.py:142
+#: covid.py:140
 msgid "Active cases, hospitalized, recovered and deceased at {region}"
 msgstr "Casos activos, hospitalizaciones, recuperados y fallecidos en {region}"
 
-#: covid.py:757
+#: covid.py:755
 msgid "Active cases, recovered and deceased"
 msgstr "Casos activos, recuperados y fallecidos"
 
-#: covid.py:140
-#: covid19plot.py:449
+#: covid.py:138
+#: covid19plot.py:453
 msgid "Active cases, recovered and deceased at {region}"
 msgstr "Casos activos, recuperados y fallecidos en {region}"
 
-#: covid.py:148
-#: covid19plot.py:482
+#: covid.py:146
+#: covid19plot.py:486
 msgid "Active hospitalizations at {region}"
 msgstr "Hospitalizaciones actuales en {region}"
 
-#: covid19plot.py:461
+#: covid19plot.py:465
 msgid "Active, hospitalized, recovered and deceased at {region}"
 msgstr "Activos, hospitalizados, recuperados y fallecidos en {region}"
 
-#: covid.py:287
+#: covid.py:285
 msgid "Add region to compare"
 msgstr "Añade una región para comparar"
 
-#: covid.py:764
+#: covid.py:762
 msgid "Additional buttons. Top 20s for 🌐Global and detailed Spain scopes"
 msgstr "Botones adicionales. Top 20 para los ámbitos 🌐Global y España por CCAA"
 
@@ -253,7 +257,7 @@ msgstr "Myanmar"
 msgid "Burundi"
 msgstr "Burundi"
 
-#: covid.py:945
+#: covid.py:943
 msgid "Buttons updated"
 msgstr "Botones actualizados"
 
@@ -261,7 +265,7 @@ msgstr "Botones actualizados"
 msgid "C. Valenciana"
 msgstr "C. Valenciana"
 
-#: covid.py:163
+#: covid.py:161
 msgid "COVID-19 status at {region}"
 msgstr "Estado de la COVID-19 en {region}"
 
@@ -289,40 +293,40 @@ msgstr "Canarias"
 msgid "Cantabria"
 msgstr "Cantabria"
 
-#: covid.py:756
+#: covid.py:754
 msgid "Case increase"
 msgstr "Incremento de casos"
 
-#: covid19plot.py:426
+#: covid19plot.py:430
 msgid "Cases"
 msgstr "Casos"
 
-#: covid.py:157
+#: covid.py:155
 msgid "Cases (Deaths) by age:"
 msgstr "Casos (fallecidos) por edad"
 
-#: covid19plot.py:657
+#: covid19plot.py:661
 msgid "Cases by age"
 msgstr "Casos por edad"
 
-#: covid.py:136
-#: covid19plot.py:425
+#: covid.py:134
+#: covid19plot.py:429
 msgid "Cases increase at {region}"
 msgstr "Incremento de casos en {region}"
 
-#: covid19plot.py:388
+#: covid19plot.py:392
 msgid "Cases per 100k inhabitants"
 msgstr "Casos por 100k habitantes"
 
-#: covid19plot.py:518
+#: covid19plot.py:522
 msgid "Cases per 100k inhabitants at {region}"
 msgstr "Casos por 100k habitantes en {region}"
 
-#: covid.py:766
+#: covid.py:764
 msgid "Cases rate per 100K inhabitants"
 msgstr "Tasa de casos por 100k habitantes"
 
-#: covid19plot.py:600
+#: covid19plot.py:604
 msgid "Cases, Logarithmic Scale"
 msgstr "Casos, escala logarítmica"
 
@@ -362,15 +366,15 @@ msgstr "Chile"
 msgid "China"
 msgstr "China"
 
-#: covid.py:427
+#: covid.py:425
 msgid "Choose Language"
 msgstr "Elige un idioma"
 
-#: covid.py:681
+#: covid.py:679
 msgid "Choose a Region"
 msgstr "Elige una región"
 
-#: covid.py:922
+#: covid.py:920
 msgid "Choose a Region to compare with "
 msgstr "Elige una región para comparar con "
 
@@ -390,7 +394,7 @@ msgstr "Colombia"
 msgid "Comoros"
 msgstr "Comoras"
 
-#: covid.py:621
+#: covid.py:619
 msgid "Comparison of cases in "
 msgstr "Comparación de casos en "
 
@@ -414,7 +418,7 @@ msgstr "Costa Rica"
 msgid "Cote d'Ivoire"
 msgstr "Costa de Marfil"
 
-#: covid19plot.py:879
+#: covid19plot.py:883
 msgid "Countries with more than 1,000 cases"
 msgstr "Paises con más de 1.000 casos"
 
@@ -430,13 +434,13 @@ msgstr "Buques de crucero"
 msgid "Cuba"
 msgstr "Cuba"
 
-#: covid.py:758
+#: covid.py:756
 #: covid19plot.py:302
 msgid "Cumulative cases"
 msgstr "Casos acumulados"
 
-#: covid.py:150
-#: covid19plot.py:489
+#: covid.py:148
+#: covid19plot.py:493
 msgid "Cumulative cases at {region}"
 msgstr "Casos acumulados en {region}"
 
@@ -444,7 +448,7 @@ msgstr "Casos acumulados en {region}"
 msgid "Curaçao"
 msgstr "Curazao"
 
-#: covid19plot.py:459
+#: covid19plot.py:463
 msgid "Curr. hospitalized, recovered & deceased at {region}"
 msgstr "Hospital. actuales, recuperados y fallecidos en {region}"
 
@@ -452,7 +456,7 @@ msgstr "Hospital. actuales, recuperados y fallecidos en {region}"
 msgid "Currently hospitalized"
 msgstr "Hospitalizaciones actuales"
 
-#: covid.py:144
+#: covid.py:142
 msgid "Currently hospitalized, recovered and deceased at {region}"
 msgstr "Hospitalizaciones actuales, recuperados y fallecidos en {region}"
 
@@ -468,40 +472,40 @@ msgstr "Chipre"
 msgid "Czechia"
 msgstr "Chequia"
 
-#: covid19plot.py:782
+#: covid19plot.py:786
 msgid "DEATHS"
 msgstr "FALLECIDOS"
 
-#: covid19plot.py:443
+#: covid19plot.py:447
 msgid "Daily deaths"
 msgstr "Fallecimientos diarios"
 
-#: covid.py:760
+#: covid.py:758
 msgid "Daily deaths evolution"
 msgstr "Evolución de los fallecimientos diarios"
 
-#: covid19plot.py:441
+#: covid19plot.py:445
 msgid "Daily deaths evolution at {region}"
 msgstr "Evolución diaria de fallecimientos en {region}"
 
-#: covid19plot.py:427
+#: covid19plot.py:431
 msgid "Daily increment"
 msgstr "Incremento diario"
 
-#: covid19plot.py:981
+#: covid19plot.py:985
 msgid "Data source from {ds_name} (see {ds_url})"
 msgstr "Datos de {ds_name} (ver {ds_url})"
 
-#: covid19plot.py:985
+#: covid19plot.py:989
 msgid "Data source from {ds_name} through Pomber's JSON API (see {ds_url})"
 msgstr "Datos de {ds_name} vía el API JSON de Pomber (ver {ds_url})"
 
-#: covid19plot.py:442
+#: covid19plot.py:446
 msgid "Deaths"
 msgstr "Fallecidos"
 
-#: covid.py:159
-#: covid19plot.py:512
+#: covid.py:157
+#: covid19plot.py:516
 msgid "Deaths evolution at {region}"
 msgstr "Evolución de fallecimientos en {region}"
 
@@ -517,11 +521,11 @@ msgstr "Media móvil de fallecimientos (3 días)"
 msgid "Deceased"
 msgstr "Fallecidos"
 
-#: covid19plot.py:626
+#: covid19plot.py:630
 msgid "Deceased per 100k inhabitants"
 msgstr "Fallecidos por 100k habitantes"
 
-#: covid.py:768
+#: covid.py:766
 msgid "Deceased rate per 100K inhabitants"
 msgstr "Tasa de fallecimientos por 100k habitantes"
 
@@ -541,7 +545,7 @@ msgstr "Dominica"
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-#: covid.py:249
+#: covid.py:247
 msgid "Done"
 msgstr "Hecho"
 
@@ -633,11 +637,11 @@ msgstr "Galicia"
 msgid "Gambia"
 msgstr "Gambia"
 
-#: covid19plot.py:996
+#: covid19plot.py:1000
 msgid "Generated by COVID19gram (telegram bot)"
 msgstr "Generado por COVID19gram (telegram bot)"
 
-#: covid.py:888
+#: covid.py:886
 msgid "Generating all plots, it may take some time."
 msgstr "Generando todas los gráficos, puede tardar un tiempo."
 
@@ -657,7 +661,7 @@ msgstr "Ghana"
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: covid.py:225
+#: covid.py:223
 msgid "Global"
 msgstr "Global"
 
@@ -721,28 +725,28 @@ msgstr "Honduras"
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: covid.py:138
-#: covid19plot.py:433
+#: covid.py:136
+#: covid19plot.py:437
 msgid "Hospitalization evolution at {region}"
 msgstr "Evolución de las hospitalizaciones en {region}"
 
-#: covid19plot.py:434
+#: covid19plot.py:438
 msgid "Hospitalizations"
 msgstr "Hospitalizaciones"
 
-#: covid19plot.py:495
+#: covid19plot.py:499
 msgid "Hospitalizations at {region}"
 msgstr "Hospitalizaciones en {region}"
 
-#: covid19plot.py:564
+#: covid19plot.py:568
 msgid "Hospitalizations per 100k inhabitants"
 msgstr "Hospitalizaciones por 100k habitantes"
 
-#: covid19plot.py:524
+#: covid19plot.py:528
 msgid "Hospitalizations per 100k inhabitants at {region}"
 msgstr "Hospitalizaciones por 100k habitantes en {region}"
 
-#: covid19plot.py:613
+#: covid19plot.py:617
 msgid "Hospitalizations, Logarithmic Scale"
 msgstr "Hospitalizaciones, escala logarítmica"
 
@@ -770,7 +774,7 @@ msgstr "India"
 msgid "Indonesia"
 msgstr "Indonesia"
 
-#: covid19plot.py:410
+#: covid19plot.py:414
 msgid "Information on last available data"
 msgstr "Información en la última fecha disponible"
 
@@ -886,7 +890,7 @@ msgstr "Lituania"
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#: covid19plot.py:688
+#: covid19plot.py:692
 msgid "MEN"
 msgstr "HOMBRES"
 
@@ -990,7 +994,7 @@ msgstr "Mozambique"
 msgid "Murcia"
 msgstr "Murcia"
 
-#: covid19plot.py:776
+#: covid19plot.py:780
 msgid "NEW CASES"
 msgstr "CASOS NUEVOS"
 
@@ -998,7 +1002,7 @@ msgstr "CASOS NUEVOS"
 msgid "Namibia"
 msgstr "Namibia"
 
-#: covid19plot.py:874
+#: covid19plot.py:878
 msgid "National average"
 msgstr "Media estatal"
 
@@ -1026,23 +1030,23 @@ msgstr "Nueva Caledonia"
 msgid "New Zealand"
 msgstr "Nueva Zelanda"
 
-#: covid19plot.py:837
+#: covid19plot.py:841
 msgid "New cases per 100k inhabitants"
 msgstr "Tasa de nuevos casos por 100k habitantes"
 
-#: covid.py:767
+#: covid.py:765
 msgid "New cases rate per 100K inhabitants"
 msgstr "Tasa de nuevos casos por 100k habitantes"
 
-#: covid19plot.py:846
+#: covid19plot.py:850
 msgid "New deceased per 100k inhabitants"
 msgstr "Tasa de nuevos fallecimientos por 100k habitantes"
 
-#: covid.py:769
+#: covid.py:767
 msgid "New deceased rate per 100K inhabitants"
 msgstr "Tasa de nuevos fallecimientos por 100k habitantes"
 
-#: covid19plot.py:840
+#: covid19plot.py:844
 msgid "New hospitalizations per 100k inhabitants"
 msgstr "Tasa de nuevas hospitalizaciones por 100k habitantes"
 
@@ -1066,7 +1070,7 @@ msgstr "Niue"
 msgid "No regions given to generate a multiregion plot"
 msgstr "Sin regiones para generar el plot multiregion"
 
-#: covid.py:738
+#: covid.py:736
 msgid "No results for `{param}`"
 msgstr "No se han encontrado resultados para `{param}`"
 
@@ -1086,7 +1090,7 @@ msgstr "Islas Marianas del Norte"
 msgid "Norway"
 msgstr "Noruega"
 
-#: covid.py:416
+#: covid.py:414
 msgid "Notify me of updates to"
 msgstr "Notifícame las actualizaciones de"
 
@@ -1158,13 +1162,13 @@ msgstr "Catar"
 msgid "Recovered"
 msgstr "Recuperados"
 
-#: covid.py:759
-#: covid19plot.py:508
+#: covid.py:757
+#: covid19plot.py:512
 msgid "Recovered cases"
 msgstr "Recuperados"
 
-#: covid.py:154
-#: covid19plot.py:506
+#: covid.py:152
+#: covid19plot.py:510
 msgid "Recovered cases at {region}"
 msgstr "Recuperados en {region}"
 
@@ -1236,15 +1240,15 @@ msgstr "Santo Tomé y Príncipe"
 msgid "Saudi Arabia"
 msgstr "Arabia Saudita"
 
-#: covid.py:827
+#: covid.py:825
 msgid "Search results for `{param}`"
 msgstr "Resultados para `{param}`"
 
-#: covid.py:286
+#: covid.py:284
 msgid "Send all plots"
 msgstr "Enviar todo"
 
-#: covid.py:761
+#: covid.py:759
 msgid "Send all plots as an album"
 msgstr "Envia todos las gráficas como un álbum"
 
@@ -1260,7 +1264,7 @@ msgstr "Serbia"
 msgid "Seychelles"
 msgstr "Las Seychelles"
 
-#: covid.py:438
+#: covid.py:436
 msgid "Show buttons for:"
 msgstr "Mostrar botones para:"
 
@@ -1292,7 +1296,7 @@ msgstr "Islas Salomón"
 msgid "Somalia"
 msgstr "Somalia"
 
-#: covid.py:783
+#: covid.py:781
 msgid "Source code available soon."
 msgstr "Código fuente disponible en breve."
 
@@ -1375,6 +1379,10 @@ msgstr "Tokelau"
 #: regions_translate.py:257
 msgid "Tonga"
 msgstr "Tonga"
+
+#: covid19plot.py:377
+msgid "Total"
+msgstr "Total"
 
 #: covid19plot.py:327
 msgid "Total cases"
@@ -1460,7 +1468,7 @@ msgstr "Islas Vírgenes Británicas"
 msgid "Virgin Islands, U.S."
 msgstr "Islas Vírgenes de los EUA"
 
-#: covid19plot.py:691
+#: covid19plot.py:695
 msgid "WOMEN"
 msgstr "MUJERES"
 
@@ -1480,19 +1488,19 @@ msgstr "Sáhara Occidental"
 msgid "Yemen"
 msgstr "Yemen"
 
-#: covid.py:780
+#: covid.py:778
 msgid "You can contact us using"
 msgstr "Nos puedes contactar usando"
 
-#: covid.py:748
+#: covid.py:746
 msgid "You have no subscription"
 msgstr "No tienes suscripciones"
 
-#: covid.py:949
+#: covid.py:947
 msgid "You must select at least one button"
 msgstr "Debes seleccionar al menos un botón"
 
-#: covid.py:936
+#: covid.py:934
 msgid "Your language is now English"
 msgstr "Has elegido español"
 
@@ -1504,31 +1512,31 @@ msgstr "Zambia"
 msgid "Zimbabwe"
 msgstr "Zimbabue"
 
-#: covid.py:108
+#: covid.py:106
 msgid "__Data source from__"
 msgstr "__Fuente de datos:__"
 
-#: covid.py:777
+#: covid.py:775
 msgid "__France data source from__"
 msgstr "__Fuente de datos para Francia de_"
 
-#: covid.py:105
+#: covid.py:103
 msgid "__Generated by [COVID19gram](t.me/COVID19gram_bot)__"
 msgstr "__Generado por [COVID19gram](t.me/COVID19gram_bot)__"
 
-#: covid.py:776
+#: covid.py:774
 msgid "__Italy data source from__"
 msgstr "__Fuente de datos para Italia de__"
 
-#: covid.py:773
+#: covid.py:771
 msgid "__Spain data source from__"
 msgstr "__Fuente de datos para España de__"
 
-#: covid.py:774
+#: covid.py:772
 msgid "__World data source from__"
 msgstr "__Fuente de datos para mundiales de__"
 
-#: covid.py:775
+#: covid.py:773
 msgid "__transformed to JSON by__"
 msgstr "__transformado a JSON por__"
 
@@ -1536,7 +1544,7 @@ msgstr "__transformado a JSON por__"
 msgid "case-fatality rate"
 msgstr "tasa de letalidad "
 
-#: covid19plot.py:396
+#: covid19plot.py:400
 msgid "per 100k inhabitants"
 msgstr "por 100k habitantes"
 
@@ -1556,62 +1564,66 @@ msgstr "España (Total)"
 msgid "total-world"
 msgstr "Global"
 
+#: covid19plot.py:375
+msgid "y"
+msgstr "y"
+
 #: regions_translate.py:46
 msgid "Åland Islands"
 msgstr "Islas Åland"
 
-#: covid.py:813
+#: covid.py:811
 msgid "⚙️ **Configuration:**"
 msgstr "⚙️ **Configuración:**"
 
-#: covid.py:466
+#: covid.py:464
 msgid "⚙️Conf."
 msgstr "⚙️Conf."
 
-#: covid.py:678
+#: covid.py:676
 msgid "⚙️Main Menu"
 msgstr "⚙️Inicio"
 
-#: covid.py:466
+#: covid.py:464
 msgid "❓About"
 msgstr "❓Acerca de"
 
-#: covid.py:206
+#: covid.py:204
 msgid "⬅️Back"
 msgstr "⬅️Atrás"
 
-#: covid.py:420
+#: covid.py:418
 msgid "🇪🇸Spain"
 msgstr "🇪🇸España"
 
-#: covid.py:651
+#: covid.py:649
 msgid "🇪🇸Spain data updated"
 msgstr "Datos actualizados para 🇪🇸España"
 
-#: covid.py:424
+#: covid.py:422
 msgid "🇫🇷France"
 msgstr "🇫🇷Francia"
 
-#: covid.py:653
+#: covid.py:651
 msgid "🇫🇷France data updated"
 msgstr "Datos actualizados para 🇫🇷Francia"
 
-#: covid.py:423
+#: covid.py:421
 msgid "🇮🇹Italy"
 msgstr "🇮🇹Italia"
 
-#: covid.py:652
+#: covid.py:650
 msgid "🇮🇹Italy data updated"
 msgstr "Datos actualizados para 🇮🇹Italia"
 
-#: covid.py:419
+#: covid.py:417
 msgid "🌐Global"
 msgstr "🌐Global"
 
-#: covid.py:650
+#: covid.py:648
 msgid "🌐Global data updated"
 msgstr "Datos actualizados para 🌐Global"
 
-#: covid.py:466
+#: covid.py:464
 msgid "💛FAVs"
 msgstr "💛FAVs"

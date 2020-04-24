@@ -372,7 +372,11 @@ class COVID19Plot(object):
                     L = 100 * F / E
                     L_t = locale.format_string('%.2f', L)
                     letal = _('case-fatality rate')
-                    last_data = last_data + f"**    {age}**: {E_t} ({F_t})  __{letal}:__ {L_t}%\n"
+                    tl_age = age.replace("y", _("y"))
+                    if age == 'Total':
+                        tl_age = _('Total')
+                    last_data = last_data + f"**    {tl_age}**: {E_t} ({F_t})  __{letal}:__ {L_t}%\n"
+                last_data = last_data + "\n__" + _("*Data obtained from the analysis of reported cases with available information on age and sex.") + "__\n"
             else:
                 v = locale.format_string(
                     '%.0f', df['recovered'][-1], grouping=True)
@@ -766,7 +770,8 @@ class COVID19Plot(object):
             x1, y1 = axes_left.transData.transform_point((0, i + .5))
             x2, y2 = axes_right.transData.transform_point((0, i + .5))
             x, y = fig.transFigure.inverted().transform_point(((x1 + x2) / 2, y1))
-            plt.text(x, y, edades[i], transform=fig.transFigure, fontsize=15, weight='bold',
+            tl_age = edades[i].replace("y", _("y"))
+            plt.text(x, y, tl_age, transform=fig.transFigure, fontsize=15, weight='bold',
                      horizontalalignment='center', verticalalignment='center')
 
         # Legend

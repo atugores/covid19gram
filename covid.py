@@ -23,9 +23,7 @@ config_file = "conf.ini"
 config = configparser.ConfigParser()
 config.read(config_file, encoding="utf-8")
 
-# me = int(config["USER"]["admin"])
 admins = list(map(int, config["USER"]["admin"].split(',')))
-# admins = [int(config["USER"]["admin"])]
 app = Client(
     "covid19bot",
     bot_token=config["API"]["api_token"],
