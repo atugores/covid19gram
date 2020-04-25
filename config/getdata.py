@@ -199,6 +199,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     csv_recovered = None
     csv_deceased = None
     csv_hospitalized = None
+    csv_ages = None
 
     if len(files) == 3:
         csv_cases, csv_recovered, csv_deceased = files
