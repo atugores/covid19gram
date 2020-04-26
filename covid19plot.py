@@ -666,6 +666,8 @@ class COVID19Plot(object):
         men_deaths = list(ages_df[ages_df.sexo == 'hombres']['fallecidos'])
         men_cases = list(ages_df[ages_df.sexo == 'hombres']['casos_confirmados'])
 
+        max_value = max([max(women_cases), max(women_cases)])
+
         matplotlib.rc('axes', facecolor='white')
         matplotlib.rc('figure.subplot', wspace=.25)
 
@@ -684,11 +686,14 @@ class COVID19Plot(object):
         axes_left.spines['top'].set_color('w')
 
         # Set axes limits
-        plt.xlim(17550, 0)
+        interval_ticks = (((max_value // 7) // 500) + 1) * 500
+        max_graph = (9 * interval_ticks) + 50
+        plt.xlim(max_graph, 0)
         plt.ylim(0, len(edades))
 
         # Set ticks label
-        m_xticks = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500]
+        m_xticks = [tck * interval_ticks for tck in range(9)]
+        # m_xticks = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500]
         m_xticks_t = [_('MEN') if xtck == 0 else locale.format_string('%.0f', xtck, grouping=True) for xtck in m_xticks]
         w_xticks = m_xticks
         m_xticks.reverse()
@@ -732,7 +737,7 @@ class COVID19Plot(object):
         axes_right.spines['top'].set_color('w')
 
         # Set axes limits
-        plt.xlim(0, 17550)
+        plt.xlim(0, max_graph)
         plt.ylim(0, len(edades))
 
         # Set ticks labels
