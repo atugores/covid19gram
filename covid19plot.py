@@ -686,13 +686,14 @@ class COVID19Plot(object):
         axes_left.spines['top'].set_color('w')
 
         # Set axes limits
-        interval_ticks = (((max_value // 7) // 500) + 1) * 500
-        max_graph = (9 * interval_ticks) + 50
+        num_ticks = 9
+        interval_ticks = (((max_value // (num_ticks - 1)) // 500) + 1) * 500
+        max_graph = (num_ticks * interval_ticks) + 50
         plt.xlim(max_graph, 0)
         plt.ylim(0, len(edades))
 
         # Set ticks label
-        m_xticks = [tck * interval_ticks for tck in range(9)]
+        m_xticks = [tck * interval_ticks for tck in range(num_ticks)]
         # m_xticks = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500]
         m_xticks_t = [_('MEN') if xtck == 0 else locale.format_string('%.0f', xtck, grouping=True) for xtck in m_xticks]
         w_xticks = m_xticks
@@ -782,10 +783,11 @@ class COVID19Plot(object):
         # Legend
         arrowprops = dict(arrowstyle="-", color='black',
                           connectionstyle="angle,angleA=0,angleB=90,rad=0")
+
         x = men_cases[-1]
-        axes_left.annotate(_('NEW CASES'), xy=(x + 6000, 8.5), xycoords='data',
+        axes_left.annotate(_('NEW CASES'), xy=(x + 7000, 8.5), xycoords='data',
                            horizontalalignment='right', fontsize=10,
-                           xytext=(-40, -3), textcoords='offset points',
+                           xytext=(-40, +20), textcoords='offset points',
                            arrowprops=arrowprops)
 
         x = men_deaths[-1]
@@ -794,8 +796,8 @@ class COVID19Plot(object):
                            arrowprops=arrowprops)
 
         x = women_cases[-1]
-        axes_right.annotate(_('NEW CASES'), xy=(x + 5000, 8.5), xycoords='data',
-                            horizontalalignment='left', fontsize=10, xytext=(+40, -3), textcoords='offset points',
+        axes_right.annotate(_('NEW CASES'), xy=(x + 4000, 8.5), xycoords='data',
+                            horizontalalignment='left', fontsize=10, xytext=(+40, +20), textcoords='offset points',
                             arrowprops=arrowprops)
 
         x = women_deaths[-1]
