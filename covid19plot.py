@@ -12,6 +12,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.patches as patches
+import matplotlib.ticker as ticker
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
 sns.set_context("notebook")
@@ -49,9 +50,15 @@ class COVID19Plot(object):
         'cases',
         'hospitalized',
         'cases_normalized',
+        'cases_normalized_heatmap',
+        'deceased_normalized_heatmap',
+        'cases_heatmap',
+        'active_cases_heatmap',
+        'active_cases_normalized_heatmap',
         'hosp_normalized',
         'daily_cases_normalized',
         'deceased_normalized',
+        'daily_deceased_normalized',
         'daily_deceased_normalized',
     ]
 
@@ -837,6 +844,21 @@ class COVID19Plot(object):
                 title = _('Currently hospitalized') + f" ({last_date:%d/%B/%Y})"
                 field = 'hospitalized'
                 color = 'goldenrod'
+        elif plot_type == 'cases_heatmap':
+            title = _('Cases')
+            field = 'cases'
+        elif plot_type == 'cases_normalized_heatmap':
+            title = _('Cases per 100k inhabitants')
+            field = 'cases_per_100k'
+        elif plot_type == 'active_cases_heatmap':
+            title = _('Active cases')
+            field = 'active_cases'
+        elif plot_type == 'active_cases_normalized_heatmap':
+            title = _('Active cases per 100k inhabitants')
+            field = 'active_cases_per_100k'
+        elif plot_type == 'deceased_normalized_heatmap':
+            title = _('Deceased per 100k inhabitants')
+            field = 'deceased_per_100k'
         elif plot_type == 'hospitalized':
             title = _('Hospitalizations') + f" ({last_date:%d/%B/%Y})"
             field = 'hospitalized'
@@ -861,37 +883,58 @@ class COVID19Plot(object):
             color = 'r'
             label = _('Increment rolling avg (3 days)')
 
-        today_df = df.loc[last_date]
-        top_df = self._get_scope_df(plot_type, scope, today_df, field)
-
         fig, ax = plt.subplots(figsize=(12, 8))
-        ax.xaxis.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
-        plt.barh(y=top_df['region'], width=top_df[field], alpha=0.4, color=color, label=label)
-        for region in top_df['region'].unique():
-            value = top_df[top_df.region == region][field].values[0]
-            fmt = '%.1f'
-            if plot_type == 'cases':
-                fmt = '%.0f'
-            value_f = locale.format_string(fmt, value, grouping=True)
-            ax.annotate(value_f, xy=(value, region),
-                        xytext=(3, 0),
-                        textcoords="offset points", va='center')
 
-        if plot_type != 'cases':
-            if scope != 'world' and scope != 'france':
+        if 'heatmap' in plot_type:
+            field_df = df.reset_index()[['date', 'region', field]]
+            if 'normalized' not in plot_type:
                 total_region = f"total-{scope}"
-                total_value = today_df[today_df.region == total_region][field].values[0]
-                ax.axvline(total_value, color=color, alpha=0.5)
-                total_value_f = locale.format_string('%.1f', total_value, grouping=True)
-                ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
-                            xytext=(3, -20),
+                field_df = field_df[field_df.region != total_region]
+            pivot = field_df.pivot("region", "date", field)
+            dates = pd.to_datetime(pivot.columns.values)
+            num_ticks = 10
+            each_ticks = round(len(dates) / num_ticks)
+
+            def fmt(x, pos):
+                val = ""
+                if pos % each_ticks == 0:
+                    val = dates[pos].strftime("%d %b")
+                return val
+            formatter = ticker.FuncFormatter(fmt)
+            ax = sns.heatmap(pivot, cmap="YlOrRd", linewidths=.2, xticklabels=pivot.columns.strftime('%d %b'))
+            ax.xaxis.set_major_formatter(formatter)
+            fig.autofmt_xdate()
+        else:
+            today_df = df.loc[last_date]
+            top_df = self._get_scope_df(plot_type, scope, today_df, field)
+
+            ax.xaxis.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
+            plt.barh(y=top_df['region'], width=top_df[field], alpha=0.4, color=color, label=label)
+            for region in top_df['region'].unique():
+                value = top_df[top_df.region == region][field].values[0]
+                fmt = '%.1f'
+                if plot_type == 'cases':
+                    fmt = '%.0f'
+                value_f = locale.format_string(fmt, value, grouping=True)
+                ax.annotate(value_f, xy=(value, region),
+                            xytext=(3, 0),
                             textcoords="offset points", va='center')
 
-            elif scope == 'world':
-                ax.annotate(_("Countries with more than 1,000 cases"), xy=(1, 0), xycoords='axes fraction',
-                            xytext=(-20, 20), textcoords='offset pixels',
-                            horizontalalignment='right',
-                            verticalalignment='bottom')
+            if plot_type != 'cases':
+                if scope != 'world' and scope != 'france':
+                    total_region = f"total-{scope}"
+                    total_value = today_df[today_df.region == total_region][field].values[0]
+                    ax.axvline(total_value, color=color, alpha=0.5)
+                    total_value_f = locale.format_string('%.1f', total_value, grouping=True)
+                    ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
+                                xytext=(3, -20),
+                                textcoords="offset points", va='center')
+
+                elif scope == 'world':
+                    ax.annotate(_("Countries with more than 1,000 cases"), xy=(1, 0), xycoords='axes fraction',
+                                xytext=(-20, 20), textcoords='offset pixels',
+                                horizontalalignment='right',
+                                verticalalignment='bottom')
 
         plt.title(title, fontsize=20)
         if legend:
@@ -930,6 +973,8 @@ class COVID19Plot(object):
         elif plot_type == 'daily_deceased_normalized':
             title = _('New deceased per 100k inhabitants')
             field = 'rolling_deceased_per_100k'
+        else:
+            return ""
         today_df = df.loc[last_date]
         top_df = self._get_scope_df(plot_type, scope, today_df, field, max_records=5)
         top_df = top_df.sort_values(field, ascending=False)

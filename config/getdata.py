@@ -21,10 +21,11 @@ SCOPES = {
         'repo_url': 'https://github.com/datadista/datasets',
         'watch': [
             'COVID 19/ccaa_covid19_casos_long.csv',
+            'COVID 19/ccaa_covid19_confirmados_pcr_long.csv',
             'COVID 19/ccaa_covid19_altas_long.csv',
             'COVID 19/ccaa_covid19_fallecidos_long.csv',
-            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv',
             'COVID 19/nacional_covid19_rango_edad.csv',
+            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv',
         ]
     },
     'italy': {
@@ -74,10 +75,20 @@ def update_scope_data(scope, data_directory="data/", force=False):
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
-    if scope in ['spain', 'italy', 'france']:
+    if scope in ['italy', 'france']:
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
+
+    if scope == 'spain':
+        generate_spain_cases_file(data_directory)
+        base_directory = SCOPES[scope]['base_directory']
+        return [
+            data_directory + scope + '_cases.csv',
+            base_directory + "/" + SCOPES[scope]['watch'][2],
+            base_directory + "/" + SCOPES[scope]['watch'][3],
+            base_directory + "/" + SCOPES[scope]['watch'][4]
+        ]
 
     if scope == 'world':
         generate_world_input_files(data_directory)
@@ -194,6 +205,32 @@ def generate_world_input_files(data_directory="data/"):
                 f"{date},{country_code},total-world,{global_deceased[date]}\n")
 
 
+def generate_spain_cases_file(data_directory):
+    base_directory = SCOPES['spain']['base_directory']
+    csv_cases = base_directory + "/" + SCOPES['spain']['watch'][0]
+    csv_cases_pcr = base_directory + "/" + SCOPES['spain']['watch'][1]
+
+    cases_df = pd.read_csv(csv_cases)
+    pcr_df = pd.read_csv(csv_cases_pcr)
+    cases_df['fecha'] = pd.to_datetime(cases_df['fecha'])
+    cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
+    cases_df.rename(columns={'total': 'total_cases', 'CCAA': 'CCAA_cases'}, inplace=True)
+    pcr_df['fecha'] = pd.to_datetime(pcr_df['fecha'])
+    pcr_df.set_index(['fecha', 'cod_ine'], inplace=True)
+    pcr_df.rename(columns={'total': 'total_pcr', 'CCAA': 'CCAA_pcr'}, inplace=True)
+
+    mod_cases_df = cases_df.merge(pcr_df, left_index=True, right_index=True, how='outer')
+    mod_cases_df['CCAA_cases'].fillna('', inplace=True)
+    mod_cases_df['CCAA_pcr'].fillna('', inplace=True)
+    mod_cases_df['total_pcr'].mask(mod_cases_df.total_pcr == 0, np.nan, inplace=True)
+    mod_cases_df['total'] = mod_cases_df[['total_cases', 'total_pcr']].min(axis=1)
+    mod_cases_df['CCAA'] = mod_cases_df[['CCAA_cases', 'CCAA_pcr']].max(axis=1)
+    mod_cases_df.drop(columns=['CCAA_cases', 'CCAA_pcr', 'total_cases', 'total_pcr'], inplace=True)
+
+    mod_cases_df.to_csv(data_directory + 'spain_cases.csv')
+    return
+
+
 def generate_covidgram_dataset(scope, files, data_directory):
     csv_cases = None
     csv_recovered = None
@@ -203,10 +240,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     if len(files) == 3:
         csv_cases, csv_recovered, csv_deceased = files
-    # elif len(files) == 4:
-    #     csv_cases, csv_recovered, csv_deceased, csv_hospitalized = files
     elif len(files) == 4:
         csv_cases, csv_recovered, csv_deceased, csv_ages = files
+    elif len(files) == 5:
+        csv_cases, csv_recovered, csv_deceased, csv_ages, csv_hospitalized = files
     else:
         csv_cases = files[0]
 
