@@ -132,7 +132,7 @@ class COVID19Plot(object):
             csv_path = f"{self._source_path}/{scope}_ages.csv"
             if not os.path.isfile(csv_path):
                 raise RuntimeError(f"Datasource {scope}(Ages) not found ({csv_path})")
-            df_ages = pd.read_csv(csv_path)
+            df_ages = pd.read_csv(csv_path, encoding='utf-8-sig')
             df_ages['date'] = pd.to_datetime(df_ages['fecha'])
             df_ages.set_index(['date'], inplace=True)
             df_ages.sort_index(ascending=True)
