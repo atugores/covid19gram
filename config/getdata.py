@@ -216,6 +216,7 @@ def generate_spain_cases_file(data_directory):
     cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
     cases_df.rename(columns={'total': 'total_cases', 'CCAA': 'CCAA_cases'}, inplace=True)
     pcr_df['fecha'] = pd.to_datetime(pcr_df['fecha'])
+    pcr_df = pcr_df[pcr_df.fecha > np.datetime64('2020-04-28')]
     pcr_df.set_index(['fecha', 'cod_ine'], inplace=True)
     pcr_df.rename(columns={'total': 'total_pcr', 'CCAA': 'CCAA_pcr'}, inplace=True)
 
@@ -387,27 +388,43 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['increase_cases'] = 0.0
     df['rolling_cases'] = 0.0
     df['rolling_cases_per_100k'] = 0.0
+    df['acum14_cases'] = 0.0
+    df['acum14_cases_per_100k'] = 0.0
+
     df['increase_deceased'] = 0.0
     df['rolling_deceased'] = 0.0
     df['rolling_deceased_per_100k'] = 0.0
+    df['acum14_deceased'] = 0.0
+    df['acum14_deceased_per_100k'] = 0.0
 
     for region in df['region'].unique():
         reg_df = df[df.region == region]
         # cases
         increase = reg_df['cases'] - reg_df['cases'].shift(1)
+        increase[increase < 0] = 0.0
         rolling = increase.rolling(window=3).mean()
         df['increase_cases'].mask(df.region == region, increase, inplace=True)
         df['rolling_cases'].mask(df.region == region, rolling, inplace=True)
         df['rolling_cases_per_100k'] = df['rolling_cases'] * 100_000 / df['population']
+        # cases acum
+        rolling = increase.rolling(window=14).sum()
+        df['acum14_cases'].mask(df.region == region, rolling, inplace=True)
+        df['acum14_cases_per_100k'] = df['acum14_cases'] * 100_000 / df['population']
         # deceased
         increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
+        increase[increase < 0] = 0.0
         rolling = increase.rolling(window=3).mean()
         df['increase_deceased'].mask(df.region == region, increase, inplace=True)
         df['rolling_deceased'].mask(df.region == region, rolling, inplace=True)
         df['rolling_deceased_per_100k'] = df['rolling_deceased'] * 100_000 / df['population']
+        # deceased acum
+        rolling = increase.rolling(window=14).sum()
+        df['acum14_deceased'].mask(df.region == region, rolling, inplace=True)
+        df['acum14_deceased_per_100k'] = df['acum14_deceased'] * 100_000 / df['population']
         # hospitalized
         if 'hospitalized' in df.columns:
             increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
+            increase[increase < 0] = 0.0
             rolling = increase.rolling(window=3).mean()
             df['increase_hosp'].mask(df.region == region, increase, inplace=True)
             df['rolling_hosp'].mask(df.region == region, rolling, inplace=True)
