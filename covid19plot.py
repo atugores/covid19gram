@@ -301,10 +301,11 @@ class COVID19Plot(object):
     def _get_caption(self, plot_type, scope, region, language, df):
         _ = self._translations[language].gettext
         self._set_locale(language)
-
+        has_cases = False
         last_data = None
         last_date = df.index.get_level_values('date')[-1].strftime("%d/%B/%Y")
         if plot_type == 'daily_cases':
+            has_cases = True
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
             last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True)
@@ -329,7 +330,11 @@ class COVID19Plot(object):
             last_data = last_data + "  - " + \
                 _('Deaths rolling avg (3 days)') + ": " + v
         elif plot_type == 'active_recovered_deceased':
+            has_cases = True
+            E = None
+            F = None
             if np.max(df['cases'] > 0):
+                E = df['cases'][-1]
                 v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
                 last_data = "  - " + _('Total cases') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
@@ -342,7 +347,12 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
             last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            F =  df['deceased'][-1]
             last_data = last_data + "  - " + _('Deceased') + ": " + v
+            if E and F:
+                L = 100 * F / E
+                L_t = locale.format_string('%.2f', L)
+                last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + L_t + "%"
         elif plot_type == 'active':
             last_data = ""
             if np.max(df['cases'] > 0):
@@ -355,6 +365,7 @@ class COVID19Plot(object):
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
         elif plot_type == 'cases':
             last_data = ""
+            has_cases = True
             if np.max(df['cases'] > 0):
                 v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
                 last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
@@ -383,7 +394,7 @@ class COVID19Plot(object):
                     if age == 'Total':
                         tl_age = _('Total')
                     last_data = last_data + f"**    {tl_age}**: {E_t} ({F_t})  __{letal}:__ {L_t}%\n"
-                last_data = last_data + "\n__" + _("*Data obtained from the analysis of reported cases with available information on age and sex.") + "__\n"
+                last_data = last_data + "\n__" + _("*Data obtained from the analysis of reported cases with available information on age and sex.") + "__"
             else:
                 v = locale.format_string(
                     '%.0f', df['recovered'][-1], grouping=True)
@@ -393,11 +404,13 @@ class COVID19Plot(object):
                 '%.0f', df['deceased'][-1], grouping=True)
             last_data = "  - " + _('Deceased') + ": " + v + "\n"
         elif plot_type == 'cases_normalized':
+            has_cases = True
             v = locale.format_string(
                 '%.1f', df['cases_per_100k'][-1], grouping=True)
             last_data = "  - " + \
                 _('Cases per 100k inhabitants') + ": " + v + "\n"
         elif plot_type == 'summary':
+            has_cases = True
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
             last_data = "  🦠 " + _('Total cases') + ": `" + v
             v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True)
@@ -418,8 +431,11 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
             last_data += "  😷 " + _('Active') + ": `" + v + "`\n"
 
-        updated = _("Information on last available data") + " (" + last_date + ")"
-        return f"{last_data}\n__{updated}__"
+        updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
+        note_Spain = ""
+        if scope == 'spain' and has_cases:
+            note_Spain = "\n" + _("From 29/04/2020, the accumulated cases are those detected by PCR test.")
+        return f"{last_data}\n__{updated}____{note_Spain}__"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):
         # set translation to current language
@@ -950,15 +966,18 @@ class COVID19Plot(object):
         last_date = df.index.get_level_values('date')[-1]
         title = None
         field = None
+        has_cases = False
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants')
             field = 'cases_per_100k'
+            has_cases = True
             if scope == 'france':
                 title = _('Hospitalizations per 100k inhabitants')
                 field = 'hosp_per_100k'
         elif plot_type == 'cases':
             title = _('Cases')
             field = 'cases'
+            has_cases = True
             if scope == 'france':
                 field = 'hospitalized'
         elif plot_type == 'deceased_normalized':
@@ -967,6 +986,7 @@ class COVID19Plot(object):
         elif plot_type == 'daily_cases_normalized':
             title = _('New cases per 100k inhabitants')
             field = 'rolling_cases_per_100k'
+            has_cases = True
             if scope == 'france':
                 title = _('New hospitalizations per 100k inhabitants')
                 field = 'rolling_hosp_per_100k'
@@ -989,8 +1009,11 @@ class COVID19Plot(object):
                 fmt = '%.0f'
             value_f = locale.format_string(fmt, value, grouping=True)
             last_data = last_data + " - " + _(region) + ": " + value_f + "\n"
-        updated = _("Information on last available data") + " (" + last_date + "):"
-        return f"**{title}**\n\n{updated}\n{last_data}"
+        updated = _("Information on last available data") + " (" + last_date + ")."
+        note_Spain = ""
+        if scope == 'spain' and has_cases:
+            note_Spain = "\n" + _("From 29/04/2020, the accumulated cases are those detected by PCR test.")
+        return f"**{title}**\n\n{last_data}\n__{updated}____{note_Spain}__"
 
     def _get_scope_df(self, plot_type, scope, today_df, field, max_records=20):
         total_region = f"total-{scope}"
