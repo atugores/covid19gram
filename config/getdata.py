@@ -216,10 +216,9 @@ def generate_spain_cases_file(data_directory):
     cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
     cases_df.rename(columns={'total': 'total_cases', 'CCAA': 'CCAA_cases'}, inplace=True)
     pcr_df['fecha'] = pd.to_datetime(pcr_df['fecha'])
-    pcr_df = pcr_df[pcr_df.fecha > np.datetime64('2020-04-28')]
+    pcr_df = pcr_df[pcr_df.fecha > np.datetime64('2020-04-18')]
     pcr_df.set_index(['fecha', 'cod_ine'], inplace=True)
     pcr_df.rename(columns={'total': 'total_pcr', 'CCAA': 'CCAA_pcr'}, inplace=True)
-
     mod_cases_df = cases_df.merge(pcr_df, left_index=True, right_index=True, how='outer')
     mod_cases_df['CCAA_cases'].fillna('', inplace=True)
     mod_cases_df['CCAA_pcr'].fillna('', inplace=True)
@@ -227,7 +226,7 @@ def generate_spain_cases_file(data_directory):
     mod_cases_df['total'] = mod_cases_df[['total_cases', 'total_pcr']].min(axis=1)
     mod_cases_df['CCAA'] = mod_cases_df[['CCAA_cases', 'CCAA_pcr']].max(axis=1)
     mod_cases_df.drop(columns=['CCAA_cases', 'CCAA_pcr', 'total_cases', 'total_pcr'], inplace=True)
-
+    mod_cases_df = mod_cases_df[mod_cases_df.CCAA != 'Total']  # remove total, it will regenerated
     mod_cases_df.to_csv(data_directory + 'spain_cases.csv')
     return
 
@@ -367,12 +366,12 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df.sort_index(inplace=True)
 
     # add total-italy
-    if scope == 'italy':
+    if scope in ['italy', 'spain']:
         dates = df.index.get_level_values('date').unique()
         for date in dates:
             date_df = df.loc[date]
             total = date_df.sum()
-            total['region'] = 'total-italy'
+            total['region'] = f'total-{scope}'
             df.loc[(date, 0), df.columns] = total.values
 
     df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
