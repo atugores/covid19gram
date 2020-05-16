@@ -41,6 +41,7 @@ translations = {}
 dbhd = DBHandler()
 cache = redis.Redis(host='localhost', port=6379, db=0)
 CACHE_PREFIX = 'COVID'
+MAXTEXT = 3000
 
 for language in cplt.LANGUAGES:
     translation = gettext.translation('messages', localedir='locales', languages=[language])
@@ -56,6 +57,75 @@ async def exception_handle(user, e):
         print(str(user) + ": deactivated account")
         return True
     return False
+
+
+def separa_qlsvl(text):
+    separat = []
+    max = MAXTEXT
+    number = (len(text) - 1) // max + 2
+    j = 0
+    for i in range(1, number):
+        separat.append((text[j * max: i * max]).rstrip(" \n"))
+        j = i
+    return separat
+
+
+def separa_espais(text):
+    paraules = text.split(" ")
+    separat = []
+    info = ""
+    llarg = 0
+    for paraula in paraules:
+        if len(paraula) >= MAXTEXT:
+            aux = separa_qlsvl(info + paraula)
+            separat = separat + aux[: -1]
+            info = (aux[-1] + " ").lstrip(" \n")
+            llarg = len(info)
+        elif llarg + len(paraula) >= MAXTEXT:
+            separat.append(info.rstrip(" \n"))
+            llarg = len(paraula)
+            info = (paraula + " ").lstrip(" \n")
+        else:
+            llarg = llarg + len(paraula)
+            info = (info + paraula + " ").lstrip(" \n")
+    separat.append(info.rstrip(" "))
+    return separat
+
+
+def separa(text):
+    linies = text.splitlines()
+    separat = []
+    info = ""
+    llarg = 0
+    for linea in linies:
+        if len(linea) >= MAXTEXT:
+            aux = separa_espais(info + linea)
+            separat = separat + aux[: -1]
+            info = (aux[-1] + "\n").lstrip("\n")
+            llarg = len(info)
+        elif llarg + len(linea) >= MAXTEXT:
+            separat.append(info.rstrip("\n"))
+            llarg = len(linea)
+            info = (linea + "\n").lstrip("\n")
+        else:
+            llarg = llarg + len(linea)
+            info = (info + linea + "\n").lstrip("\n")
+
+    separat.append(info.rstrip(" \n"))
+
+    return separat
+
+
+async def envia(client, chat_id, text):
+    linies = []
+    if len(text) >= MAXTEXT:
+        linies = separa(text)
+        m = ()
+        for linea in linies:
+            m = await client.send_message(chat_id, linea, parse_mode="markdown")
+        return(m)
+    else:
+        return await client.send_message(chat_id, text, parse_mode="markdown")
 
 
 def normal(s):
@@ -712,7 +782,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         text += "\n" + await dbhd.status_users()
         text += "\n" + await dbhd.status_notifications()
         text += "\n" + await dbhd.status_files()
-        await client.send_message(chat, text)
+        await envia(client, chat, text)
     elif comm == 'bc' and user in admins:
         ilkb = InlineKeyboardMarkup([
             [

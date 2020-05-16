@@ -347,7 +347,7 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
             last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
-            F =  df['deceased'][-1]
+            F = df['deceased'][-1]
             last_data = last_data + "  - " + _('Deceased') + ": " + v
             if E and F:
                 L = 100 * F / E
