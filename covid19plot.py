@@ -967,14 +967,15 @@ class COVID19Plot(object):
             top_df = self._get_scope_df(plot_type, scope, today_df, field)
 
             ax.xaxis.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
-            plt.barh(y=top_df['region'], width=top_df[field], alpha=0.4, color=color, label=label)
+            regions = [_(region) for region in top_df['region']]
+            plt.barh(y=regions, width=top_df[field], alpha=0.4, color=color, label=label)
             for region in top_df['region'].unique():
                 value = top_df[top_df.region == region][field].values[0]
                 fmt = '%.1f'
                 if plot_type == 'cases':
                     fmt = '%.0f'
                 value_f = locale.format_string(fmt, value, grouping=True)
-                ax.annotate(value_f, xy=(value, region),
+                ax.annotate(value_f, xy=(value, _(region)),
                             xytext=(3, 0),
                             textcoords="offset points", va='center')
 
