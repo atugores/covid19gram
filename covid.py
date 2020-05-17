@@ -343,11 +343,11 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", language="e
     if region.startswith("total-"):
         buttons.extend([[
             InlineKeyboardButton("🦠🗺", callback_data="scope_" + region + "_cases"),
-            InlineKeyboardButton("🦠%", callback_data="scope_" + region + "_cases-normalized"),
-            InlineKeyboardButton("📈🆕", callback_data="scope_" + region + "_daily-cases-normalized")],
+            InlineKeyboardButton("🦠🆕", callback_data="scope_" + region + "_increase-cases-normalized-heatmap"),
+            InlineKeyboardButton("🦠🖇", callback_data="scope_" + region + "_acum14-cases-normalized-heatmap")],
             [
-            InlineKeyboardButton("❌%", callback_data="scope_" + region + "_deceased-normalized"),
-            InlineKeyboardButton("❌🆕", callback_data="scope_" + region + "_daily-deceased-normalized"),
+            InlineKeyboardButton("❌", callback_data="scope_" + region + "_deceased-normalized"),
+            InlineKeyboardButton("❌🖇", callback_data="scope_" + region + "_acum14-deceased-normalized-heatmap"),
         ]])
 
     buttons.append([

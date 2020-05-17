@@ -385,10 +385,13 @@ def generate_covidgram_dataset(scope, files, data_directory):
         df['rolling_hosp_per_100k'] = 0.0
 
     df['increase_cases'] = 0.0
+    df['increase_cases_per_100k'] = 0.0
     df['rolling_cases'] = 0.0
     df['rolling_cases_per_100k'] = 0.0
     df['acum14_cases'] = 0.0
     df['acum14_cases_per_100k'] = 0.0
+    df['acum14_hosp'] = 0.0
+    df['acum14_hosp_per_100k'] = 0.0
 
     df['increase_deceased'] = 0.0
     df['rolling_deceased'] = 0.0
@@ -404,6 +407,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         rolling = increase.rolling(window=3).mean()
         df['increase_cases'].mask(df.region == region, increase, inplace=True)
         df['rolling_cases'].mask(df.region == region, rolling, inplace=True)
+        df['increase_cases_per_100k'] = df['increase_cases'] * 100_000 / df['population']
         df['rolling_cases_per_100k'] = df['rolling_cases'] * 100_000 / df['population']
         # cases acum
         rolling = increase.rolling(window=14).sum()
@@ -428,6 +432,10 @@ def generate_covidgram_dataset(scope, files, data_directory):
             df['increase_hosp'].mask(df.region == region, increase, inplace=True)
             df['rolling_hosp'].mask(df.region == region, rolling, inplace=True)
             df['rolling_hosp_per_100k'] = df['rolling_hosp'] * 100_000 / df['population']
+            # hosp acum
+            rolling = increase.rolling(window=14).sum()
+            df['acum14_hosp'].mask(df.region == region, rolling, inplace=True)
+            df['acum14_hosp_per_100k'] = df['acum14_hosp'] * 100_000 / df['population']
 
     df.fillna(0, inplace=True)
     df.sort_index(inplace=True)

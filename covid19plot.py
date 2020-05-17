@@ -55,6 +55,10 @@ class COVID19Plot(object):
         'cases_heatmap',
         'active_cases_heatmap',
         'active_cases_normalized_heatmap',
+        'increase_cases_normalized_heatmap',
+        'acum14_deceased_normalized_heatmap',
+        'acum14_cases_normalized_heatmap',
+        'acum14_hosp_normalized_heatmap',
         'hosp_normalized',
         'daily_cases_normalized',
         'deceased_normalized',
@@ -72,10 +76,10 @@ class COVID19Plot(object):
 
     BUTTON_SCOPE_PLOT_TYPES = [
         'cases',
-        'cases_normalized',
-        'daily_cases_normalized',
-        'deceased_normalized',
-        'daily_deceased_normalized',
+        'acum14_cases_normalized_heatmap',
+        'increase_cases_normalized_heatmap',
+        'deceased_normalized_heatmap',
+        'acum14_deceased_normalized_heatmap'
     ]
 
     SCOPES = [
@@ -224,7 +228,7 @@ class COVID19Plot(object):
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
-    def generate_plot(self, plot_type, region, language='en'):
+    def generate_plot(self, plot_type, region, language='en', force=False):
         if plot_type not in self.PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
 
@@ -240,7 +244,7 @@ class COVID19Plot(object):
             image_fpath = f"{self._images_dir}/{language}_{region}_ages_{source.get('ts')}.png"
         else:
             image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
-        if os.path.isfile(image_fpath):
+        if os.path.isfile(image_fpath) and not force:
             return image_fpath
 
         # get region data
@@ -248,7 +252,7 @@ class COVID19Plot(object):
         self._plot(plot_type, region_scope, region, language, region_df, image_fpath)
         return image_fpath
 
-    def generate_multiregion_plot(self, plot_type, regions, language='en'):
+    def generate_multiregion_plot(self, plot_type, regions, language='en', force=False):
         if plot_type not in self.MULTIREGION_PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
 
@@ -270,14 +274,14 @@ class COVID19Plot(object):
         # check if image has already been generated
         region = '-'.join([region for region in sorted(regions)])
         image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
-        if os.path.isfile(image_fpath):
+        if os.path.isfile(image_fpath) and not force:
             return image_fpath
 
         df = source.get('df')
         self._multiregion_plot(plot_type, region_scope, regions, language, df, image_fpath)
         return image_fpath
 
-    def generate_scope_plot(self, plot_type, scope, language='en'):
+    def generate_scope_plot(self, plot_type, scope, language='en', force=False):
         if plot_type not in self.SCOPE_PLOT_TYPES:
             raise RuntimeError(_('Plot type is not recognized'))
 
@@ -286,7 +290,7 @@ class COVID19Plot(object):
         source = self._sources.get(scope)
         # check if image has already been generated
         image_fpath = f"{self._images_dir}/{language}_{scope}_{plot_type}_{source.get('ts')}.png"
-        if os.path.isfile(image_fpath):
+        if os.path.isfile(image_fpath) and not force:
             return image_fpath
 
         # get region data
@@ -331,10 +335,10 @@ class COVID19Plot(object):
                 _('Deaths rolling avg (3 days)') + ": " + v
         elif plot_type == 'active_recovered_deceased':
             has_cases = True
-            E = None
-            F = None
+            last_cases = None
+            last_deceased = None
             if np.max(df['cases'] > 0):
-                E = df['cases'][-1]
+                last_cases = df['cases'][-1]
                 v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
                 last_data = "  - " + _('Total cases') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
@@ -347,12 +351,12 @@ class COVID19Plot(object):
             v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
             last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
-            F = df['deceased'][-1]
             last_data = last_data + "  - " + _('Deceased') + ": " + v
-            if E and F:
-                L = 100 * F / E
-                L_t = locale.format_string('%.2f', L)
-                last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + L_t + "%"
+            last_deceased = df['deceased'][-1]
+            if last_cases and last_deceased:
+                fatality_rate = 100 * last_deceased / last_cases
+                v = locale.format_string('%.2f', fatality_rate)
+                last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + v + "%"
         elif plot_type == 'active':
             last_data = ""
             if np.max(df['cases'] > 0):
@@ -434,7 +438,7 @@ class COVID19Plot(object):
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
         if scope == 'spain' and has_cases:
-            note_Spain = "\n" + _("From 29/04/2020, the accumulated cases are those detected by PCR test.")
+            note_Spain = "\n" + _("From 19/04/2020, the accumulated cases are those detected by PCR test.")
         return f"{last_data}\n__{updated}____{note_Spain}__"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):
@@ -524,7 +528,6 @@ class COVID19Plot(object):
                 plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'), color='y')
                 ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
                             xytext=(0, 3), textcoords="offset points", ha='center')
-
         elif plot_type == 'recovered':
             if region == f"total-{scope}" and scope in self.AGES:
                 plt.close()
@@ -875,6 +878,21 @@ class COVID19Plot(object):
         elif plot_type == 'deceased_normalized_heatmap':
             title = _('Deceased per 100k inhabitants')
             field = 'deceased_per_100k'
+        elif plot_type == 'increase_cases_normalized_heatmap':
+            title = _('New daily cases per 100k inhabitants')
+            field = 'increase_cases_per_100k'
+        elif plot_type == 'acum14_deceased_normalized_heatmap':
+            title = _('Cumulative incidence of deceased (14 days/100k inhabitants)')
+            field = 'acum14_deceased_per_100k'
+        elif plot_type == 'acum14_cases_normalized_heatmap':
+            title = _('Cumulative incidence (14 days/100k inhabitants)')
+            field = 'acum14_cases_per_100k'
+            if scope == 'france':
+                title = _('Cumulative incidence of hospitalizations (14 days/100k inhabitants)')
+                field = 'acum14_hosp_per_100k'
+        elif plot_type == 'acum14_hosp_normalized_heatmap':
+            title = _('Cumulative incidence of hospitalizations (14 days/100k inhabitants)')
+            field = 'acum14_hosp_per_100k'
         elif plot_type == 'hospitalized':
             title = _('Hospitalizations') + f" ({last_date:%d/%B/%Y})"
             field = 'hospitalized'
@@ -902,24 +920,48 @@ class COVID19Plot(object):
         fig, ax = plt.subplots(figsize=(12, 8))
 
         if 'heatmap' in plot_type:
-            field_df = df.reset_index()[['date', 'region', field]]
+            last_date = df.index.get_level_values('date')[-1]
+            dates = df.index.get_level_values(0)
+            last_15days = last_date - np.timedelta64(15, 'D')
+            plot_df = df[dates >= last_15days]
+            if scope == 'world':
+                today_df = plot_df.loc[last_date]
+                today_df = today_df[(today_df.cases > 1000) & (today_df.region != 'total-world')]
+                plot_df = plot_df[plot_df.region.isin(today_df.region.unique())]
+
+            plot_df = plot_df.reset_index()[['date', 'region', field]]
             if 'normalized' not in plot_type:
                 total_region = f"total-{scope}"
-                field_df = field_df[field_df.region != total_region]
-            pivot = field_df.pivot("region", "date", field)
-            dates = pd.to_datetime(pivot.columns.values)
-            num_ticks = 10
-            each_ticks = round(len(dates) / num_ticks)
+                plot_df = plot_df[plot_df.region != total_region]
 
-            def fmt(x, pos):
-                val = ""
-                if pos % each_ticks == 0:
-                    val = dates[pos].strftime("%d %b")
-                return val
-            formatter = ticker.FuncFormatter(fmt)
-            ax = sns.heatmap(pivot, cmap="YlOrRd", linewidths=.2, xticklabels=pivot.columns.strftime('%d %b'))
-            ax.xaxis.set_major_formatter(formatter)
-            fig.autofmt_xdate()
+            pivot = plot_df.pivot("region", "date", field)
+            pivot = pivot.sort_values(last_date, ascending=False).head(20)
+            dates = pd.to_datetime(pivot.columns.values)
+            cmap = 'Blues'
+            if 'deceased' in field:
+                cmap = "Reds"
+            elif 'hosp' in field:
+                cmap = "Oranges"
+            palette = sns.color_palette(cmap, 20)
+            vmax = pivot.quantile(0.7, axis=1).max()
+            fmt = "0.0f"
+            if vmax < 50:
+                fmt = "0.1f"
+            ax = sns.heatmap(pivot, cmap=palette, annot=True, fmt=fmt,
+                             annot_kws=dict(fontsize=10),
+                             yticklabels=[_(region) for region in pivot.index],
+                             vmin=0, vmax=vmax)
+
+            def each3_date_fmt(x, pos):
+                if pos % 3 == 0:
+                    return dates[pos].strftime("%d %b")
+                return ""
+            ax.xaxis.set_major_formatter(ticker.FuncFormatter(each3_date_fmt))
+            ax.set_ylabel('')
+            ax.set_xlabel('')
+            plt.xticks(rotation=45, ha='center', fontsize=12, color="#555555")
+            ax.tick_params(axis='x', which='major', pad=0)
+            plt.yticks(fontsize=12, color="#555555")
         else:
             today_df = df.loc[last_date]
             top_df = self._get_scope_df(plot_type, scope, today_df, field)
@@ -956,6 +998,8 @@ class COVID19Plot(object):
         if legend:
             ax.legend(loc='center right', fontsize=10)
         self._add_footer(ax, scope, language)
+
+        plt.tight_layout()
         plt.savefig(image_path)
         plt.close()
 
@@ -967,6 +1011,11 @@ class COVID19Plot(object):
         title = None
         field = None
         has_cases = False
+        plot_type = plot_type.replace('_heatmap', '')
+        if scope == 'france':
+            if plot_type == 'acum14_cases_normalized':
+                plot_type = 'acum14_hosp_normalized'
+
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants')
             field = 'cases_per_100k'
@@ -993,6 +1042,24 @@ class COVID19Plot(object):
         elif plot_type == 'daily_deceased_normalized':
             title = _('New deceased per 100k inhabitants')
             field = 'rolling_deceased_per_100k'
+        elif plot_type == 'active_cases':
+            title = _('Active cases')
+            field = 'active_cases'
+        elif plot_type == 'active_cases_normalized':
+            title = _('Active cases per 100k inhabitants')
+            field = 'active_cases_per_100k'
+        elif plot_type == 'increase_cases_normalized':
+            title = _('New daily cases per 100k inhabitants')
+            field = 'increase_cases_per_100k'
+        elif plot_type == 'acum14_deceased_normalized':
+            title = _('Cumulative incidence of deceased (14 days/100k inhabitants)')
+            field = 'acum14_deceased_per_100k'
+        elif plot_type == 'acum14_cases_normalized':
+            title = _('Cumulative incidence (14 days/100k inhabitants)')
+            field = 'acum14_cases_per_100k'
+        elif plot_type == 'acum14_hosp_normalized':
+            title = _('Cumulative incidence of hospitalizations (14 days/100k inhabitants)')
+            field = 'acum14_hosp_per_100k'
         else:
             return ""
         today_df = df.loc[last_date]
@@ -1012,7 +1079,7 @@ class COVID19Plot(object):
         updated = _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
         if scope == 'spain' and has_cases:
-            note_Spain = "\n" + _("From 29/04/2020, the accumulated cases are those detected by PCR test.")
+            note_Spain = "\n" + _("From 19/04/2020, the accumulated cases are those detected by PCR test.")
         return f"**{title}**\n\n{last_data}\n__{updated}____{note_Spain}__"
 
     def _get_scope_df(self, plot_type, scope, today_df, field, max_records=20):
