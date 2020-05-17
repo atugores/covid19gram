@@ -254,7 +254,7 @@ class DBHandler:
         result = self._cur.fetchall()
         date_files = [val for val in result]
         text = "**Files stats**\n"
-        for date, num_files in date_files:
+        for date, num_files in date_files[-10:]:
             date = int(date.replace('.png', ''))
             date = datetime.fromtimestamp(date)
             text += f"- {date:%d %b %Y %H:%M:%S}: {num_files}\n"
