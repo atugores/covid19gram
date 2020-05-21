@@ -302,11 +302,12 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'recovered'}, inplace=True)
         rec_df['date'] = pd.to_datetime(rec_df['date'])
         rec_df.set_index(['date', 'region_code'], inplace=True)
-        last_date_rec = rec_df.index.get_level_values('date')[-1]
-        if last_date_rec < last_date:
-            df = df[dates <= last_date_rec]
-            last_date = last_date_rec
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        # Recovered information is delayed form Spain.
+        # last_date_rec = rec_df.index.get_level_values('date')[-1]
+        # if last_date_rec < last_date:
+        #     df = df[dates <= last_date_rec]
+        #     last_date = last_date_rec
+        #     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -362,7 +363,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
     else:
         df['population'] = 0
 
-    df.fillna(0, inplace=True)
     df.sort_index(inplace=True)
 
     # add total-italy
@@ -370,7 +370,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         dates = df.index.get_level_values('date').unique()
         for date in dates:
             date_df = df.loc[date]
-            total = date_df.sum()
+            total = date_df.sum(min_count=1)
             total['region'] = f'total-{scope}'
             df.loc[(date, 0), df.columns] = total.values
 
@@ -437,7 +437,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
             df['acum14_hosp'].mask(df.region == region, rolling, inplace=True)
             df['acum14_hosp_per_100k'] = df['acum14_hosp'] * 100_000 / df['population']
 
-    df.fillna(0, inplace=True)
     df.sort_index(inplace=True)
     df.to_csv(f"{data_directory}/{scope}_covid19gram.csv")
 

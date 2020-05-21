@@ -310,27 +310,27 @@ class COVID19Plot(object):
         last_date = df.index.get_level_values('date')[-1].strftime("%d/%B/%Y")
         if plot_type == 'daily_cases':
             has_cases = True
-            v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + _('Last day increment') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True)
+            v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
                 _('Increment rolling avg (3 days)') + ": " + v
         elif plot_type == 'daily_hospitalized':
-            v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Currently hospitalized') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_hosp'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['increase_hosp'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + _('Hospitalized evolution on last day') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_hosp'][-1], grouping=True)
+            v = locale.format_string('%.1f', df['rolling_hosp'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
                 _('Increment rolling avg (3 days)') + ": " + v
         elif plot_type == 'daily_deceased':
-            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Total deceased') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_deceased'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['increase_deceased'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + _('Deaths on last day') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True)
+            v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
                 _('Deaths rolling avg (3 days)') + ": " + v
         elif plot_type == 'active_recovered_deceased':
@@ -339,44 +339,44 @@ class COVID19Plot(object):
             last_deceased = None
             if np.max(df['cases'] > 0):
                 last_cases = df['cases'][-1]
-                v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Total cases') + ": " + v + "\n"
-                v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently infected') + ": " + v + "\n"
             else:
                 last_data = ""
             if 'hospitalized' in df.columns and region != "france":
-                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['recovered'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + _('Deceased') + ": " + v
             last_deceased = df['deceased'][-1]
             if last_cases and last_deceased:
                 fatality_rate = 100 * last_deceased / last_cases
-                v = locale.format_string('%.2f', fatality_rate)
+                v = locale.format_string('%.2f', fatality_rate).replace('nan', '-')
                 last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + v + "%"
         elif plot_type == 'active':
             last_data = ""
             if np.max(df['cases'] > 0):
-                v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Active cases') + ": " + v + "\n"
             else:
                 last_data = ""
             if 'hospitalized' in df.columns and region != "france":
-                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
         elif plot_type == 'cases':
             last_data = ""
             has_cases = True
             if np.max(df['cases'] > 0):
-                v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
             else:
                 last_data = ""
             if 'hospitalized' in df.columns and region != "france":
-                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True)
+                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
         elif plot_type == 'recovered':
             if region == f"total-{scope}" and scope in self.AGES:
@@ -401,38 +401,38 @@ class COVID19Plot(object):
                 last_data = last_data + "\n__" + _("*Data obtained from the analysis of reported cases with available information on age and sex.") + "__"
             else:
                 v = locale.format_string(
-                    '%.0f', df['recovered'][-1], grouping=True)
+                    '%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Recovered') + ": " + v + "\n"
         elif plot_type == 'deceased':
             v = locale.format_string(
-                '%.0f', df['deceased'][-1], grouping=True)
+                '%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Deceased') + ": " + v + "\n"
         elif plot_type == 'cases_normalized':
             has_cases = True
             v = locale.format_string(
-                '%.1f', df['cases_per_100k'][-1], grouping=True)
+                '%.1f', df['cases_per_100k'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + \
                 _('Cases per 100k inhabitants') + ": " + v + "\n"
         elif plot_type == 'summary':
             has_cases = True
-            v = locale.format_string('%.0f', df['cases'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
             last_data = "  🦠 " + _('Total cases') + ": `" + v
-            v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True)
+            v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
             last_data += " (" + v + ")`\n"
             v = locale.format_string(
-                '%.1f', df['cases_per_100k'][-1], grouping=True)
+                '%.1f', df['cases_per_100k'][-1], grouping=True).replace('nan', '-')
             last_data += "    `" + v + "` __" + _('per 100k inhabitants') + "__\n\n"
-            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
             last_data += "  ❌ " + _('Total deceased') + ": `" + v
-            v = locale.format_string('%+.0f', df['increase_deceased'][-1], grouping=True)
+            v = locale.format_string('%+.0f', df['increase_deceased'][-1], grouping=True).replace('nan', '-')
             last_data += " (" + v + ")`\n"
             v = locale.format_string(
-                '%.1f', df['deceased_per_100k'][-1], grouping=True)
+                '%.1f', df['deceased_per_100k'][-1], grouping=True).replace('nan', '-')
             last_data += "    `" + v + "` __" + _('per 100k inhabitants') + "__\n\n"
             v = locale.format_string(
-                '%.0f', df['recovered'][-1], grouping=True)
+                '%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
             last_data += "  ✅ " + _('Recovered') + ": `" + v + "`\n\n"
-            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True)
+            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
             last_data += "  😷 " + _('Active') + ": `" + v + "`\n"
 
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
@@ -586,7 +586,7 @@ class COVID19Plot(object):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
                 region_name = _(region)
-                v = locale.format_string('%.2f', df_region['cases_per_100k'][-1], grouping=True)
+                v = locale.format_string('%.2f', df_region['cases_per_100k'][-1], grouping=True).replace('nan', '-')
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['cases_per_100k'], linewidth=2, color=color, label=label)
 
@@ -598,7 +598,7 @@ class COVID19Plot(object):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
                 region_name = _(region)
-                v = locale.format_string('%.2f', df_region['hosp_per_100k'][-1], grouping=True)
+                v = locale.format_string('%.2f', df_region['hosp_per_100k'][-1], grouping=True).replace('nan', '-')
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['hosp_per_100k'], linewidth=2, color=color, label=label)
 
@@ -609,7 +609,7 @@ class COVID19Plot(object):
             for region, color in zip(regions, self.CB_color_cycle):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True).replace('nan', '-')
                 region_name = _(region)
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['cases'], linewidth=2, color=color, label=label)
@@ -621,7 +621,7 @@ class COVID19Plot(object):
             for region, color in zip(regions, self.CB_color_cycle):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True)
+                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True).replace('nan', '-')
                 region_name = _(region)
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['hospitalized'], linewidth=2, color=color, label=label)
@@ -633,7 +633,7 @@ class COVID19Plot(object):
             for region, color in zip(regions, self.CB_color_cycle):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True)
+                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True).replace('nan', '-')
                 region_name = _(region)
                 plt.yscale('log')
                 label = f"{region_name} ({v})"
@@ -646,7 +646,7 @@ class COVID19Plot(object):
             for region, color in zip(regions, self.CB_color_cycle):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True)
+                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True).replace('nan', '-')
                 region_name = _(region)
                 plt.yscale('log')
                 label = f"{region_name} ({v})"
@@ -660,7 +660,7 @@ class COVID19Plot(object):
                 df_region = df[df.region == region]
                 x = df_region.index.get_level_values('date')
                 region_name = _(region)
-                v = locale.format_string('%.2f', df_region['deceased_per_100k'][-1], grouping=True)
+                v = locale.format_string('%.2f', df_region['deceased_per_100k'][-1], grouping=True).replace('nan', '-')
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['deceased_per_100k'], linewidth=2, color=color, label=label)
                 # ax.annotate(f"{v} ({region_name})",
@@ -974,7 +974,7 @@ class COVID19Plot(object):
                 fmt = '%.1f'
                 if plot_type == 'cases':
                     fmt = '%.0f'
-                value_f = locale.format_string(fmt, value, grouping=True)
+                value_f = locale.format_string(fmt, value, grouping=True).replace('nan', '-')
                 ax.annotate(value_f, xy=(value, _(region)),
                             xytext=(3, 0),
                             textcoords="offset points", va='center')
@@ -984,7 +984,7 @@ class COVID19Plot(object):
                     total_region = f"total-{scope}"
                     total_value = today_df[today_df.region == total_region][field].values[0]
                     ax.axvline(total_value, color=color, alpha=0.5)
-                    total_value_f = locale.format_string('%.1f', total_value, grouping=True)
+                    total_value_f = locale.format_string('%.1f', total_value, grouping=True).replace('nan', '-')
                     ax.annotate(_("National average") + ": " + total_value_f, xy=(total_value, 0),
                                 xytext=(3, -20),
                                 textcoords="offset points", va='center')
@@ -1075,7 +1075,7 @@ class COVID19Plot(object):
             fmt = '%.1f'
             if plot_type == 'cases':
                 fmt = '%.0f'
-            value_f = locale.format_string(fmt, value, grouping=True)
+            value_f = locale.format_string(fmt, value, grouping=True).replace('nan', '-')
             last_data = last_data + " - " + _(region) + ": " + value_f + "\n"
         updated = _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
