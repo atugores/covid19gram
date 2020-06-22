@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from shutil import copy2
+from config.prov2ccaa import prov2caa, decesed_long
 
 SCOPES = {
     'world': {
@@ -21,7 +22,7 @@ SCOPES = {
         'repo_url': 'https://github.com/datadista/datasets',
         'watch': [
             'COVID 19/ccaa_covid19_casos_long.csv',
-            'COVID 19/ccaa_covid19_confirmados_pcr_long.csv',
+            'COVID 19/provincias_covid19_datos_isciii_nueva_serie.csv',
             'COVID 19/ccaa_covid19_altas_long.csv',
             'COVID 19/ccaa_covid19_fallecidos_long.csv',
             'COVID 19/nacional_covid19_rango_edad.csv',
@@ -208,7 +209,8 @@ def generate_world_input_files(data_directory="data/"):
 def generate_spain_cases_file(data_directory):
     base_directory = SCOPES['spain']['base_directory']
     csv_cases = base_directory + "/" + SCOPES['spain']['watch'][0]
-    csv_cases_pcr = base_directory + "/" + SCOPES['spain']['watch'][1]
+    prov2caa(base_directory + "/" + SCOPES['spain']['watch'][1], data_directory + 'spain_pcr.csv')
+    csv_cases_pcr = data_directory + 'spain_pcr.csv'
 
     cases_df = pd.read_csv(csv_cases)
     pcr_df = pd.read_csv(csv_cases_pcr)
@@ -256,6 +258,9 @@ def generate_covidgram_dataset(scope, files, data_directory):
     # italy: data,stato,codice_regione,denominazione_regione,lat,long,ricoverati_con_sintomi,terapia_intensiva,totale_ospedalizzati,isolamento_domiciliare,totale_positivi,variazione_totale_positivi,nuovi_positivi,dimessi_guariti,deceduti,totale_casi,tamponi,note_it,note_en
     if scope == 'spain':
         df['region'].mask(df.region_code == 0, 'total-spain', inplace=True)
+        if csv_deceased:
+            decesed_long(csv_deceased, data_directory + 'spain_deceased.csv')
+            csv_deceased = data_directory + 'spain_deceased.csv'
     elif scope == 'italy':
         df.drop(columns=[
             'stato', 'lat', 'long', 'ricoverati_con_sintomi',
