@@ -721,7 +721,7 @@ async def send_notifications():
         'france': _('🇫🇷France data updated'),
     }
     for scope in cplt.SCOPES:
-        if updated[scope]:
+        if scope != 'france' and updated[scope]:
             for user_id in await dbhd.get_users_scope(scope):
                 # await asyncio.sleep(1)
                 language = await get_language(await app.get_users(user_id))
