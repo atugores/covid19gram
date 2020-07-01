@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from shutil import copy2
-from config.prov2ccaa import prov2caa, decesed_long
+from prov2ccaa import prov2caa, decesed_long
 
 SCOPES = {
     'world': {
@@ -266,7 +266,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'stato', 'lat', 'long', 'ricoverati_con_sintomi',
             'terapia_intensiva', 'isolamento_domiciliare',
             'totale_positivi', 'variazione_totale_positivi',
-            'nuovi_positivi', 'tamponi', 'note_it', 'note_en'], inplace=True)
+            'nuovi_positivi', 'tamponi', 'note'], inplace=True)
 
         df.rename(columns={
             'data': 'date', 'codice_regione': 'region_code',
