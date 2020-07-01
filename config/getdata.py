@@ -36,13 +36,13 @@ SCOPES = {
             'dati-regioni/dpc-covid19-ita-regioni.csv'
         ]
     },
-    'france': {
-        'base_directory': 'external-data/france',
-        'repo_url': 'https://github.com/opencovid19-fr/data',
-        'watch': [
-            'dist/chiffres-cles.csv'
-        ]
-    },
+    # 'france': {
+    #     'base_directory': 'external-data/france',
+    #     'repo_url': 'https://github.com/opencovid19-fr/data',
+    #     'watch': [
+    #         'dist/chiffres-cles.csv'
+    #     ]
+    # },
 }
 
 
