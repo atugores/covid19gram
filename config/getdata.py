@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from shutil import copy2
-from prov2ccaa import prov2caa, decesed_long
+from config.prov2ccaa import prov2caa, decesed_long
 
 SCOPES = {
     'world': {
