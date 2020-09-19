@@ -212,7 +212,7 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        if region_scope == 'spain' and ("deceased" in plot_type or "recovered" in plot_type):
+        if region_scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
         caption = self._get_caption(plot_type, region_scope, region, language, region_df)
         return caption
@@ -253,7 +253,7 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        if region_scope == 'spain' and ("deceased" in plot_type or "recovered" in plot_type):
+        if region_scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
         self._plot(plot_type, region_scope, region, language, region_df, image_fpath)
         return image_fpath

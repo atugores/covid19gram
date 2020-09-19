@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from shutil import copy2
-from config.prov2ccaa import prov2caa, decesed_long
+
 
 SCOPES = {
     'world': {
@@ -21,12 +21,10 @@ SCOPES = {
         'base_directory': 'external-data/spain',
         'repo_url': 'https://github.com/datadista/datasets',
         'watch': [
-            'COVID 19/ccaa_covid19_casos_long.csv',
-            'COVID 19/provincias_covid19_datos_isciii_nueva_serie.csv',
+            'COVID 19/ccaa_covid19_datos_isciii_nueva_serie.csv',
             'COVID 19/ccaa_covid19_altas_long.csv',
-            'COVID 19/ccaa_covid19_fallecidos_long.csv',
+            'COVID 19/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv',
             'COVID 19/nacional_covid19_rango_edad.csv',
-            # 'COVID 19/ccaa_covid19_hospitalizados_long.csv',
         ]
     },
     'italy': {
@@ -83,12 +81,13 @@ def get_or_generate_input_files(scope, data_directory="data/"):
 
     if scope == 'spain':
         generate_spain_cases_file(data_directory)
+        generate_spain_deceased_file(data_directory)
         base_directory = SCOPES[scope]['base_directory']
         return [
             data_directory + scope + '_cases.csv',
-            base_directory + "/" + SCOPES[scope]['watch'][2],
-            base_directory + "/" + SCOPES[scope]['watch'][3],
-            base_directory + "/" + SCOPES[scope]['watch'][4]
+            base_directory + "/" + SCOPES[scope]['watch'][1],
+            data_directory + scope + "_deceased.csv",
+            base_directory + "/" + SCOPES[scope]['watch'][3]
         ]
 
     if scope == 'world':
@@ -207,29 +206,56 @@ def generate_world_input_files(data_directory="data/"):
 
 
 def generate_spain_cases_file(data_directory):
+    """
+    The file ccaa_covid19_datos_isciii_nueva_serie.csv
+    has information about how many cases are detected each day.
+    We have to convert the data to accumulated info
+    """
     base_directory = SCOPES['spain']['base_directory']
     csv_cases = base_directory + "/" + SCOPES['spain']['watch'][0]
-    prov2caa(base_directory + "/" + SCOPES['spain']['watch'][1], data_directory + 'spain_pcr.csv')
-    csv_cases_pcr = data_directory + 'spain_pcr.csv'
 
     cases_df = pd.read_csv(csv_cases)
-    pcr_df = pd.read_csv(csv_cases_pcr)
     cases_df['fecha'] = pd.to_datetime(cases_df['fecha'])
     cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
-    cases_df.rename(columns={'total': 'total_cases', 'CCAA': 'CCAA_cases'}, inplace=True)
-    pcr_df['fecha'] = pd.to_datetime(pcr_df['fecha'])
-    pcr_df = pcr_df[pcr_df.fecha > np.datetime64('2020-04-18')]
-    pcr_df.set_index(['fecha', 'cod_ine'], inplace=True)
-    pcr_df.rename(columns={'total': 'total_pcr', 'CCAA': 'CCAA_pcr'}, inplace=True)
-    mod_cases_df = cases_df.merge(pcr_df, left_index=True, right_index=True, how='outer')
-    mod_cases_df['CCAA_cases'].fillna('', inplace=True)
-    mod_cases_df['CCAA_pcr'].fillna('', inplace=True)
-    mod_cases_df['total_pcr'].mask(mod_cases_df.total_pcr == 0, np.nan, inplace=True)
-    mod_cases_df['total'] = mod_cases_df[['total_cases', 'total_pcr']].min(axis=1)
-    mod_cases_df['CCAA'] = mod_cases_df[['CCAA_cases', 'CCAA_pcr']].max(axis=1)
-    mod_cases_df.drop(columns=['CCAA_cases', 'CCAA_pcr', 'total_cases', 'total_pcr'], inplace=True)
-    mod_cases_df = mod_cases_df[mod_cases_df.CCAA != 'Total']  # remove total, it will regenerated
-    mod_cases_df.to_csv(data_directory + 'spain_cases.csv')
+    cases_df.sort_index(inplace=True)
+    cases_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
+    cases_df['total'] = 0.0
+
+    for ccaa in cases_df['CCAA'].unique():
+        reg_df = cases_df[cases_df.CCAA == ccaa]
+        total_cases = reg_df['num_casos_prueba_pcr'].cumsum()
+        cases_df['total'].mask(cases_df.CCAA == ccaa, total_cases, inplace=True)
+
+    cases_df.drop(columns=[
+        'num_casos', 'num_casos_prueba_pcr', 'num_casos_prueba_test_ac',
+        'num_casos_prueba_otras', 'num_casos_prueba_desconocida'], inplace=True)
+    cases_df.to_csv(data_directory + 'spain_cases.csv')
+    return
+
+
+def generate_spain_deceased_file(data_directory):
+    """
+    The file ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv
+    has information about deceases on each day.
+    We have to convert the data to accumulated info
+    """
+    base_directory = SCOPES['spain']['base_directory']
+    csv_deceased = base_directory + "/" + SCOPES['spain']['watch'][2]
+
+    dec_df = pd.read_csv(csv_deceased)
+    dec_df['fecha'] = pd.to_datetime(dec_df['fecha'])
+    dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
+    dec_df.sort_index(inplace=True)
+    dec_df.rename(columns={'total': 'deceased'}, inplace=True)
+    dec_df['total'] = 0.0
+
+    for ccaa in dec_df['CCAA'].unique():
+        reg_df = dec_df[dec_df.CCAA == ccaa]
+        total_deceased = reg_df['deceased'].cumsum()
+        dec_df['total'].mask(dec_df.CCAA == ccaa, total_deceased, inplace=True)
+
+    dec_df.drop(columns=['deceased'], inplace=True)
+    dec_df.to_csv(data_directory + 'spain_deceased.csv')
     return
 
 
@@ -256,12 +282,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         'total': 'cases', 'CCAA': 'region'}, inplace=True)
 
     # italy: data,stato,codice_regione,denominazione_regione,lat,long,ricoverati_con_sintomi,terapia_intensiva,totale_ospedalizzati,isolamento_domiciliare,totale_positivi,variazione_totale_positivi,nuovi_positivi,dimessi_guariti,deceduti,totale_casi,tamponi,note_it,note_en
-    if scope == 'spain':
-        df['region'].mask(df.region_code == 0, 'total-spain', inplace=True)
-        if csv_deceased:
-            decesed_long(csv_deceased, data_directory + 'spain_deceased.csv')
-            csv_deceased = data_directory + 'spain_deceased.csv'
-    elif scope == 'italy':
+    if scope == 'italy':
         df.drop(columns=[
             'stato', 'lat', 'long', 'ricoverati_con_sintomi',
             'terapia_intensiva', 'isolamento_domiciliare',
