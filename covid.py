@@ -968,6 +968,7 @@ async def answer(client, callback_query):
         if region == 'finish':
             plot_type = params[2].replace('-', '_')
             await edit_region(client, chat, mid, plot_type=plot_type, language=language, compare=True)
+            await client.answer_callback_query(callback_query.id)
             return
         cache_key = f"{CACHE_PREFIX}_{comm}_{chat}_{mid}"
         regions = cache.get(cache_key)
@@ -983,6 +984,7 @@ async def answer(client, callback_query):
         if len(regions) > 8:
             plot_type = 'cases_normalized'
             await edit_region(client, chat, mid, plot_type=plot_type, language=language, compare=True)
+            await client.answer_callback_query(callback_query.id)
             return
         scope = cplt.get_region_scope(region)
         if scope == 'world':
@@ -1086,6 +1088,8 @@ async def answer(client, callback_query):
 
     elif comm == "blank":
         logging.info('blank')
+
+    await client.answer_callback_query(callback_query.id)
 
 
 @app.on_inline_query()
