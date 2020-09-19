@@ -9,8 +9,6 @@ Requirements:
  git clone https://github.com/datadista/datasets
  git clone https://github.com/pomber/covid19.git
 
- ALTER TABLE `lang` ADD `n_france` BOOLEAN NOT NULL DEFAULT FALSE AFTER `n_italy`;
-
 ```
 
 
