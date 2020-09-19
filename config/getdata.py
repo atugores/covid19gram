@@ -8,7 +8,9 @@ import numpy as np
 import os
 from shutil import copy2
 import logging
+import sys
 
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 SCOPES = {
     'world': {
@@ -35,13 +37,13 @@ SCOPES = {
             'dati-regioni/dpc-covid19-ita-regioni.csv'
         ]
     },
-    # 'france': {
-    #     'base_directory': 'external-data/france',
-    #     'repo_url': 'https://github.com/opencovid19-fr/data',
-    #     'watch': [
-    #         'dist/chiffres-cles.csv'
-    #     ]
-    # },
+    'france': {
+        'base_directory': 'external-data/france',
+        'repo_url': 'https://github.com/opencovid19-fr/data',
+        'watch': [
+            'dist/chiffres-cles.csv'
+        ]
+    },
 }
 
 
@@ -391,6 +393,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
         df['population'] = 0
 
     df.sort_index(inplace=True)
+    # remove duplicated rows (fix France data)
+    df = df[~df.index.duplicated(keep='last')]
 
     # add total-italy
     if scope in ['italy', 'spain']:
