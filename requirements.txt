@@ -1,6 +1,6 @@
 APScheduler==3.6.3
 async-generator==1.10
-async-lru==1.0.1
+async-lru==1.0.2
 cycler==0.10.0
 gitdb==4.0.2
 GitPython==3.1.0
@@ -13,9 +13,8 @@ pandas==1.0.3
 pyaes==1.6.1
 pyparsing==2.4.7
 mysqlclient==1.4.6
-# Pyrogram===0.16.0.asyncio
-# pip3 install -U https://github.com/pyrogram/pyrogram/archive/asyncio.zip
-PySocks==1.7.0
+Pyrogram==1.0.7
+PySocks==1.7.1
 python-dateutil==2.8.1
 pytz==2019.3
 redis==3.4.1

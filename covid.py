@@ -7,8 +7,8 @@ import os
 import re
 import asyncio
 from datetime import timedelta
-from pyrogram import Client
-from pyrogram import Filters, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
+from pyrogram import Client, filters, idle
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import BadRequest
 from covid19plot import COVID19Plot
 from config.getdata import update_data, status_data
@@ -17,7 +17,9 @@ from config.settings import DBHandler
 import gettext
 import redis
 from uuid import uuid4
+import logging
 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 config_file = "conf.ini"
 config = configparser.ConfigParser()
@@ -51,10 +53,10 @@ for language in cplt.LANGUAGES:
 
 async def exception_handle(user, e):
     if "USER_IS_BLOCKED" in str(e):
-        print(str(user) + ": Blocked the bot")
+        logging.info(str(user) + ": Blocked the bot")
         return True
     elif "INPUT_USER_DEACTIVATED" in str(e):
-        print(str(user) + ": deactivated account")
+        logging.info(str(user) + ": deactivated account")
         return True
     return False
 
@@ -603,9 +605,9 @@ async def show_region(client, chat, plot_type="daily_cases", region="total-world
                 flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
-            print("Error: " + str(e))
+            logging.info("Error: " + str(e))
     except Exception as err:
-        print("Unexpected error:" + str(type(err)) + " - " + str(err))
+        logging.info("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
 
@@ -661,9 +663,9 @@ async def send_regions(client, chat, region="Total", language='en', is_scope=Fal
             for photo in media:
                 os.remove(photo.media)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
-            print("Error: " + str(e))
+            logging.info("Error: " + str(e))
     except Exception as err:
-        print("Unexpected error:" + str(type(err)) + " - " + str(err))
+        logging.info("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
 
@@ -705,9 +707,9 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
                 flname = cplt.generate_plot(plot_type=plot_type, region=region, language=language)
             await edit_message_media(client, chat, mid, flname, caption=caption, reply_markup=btns)
         elif str(e).find("MESSAGE_NOT_MODIFIED") > -1:
-            print("Error: " + str(e))
+            logging.info("Error: " + str(e))
     except Exception as err:
-        print("Unexpected error:" + str(type(err)) + " - " + str(err))
+        logging.info("Unexpected error:" + str(type(err)) + " - " + str(err))
         raise
 
 
@@ -855,7 +857,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         await client.send_message(chat, about, disable_web_page_preview=True, reply_markup=rep_markup)
 
 
-@app.on_message(Filters.text)
+@app.on_message(filters.text)
 async def g_request(client, message):
     chat = message.chat.id
     user_id = message.from_user.id
@@ -907,7 +909,7 @@ async def answer(client, callback_query):
     language = await get_language(user)
     _ = translations[language].gettext
     if comm == "pag":
-        print("****** entra a pag ****")
+        logging.info("****** entra a pag ****")
         pag = int(params[1])
         btns = botons(scope='spain')[pag]
         caption = _("Choose a Region")
@@ -1083,7 +1085,7 @@ async def answer(client, callback_query):
         await show_region(client, chat, plot_type, region, language=language)
 
     elif comm == "blank":
-        print('blank')
+        logging.info('blank')
 
 
 @app.on_inline_query()
@@ -1141,8 +1143,8 @@ async def main():
     scheduler.add_job(send_notifications, "interval", hours=1)
     scheduler.start()
     await app.start()
-    print("Started")
-    await app.idle()
+    logging.info("Started")
+    await idle()
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()

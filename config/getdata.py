@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from shutil import copy2
+import logging
 
 
 SCOPES = {
@@ -63,13 +64,13 @@ def status_data():
 
 
 def update_scope_data(scope, data_directory="data/", force=False):
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
+    logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
     if not repository_has_changes(scope, data_directory) and not force:
-        print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". No changes in repository")
+        logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". No changes in repository")
         return False
     input_files = get_or_generate_input_files(scope, data_directory)
     generate_covidgram_dataset(scope, input_files, data_directory)
-    print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". New file created")
+    logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". New file created")
     return True
 
 
@@ -123,11 +124,11 @@ def repository_has_changes(scope, data_directory):
     try:
         g.pull()
     except git.GitCommandError as e:
-        print("Error pulling data from " + scope + ": " + e.stderr)
+        logging.info("Error pulling data from " + scope + ": " + e.stderr)
         try:
             g.reset('--hard', 'origin/master')
             g.pull()
-            print("Error solved with reset --hard")
+            logging.info("Error solved with reset --hard")
         except git.GitCommandError as e:
             raise e
     # check if files changed
@@ -333,7 +334,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         # if last_date_rec < last_date:
         #     df = df[dates <= last_date_rec]
         #     last_date = last_date_rec
-        #     print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -349,7 +350,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         if last_date_dec < last_date:
             df = df[dates <= last_date_dec]
             last_date = last_date_dec
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+            logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -365,7 +366,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         if last_date_hos < last_date:
             df = df[dates <= last_date_hos]
             last_date = last_date_hos
-            print("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+            logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
     # jut copy by ages data to the date directory
     if csv_ages:
