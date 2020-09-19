@@ -15,6 +15,9 @@ import matplotlib.patches as patches
 import matplotlib.ticker as ticker
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
+
+from plot_types.base import COVID19PlotTypeManager
+
 sns.set_context("notebook")
 sns.set_style("whitegrid")
 matplotlib.use('Agg')
@@ -199,9 +202,6 @@ class COVID19Plot(object):
         return caption
 
     def get_plot_caption(self, plot_type, region, language='en'):
-        if plot_type not in self.PLOT_TYPES:
-            raise RuntimeError(_('Plot type is not recognized'))
-
         region_scope = self.get_region_scope(region)
         if not region_scope:
             raise RuntimeError(_('Region not found in any scope'))
@@ -210,9 +210,15 @@ class COVID19Plot(object):
         self._check_new_data(region_scope)
         source = self._sources.get(region_scope)
 
-        # get region data
+        PlotTypeCls = COVID19PlotTypeManager.get_plot_type(plot_type)
+        if PlotTypeCls is None:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        translation = self._translations[language].gettext
+        self._set_locale(language)
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        caption = self._get_caption(plot_type, region_scope, region, language, region_df)
+        region_plot = PlotTypeCls(region_scope, region, region_df, translation)
+        caption = region_plot.get_caption()
         return caption
 
     def get_scope_plot_caption(self, plot_type, scope, language='en'):
@@ -228,10 +234,7 @@ class COVID19Plot(object):
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
-    def generate_plot(self, plot_type, region, language='en', force=False):
-        if plot_type not in self.PLOT_TYPES:
-            raise RuntimeError(_('Plot type is not recognized'))
-
+    def generate_plot(self, plot_type, region, language='en', force=False, inline=False):
         region_scope = self.get_region_scope(region)
         if not region_scope:
             raise RuntimeError(_('Region not found in any scope'))
@@ -239,17 +242,29 @@ class COVID19Plot(object):
         # check if data source has been modified, and reload it if necessary
         self._check_new_data(region_scope)
         source = self._sources.get(region_scope)
-        # check if image has already been generated
-        if plot_type == 'recovered' and region == f"total-{region_scope}" and region_scope in self.AGES:
-            image_fpath = f"{self._images_dir}/{language}_{region}_ages_{source.get('ts')}.png"
-        else:
-            image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
-        if os.path.isfile(image_fpath) and not force:
-            return image_fpath
+        image_fpath = None
+
+        if not inline:
+            # check if image has already been generated
+            if plot_type == 'recovered' and region == f"total-{region_scope}" and region_scope in self.AGES:
+                image_fpath = f"{self._images_dir}/{language}_{region}_ages_{source.get('ts')}.png"
+            else:
+                image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
+            if os.path.isfile(image_fpath) and not force:
+                return image_fpath
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        self._plot(plot_type, region_scope, region, language, region_df, image_fpath)
+
+        PlotTypeCls = COVID19PlotTypeManager.get_plot_type(plot_type)
+        if PlotTypeCls is None:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        translation = self._translations[language].gettext
+        self._set_locale(language)
+        region_plot = PlotTypeCls(region_scope, region, region_df, translation)
+        region_plot.plot(image_fpath)
+
         return image_fpath
 
     def generate_multiregion_plot(self, plot_type, regions, language='en', force=False):
@@ -440,133 +455,6 @@ class COVID19Plot(object):
         if scope == 'spain' and has_cases:
             note_Spain = "\n" + _("From 19/04/2020, the accumulated cases are those detected by PCR test.")
         return f"{last_data}\n__{updated}____{note_Spain}__"
-
-    def _plot(self, plot_type, scope, region, language, df, image_path):
-        # set translation to current language
-        _ = self._translations[language].gettext
-        self._set_locale(language)
-
-        fig, ax = plt.subplots(figsize=(12, 6))
-        x = df.index.get_level_values('date')
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
-        title = None
-        y_label = None
-
-        if plot_type == 'daily_cases':
-            title = _('Cases increase at {region}').format(region=_(region))
-            y_label = _('Cases')
-            plt.bar(x, df['increase_cases'], alpha=0.3, width=0.9, label=_('Daily increment'))
-            plt.fill_between(x, 0, df['rolling_cases'], color='red', alpha=0.5, label=_('Increment rolling avg (3 days)'))
-            plt.plot(x, df['rolling_cases'], color='red')
-            ax.annotate(f"{df['increase_cases'][-1]:0,.0f}", xy=(x[-1], df['increase_cases'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'daily_hospitalized':
-            title = _('Hospitalization evolution at {region}').format(region=_(region))
-            y_label = _('Hospitalizations')
-            plt.bar(x, df['increase_hosp'], alpha=0.6, width=0.9, label=_('Daily increment'), color='darkgoldenrod')
-            plt.fill_between(x, 0, df['rolling_hosp'], color='olive', alpha=0.5, label=_('Increment rolling avg (3 days)'))
-            plt.plot(x, df['rolling_hosp'], color='olive')
-            ax.annotate(f"{df['increase_hosp'][-1]:0,.0f}", xy=(x[-1], df['increase_hosp'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'daily_deceased':
-            title = _('Daily deaths evolution at {region}').format(region=_(region))
-            y_label = _('Deaths')
-            plt.bar(x, df['increase_deceased'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
-            plt.fill_between(x, 0, df['rolling_deceased'], color='red', alpha=0.2, label=_('Deaths rolling avg (3 days)'))
-            plt.plot(x, df['rolling_deceased'], color='red')
-            ax.annotate(f"{df['increase_deceased'][-1]:0,.0f}", xy=(x[-1], df['increase_deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'active_recovered_deceased':
-            title = _('Active cases, recovered and deceased at {region}').format(region=_(region))
-            y_label = _('Cases')
-            alpha = 0.3
-            if np.max(df['active_cases']) > 0:
-                plt.fill_between(x, 0, df['active_cases'], alpha=alpha, label=_('Currently infected'))
-                plt.plot(x, df['active_cases'])
-                ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-            if 'hospitalized' in df.columns:
-                if region != f'total-france' and scope == 'france':
-                    title = _('Curr. hospitalized, recovered & deceased at {region}').format(region=_(region))
-                else:
-                    title = _('Active, hospitalized, recovered and deceased at {region}').format(region=_(region))
-                plt.fill_between(x, 0, df['hospitalized'], color='y', alpha=alpha, label=_('Currently hospitalized'))
-                plt.plot(x, df['hospitalized'], color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-            plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
-            plt.plot(x, df['recovered'], color='g')
-            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
-                        xytext=(0, 3), textcoords="offset points")
-            plt.fill_between(x, 0, df['deceased'], color='red', alpha=alpha, label=_('Deceased'))
-            plt.plot(x, df['deceased'], color='red')
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points")
-        elif plot_type == 'active':
-            if np.max(df['active_cases']) > 0:
-                title = _('Active cases at {region}').format(region=_(region))
-                y_label = _('Cases')
-                plt.bar(x, df['active_cases'], alpha=0.5, width=1, label=_('Active cases'))
-                ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-            elif 'hospitalized' in df.columns and region != "total-france":
-                title = _('Active hospitalizations at {region}').format(region=_(region))
-                y_label = _('Hospitalizations')
-                plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'), color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'cases':
-            if np.max(df['cases']) > 0:
-                title = _('Cumulative cases at {region}').format(region=_(region))
-                y_label = _('Cases')
-                plt.bar(x, df['cases'], alpha=0.5, width=1, label=_('Cases'))
-                ax.annotate(f"{df['cases'][-1]:0,.0f}", xy=(x[-1], df['cases'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-            elif 'hospitalized' in df.columns and region != "total-france":
-                title = _('Hospitalizations at {region}').format(region=_(region))
-                y_label = _('Hospitalizations')
-                plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'), color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'recovered':
-            if region == f"total-{scope}" and scope in self.AGES:
-                plt.close()
-                self._ages_plot(scope, language, image_path)
-                return
-            title = _('Recovered cases at {region}').format(region=_(region))
-            y_label = _('Cases')
-            plt.bar(x, df['recovered'], alpha=0.5, width=1, color='g', label=_('Recovered cases'))
-            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'deceased':
-            title = _('Deaths evolution at {region}').format(region=_(region))
-            y_label = _('Deaths')
-            plt.bar(x, df['deceased'], alpha=0.5, width=1, color='r', label=_('Deceased'))
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'cases_normalized':
-            title = _('Cases per 100k inhabitants at {region}').format(region=_(region))
-            y_label = _('Cases')
-            plt.bar(x, df['cases_per_100k'], alpha=0.5, width=1, label=_('Cases'))
-            ax.annotate(f"{df['cases_per_100k'][-1]:0,.0f}", xy=(x[-1], df['cases_per_100k'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'hosp_normalized':
-            title = _('Hospitalizations per 100k inhabitants at {region}').format(region=_(region))
-            y_label = _('Hospitalizations')
-            plt.bar(x, df['hosp_per_100k'], alpha=0.5, width=1, label=_('Hospitalizations'))
-            ax.annotate(f"{df['hosp_per_100k'][-1]:0,.0f}", xy=(x[-1], df['hosp_per_100k'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-
-        plt.title(title, fontsize=26)
-        ax.set_ylabel(y_label, fontsize=15)
-        xlim = self._get_plot_xlim(scope, df)
-        if xlim:
-            ax.set_xlim(xlim)
-        ax.figure.autofmt_xdate()
-        ax.legend(loc='upper left', fontsize=17)
-        self._add_footer(ax, scope, language)
-        plt.savefig(image_path)
-        plt.close()
 
     def _multiregion_plot(self, plot_type, scope, regions, language, df, image_path):
         # set translation to current language
