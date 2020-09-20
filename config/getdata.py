@@ -222,13 +222,7 @@ def generate_spain_cases_file(data_directory):
     cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
     cases_df.sort_index(inplace=True)
     cases_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
-    cases_df['total'] = 0.0
-
-    for ccaa in cases_df['CCAA'].unique():
-        reg_df = cases_df[cases_df.CCAA == ccaa]
-        total_cases = reg_df['num_casos_prueba_pcr'].cumsum()
-        cases_df['total'].mask(cases_df.CCAA == ccaa, total_cases, inplace=True)
-
+    cases_df['total'] = cases_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
     cases_df.drop(columns=[
         'num_casos', 'num_casos_prueba_pcr', 'num_casos_prueba_test_ac',
         'num_casos_prueba_otras', 'num_casos_prueba_desconocida'], inplace=True)
@@ -250,13 +244,7 @@ def generate_spain_deceased_file(data_directory):
     dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
     dec_df.sort_index(inplace=True)
     dec_df.rename(columns={'total': 'deceased'}, inplace=True)
-    dec_df['total'] = 0.0
-
-    for ccaa in dec_df['CCAA'].unique():
-        reg_df = dec_df[dec_df.CCAA == ccaa]
-        total_deceased = reg_df['deceased'].cumsum()
-        dec_df['total'].mask(dec_df.CCAA == ccaa, total_deceased, inplace=True)
-
+    dec_df['total'] = dec_df.groupby(['CCAA'])['deceased'].cumsum()
     dec_df.drop(columns=['deceased'], inplace=True)
     dec_df.to_csv(data_directory + 'spain_deceased.csv')
     return
