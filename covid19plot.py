@@ -38,6 +38,8 @@ class COVID19Plot(object):
 
     MULTIREGION_PLOT_TYPES = [
         'cases',
+        'acum14_cases_normalized',
+        'acum14_hospitalized_normalized',
         'cases_logarithmic',
         'cases_normalized',
         'hospitalized',
@@ -286,6 +288,8 @@ class COVID19Plot(object):
         df = source.get('df')
         if region_scope == 'spain' and "deceased" in plot_type:
             df = df.loc['2020-02-22':'2020-05-24']
+        if region_scope == 'france' and plot_type == 'acum14_cases_normalized':
+            plot_type = 'acum14_hospitalized_normalized'
         self._multiregion_plot(plot_type, region_scope, regions, language, df, image_fpath)
         return image_fpath
 
@@ -623,6 +627,30 @@ class COVID19Plot(object):
                 region_name = _(region)
                 label = f"{region_name} ({v})"
                 plt.plot(x, df_region['cases'], linewidth=2, color=color, label=label)
+
+        elif plot_type == 'acum14_cases_normalized':
+            title = _('Cumulative incidence (14 days/100k inhabitants)')
+            y_label = _('Cumulative cases')
+            regions.sort(key=lambda region: df[df.region == region]['acum14_cases_per_100k'][-1], reverse=True)
+            for region, color in zip(regions, self.CB_color_cycle):
+                df_region = df[df.region == region]
+                x = df_region.index.get_level_values('date')
+                v = locale.format_string('%.0f', df_region['acum14_cases_per_100k'][-1], grouping=True).replace('nan', '-')
+                region_name = _(region)
+                label = f"{region_name} ({v})"
+                plt.plot(x, df_region['acum14_cases_per_100k'], linewidth=2, color=color, label=label)
+
+        elif plot_type == 'acum14_hospitalized_normalized':
+            title = _('Cumulative incidence of hospitalizations (14 days/100k inhabitants)')
+            y_label = _('Cumulative cases')
+            regions.sort(key=lambda region: df[df.region == region]['acum14_hosp_per_100k'][-1], reverse=True)
+            for region, color in zip(regions, self.CB_color_cycle):
+                df_region = df[df.region == region]
+                x = df_region.index.get_level_values('date')
+                v = locale.format_string('%.0f', df_region['acum14_hosp_per_100k'][-1], grouping=True).replace('nan', '-')
+                region_name = _(region)
+                label = f"{region_name} ({v})"
+                plt.plot(x, df_region['acum14_hosp_per_100k'], linewidth=2, color=color, label=label)
 
         elif plot_type == 'hospitalized':
             title = _('Hospitalizations')
