@@ -365,6 +365,7 @@ def b_compare(language="en"):
     buttons = [[
         InlineKeyboardButton("🦠", callback_data="compare_finish_cases-normalized"),
         InlineKeyboardButton("📊", callback_data="compare_finish_cases"),
+        InlineKeyboardButton("🦠🖇", callback_data="compare_finish_acum14-cases-normalized"),
         InlineKeyboardButton("🗂", callback_data="compare_finish_cases-logarithmic"),
         # InlineKeyboardButton("✅", callback_data="s_" + region + "_recovered"),
         InlineKeyboardButton("❌", callback_data="compare_finish_deceased-normalized"),
