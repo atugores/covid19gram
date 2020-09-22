@@ -182,6 +182,8 @@ def get_label(region='total-world', language='en'):
         label += _('__Data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__'
     elif scope == 'france':
         label += _('__Data source from__') + ' __[OpenCOVID19-fr](https://github.com/opencovid19-fr)__'
+    elif scope == 'austria':
+        label += _('__Data source from__') + ' __[Daniel Breus](https://github.com/Daniel-Breuss/covid-data-austria)__'
     return label
 
 
@@ -208,7 +210,7 @@ def get_caption(region, plot_type="daily_cases", language="en", scope=False):
         title = _('Hospitalization evolution at {region}').format(region=flaged_region)
     elif plot_type == "active_recovered_deceased":
         title = _('Active cases, recovered and deceased at {region}').format(region=flaged_region)
-        if region in cplt.get_regions('italy') or region == 'total-france':
+        if region in cplt.get_regions('italy') or region == 'total-france' or region in cplt.get_regions('austria'):
             title = _('Active cases, hospitalized, recovered and deceased at {region}').format(region=_(region))
         elif region in cplt.get_regions('france'):
             title = _('Currently hospitalized, recovered and deceased at {region}').format(region=_(region))
@@ -473,12 +475,11 @@ def b_conf(user_id, language="en"):
     _ = translations[language].gettext
     lang_dicc = {'en': '⚫️', 'es': '⚫️', 'ca': '⚫️', 'it': '⚫️'}
     lang_dicc[language] = '🔵'
-    buttons = {'gl': '⚫️', 'es': '⚫️', 'it': '⚫️', 'fr': '⚫️'}
-    btn_status = {'gl': 'on', 'es': 'on', 'it': 'on', 'fr': 'on'}
+    buttons = {'gl': '⚫️', 'es': '⚫️', 'it': '⚫️', 'fr': '⚫️', 'at': '⚫️'}
+    btn_status = {'gl': 'on', 'es': 'on', 'it': 'on', 'fr': 'on', 'at': 'on'}
     for button in dbhd.get_buttons(user_id):
         buttons[button] = '🔵'
         btn_status[button] = 'off'
-    cb_estat = 'on'
     notificacions = dbhd.get_notifications(user_id)
     emj_notf = ['🔵' if x == 1 else '⚫️' for x in notificacions]
     cb_estat = ['off' if x == 1 else 'on' for x in notificacions]
@@ -493,6 +494,9 @@ def b_conf(user_id, language="en"):
         [
             InlineKeyboardButton(emj_notf[2] + " " + _("🇮🇹Italy"), callback_data="notf_italy_" + cb_estat[2]),
             InlineKeyboardButton(emj_notf[3] + " " + _("🇫🇷France"), callback_data="notf_france_" + cb_estat[3]),
+        ],
+        [
+            InlineKeyboardButton(emj_notf[4] + " " + _("🇦🇹Austria"), callback_data="notf_austria_" + cb_estat[4]),
         ],
         [
             InlineKeyboardButton(_("Choose Language"), callback_data="blank")
@@ -515,7 +519,10 @@ def b_conf(user_id, language="en"):
         [
             InlineKeyboardButton(buttons['it'] + " " + _("🇮🇹Italy"), callback_data=f"button_{btn_status['it']}_it"),
             InlineKeyboardButton(buttons['fr'] + " " + _("🇫🇷France"), callback_data=f"button_{btn_status['fr']}_fr"),
-        ]
+        ],
+        [
+            InlineKeyboardButton(buttons['at'] + " " + _("🇦🇹Austria"), callback_data=f"button_{btn_status['at']}_at"),
+        ],
     ])
 
 
@@ -525,7 +532,8 @@ def b_start(user_id, language="en"):
         'gl': _("🌐Global"),
         'es': _("🇪🇸Spain"),
         'it': _("🇮🇹Italy"),
-        'fr': _("🇫🇷France")
+        'fr': _("🇫🇷France"),
+        'at': _("🇦🇹Austria")
     }
     buttons = dbhd.get_buttons(user_id)
     scopes = []
@@ -722,6 +730,7 @@ async def send_notifications():
         'spain': _('🇪🇸Spain data updated'),
         'italy': _('🇮🇹Italy data updated'),
         'france': _('🇫🇷France data updated'),
+        'autria': _('🇦🇹Austria data updated'),
     }
     for scope in cplt.SCOPES:
         if scope != 'france' and updated[scope]:
@@ -751,6 +760,11 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         btns = b_regions('italy', language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='cases', scope="italy", language=language)
+        await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
+    elif comm == "austria":
+        btns = b_regions('austria', language=language)
+        caption = _("Choose a Region")
+        flname = cplt.generate_scope_plot(plot_type='cases', scope="austria", language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
     elif comm == "france":
         btns = b_regions('france', language=language)
@@ -846,6 +860,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n'
         about += "🗂" + _('__Italy data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__\n'
         about += "🗂" + _('__France data source from__') + ' __[OpenCOVID19-fr](https://opencovid19.fr)__\n'
+        about += "🗂" + _('__Austria data source from__') + ' __[covid-data-austria](https://github.com/Daniel-Breuss/covid-data-austria)__\n'
         about += '\n'
         about += _("**Contact**") + '\n'
         about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)" + "\n"
@@ -879,6 +894,8 @@ async def g_request(client, message):
         await DoBot("italy", "", client, message, language)
     elif message.text == _("🇫🇷France"):
         await DoBot("france", "", client, message, language)
+    elif message.text == _("🇦🇹Austria"):
+        await DoBot("austria", "", client, message, language)
     elif message.text == _("⚙️Conf."):
         btns = b_conf(user_id, language)
         await client.send_message(chat, _("⚙️ **Configuration:**"), reply_markup=btns)

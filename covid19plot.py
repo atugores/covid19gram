@@ -88,6 +88,7 @@ class COVID19Plot(object):
         'spain',
         'italy',
         'france',
+        'austria',
         'world'
     ]
 
@@ -1169,6 +1170,10 @@ class COVID19Plot(object):
             ds_name = 'JHU CSSE'
             ds_url = "https://github.com/pomber/covid19"
             ds_credits = _("Data source from {ds_name} through Pomber's JSON API (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
+        elif scope == 'austria':
+            ds_name = 'covid-data-austria'
+            ds_url = "https://github.com/Daniel-Breuss/covid-data-austria"
+            ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         elif scope == 'italy':
             ds_name = 'Ministero della Salute (Italia)'
             ds_url = "https://github.com/pcm-dpc/COVID-19"

@@ -44,6 +44,13 @@ SCOPES = {
             'dist/chiffres-cles.csv'
         ]
     },
+    'austria': {
+        'base_directory': 'external-data/austria',
+        'repo_url': 'https://github.com/Daniel-Breuss/covid-data-austria',
+        'watch': [
+            'austriadata.json'
+        ]
+    },
 }
 
 
@@ -81,6 +88,11 @@ def get_or_generate_input_files(scope, data_directory="data/"):
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
+
+    if scope in ['austria']:
+        generate_austria_file(data_directory)
+        base_directory = SCOPES[scope]['base_directory']
+        return [data_directory + scope + '_data.csv']
 
     if scope == 'spain':
         generate_spain_cases_file(data_directory)
@@ -250,6 +262,33 @@ def generate_spain_deceased_file(data_directory):
     return
 
 
+def generate_austria_file(data_directory):
+    """
+    The file austriadata.json
+    has all de information of a date on the same row for all regions.
+    We have to convert the data to a region per row.
+    """
+    base_directory = SCOPES['austria']['base_directory']
+    json_all_regions = base_directory + "/" + SCOPES['austria']['watch'][0]
+    regions = ["Wien", "Niederösterreich", "Oberösterreich", "Steiermark", "Tirol", "Kärnten", "Salzburg", "Vorarlberg", "Burgenland"]
+    reg_code = {"Wien": 1, "Niederösterreich": 2, "Oberösterreich": 3, "Steiermark": 4, "Tirol": 5, "Kärnten": 6, "Salzburg": 7, "Vorarlberg": 7, "Burgenland": 8, "total-austria": 0}
+    text = "date,region_code,region,cases,deceased,hospitalized,recovered\n"
+    with open(json_all_regions) as json_file:
+        data = json.load(json_file)
+        for p in data:
+            if p["Tote_v1"]:
+                text += "{},0,total-austria,{},{},{},{}\n".format(p['Datum'], p['Fälle_gesamt'], p["Tote_v1"], p["Hospitalisiert"], p["Genesene"])
+            else:
+                text += "{},0,total-austria,{},0,0,0\n".format(p['Datum'], p['Fälle_gesamt'])
+            for region in regions:
+                text += "{},{},{},{},{},{},{}\n".format(p['Datum'], reg_code[region], region, p[region], p[region + "_Tote"], p[region + "_Spital"], p[region + "_Genesene"])
+
+    outF = open(data_directory + "austria_data.csv", "w")
+    outF.writelines(text)
+    outF.close()
+    return
+
+
 def generate_covidgram_dataset(scope, files, data_directory):
     csv_cases = None
     csv_recovered = None
@@ -369,7 +408,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             pop_df.set_index('country_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
-        elif scope in ['italy', 'france']:
+        elif scope in ['italy', 'france', 'austria']:
             pop_df.set_index('region_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2020-05-17 17:50+0000\n"
+"POT-Creation-Date: 2020-09-22 09:36+0000\n"
 "PO-Revision-Date: 2020-04-05 11:55+CEST\n"
 "Last-Translator: antonia <antoniatugores@gmail.com>\n"
 "Language-Team: antonia <antoniatugores@gmail.com>\n"
@@ -18,1640 +18,1692 @@ msgstr ""
 "Domain: messages\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: ./covid.py:925
+#: covid.py:945
 msgid "**Announcement:**"
 msgstr "**Comunicazione:**"
 
-#: ./covid.py:823
+#: covid.py:840
 msgid "**Chart Buttons**"
 msgstr "**Pulsanti dei Grafici**"
 
-#: ./covid.py:850
+#: covid.py:868
 msgid "**Code availability**"
 msgstr "**Codice disponibile**"
 
-#: ./covid.py:847
+#: covid.py:865
 msgid "**Contact**"
 msgstr "**Contatti**"
 
-#: ./covid.py:840
+#: covid.py:857
 msgid "**Data Sources**"
 msgstr "**Fonte dei Dati**"
 
-#: ./covid.py:819
+#: covid.py:836
 msgid "**Your subscriptions:**"
 msgstr "**I tuoi abbonamenti:**"
 
-#: ./covid19plot.py:401
+#: covid19plot.py:416
 msgid "*Data obtained from the analysis of reported cases with available information on age and sex."
 msgstr "*Dati ottenuti dall'analisi dei casi segnalati con le informazioni disponibili su età e sesso."
 
-#: ./covid19plot.py:436
+#: covid19plot.py:451
 msgid "Active"
 msgstr "Attivi"
 
-#: ./covid19plot.py:364
+#: covid19plot.py:379
 msgid "Active cases"
 msgstr "Casi attivi"
 
-#: ./covid.py:214
-#: ./covid19plot.py:507
+#: covid.py:218
+#: covid19plot.py:522
 msgid "Active cases at {region}"
 msgstr "Casi attivi per {region}"
 
-#: ./covid19plot.py:876
+#: covid19plot.py:915
 msgid "Active cases per 100k inhabitants"
 msgstr "Casi attivi per 100k abitanti"
 
-#: ./covid.py:833
+#: covid.py:850
 msgid "Active cases per region"
 msgstr "Casi attivi per regione"
 
-#: ./covid.py:210
+#: covid.py:214
 msgid "Active cases, hospitalized, recovered and deceased at {region}"
 msgstr "Casi attivi, ospedalizzato, guariti e deceduti in {region}"
 
-#: ./covid.py:825
+#: covid.py:842
 msgid "Active cases, recovered and deceased"
 msgstr "Casi attivi, guariti e deceduti"
 
-#: ./covid.py:208
-#: ./covid19plot.py:480
+#: covid.py:212
+#: covid19plot.py:495
 msgid "Active cases, recovered and deceased at {region}"
 msgstr "Casi attivi, guariti e deceduti in {region}"
 
-#: ./covid.py:216
-#: ./covid19plot.py:513
+#: covid.py:220
+#: covid19plot.py:528
 msgid "Active hospitalizations at {region}"
 msgstr "Ospedalizzati in {region}"
 
-#: ./covid19plot.py:492
+#: covid19plot.py:507
 msgid "Active, hospitalized, recovered and deceased at {region}"
 msgstr "Attivi, ospedalizzato, guariti e deceduti in {region}"
 
-#: ./covid.py:355
+#: covid.py:359
 msgid "Add region to compare"
 msgstr "Aggiungi una regione per confronto"
 
-#: ./covid.py:832
+#: covid.py:849
 msgid "Additional buttons. Top 20s for 🌐Global and detailed Spain scopes"
 msgstr "Pulsanti aggiuntivi. Top 20 per gli ambiti 🌐Globali e Italia per regione"
 
-#: ./regions_translate.py:34
+#: regions_translate.py:44
 msgid "Afghanistan"
 msgstr "Afghanistan"
 
-#: ./regions_translate.py:37
+#: regions_translate.py:47
 msgid "Albania"
 msgstr "Albania"
 
-#: ./regions_translate.py:94
+#: regions_translate.py:104
 msgid "Algeria"
 msgstr "Algeria"
 
-#: ./regions_translate.py:42
+#: regions_translate.py:52
 msgid "American Samoa"
 msgstr "Samoa Americana"
 
-#: ./regions_translate.py:7
+#: regions_translate.py:7
 msgid "Andalucía"
 msgstr "Andalusia"
 
-#: ./regions_translate.py:32
+#: regions_translate.py:42
 msgid "Andorra"
 msgstr "Andorra"
 
-#: ./regions_translate.py:39
+#: regions_translate.py:49
 msgid "Angola"
 msgstr "Angola"
 
-#: ./regions_translate.py:36
+#: regions_translate.py:46
 msgid "Anguilla"
 msgstr "Anguila"
 
-#: ./regions_translate.py:40
+#: regions_translate.py:50
 msgid "Antarctica"
 msgstr "Antartide"
 
-#: ./regions_translate.py:35
+#: regions_translate.py:45
 msgid "Antigua and Barbuda"
 msgstr "Antigua e Barbuda"
 
-#: ./regions_translate.py:8
+#: regions_translate.py:8
 msgid "Aragón"
 msgstr "Aragón"
 
-#: ./regions_translate.py:41
+#: regions_translate.py:51
 msgid "Argentina"
 msgstr "Argentina"
 
-#: ./regions_translate.py:38
+#: regions_translate.py:48
 msgid "Armenia"
 msgstr "Armenia"
 
-#: ./regions_translate.py:45
+#: regions_translate.py:55
 msgid "Aruba"
 msgstr "Aruba"
 
-#: ./regions_translate.py:9
+#: regions_translate.py:9
 msgid "Asturias"
 msgstr "Asturie"
 
-#: ./regions_translate.py:44
+#: regions_translate.py:54
 msgid "Australia"
 msgstr "Australia"
 
-#: ./regions_translate.py:43
+#: regions_translate.py:53
 msgid "Austria"
 msgstr "Austria"
 
-#: ./regions_translate.py:47
+#: regions_translate.py:57
 msgid "Azerbaijan"
 msgstr "Azerbaijan"
 
-#: ./regions_translate.py:63
+#: regions_translate.py:73
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: ./regions_translate.py:54
+#: regions_translate.py:64
 msgid "Bahrain"
 msgstr "Bahrein"
 
-#: ./regions_translate.py:10
+#: regions_translate.py:10
 msgid "Baleares"
 msgstr "Isole Baleari"
 
-#: ./regions_translate.py:50
+#: regions_translate.py:60
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-#: ./regions_translate.py:49
+#: regions_translate.py:59
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ./regions_translate.py:67
+#: regions_translate.py:77
 msgid "Belarus"
 msgstr "Bielorussia"
 
-#: ./regions_translate.py:51
+#: regions_translate.py:61
 msgid "Belgium"
 msgstr "Belgio"
 
-#: ./regions_translate.py:68
+#: regions_translate.py:78
 msgid "Belize"
 msgstr "Belize"
 
-#: ./regions_translate.py:56
+#: regions_translate.py:66
 msgid "Benin"
 msgstr "Benin"
 
-#: ./regions_translate.py:58
+#: regions_translate.py:68
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: ./regions_translate.py:64
+#: regions_translate.py:74
 msgid "Bhutan"
 msgstr "Bhutan"
 
-#: ./regions_translate.py:60
+#: regions_translate.py:70
 msgid "Bolivia"
 msgstr "Bolivia"
 
-#: ./regions_translate.py:61
+#: regions_translate.py:71
 msgid "Bonaire, Sint Eustatius and Saba"
 msgstr "Bonaire, San Eustachio e Saba"
 
-#: ./regions_translate.py:48
+#: regions_translate.py:58
 msgid "Bosnia and Herzegovina"
 msgstr "Bosnia e Herzegovina"
 
-#: ./regions_translate.py:66
+#: regions_translate.py:76
 msgid "Botswana"
 msgstr "Botswana"
 
-#: ./regions_translate.py:65
+#: regions_translate.py:75
 msgid "Bouvet Island"
 msgstr "Bouvet"
 
-#: ./regions_translate.py:62
+#: regions_translate.py:72
 msgid "Brazil"
 msgstr "Brasile"
 
-#: ./regions_translate.py:139
+#: regions_translate.py:149
 msgid "British Indian Ocean Territory"
 msgstr "Territorio Britannico dell'Oceano Indiano"
 
-#: ./regions_translate.py:59
+#: regions_translate.py:69
 msgid "Brunei"
 msgstr "Brunei"
 
-#: ./regions_translate.py:53
+#: regions_translate.py:63
 msgid "Bulgaria"
 msgstr "Bulgaria"
 
-#: ./regions_translate.py:52
+#: regions_translate.py:38
+msgid "Burgenland"
+msgstr "Burgenland"
+
+#: regions_translate.py:62
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: ./regions_translate.py:179
+#: regions_translate.py:189
 msgid "Burma"
 msgstr "Myanmar"
 
-#: ./regions_translate.py:55
+#: regions_translate.py:65
 msgid "Burundi"
 msgstr "Burundi"
 
-#: ./covid.py:1013
+#: covid.py:1035
 msgid "Buttons updated"
 msgstr "Pulsanti aggiornati"
 
-#: ./regions_translate.py:17
+#: regions_translate.py:17
 msgid "C. Valenciana"
 msgstr "C. Valenciana"
 
-#: ./covid.py:231
+#: covid.py:235
 msgid "COVID-19 status at {region}"
 msgstr "Situazione del COVID-19 in {region}"
 
-#: ./regions_translate.py:83
+#: regions_translate.py:93
 msgid "Cabo Verde"
 msgstr "Capo Verde"
 
-#: ./regions_translate.py:150
+#: regions_translate.py:160
 msgid "Cambodia"
 msgstr "Cambogia"
 
-#: ./regions_translate.py:78
+#: regions_translate.py:88
 msgid "Cameroon"
 msgstr "Camerun"
 
-#: ./regions_translate.py:69
+#: regions_translate.py:79
 msgid "Canada"
 msgstr "Canada"
 
-#: ./regions_translate.py:11
+#: regions_translate.py:11
 msgid "Canarias"
 msgstr "Isole Canarie"
 
-#: ./regions_translate.py:12
+#: regions_translate.py:12
 msgid "Cantabria"
 msgstr "Cantabria"
 
-#: ./covid.py:824
+#: covid.py:841
 msgid "Case increase"
 msgstr "Aumento dei casi"
 
-#: ./covid19plot.py:359
+#: covid19plot.py:374
 msgid "Case-fatality rate"
 msgstr "Tasso di letalità"
 
-#: ./covid19plot.py:457
+#: covid19plot.py:472
 msgid "Cases"
 msgstr "Casi"
 
-#: ./covid.py:225
+#: covid.py:229
 msgid "Cases (Deaths) by age:"
 msgstr "Casi (decessi) per età"
 
-#: ./covid19plot.py:687
+#: covid19plot.py:726
 msgid "Cases by age"
 msgstr "Casi per età"
 
-#: ./covid.py:204
-#: ./covid19plot.py:456
+#: covid.py:208
+#: covid19plot.py:471
 msgid "Cases increase at {region}"
 msgstr "Incremento dei casi in {region}"
 
-#: ./covid19plot.py:415
+#: covid19plot.py:430
 msgid "Cases per 100k inhabitants"
 msgstr "Casi ogni 100k abitanti"
 
-#: ./covid19plot.py:548
+#: covid19plot.py:563
 msgid "Cases per 100k inhabitants at {region}"
 msgstr "Casi ogni 100k abitanti in {region}"
 
-#: ./covid.py:834
+#: covid.py:851
 msgid "Cases rate per 100K inhabitants"
 msgstr "Percentuale di casi ogni 100k abitanti"
 
-#: ./covid19plot.py:630
+#: covid19plot.py:669
 msgid "Cases, Logarithmic Scale"
 msgstr "Casi, scala logaritmica"
 
-#: ./regions_translate.py:14
+#: regions_translate.py:14
 msgid "Castilla y León"
 msgstr "Castilla y León"
 
-#: ./regions_translate.py:13
+#: regions_translate.py:13
 msgid "Castilla-La Mancha"
 msgstr "Castilla-La Mancha"
 
-#: ./regions_translate.py:15
+#: regions_translate.py:15
 msgid "Cataluña"
 msgstr "Catalogna"
 
-#: ./regions_translate.py:157
+#: regions_translate.py:167
 msgid "Cayman Islands"
 msgstr "Isole Caiman"
 
-#: ./regions_translate.py:72
+#: regions_translate.py:82
 msgid "Central African Republic"
 msgstr "Repubblica Centroafricana"
 
-#: ./regions_translate.py:16
+#: regions_translate.py:16
 msgid "Ceuta"
 msgstr "Ceuta"
 
-#: ./regions_translate.py:248
+#: regions_translate.py:258
 msgid "Chad"
 msgstr "Chad"
 
-#: ./regions_translate.py:77
+#: regions_translate.py:87
 msgid "Chile"
 msgstr "Cile"
 
-#: ./regions_translate.py:79
+#: regions_translate.py:89
 msgid "China"
 msgstr "Cina"
 
-#: ./covid.py:495
+#: covid.py:502
 msgid "Choose Language"
 msgstr "Scegli una lingua"
 
-#: ./covid.py:749
+#: covid.py:761
 msgid "Choose a Region"
 msgstr "Scegli una regione"
 
-#: ./covid.py:990
+#: covid.py:1012
 msgid "Choose a Region to compare with "
 msgstr "Scegli una regione da confrontare con "
 
-#: ./regions_translate.py:85
+#: regions_translate.py:95
 msgid "Christmas Island"
 msgstr "Isola di Natale"
 
-#: ./regions_translate.py:70
+#: regions_translate.py:80
 msgid "Cocos (Keeling) Islands"
 msgstr "Isole Cocos (Keeling)"
 
-#: ./regions_translate.py:80
+#: regions_translate.py:90
 msgid "Colombia"
 msgstr "Colombia"
 
-#: ./regions_translate.py:152
+#: regions_translate.py:162
 msgid "Comoros"
 msgstr "Comoras"
 
-#: ./covid.py:689
+#: covid.py:700
 msgid "Comparison of cases in "
 msgstr "Confronto tra i casi in "
 
-#: ./regions_translate.py:73
+#: regions_translate.py:83
 msgid "Congo (Brazzaville)"
 msgstr "Repubblica del Congo"
 
-#: ./regions_translate.py:71
+#: regions_translate.py:81
 msgid "Congo (Kinshasa)"
 msgstr "Repubblica Democratica del Congo"
 
-#: ./regions_translate.py:76
+#: regions_translate.py:86
 msgid "Cook Islands"
 msgstr "Isole Cook"
 
-#: ./regions_translate.py:81
+#: regions_translate.py:91
 msgid "Costa Rica"
 msgstr "Costarica"
 
-#: ./regions_translate.py:75
+#: regions_translate.py:85
 msgid "Cote d'Ivoire"
 msgstr "Costa d'Avorio"
 
-#: ./covid19plot.py:992
+#: covid19plot.py:1032
 msgid "Countries with more than 1,000 cases"
 msgstr "Paesi con più di 1,000 casi"
 
-#: ./regions_translate.py:131
+#: regions_translate.py:141
 msgid "Croatia"
 msgstr "Croazia"
 
-#: ./regions_translate.py:93
+#: regions_translate.py:103
 msgid "Cruise Ship"
 msgstr "Nave da crociera"
 
-#: ./regions_translate.py:82
+#: regions_translate.py:92
 msgid "Cuba"
 msgstr "Cuba"
 
-#: ./covid.py:826
-#: ./covid19plot.py:314
+#: covid.py:843
+#: covid19plot.py:329
 msgid "Cumulative cases"
 msgstr "Casi registrati"
 
-#: ./covid.py:218
-#: ./covid19plot.py:520
+#: covid.py:222
+#: covid19plot.py:535
 msgid "Cumulative cases at {region}"
 msgstr "Casi registrati in {region}"
 
-#: ./covid19plot.py:888
+#: covid19plot.py:633
 msgid "Cumulative incidence (14 days/100k inhabitants)"
 msgstr "Incidenza cumulativa"
 
-#: ./covid19plot.py:885
+#: covid19plot.py:924
 msgid "Cumulative incidence of deceased (14 days/100k inhabitants)"
 msgstr "Incidenza cumulativa di deceduti (14 giorni/100k abitanti)"
 
-#: ./covid19plot.py:891
+#: covid19plot.py:645
 msgid "Cumulative incidence of hospitalizations (14 days/100k inhabitants)"
 msgstr "Incidenza cumulativa di ospedalizzato (14 giorni/100k abitanti)"
 
-#: ./regions_translate.py:84
+#: regions_translate.py:94
 msgid "Curaçao"
 msgstr "Curazao"
 
-#: ./covid19plot.py:490
+#: covid19plot.py:505
 msgid "Curr. hospitalized, recovered & deceased at {region}"
 msgstr "At. ospedalizzato, guariti e deceduti in {region}"
 
-#: ./covid19plot.py:322
+#: covid19plot.py:337
 msgid "Currently hospitalized"
 msgstr "Attualmente ospedalizzato"
 
-#: ./covid.py:212
+#: covid.py:216
 msgid "Currently hospitalized, recovered and deceased at {region}"
 msgstr "Attualmente ospedalizzato, guariti e deceduti in {region}"
 
-#: ./covid19plot.py:345
+#: covid19plot.py:360
 msgid "Currently infected"
 msgstr "Contagiati attuali"
 
-#: ./regions_translate.py:86
+#: regions_translate.py:96
 msgid "Cyprus"
 msgstr "Cipro"
 
-#: ./regions_translate.py:87
+#: regions_translate.py:97
 msgid "Czechia"
 msgstr "Repubblica Ceca"
 
-#: ./covid19plot.py:820
+#: covid19plot.py:859
 msgid "DEATHS"
 msgstr "DECESSI"
 
-#: ./covid19plot.py:474
+#: covid19plot.py:489
 msgid "Daily deaths"
 msgstr "Numero di decessi giornalieri"
 
-#: ./covid.py:828
+#: covid.py:845
 msgid "Daily deaths evolution"
 msgstr "Evoluzione del numero dei decessi giornalieri"
 
-#: ./covid19plot.py:472
+#: covid19plot.py:487
 msgid "Daily deaths evolution at {region}"
 msgstr "Evoluzione del numero dei decessi giornalieri in {region}"
 
-#: ./covid19plot.py:458
+#: covid19plot.py:473
 msgid "Daily increment"
 msgstr "Incremento giornaliero"
 
-#: ./covid19plot.py:1128
+#: covid19plot.py:1168
 msgid "Data source from {ds_name} (see {ds_url})"
 msgstr "Dati da {ds_name} (ver {ds_url})"
 
-#: ./covid19plot.py:1132
+#: covid19plot.py:1172
 msgid "Data source from {ds_name} through Pomber's JSON API (see {ds_url})"
 msgstr "Dati da {ds_name} attraverso la API JSON di Pomber (ver {ds_url})"
 
-#: ./covid19plot.py:473
+#: covid19plot.py:488
 msgid "Deaths"
 msgstr "Decessi"
 
-#: ./covid.py:227
-#: ./covid19plot.py:542
+#: covid.py:231
+#: covid19plot.py:557
 msgid "Deaths evolution at {region}"
 msgstr "Evoluzione dei decessi per {region}"
 
-#: ./covid19plot.py:332
+#: covid19plot.py:347
 msgid "Deaths on last day"
 msgstr "Decessi nell'ultimo giorno"
 
-#: ./covid19plot.py:335
+#: covid19plot.py:350
 msgid "Deaths rolling avg (3 days)"
 msgstr "Media mobile del numero dei decessi (3 giorni)"
 
-#: ./covid19plot.py:354
+#: covid19plot.py:369
 msgid "Deceased"
 msgstr "Decessi"
 
-#: ./covid19plot.py:656
+#: covid19plot.py:695
 msgid "Deceased per 100k inhabitants"
 msgstr "Decessi ogni 100k abitanti"
 
-#: ./covid.py:836
+#: covid.py:853
 msgid "Deceased rate per 100K inhabitants"
 msgstr "Percentuale di decessi ogni 100k abitanti"
 
-#: ./regions_translate.py:90
+#: regions_translate.py:100
 msgid "Denmark"
 msgstr "Danimarca"
 
-#: ./regions_translate.py:89
+#: regions_translate.py:99
 msgid "Djibouti"
 msgstr "Gibuti"
 
-#: ./regions_translate.py:91
+#: regions_translate.py:101
 msgid "Dominica"
 msgstr "Repubblica Dominicana"
 
-#: ./regions_translate.py:92
+#: regions_translate.py:102
 msgid "Dominican Republic"
 msgstr "Repubblica Dominicana"
 
-#: ./covid.py:317
+#: covid.py:321
 msgid "Done"
 msgstr "Fatto"
 
-#: ./regions_translate.py:95
+#: regions_translate.py:105
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: ./regions_translate.py:97
+#: regions_translate.py:107
 msgid "Egypt"
 msgstr "Egitto"
 
-#: ./regions_translate.py:243
+#: regions_translate.py:253
 msgid "El Salvador"
 msgstr "El Salvador"
 
-#: ./regions_translate.py:121
+#: regions_translate.py:131
 msgid "Equatorial Guinea"
 msgstr "Guinea Equatoriale"
 
-#: ./regions_translate.py:99
+#: regions_translate.py:109
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: ./regions_translate.py:96
+#: regions_translate.py:106
 msgid "Estonia"
 msgstr "Estonia"
 
-#: ./regions_translate.py:246
+#: regions_translate.py:256
 msgid "Eswatini"
 msgstr "Eswatini"
 
-#: ./regions_translate.py:101
+#: regions_translate.py:111
 msgid "Ethiopia"
 msgstr "Etiopia"
 
-#: ./regions_translate.py:102
+#: regions_translate.py:112
 msgid "European Union"
 msgstr "Unione Europea"
 
-#: ./regions_translate.py:18
+#: regions_translate.py:18
 msgid "Extremadura"
 msgstr "Estremadura"
 
-#: ./regions_translate.py:105
+#: regions_translate.py:115
 msgid "Falkland Islands (Malvinas)"
 msgstr "Isole Falkland"
 
-#: ./regions_translate.py:107
+#: regions_translate.py:117
 msgid "Faroe Islands"
 msgstr "Isole Faroer"
 
-#: ./regions_translate.py:104
+#: regions_translate.py:114
 msgid "Fiji"
 msgstr "Fiyi"
 
-#: ./regions_translate.py:103
+#: regions_translate.py:113
 msgid "Finland"
 msgstr "Finlandia"
 
-#: ./covid19plot.py:264
+#: covid19plot.py:273
 msgid "First region not found in any scope"
 msgstr "Prima regione non trovata in nessun ambito"
 
-#: ./regions_translate.py:108
+#: regions_translate.py:118
 msgid "France"
 msgstr "Francia"
 
-#: ./regions_translate.py:113
+#: regions_translate.py:123
 msgid "French Guiana"
 msgstr "Guayana Francese"
 
-#: ./regions_translate.py:208
+#: regions_translate.py:218
 msgid "French Polynesia"
 msgstr "Polinesia Francese"
 
-#: ./regions_translate.py:249
+#: regions_translate.py:259
 msgid "French Southern Territories"
 msgstr "Territori Australi e Antartici Francesi"
 
-#: ./covid19plot.py:441
+#: covid19plot.py:456
 msgid "From 19/04/2020, the accumulated cases are those detected by PCR test."
 msgstr "Al 19/04/2020, i casi accumulati sono quelli rilevati dai test PCR."
 
-#: ./regions_translate.py:109
+#: regions_translate.py:119
 msgid "Gabon"
 msgstr "Gabon"
 
-#: ./regions_translate.py:19
+#: regions_translate.py:19
 msgid "Galicia"
 msgstr "Galizia"
 
-#: ./regions_translate.py:118
+#: regions_translate.py:128
 msgid "Gambia"
 msgstr "Gambia"
 
-#: ./covid19plot.py:1143
+#: covid19plot.py:1187
 msgid "Generated by COVID19gram (telegram bot)"
 msgstr "Generato da COVID19gram (telegram bot)"
 
-#: ./covid.py:956
+#: covid.py:976
 msgid "Generating all plots, it may take some time."
 msgstr "Generando i grafici, potrebbe metterci un po' di tempo"
 
-#: ./regions_translate.py:112
+#: regions_translate.py:122
 msgid "Georgia"
 msgstr "Georgia"
 
-#: ./regions_translate.py:88
+#: regions_translate.py:98
 msgid "Germany"
 msgstr "Germania"
 
-#: ./regions_translate.py:115
+#: regions_translate.py:125
 msgid "Ghana"
 msgstr "Ghana"
 
-#: ./regions_translate.py:116
+#: regions_translate.py:126
 msgid "Gibraltar"
 msgstr "Gibilterra"
 
-#: ./covid.py:293
+#: covid.py:297
 msgid "Global"
 msgstr "Globale"
 
-#: ./regions_translate.py:122
+#: regions_translate.py:132
 msgid "Greece"
 msgstr "Grecia"
 
-#: ./regions_translate.py:117
+#: regions_translate.py:127
 msgid "Greenland"
 msgstr "Groenlandia"
 
-#: ./regions_translate.py:111
+#: regions_translate.py:121
 msgid "Grenada"
 msgstr "Granada"
 
-#: ./regions_translate.py:120
+#: regions_translate.py:130
 msgid "Guadeloupe"
 msgstr "Guadalupe"
 
-#: ./regions_translate.py:125
+#: regions_translate.py:135
 msgid "Guam"
 msgstr "Guam"
 
-#: ./regions_translate.py:124
+#: regions_translate.py:134
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: ./regions_translate.py:114
+#: regions_translate.py:124
 msgid "Guernsey"
 msgstr "Guernsey"
 
-#: ./regions_translate.py:119
+#: regions_translate.py:129
 msgid "Guinea"
 msgstr "Guinea"
 
-#: ./regions_translate.py:126
+#: regions_translate.py:136
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bissau"
 
-#: ./regions_translate.py:127
+#: regions_translate.py:137
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ./regions_translate.py:132
+#: regions_translate.py:142
 msgid "Haiti"
 msgstr "Haití"
 
-#: ./regions_translate.py:129
+#: regions_translate.py:139
 msgid "Heard Island and Mcdonald Islands"
 msgstr "Isole Heard e McDonald"
 
-#: ./regions_translate.py:269
+#: regions_translate.py:279
 msgid "Holy See"
 msgstr "Santa Sede"
 
-#: ./regions_translate.py:130
+#: regions_translate.py:140
 msgid "Honduras"
 msgstr "Honduras"
 
-#: ./regions_translate.py:128
+#: regions_translate.py:138
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: ./covid.py:206
-#: ./covid19plot.py:464
+#: covid.py:210
+#: covid19plot.py:479
 msgid "Hospitalization evolution at {region}"
 msgstr "Evoluzione del ricovero in ospedale in {region}"
 
-#: ./covid19plot.py:465
+#: covid19plot.py:480
 msgid "Hospitalizations"
 msgstr "Ospedalizzazioni"
 
-#: ./covid19plot.py:526
+#: covid19plot.py:541
 msgid "Hospitalizations at {region}"
 msgstr "Ospedalizzazioni in {region}"
 
-#: ./covid19plot.py:594
+#: covid19plot.py:609
 msgid "Hospitalizations per 100k inhabitants"
 msgstr "Ricoveri ospedalieri per 100k abitanti"
 
-#: ./covid19plot.py:554
+#: covid19plot.py:569
 msgid "Hospitalizations per 100k inhabitants at {region}"
 msgstr "Ospedalizzazioni ogni 100k abitanti in {region}"
 
-#: ./covid19plot.py:643
+#: covid19plot.py:682
 msgid "Hospitalizations, Logarithmic Scale"
 msgstr "Ospedalizzazioni, scala logaritmica"
 
-#: ./covid19plot.py:324
+#: covid19plot.py:339
 msgid "Hospitalized evolution on last day"
 msgstr "Evoluzione in ospedalizzazione l'ultimo giorno"
 
-#: ./regions_translate.py:133
+#: regions_translate.py:143
 msgid "Hungary"
 msgstr "Ungheria"
 
-#: ./regions_translate.py:142
+#: regions_translate.py:152
 msgid "Iceland"
 msgstr "Islanda"
 
-#: ./covid19plot.py:319
+#: covid19plot.py:334
 msgid "Increment rolling avg (3 days)"
 msgstr "Media mobile dell'incremento giornaliero (3 giorni)"
 
-#: ./regions_translate.py:138
+#: regions_translate.py:148
 msgid "India"
 msgstr "India"
 
-#: ./regions_translate.py:134
+#: regions_translate.py:144
 msgid "Indonesia"
 msgstr "Indonesia"
 
-#: ./covid19plot.py:438
+#: covid19plot.py:453
 msgid "Information on last available data"
 msgstr "Informazioni all'ultima data disponibile"
 
-#: ./regions_translate.py:141
+#: regions_translate.py:151
 msgid "Iran"
 msgstr "Iran"
 
-#: ./regions_translate.py:140
+#: regions_translate.py:150
 msgid "Iraq"
 msgstr "Iraq"
 
-#: ./regions_translate.py:135
+#: regions_translate.py:145
 msgid "Ireland"
 msgstr "Irlanda"
 
-#: ./regions_translate.py:137
+#: regions_translate.py:147
 msgid "Isle of Man"
 msgstr "Isola di Man"
 
-#: ./regions_translate.py:136
+#: regions_translate.py:146
 msgid "Israel"
 msgstr "Israele"
 
-#: ./regions_translate.py:143
+#: regions_translate.py:153
 msgid "Italy"
 msgstr "Italia"
 
-#: ./regions_translate.py:145
+#: regions_translate.py:155
 msgid "Jamaica"
 msgstr "Giamaica"
 
-#: ./regions_translate.py:147
+#: regions_translate.py:157
 msgid "Japan"
 msgstr "Giappone"
 
-#: ./regions_translate.py:144
+#: regions_translate.py:154
 msgid "Jersey"
 msgstr "Jersey"
 
-#: ./regions_translate.py:146
+#: regions_translate.py:156
 msgid "Jordan"
 msgstr "Giordania"
 
-#: ./regions_translate.py:158
+#: regions_translate.py:168
 msgid "Kazakhstan"
 msgstr "Kazakhistan"
 
-#: ./regions_translate.py:148
+#: regions_translate.py:158
 msgid "Kenya"
 msgstr "Kenia"
 
-#: ./regions_translate.py:151
+#: regions_translate.py:161
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: ./regions_translate.py:154
+#: regions_translate.py:164
 msgid "Korea South"
 msgstr "Corea del Sud"
 
-#: ./regions_translate.py:278
+#: regions_translate.py:288
 msgid "Kosovo"
 msgstr "Kosovo"
 
-#: ./regions_translate.py:156
+#: regions_translate.py:166
 msgid "Kuwait"
 msgstr "Kuwait"
 
-#: ./regions_translate.py:149
+#: regions_translate.py:159
 msgid "Kyrgyzstan"
 msgstr "Kyrgyzstan"
 
-#: ./regions_translate.py:25
+#: regions_translate.py:35
+msgid "Kärnten"
+msgstr "Carinzia"
+
+#: regions_translate.py:25
 msgid "La Rioja"
 msgstr "La Rioja"
 
-#: ./regions_translate.py:159
+#: regions_translate.py:169
 msgid "Laos"
 msgstr "Laos"
 
-#: ./covid19plot.py:316
+#: covid19plot.py:331
 msgid "Last day increment"
 msgstr "Incremento dell'ultimo giorno"
 
-#: ./regions_translate.py:168
+#: regions_translate.py:178
 msgid "Latvia"
 msgstr "Lettonia"
 
-#: ./regions_translate.py:160
+#: regions_translate.py:170
 msgid "Lebanon"
 msgstr "Libano"
 
-#: ./regions_translate.py:165
+#: regions_translate.py:175
 msgid "Lesotho"
 msgstr "Lesoto"
 
-#: ./regions_translate.py:164
+#: regions_translate.py:174
 msgid "Liberia"
 msgstr "Liberia"
 
-#: ./regions_translate.py:169
+#: regions_translate.py:179
 msgid "Libya"
 msgstr "Libia"
 
-#: ./regions_translate.py:162
+#: regions_translate.py:172
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ./regions_translate.py:166
+#: regions_translate.py:176
 msgid "Lithuania"
 msgstr "Lituania"
 
-#: ./regions_translate.py:167
+#: regions_translate.py:177
 msgid "Luxembourg"
 msgstr "Lussemburgo"
 
-#: ./covid19plot.py:724
+#: covid19plot.py:763
 msgid "MEN"
 msgstr "UOMINI"
 
-#: ./regions_translate.py:286
+#: regions_translate.py:296
 msgid "MS Zaandam"
 msgstr "MS Zaandam"
 
-#: ./regions_translate.py:181
+#: regions_translate.py:191
 msgid "Macao"
 msgstr "Macao"
 
-#: ./regions_translate.py:175
+#: regions_translate.py:185
 msgid "Madagascar"
 msgstr "Madagascar"
 
-#: ./regions_translate.py:20
+#: regions_translate.py:20
 msgid "Madrid"
 msgstr "Madrid"
 
-#: ./regions_translate.py:189
+#: regions_translate.py:199
 msgid "Malawi"
 msgstr "Malaui"
 
-#: ./regions_translate.py:191
+#: regions_translate.py:201
 msgid "Malaysia"
 msgstr "Malesia"
 
-#: ./regions_translate.py:188
+#: regions_translate.py:198
 msgid "Maldives"
 msgstr "Maldive"
 
-#: ./regions_translate.py:178
+#: regions_translate.py:188
 msgid "Mali"
 msgstr "Mali"
 
-#: ./regions_translate.py:186
+#: regions_translate.py:196
 msgid "Malta"
 msgstr "Malta"
 
-#: ./regions_translate.py:176
+#: regions_translate.py:186
 msgid "Marshall Islands"
 msgstr "Isole Marshall"
 
-#: ./regions_translate.py:183
+#: regions_translate.py:193
 msgid "Martinique"
 msgstr "Martinica"
 
-#: ./regions_translate.py:184
+#: regions_translate.py:194
 msgid "Mauritania"
 msgstr "Mauritania"
 
-#: ./regions_translate.py:187
+#: regions_translate.py:197
 msgid "Mauritius"
 msgstr "Mauritius"
 
-#: ./regions_translate.py:280
+#: regions_translate.py:290
 msgid "Mayotte"
 msgstr "Mayotte"
 
-#: ./regions_translate.py:21
+#: regions_translate.py:21
 msgid "Melilla"
 msgstr "Melilla"
 
-#: ./regions_translate.py:190
+#: regions_translate.py:200
 msgid "Mexico"
 msgstr "Messico"
 
-#: ./regions_translate.py:106
+#: regions_translate.py:116
 msgid "Micronesia"
 msgstr "Micronesia"
 
-#: ./regions_translate.py:172
+#: regions_translate.py:182
 msgid "Moldova"
 msgstr "Moldavia"
 
-#: ./regions_translate.py:171
+#: regions_translate.py:181
 msgid "Monaco"
 msgstr "Monaco"
 
-#: ./regions_translate.py:180
+#: regions_translate.py:190
 msgid "Mongolia"
 msgstr "Mongolia"
 
-#: ./regions_translate.py:173
+#: regions_translate.py:183
 msgid "Montenegro"
 msgstr "Montenegro"
 
-#: ./regions_translate.py:185
+#: regions_translate.py:195
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: ./regions_translate.py:170
+#: regions_translate.py:180
 msgid "Morocco"
 msgstr "Marocco"
 
-#: ./regions_translate.py:192
+#: regions_translate.py:202
 msgid "Mozambique"
 msgstr "Mozambico"
 
-#: ./regions_translate.py:22
+#: regions_translate.py:22
 msgid "Murcia"
 msgstr "Murcia"
 
-#: ./covid19plot.py:814
+#: covid19plot.py:853
 msgid "NEW CASES"
 msgstr "NUOVI CASI"
 
-#: ./regions_translate.py:193
+#: regions_translate.py:203
 msgid "Namibia"
 msgstr "Namibia"
 
-#: ./covid19plot.py:987
+#: covid19plot.py:1027
 msgid "National average"
 msgstr "Media nazionale"
 
-#: ./regions_translate.py:202
+#: regions_translate.py:212
 msgid "Nauru"
 msgstr "Nauru"
 
-#: ./regions_translate.py:23
+#: regions_translate.py:23
 msgid "Navarra"
 msgstr "Navarra"
 
-#: ./regions_translate.py:201
+#: regions_translate.py:211
 msgid "Nepal"
 msgstr "Nepal"
 
-#: ./regions_translate.py:199
+#: regions_translate.py:209
 msgid "Netherlands"
 msgstr "Paesi Bassi"
 
-#: ./regions_translate.py:194
+#: regions_translate.py:204
 msgid "New Caledonia"
 msgstr "Nuova Caledonia"
 
-#: ./regions_translate.py:204
+#: regions_translate.py:214
 msgid "New Zealand"
 msgstr "Nuova Zelanda"
 
-#: ./covid19plot.py:905
+#: covid19plot.py:944
 msgid "New cases per 100k inhabitants"
 msgstr "Nuovi casi ogni 100k abitanti"
 
-#: ./covid.py:835
+#: covid.py:852
 msgid "New cases rate per 100K inhabitants"
 msgstr "Percentuale di nuovi casi ogni 100k abitanti"
 
-#: ./covid19plot.py:882
+#: covid19plot.py:921
 msgid "New daily cases per 100k inhabitants"
 msgstr "Nuovi casi ogni 100k abitanti"
 
-#: ./covid19plot.py:914
+#: covid19plot.py:953
 msgid "New deceased per 100k inhabitants"
 msgstr "Nuovi decessi ogni 100k abitanti"
 
-#: ./covid.py:837
+#: covid.py:854
 msgid "New deceased rate per 100K inhabitants"
 msgstr "Percentuale di nuovi decessi ogni 100k abitanti"
 
-#: ./covid19plot.py:908
+#: covid19plot.py:947
 msgid "New hospitalizations per 100k inhabitants"
 msgstr "Nuovi ospitalizzazioni ogni 100k abitanti"
 
-#: ./regions_translate.py:198
+#: regions_translate.py:208
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: ./regions_translate.py:195
+#: regions_translate.py:31
+msgid "Niederösterreich"
+msgstr "Bassa Austria"
+
+#: regions_translate.py:205
 msgid "Niger"
 msgstr "Niger"
 
-#: ./regions_translate.py:197
+#: regions_translate.py:207
 msgid "Nigeria"
 msgstr "Nigeria"
 
-#: ./regions_translate.py:203
+#: regions_translate.py:213
 msgid "Niue"
 msgstr "Niue"
 
-#: ./covid19plot.py:260
+#: covid19plot.py:269
 msgid "No regions given to generate a multiregion plot"
 msgstr "Non ci sono regioni per generare il grafico a più regioni"
 
-#: ./covid.py:806
+#: covid.py:823
 msgid "No results for `{param}`"
 msgstr "Non ci sono risultati per `{param}`"
 
-#: ./regions_translate.py:196
+#: regions_translate.py:206
 msgid "Norfolk Island"
 msgstr "Isola Norfolk"
 
-#: ./regions_translate.py:177
+#: regions_translate.py:187
 msgid "North Macedonia"
 msgstr "Macedonia del Nord"
 
-#: ./regions_translate.py:182
+#: regions_translate.py:192
 msgid "Northern Mariana Islands"
 msgstr "Isole Marianas del Nord"
 
-#: ./regions_translate.py:200
+#: regions_translate.py:210
 msgid "Norway"
 msgstr "Norvegia"
 
-#: ./covid.py:484
+#: covid.py:488
 msgid "Notify me of updates to"
 msgstr "Notificami della presenza di aggiornamenti per"
 
-#: ./regions_translate.py:205
+#: regions_translate.py:32
+msgid "Oberösterreich"
+msgstr "Alta Austria"
+
+#: regions_translate.py:215
 msgid "Oman"
 msgstr "Oman"
 
-#: ./regions_translate.py:211
+#: regions_translate.py:221
 msgid "Pakistan"
 msgstr "Pakistan"
 
-#: ./regions_translate.py:218
+#: regions_translate.py:228
 msgid "Palau"
 msgstr "Palaos"
 
-#: ./regions_translate.py:216
+#: regions_translate.py:226
 msgid "Palestine"
 msgstr "Palestina"
 
-#: ./regions_translate.py:206
+#: regions_translate.py:216
 msgid "Panama"
 msgstr "Panama"
 
-#: ./regions_translate.py:209
+#: regions_translate.py:219
 msgid "Papua New Guinea"
 msgstr "Papúa Nuova Guinea"
 
-#: ./regions_translate.py:219
+#: regions_translate.py:229
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ./regions_translate.py:24
+#: regions_translate.py:24
 msgid "País Vasco"
 msgstr "Paesi Baschi"
 
-#: ./regions_translate.py:207
+#: regions_translate.py:217
 msgid "Peru"
 msgstr "Perú"
 
-#: ./regions_translate.py:210
+#: regions_translate.py:220
 msgid "Philippines"
 msgstr "Filippine"
 
-#: ./regions_translate.py:214
+#: regions_translate.py:224
 msgid "Pitcairn"
 msgstr "Pitcairn"
 
-#: ./covid19plot.py:203
+#: covid19plot.py:206
 msgid "Plot type is not recognized"
 msgstr "Tipo di grafico non riconosciuto"
 
-#: ./regions_translate.py:212
+#: regions_translate.py:222
 msgid "Poland"
 msgstr "Polonia"
 
-#: ./regions_translate.py:217
+#: regions_translate.py:227
 msgid "Portugal"
 msgstr "Portogallo"
 
-#: ./regions_translate.py:215
+#: regions_translate.py:225
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
-#: ./regions_translate.py:220
+#: regions_translate.py:230
 msgid "Qatar"
 msgstr "Qatar"
 
-#: ./covid19plot.py:352
+#: covid19plot.py:367
 msgid "Recovered"
 msgstr "Guariti"
 
-#: ./covid.py:827
-#: ./covid19plot.py:538
+#: covid.py:844
+#: covid19plot.py:553
 msgid "Recovered cases"
 msgstr "Guariti"
 
-#: ./covid.py:222
-#: ./covid19plot.py:536
+#: covid.py:226
+#: covid19plot.py:551
 msgid "Recovered cases at {region}"
 msgstr "Guariti in {region}"
 
-#: ./covid19plot.py:190
+#: covid19plot.py:193
 msgid "Region not found in any scope"
 msgstr "Regione non trovata in nessun ambito"
 
-#: ./covid19plot.py:268
+#: covid19plot.py:277
 msgid "Region {region} not found in first region scope ({region_scope})"
 msgstr "Regione {region} non trovata nell'ambito della prima regione ({region_scope})"
 
-#: ./regions_translate.py:222
+#: regions_translate.py:232
 msgid "Romania"
 msgstr "Romania"
 
-#: ./regions_translate.py:224
+#: regions_translate.py:234
 msgid "Russia"
 msgstr "Russia"
 
-#: ./regions_translate.py:225
+#: regions_translate.py:235
 msgid "Rwanda"
 msgstr "Ruanda"
 
-#: ./regions_translate.py:221
+#: regions_translate.py:231
 msgid "Réunion"
 msgstr "Reunión"
 
-#: ./regions_translate.py:57
+#: regions_translate.py:67
 msgid "Saint Barthélemy"
 msgstr "San Bartolomeo"
 
-#: ./regions_translate.py:232
+#: regions_translate.py:242
 msgid "Saint Helena, Ascension and Tristan Da Cunha"
 msgstr "Sant'Elena, Ascensione e Tristan de Acuña"
 
-#: ./regions_translate.py:153
+#: regions_translate.py:163
 msgid "Saint Kitts and Nevis"
 msgstr "San Cristobal e Nieves"
 
-#: ./regions_translate.py:161
+#: regions_translate.py:171
 msgid "Saint Lucia"
 msgstr "Santa Lucia"
 
-#: ./regions_translate.py:174
+#: regions_translate.py:184
 msgid "Saint Martin (French Part)"
 msgstr "San Martín (Francia)"
 
-#: ./regions_translate.py:213
+#: regions_translate.py:223
 msgid "Saint Pierre and Miquelon"
 msgstr "San Pedro e Miquelón"
 
-#: ./regions_translate.py:270
+#: regions_translate.py:280
 msgid "Saint Vincent and the Grenadines"
 msgstr "San Vicente e las Granadinas"
 
-#: ./regions_translate.py:277
+#: regions_translate.py:36
+msgid "Salzburg"
+msgstr "Salisburgo"
+
+#: regions_translate.py:287
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ./regions_translate.py:237
+#: regions_translate.py:247
 msgid "San Marino"
 msgstr "San Marino"
 
-#: ./regions_translate.py:242
+#: regions_translate.py:252
 msgid "Sao Tome and Principe"
 msgstr "San Tomé e Príncipe"
 
-#: ./regions_translate.py:226
+#: regions_translate.py:236
 msgid "Saudi Arabia"
 msgstr "Arabia Saudita"
 
-#: ./covid.py:895
+#: covid.py:915
 msgid "Search results for `{param}`"
 msgstr "Risultati per `{param}`"
 
-#: ./covid.py:354
+#: covid.py:358
 msgid "Send all plots"
 msgstr "Invia tutto"
 
-#: ./covid.py:829
+#: covid.py:846
 msgid "Send all plots as an album"
 msgstr "Invia tutti i grafici come un album"
 
-#: ./regions_translate.py:238
+#: regions_translate.py:248
 msgid "Senegal"
 msgstr "Senegal"
 
-#: ./regions_translate.py:223
+#: regions_translate.py:233
 msgid "Serbia"
 msgstr "Serbia"
 
-#: ./regions_translate.py:228
+#: regions_translate.py:238
 msgid "Seychelles"
 msgstr "Seychelles"
 
-#: ./covid.py:506
+#: covid.py:513
 msgid "Show buttons for:"
 msgstr "Mostra i pulsanti per:"
 
-#: ./regions_translate.py:236
+#: regions_translate.py:246
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: ./regions_translate.py:231
+#: regions_translate.py:241
 msgid "Singapore"
 msgstr "Singapore"
 
-#: ./regions_translate.py:244
+#: regions_translate.py:254
 msgid "Sint Maarten (Dutch Part)"
 msgstr "Isola de San Martín (Paesi Baschi)"
 
-#: ./regions_translate.py:235
+#: regions_translate.py:245
 msgid "Slovakia"
 msgstr "Slovacchia"
 
-#: ./regions_translate.py:233
+#: regions_translate.py:243
 msgid "Slovenia"
 msgstr "Slovenia"
 
-#: ./regions_translate.py:227
+#: regions_translate.py:237
 msgid "Solomon Islands"
 msgstr "Isole Salomón"
 
-#: ./regions_translate.py:239
+#: regions_translate.py:249
 msgid "Somalia"
 msgstr "Somalia"
 
-#: ./covid.py:851
+#: covid.py:869
 msgid "Source code available soon."
 msgstr "Codice sorgente disponibile a breve."
 
-#: ./regions_translate.py:281
+#: regions_translate.py:291
 msgid "South Africa"
 msgstr "Sudafrica"
 
-#: ./regions_translate.py:123
+#: regions_translate.py:133
 msgid "South Georgia"
 msgstr "Georgia del Sud"
 
-#: ./regions_translate.py:155
+#: regions_translate.py:165
 msgid "South Korea"
 msgstr "Corea del Sud"
 
-#: ./regions_translate.py:241
+#: regions_translate.py:251
 msgid "South Sudan"
 msgstr "Sudan del Sud"
 
-#: ./regions_translate.py:100
+#: regions_translate.py:110
 msgid "Spain"
 msgstr "Spagna"
 
-#: ./regions_translate.py:163
+#: regions_translate.py:173
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: ./regions_translate.py:229
+#: regions_translate.py:33
+msgid "Steiermark"
+msgstr "Stiria"
+
+#: regions_translate.py:239
 msgid "Sudan"
 msgstr "Sudan"
 
-#: ./regions_translate.py:240
+#: regions_translate.py:250
 msgid "Suriname"
 msgstr "Suriname"
 
-#: ./regions_translate.py:234
+#: regions_translate.py:244
 msgid "Svalbard and Jan Mayen"
 msgstr "Svalbard e Jan Mayen"
 
-#: ./regions_translate.py:230
+#: regions_translate.py:240
 msgid "Sweden"
 msgstr "Svezia"
 
-#: ./regions_translate.py:74
+#: regions_translate.py:84
 msgid "Switzerland"
 msgstr "Svizzera"
 
-#: ./regions_translate.py:245
+#: regions_translate.py:255
 msgid "Syria"
 msgstr "Siria"
 
-#: ./regions_translate.py:261
+#: regions_translate.py:271
 msgid "Taiwan*"
 msgstr "Taiwan"
 
-#: ./regions_translate.py:252
+#: regions_translate.py:262
 msgid "Tajikistan"
 msgstr "Tajikistan"
 
-#: ./regions_translate.py:262
+#: regions_translate.py:272
 msgid "Tanzania"
 msgstr "Tanzania"
 
-#: ./regions_translate.py:251
+#: regions_translate.py:261
 msgid "Thailand"
 msgstr "Tailandia"
 
-#: ./regions_translate.py:254
+#: regions_translate.py:264
 msgid "Timor-Leste"
 msgstr "Timor Est"
 
-#: ./regions_translate.py:250
+#: regions_translate.py:34
+msgid "Tirol"
+msgstr "Tirolo"
+
+#: regions_translate.py:260
 msgid "Togo"
 msgstr "Togo"
 
-#: ./regions_translate.py:253
+#: regions_translate.py:263
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: ./regions_translate.py:257
+#: regions_translate.py:267
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ./covid19plot.py:399
+#: covid19plot.py:414
 msgid "Total"
 msgstr "Totale"
 
-#: ./covid19plot.py:343
+#: covid19plot.py:358
 msgid "Total cases"
 msgstr "Casi totali"
 
-#: ./covid19plot.py:330
+#: covid19plot.py:345
 msgid "Total deceased"
 msgstr "Totale decessi"
 
-#: ./regions_translate.py:259
+#: regions_translate.py:269
 msgid "Trinidad and Tobago"
 msgstr "Trinidad e Tobago"
 
-#: ./regions_translate.py:256
+#: regions_translate.py:266
 msgid "Tunisia"
 msgstr "Tunisia"
 
-#: ./regions_translate.py:258
+#: regions_translate.py:268
 msgid "Turkey"
 msgstr "Turchia"
 
-#: ./regions_translate.py:255
+#: regions_translate.py:265
 msgid "Turkmenistan"
 msgstr "Turkmenistan"
 
-#: ./regions_translate.py:247
+#: regions_translate.py:257
 msgid "Turks and Caicos Islands"
 msgstr "Isole Turks e Caicos"
 
-#: ./regions_translate.py:260
+#: regions_translate.py:270
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: ./regions_translate.py:266
+#: regions_translate.py:276
 msgid "US"
 msgstr "Stati Uniti d'America"
 
-#: ./regions_translate.py:264
+#: regions_translate.py:274
 msgid "Uganda"
 msgstr "Uganda"
 
-#: ./regions_translate.py:263
+#: regions_translate.py:273
 msgid "Ukraine"
 msgstr "Ucraina"
 
-#: ./regions_translate.py:33
+#: regions_translate.py:43
 msgid "United Arab Emirates"
 msgstr "Emirati Arabi Uniti"
 
-#: ./regions_translate.py:110
+#: regions_translate.py:120
 msgid "United Kingdom"
 msgstr "Regno Unito"
 
-#: ./regions_translate.py:265
+#: regions_translate.py:275
 msgid "United States Minor Outlying Islands"
 msgstr "United States Minor Outlying Islands"
 
-#: ./regions_translate.py:267
+#: regions_translate.py:277
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ./regions_translate.py:268
+#: regions_translate.py:278
 msgid "Uzbekistan"
 msgstr "Uzbekistan"
 
-#: ./regions_translate.py:275
+#: regions_translate.py:285
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: ./regions_translate.py:271
+#: regions_translate.py:281
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ./regions_translate.py:274
+#: regions_translate.py:284
 msgid "Vietnam"
 msgstr "Vietnam"
 
-#: ./regions_translate.py:272
+#: regions_translate.py:282
 msgid "Virgin Islands, British"
 msgstr "Isole Vergini Britanniche"
 
-#: ./regions_translate.py:273
+#: regions_translate.py:283
 msgid "Virgin Islands, U.S."
 msgstr "Isole Vergini (USA)"
 
-#: ./covid19plot.py:727
+#: regions_translate.py:37
+msgid "Vorarlberg"
+msgstr "Vorarlberg"
+
+#: covid19plot.py:766
 msgid "WOMEN"
 msgstr "DONNES"
 
-#: ./regions_translate.py:276
+#: regions_translate.py:286
 msgid "Wallis and Futuna"
 msgstr "Wallis e Futuna"
 
-#: ./regions_translate.py:284
+#: regions_translate.py:294
 msgid "West Bank and Gaza"
 msgstr "Palestina"
 
-#: ./regions_translate.py:98
+#: regions_translate.py:108
 msgid "Western Sahara"
 msgstr "Sahara Occidentale"
 
-#: ./regions_translate.py:279
+#: regions_translate.py:30
+msgid "Wien"
+msgstr "Vienna"
+
+#: regions_translate.py:289
 msgid "Yemen"
 msgstr "Yemen"
 
-#: ./covid.py:848
+#: covid.py:866
 msgid "You can contact us using"
 msgstr "Puoi contattarci usando"
 
-#: ./covid.py:816
+#: covid.py:833
 msgid "You have no subscription"
 msgstr "Non hai abbonamenti"
 
-#: ./covid.py:1017
+#: covid.py:1039
 msgid "You must select at least one button"
 msgstr "È necessario selezionare almeno un pulsante"
 
-#: ./covid.py:1004
+#: covid.py:1026
 msgid "Your language is now English"
 msgstr "Hai scelto italiano"
 
-#: ./regions_translate.py:282
+#: regions_translate.py:292
 msgid "Zambia"
 msgstr "Zambia"
 
-#: ./regions_translate.py:283
+#: regions_translate.py:293
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ./covid.py:176
+#: covid.py:863
+msgid "__Austria data source from__"
+msgstr "__Fonte dati per l'Austria da__"
+
+#: covid.py:178
 msgid "__Data source from__"
 msgstr "__Fonte dei dati:__"
 
-#: ./covid.py:845
+#: covid.py:862
 msgid "__France data source from__"
 msgstr "__Fonte dati per l'Francia da__"
 
-#: ./covid.py:173
+#: covid.py:175
 msgid "__Generated by [COVID19gram](t.me/COVID19gram_bot)__"
 msgstr "__Generato da [COVID19gram](t.me/COVID19gram_bot)__"
 
-#: ./covid.py:844
+#: covid.py:861
 msgid "__Italy data source from__"
 msgstr "__Fonte dati per l'Italia da__"
 
-#: ./covid.py:841
+#: covid.py:858
 msgid "__Spain data source from__"
 msgstr "__Fonte dati per l'Spagna da__"
 
-#: ./covid.py:842
+#: covid.py:859
 msgid "__World data source from__"
 msgstr "__Fonte dati mondiale da__"
 
-#: ./covid.py:843
+#: covid.py:860
 msgid "__transformed to JSON by__"
 msgstr "__trasformato in JSON da__"
 
-#: ./covid19plot.py:396
+#: covid19plot.py:411
 msgid "case-fatality rate"
 msgstr "tasso di letalità"
 
-#: ./covid19plot.py:424
+#: covid19plot.py:439
 msgid "per 100k inhabitants"
 msgstr "ogni 100k abitanti"
 
-#: ./regions_translate.py:28
+#: regions_translate.py:29
+msgid "total-austria"
+msgstr "Austria (Total)"
+
+#: regions_translate.py:28
 msgid "total-france"
 msgstr "Francia (Totale)"
 
-#: ./regions_translate.py:27
+#: regions_translate.py:27
 msgid "total-italy"
 msgstr "Italia (Totale)"
 
-#: ./regions_translate.py:26
+#: regions_translate.py:26
 msgid "total-spain"
 msgstr "Spagna (Totale)"
 
-#: ./regions_translate.py:285
+#: regions_translate.py:295
 msgid "total-world"
 msgstr "Globale"
 
-#: ./covid19plot.py:397
+#: covid19plot.py:412
 msgid "y"
 msgstr "e"
 
-#: ./regions_translate.py:46
+#: regions_translate.py:56
 msgid "Åland Islands"
 msgstr "Isole Åland"
 
-#: ./covid.py:881
+#: covid.py:901
 msgid "⚙️ **Configuration:**"
 msgstr "⚙️ **Configurazione:**"
 
-#: ./covid.py:534
+#: covid.py:545
 msgid "⚙️Conf."
 msgstr "⚙️Conf."
 
-#: ./covid.py:746
+#: covid.py:758
 msgid "⚙️Main Menu"
 msgstr "⚙️Inizio"
 
-#: ./covid.py:534
+#: covid.py:545
 msgid "❓About"
 msgstr "❓Informazioni"
 
-#: ./covid.py:274
+#: covid.py:278
 msgid "⬅️Back"
 msgstr "⬅️Indietro"
 
-#: ./covid.py:488
+#: covid.py:499
+msgid "🇦🇹Austria"
+msgstr "🇦🇹Austria"
+
+#: covid.py:733
+msgid "🇦🇹Austria data updated"
+msgstr "Dati aggiornati in 🇦🇹Austria"
+
+#: covid.py:492
 msgid "🇪🇸Spain"
 msgstr "🇪🇸Spagna"
 
-#: ./covid.py:719
+#: covid.py:730
 msgid "🇪🇸Spain data updated"
 msgstr "Dati aggiornati in 🇪🇸Spagna"
 
-#: ./covid.py:492
+#: covid.py:496
 msgid "🇫🇷France"
 msgstr "🇫🇷Francia"
 
-#: ./covid.py:721
+#: covid.py:732
 msgid "🇫🇷France data updated"
 msgstr "Dati aggiornati in 🇫🇷France"
 
-#: ./covid.py:491
+#: covid.py:495
 msgid "🇮🇹Italy"
 msgstr "🇮🇹Italia"
 
-#: ./covid.py:720
+#: covid.py:731
 msgid "🇮🇹Italy data updated"
 msgstr "Dati aggiornati in 🇮🇹Italia"
 
-#: ./covid.py:487
+#: covid.py:491
 msgid "🌐Global"
 msgstr "🌐Globale"
 
-#: ./covid.py:718
+#: covid.py:729
 msgid "🌐Global data updated"
 msgstr "Dati aggiornati in 🌐Global"
 
-#: ./covid.py:534
+#: covid.py:545
 msgid "💛FAVs"
 msgstr "💛FAVs"

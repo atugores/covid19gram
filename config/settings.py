@@ -30,7 +30,8 @@ class DBHandler:
         n_spain tinyint(1) NOT NULL DEFAULT '0',
         n_italy tinyint(1) NOT NULL DEFAULT '0',
         n_france tinyint(1) NOT NULL DEFAULT '0',
-        botons set('gl','es','it','fr') NOT NULL DEFAULT 'gl,es,it'
+        n_austria tinyint(1) NOT NULL DEFAULT '0',
+        botons set('gl','es','it','fr','at') NOT NULL DEFAULT 'gl,es,it'
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
         ALTER TABLE hashImage
@@ -46,7 +47,7 @@ class DBHandler:
         MODIFY id int(11) NOT NULL AUTO_INCREMENT;
     """
 
-    SCOPES = ['gl', 'es', 'it', 'fr']
+    SCOPES = ['gl', 'es', 'it', 'fr', 'at']
 
     _conn = None
     _cur = None
@@ -80,7 +81,7 @@ class DBHandler:
         self._cur.execute(sql)
 
     def get_notifications(self, user_id):
-        sql = f'SELECT n_world, n_spain, n_italy, n_france FROM users WHERE tg_id = {user_id}'
+        sql = f'SELECT n_world, n_spain, n_italy, n_france, n_austria FROM users WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
         notifications = self._cur.fetchone()
@@ -237,7 +238,7 @@ class DBHandler:
         return f"**User stats ({total})**\n" + text
 
     async def status_notifications(self):
-        sql = f"SELECT 'world', COUNT(*) FROM users WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM users WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM users WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM users WHERE n_france=1"
+        sql = f"SELECT 'world', COUNT(*) FROM users WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM users WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM users WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM users WHERE n_france=1 UNION SELECT 'austria', COUNT(*) FROM users WHERE n_austria=1"
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()

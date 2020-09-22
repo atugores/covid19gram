@@ -25,7 +25,17 @@ REGIONS = {
     'La Rioja': _('La Rioja'),
     'total-spain': _('total-spain'),
     'total-italy': _('total-italy'),
-    'total-france': _('total-france')
+    'total-france': _('total-france'),
+    'total-austria': _('total-austria'),
+    'Wien': _('Wien'),
+    'Niederösterreich': _('Niederösterreich'),
+    'Oberösterreich': _('Oberösterreich'),
+    'Steiermark': _('Steiermark'),
+    'Tirol': _('Tirol'),
+    'Kärnten': _('Kärnten'),
+    'Salzburg': _('Salzburg'),
+    'Vorarlberg': _('Vorarlberg'),
+    'Burgenland': _('Burgenland')
 }
 
 COUNTRIES = {
