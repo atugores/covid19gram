@@ -271,7 +271,7 @@ def generate_austria_file(data_directory):
     base_directory = SCOPES['austria']['base_directory']
     json_all_regions = base_directory + "/" + SCOPES['austria']['watch'][0]
     regions = ["Wien", "Niederösterreich", "Oberösterreich", "Steiermark", "Tirol", "Kärnten", "Salzburg", "Vorarlberg", "Burgenland"]
-    reg_code = {"Wien": 1, "Niederösterreich": 2, "Oberösterreich": 3, "Steiermark": 4, "Tirol": 5, "Kärnten": 6, "Salzburg": 7, "Vorarlberg": 7, "Burgenland": 8, "total-austria": 0}
+    reg_code = {"Wien": 1, "Niederösterreich": 2, "Oberösterreich": 3, "Steiermark": 4, "Tirol": 5, "Kärnten": 6, "Salzburg": 7, "Vorarlberg": 8, "Burgenland": 9, "total-austria": 0}
     text = "date,region_code,region,cases,deceased,hospitalized,recovered\n"
     with open(json_all_regions) as json_file:
         data = json.load(json_file)
