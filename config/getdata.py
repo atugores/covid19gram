@@ -568,18 +568,18 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
         for fname in filenames:
             with open(fname) as json_file:
                 d = json.load(json_file)
-
-            for dates in d['dates']:
-                for scope in scopes:
-                    if scope in has_country:
-                        dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions',)
-                        dfr.drop(columns=['sub_regions', ], inplace=True)
-                        dfc[scope] = dfc[scope].append(dfr, ignore_index=True)
-                    else:
-                        dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions')
-                        dfr.drop(columns=['sub_regions', ], inplace=True)
-                        dfc[scope] = dfr
-                        has_country.append(scope)
+            if 'error' not in d:
+                for dates in d['dates']:
+                    for scope in scopes:
+                        if scope in has_country:
+                            dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions',)
+                            dfr.drop(columns=['sub_regions', ], inplace=True)
+                            dfc[scope] = dfc[scope].append(dfr, ignore_index=True)
+                        else:
+                            dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions')
+                            dfr.drop(columns=['sub_regions', ], inplace=True)
+                            dfc[scope] = dfr
+                            has_country.append(scope)
 
         # date,name,id,source,today_confirmed,today_deaths,today_new_confirmed,today_new_deaths,today_new_open_cases,today_new_recovered,today_new_tests,today_new_total_hospitalised_patients,today_open_cases,today_recovered,today_tests,today_total_hospitalised_patients,today_vs_yesterday_confirmed,today_vs_yesterday_deaths,today_vs_yesterday_open_cases,today_vs_yesterday_recovered,today_vs_yesterday_tests,today_vs_yesterday_total_hospitalised_patients,yesterday_confirmed,yesterday_deaths,yesterday_open_cases,yesterday_recovered,yesterday_tests,yesterday_total_hospitalised_patients
         for scope in scopes:
