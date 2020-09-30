@@ -86,16 +86,17 @@ def update_scope_data(scope, data_directory="data/", force=False):
 
 
 def update_api_scope_data(day, ini_scopes, base_directory):
-    filename = f'{base_directory}/dapi{day}.json'
+    filename = f'{base_directory}dapi{day}.json'
     scopes = []
     with open(filename) as json_file:
         d = json.load(json_file)
-    for country in d['dates'][day]['countries']:
-        if country in ini_scopes:
-            df = pd.json_normalize(d['dates'][day]['countries'][country], record_path='regions')
-            lastupdates = df['date'].unique()
-            if day in lastupdates:
-                scopes.append(country)
+    if 'error' not in d:
+        for country in d['dates'][day]['countries']:
+            if country in ini_scopes:
+                df = pd.json_normalize(d['dates'][day]['countries'][country], record_path='regions')
+                lastupdates = df['date'].unique()
+                if day in lastupdates:
+                    scopes.append(country)
     return scopes
 
 
