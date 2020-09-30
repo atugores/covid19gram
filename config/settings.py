@@ -251,7 +251,7 @@ class DBHandler:
         sql = "SELECT 'world', COUNT(*) FROM users WHERE FIND_IN_SET('world',notifications)>0"
         for scope in self.NSCOPES:
             if scope not in ['none', 'world']:
-                sql += f" UNION SELECT '{scope}', COUNT(*) FROM users WHERE FIND_IN_SET('{scope}'notifications)>0"
+                sql += f" UNION SELECT '{scope}', COUNT(*) FROM users WHERE FIND_IN_SET('{scope}',notifications)>0"
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
