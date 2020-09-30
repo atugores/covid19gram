@@ -530,7 +530,7 @@ countries = {
   },
   "Liberia": {
     "flag": "🇱🇷",
-    #"code": "LR"
+    "code": "LR"
   },
   "Lesotho": {
     "flag": "🇱🇸",

@@ -6,8 +6,10 @@ myvenv
 /.vscode
 __pycache__
 .directory
+.env
 covid19
 covid19bot.session*
 external-data
 data/*
 !data/*_population.csv
+!data/maps/*/*.*

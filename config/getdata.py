@@ -8,9 +8,10 @@ import numpy as np
 import os
 from shutil import copy2
 import logging
-import sys
+import glob
+import requests
 
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 SCOPES = {
     'world': {
@@ -58,6 +59,7 @@ def update_data(force=False):
     updated = {}
     for scope in SCOPES.keys():
         updated[scope] = update_scope_data(scope, force=force)
+    updated.update(generate_covidgram_dataset_from_api(force=force))
     return updated
 
 
@@ -73,14 +75,28 @@ def status_data():
 
 
 def update_scope_data(scope, data_directory="data/", force=False):
-    logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Start update data for " + scope)
+    logging.info("Start update data for " + scope)
     if not repository_has_changes(scope, data_directory) and not force:
-        logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". No changes in repository")
+        logging.info("Finish update data for " + scope + ". No changes in repository")
         return False
     input_files = get_or_generate_input_files(scope, data_directory)
     generate_covidgram_dataset(scope, input_files, data_directory)
-    logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] " + "Finish update data for " + scope + ". New file created")
+    logging.info("Finish update data for " + scope + ". New file created")
     return True
+
+
+def update_api_scope_data(day, ini_scopes, base_directory):
+    filename = f'{base_directory}/dapi{day}.json'
+    scopes = []
+    with open(filename) as json_file:
+        d = json.load(json_file)
+    for country in d['dates'][day]['countries']:
+        if country in ini_scopes:
+            df = pd.json_normalize(d['dates'][day]['countries'][country], record_path='regions')
+            lastupdates = df['date'].unique()
+            if day in lastupdates:
+                scopes.append(country)
+    return scopes
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
@@ -234,10 +250,12 @@ def generate_spain_cases_file(data_directory):
     cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
     cases_df.sort_index(inplace=True)
     cases_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
-    cases_df['total'] = cases_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
+    cases_df['total_pcr'] = cases_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
+    cases_df['total_desc'] = cases_df.groupby(['CCAA'])['num_casos_prueba_desconocida'].cumsum()
+    cases_df['total'] = cases_df['total_pcr'] + cases_df['total_desc']
     cases_df.drop(columns=[
         'num_casos', 'num_casos_prueba_pcr', 'num_casos_prueba_test_ac',
-        'num_casos_prueba_otras', 'num_casos_prueba_desconocida'], inplace=True)
+        'num_casos_prueba_otras', 'num_casos_prueba_desconocida', 'total_pcr', 'total_desc'], inplace=True)
     cases_df.to_csv(data_directory + 'spain_cases.csv')
     return
 
@@ -446,6 +464,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['increase_cases_per_100k'] = 0.0
     df['rolling_cases'] = 0.0
     df['rolling_cases_per_100k'] = 0.0
+    df['Rt'] = 0.0
+    df['epg'] = 0.0
     df['acum14_cases'] = 0.0
     df['acum14_cases_per_100k'] = 0.0
     df['acum14_hosp'] = 0.0
@@ -471,6 +491,14 @@ def generate_covidgram_dataset(scope, files, data_directory):
         rolling = increase.rolling(window=14).sum()
         df['acum14_cases'].mask(df.region == region, rolling, inplace=True)
         df['acum14_cases_per_100k'] = df['acum14_cases'] * 100_000 / df['population']
+        # EPG
+        p = increase.rolling(3).sum() / (increase.rolling(7).sum() - increase.rolling(4).sum())
+        p.loc[~np.isfinite(p)] = np.nan
+        p.fillna(method='ffill')
+        p7 = p.rolling(7).mean()
+        epg = p7 * df['acum14_cases']
+        df['Rt'].mask(df.region == region, p7, inplace=True)
+        df['epg'].mask(df.region == region, epg, inplace=True)
         # deceased
         increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
         increase[increase < 0] = 0.0
@@ -499,5 +527,185 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df.to_csv(f"{data_directory}/{scope}_covid19gram.csv")
 
 
+def generate_covidgram_dataset_from_api(data_directory="data/", force=False, base_directory='external-data/acovid19tracking/'):
+    ini_scopes = ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom']
+    dfc = {}
+    updated = {}
+    has_country = []
+    scopes = []
+    start = datetime.datetime.strptime('2020-02-10 00:00:00', '%Y-%m-%d %H:%M:%S')
+    url = 'https://api.covid19tracking.narrativa.com/api/'
+    now = datetime.datetime.now()
+    logging.info("Start update data for API")
+    # default update to false
+    for scope in ini_scopes:
+        updated[scope.lower().replace(' ', '')] = False
+
+    # Download data and check for new country data
+    today = now.strftime("%Y-%m-%d")
+    today_filename = f'{base_directory}dapi{today}.json'
+
+    if not os.path.isfile(today_filename):
+        r = requests.get(url + today, allow_redirects=True)
+        open(today_filename, 'wb').write(r.content)
+        if os.path.isfile(today_filename):
+            scopes = update_api_scope_data(today, ini_scopes, base_directory)
+    else:
+        old_scopes = update_api_scope_data(today, ini_scopes, base_directory)
+        r = requests.get(url + today, allow_redirects=True)
+        open(today_filename, 'wb').write(r.content)
+        new_scopes = update_api_scope_data(today, ini_scopes, base_directory)
+        scopes = [item for item in new_scopes if item not in old_scopes]
+
+    if force:
+        scopes = ini_scopes
+
+    # generate cvs only if there is new data
+    if len(scopes) > 1:
+        filenames = glob.glob(f'{base_directory}*.json')
+
+        for fname in filenames:
+            with open(fname) as json_file:
+                d = json.load(json_file)
+
+            for dates in d['dates']:
+                for scope in scopes:
+                    if scope in has_country:
+                        dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions',)
+                        dfr.drop(columns=['sub_regions', ], inplace=True)
+                        dfc[scope] = dfc[scope].append(dfr, ignore_index=True)
+                    else:
+                        dfr = pd.json_normalize(d['dates'][dates]['countries'][scope], record_path='regions')
+                        dfr.drop(columns=['sub_regions', ], inplace=True)
+                        dfc[scope] = dfr
+                        has_country.append(scope)
+
+        # date,name,id,source,today_confirmed,today_deaths,today_new_confirmed,today_new_deaths,today_new_open_cases,today_new_recovered,today_new_tests,today_new_total_hospitalised_patients,today_open_cases,today_recovered,today_tests,today_total_hospitalised_patients,today_vs_yesterday_confirmed,today_vs_yesterday_deaths,today_vs_yesterday_open_cases,today_vs_yesterday_recovered,today_vs_yesterday_tests,today_vs_yesterday_total_hospitalised_patients,yesterday_confirmed,yesterday_deaths,yesterday_open_cases,yesterday_recovered,yesterday_tests,yesterday_total_hospitalised_patients
+        for scope in scopes:
+            logging.info("Start update data for " + scope.lower().replace(' ', ''))
+            if scope == 'Canada':
+                dfc[scope] = dfc[scope][dfc[scope]['name'] != 'Grand Princess']
+            if scope == 'Colombia':
+                dfc[scope].replace(to_replace="San Andrés y Provincia", value="San Andrés y Providencia")
+            if scope == 'France':
+                dfc[scope] = dfc[scope][dfc[scope]['name'] != 'Guyane']
+            if scope == "Germany":
+                oficial = {'Bavaria': 'Bayern', 'Rhineland-Palatinate': 'Rheinland-Pfalz', 'Niedersachsen': 'Lower Saxony', 'North Rhine-Westphalia': 'Nordrhein-Westfalen', 'Baden-Wuerttemberg': 'Baden-Württemberg', 'Mecklenburg-Vorpommern': 'Mecklenburg-Vorpommern', 'Saxony': 'Sachsen', 'Thuringia': 'Thüringen', 'Saxony-Anhalt': 'Sachsen-Anhalt', 'Hesse': 'Hessen'}
+                for name in oficial.keys():
+                    dfc[scope]['name'] = dfc[scope]['name'].str.replace(name, oficial[name])
+            if scope == 'Portugal':
+                dfc[scope] = dfc[scope][dfc[scope]['name'] != 'Estrangeiro']
+
+            print(dfc[scope]['name'].unique())
+            dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
+
+            dfc[scope].rename(columns={'id': 'region_code', 'name': 'region',
+                                       'today_confirmed': 'cases', 'today_deaths': 'deceased',
+                                       'today_recovered': 'recovered',
+                                       'today_open_cases': 'active_cases',
+                                       'today_total_hospitalised_patients': 'hospitalized',
+                                       'today_intensive_care': 'intensivecare'}, inplace=True)
+
+            dfc[scope]['date'] = pd.to_datetime(dfc[scope]['date'])
+            # delete noisy data
+            if scope != 'China':
+                dfc[scope] = dfc[scope][dfc[scope]['date'] >= start]
+
+            dfc[scope].set_index(['date', 'region_code'], inplace=True)
+            dfc[scope].sort_index(inplace=True)
+            dfc[scope] = dfc[scope][~dfc[scope].index.duplicated(keep='last')]
+
+            # add total-scope
+            dates = dfc[scope].index.get_level_values('date').unique()
+            for date in dates:
+                date_df = dfc[scope].loc[date]
+                total = date_df.sum(min_count=1)
+                total['region'] = 'total-' + scope.lower().replace(' ', '')
+                dfc[scope].loc[(date, '0'), dfc[scope].columns] = total.values
+
+            if os.path.isfile(f"{data_directory}/{scope.lower().replace(' ', '')}_population.csv"):
+                pop_df = pd.read_csv(f"{data_directory}/{scope.lower().replace(' ', '')}_population.csv")
+                pop_df.set_index('region_name', inplace=True)
+                dfc[scope] = dfc[scope].merge(pop_df, left_on='region', right_index=True, how='left')
+            dfc[scope]['cases_per_100k'] = dfc[scope]['cases'] * 100_000 / dfc[scope]['population']
+            dfc[scope]['deceased_per_100k'] = dfc[scope]['deceased'] * 100_000 / dfc[scope]['population']
+            dfc[scope]['active_cases_per_100k'] = dfc[scope]['active_cases'] * 100_000 / dfc[scope]['population']
+            if 'hospitalized' in dfc[scope].columns:
+                dfc[scope]['hosp_per_100k'] = dfc[scope]['hospitalized'] * 100_000 / dfc[scope]['population']
+                dfc[scope]['increase_hosp'] = 0.0
+                dfc[scope]['rolling_hosp'] = 0.0
+                dfc[scope]['rolling_hosp_per_100k'] = 0.0
+            dfc[scope]['increase_cases'] = 0.0
+            dfc[scope]['increase_cases_per_100k'] = 0.0
+            dfc[scope]['rolling_cases'] = 0.0
+            dfc[scope]['rolling_cases_per_100k'] = 0.0
+            dfc[scope]['Rt'] = 0.0
+            dfc[scope]['epg'] = 0.0
+            dfc[scope]['acum14_cases'] = 0.0
+            dfc[scope]['acum14_cases_per_100k'] = 0.0
+            dfc[scope]['acum14_hosp'] = 0.0
+            dfc[scope]['acum14_hosp_per_100k'] = 0.0
+
+            dfc[scope]['increase_deceased'] = 0.0
+            dfc[scope]['rolling_deceased'] = 0.0
+            dfc[scope]['rolling_deceased_per_100k'] = 0.0
+            dfc[scope]['acum14_deceased'] = 0.0
+            dfc[scope]['acum14_deceased_per_100k'] = 0.0
+
+            for region in dfc[scope]['region'].unique():
+                reg_df = dfc[scope][dfc[scope].region == region]
+                # cases
+                increase = reg_df['cases'] - reg_df['cases'].shift(1)
+                increase[increase < 0] = 0.0
+                rolling = increase.rolling(window=3).mean()
+                dfc[scope]['increase_cases'].mask(dfc[scope].region == region, increase, inplace=True)
+                dfc[scope]['rolling_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['increase_cases_per_100k'] = dfc[scope]['increase_cases'] * 100_000 / dfc[scope]['population']
+                dfc[scope]['rolling_cases_per_100k'] = dfc[scope]['rolling_cases'] * 100_000 / dfc[scope]['population']
+                # cases acum
+                rolling = increase.rolling(window=14).sum()
+                dfc[scope]['acum14_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['acum14_cases_per_100k'] = dfc[scope]['acum14_cases'] * 100_000 / dfc[scope]['population']
+                # EPG
+                p = increase.rolling(3).sum() / (increase.rolling(7).sum() - increase.rolling(4).sum())
+                p.loc[~np.isfinite(p)] = np.nan
+                p.fillna(method='ffill')
+                p7 = p.rolling(7).mean()
+                epg = p7 * dfc[scope]['acum14_cases']
+                dfc[scope]['Rt'].mask(dfc[scope].region == region, p7, inplace=True)
+                dfc[scope]['epg'].mask(dfc[scope].region == region, epg, inplace=True)
+                # deceased
+                increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
+                increase[increase < 0] = 0.0
+                rolling = increase.rolling(window=3).mean()
+                dfc[scope]['increase_deceased'].mask(dfc[scope].region == region, increase, inplace=True)
+                dfc[scope]['rolling_deceased'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['rolling_deceased_per_100k'] = dfc[scope]['rolling_deceased'] * 100_000 / dfc[scope]['population']
+                # deceased acum
+                rolling = increase.rolling(window=14).sum()
+                dfc[scope]['acum14_deceased'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['acum14_deceased_per_100k'] = dfc[scope]['acum14_deceased'] * 100_000 / dfc[scope]['population']
+                # hospitalized
+                if 'hospitalized' in dfc[scope].columns:
+                    increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
+                    increase[increase < 0] = 0.0
+                    rolling = increase.rolling(window=3).mean()
+                    dfc[scope]['increase_hosp'].mask(dfc[scope].region == region, increase, inplace=True)
+                    dfc[scope]['rolling_hosp'].mask(dfc[scope].region == region, rolling, inplace=True)
+                    dfc[scope]['rolling_hosp_per_100k'] = dfc[scope]['rolling_hosp'] * 100_000 / dfc[scope]['population']
+                # hosp acum
+                rolling = increase.rolling(window=14).sum()
+                dfc[scope]['acum14_hosp'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['acum14_hosp_per_100k'] = dfc[scope]['acum14_hosp'] * 100_000 / dfc[scope]['population']
+
+            dfc[scope].sort_index(inplace=True)
+            dfc[scope].to_csv(f"{data_directory}/{scope.lower().replace(' ', '')}_covid19gram.csv")
+            logging.info(f"Finish update data for {scope.lower().replace(' ', '')}. New file created")
+            updated[scope.lower().replace(' ', '')] = True
+    else:
+        logging.info("Finish update data for API. No changes in repository")
+    return updated
+
+
 if __name__ == "__main__":
-    update_data(force=False)
+    update_data(force=True)
