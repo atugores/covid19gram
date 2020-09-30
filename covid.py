@@ -974,6 +974,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         ])
         await client.send_message(chat, md_param, parse_mode=None, disable_web_page_preview=True)
         await client.send_message(chat, md_param, reply_markup=ilkb, disable_web_page_preview=True)
+
     elif comm == "find":
         if len(param) > 0:
             resultats = cerca(param, language=language)
@@ -986,6 +987,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
                 btns = b_find(param, language=language)[0]
                 caption = f'Search Results for `{param}`'
                 await client.send_message(chat, caption, reply_markup=btns)
+
     elif comm == "favs":
         lbtns = await b_fav(user, language=language)
         if len(lbtns) == 0:
@@ -994,6 +996,26 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
             btns = lbtns[0]
             caption = _("**Your subscriptions:**")
             await client.send_message(chat, caption, reply_markup=btns)
+
+    elif comm == "help":
+        about = _("**Chart Buttons**") + "\n"
+        about += "🦠 - __" + _("Case increase") + ".__\n"
+        about += "📊 - __" + _("Active cases, recovered and deceased") + ".__\n"
+        about += "📈 - __" + _("Cumulative cases") + ".__\n"
+        about += "👩‍👦‍👦 - __" + _("Reproduction Rate") + ".__\n"
+        about += "❌ - __" + _("Daily deaths evolution") + ".__\n"
+        about += "⬇️ - __" + _("Send all plots as an album") + ".__\n"
+        about += "📊  - __" + _("Add region to compare") + ".__\n"
+        about += '\n'
+        about += "**" + _("Additional buttons. Top 20s for 🌐Global and detailed Spain scopes") + ":**\n"
+        about += "🦠🗺 - __" + _("Active cases per region") + ".__\n"
+        about += "🦠% - __" + _("Cases rate per 100K inhabitants") + ".__\n"
+        about += "📈🆕 - __" + _("New cases rate per 100K inhabitants") + ".__\n"
+        about += "❌% - __" + _("Deceased rate per 100K inhabitants") + ".__\n"
+        about += "❌🆕 - __" + _("New deceased rate per 100K inhabitants") + ".__\n"
+        about += '\n'
+        rep_markup = b_start(user, language)
+        await client.send_message(chat, about, disable_web_page_preview=True, reply_markup=rep_markup)
 
     elif comm == "about":
         about = _("**Chart Buttons**") + "\n"
