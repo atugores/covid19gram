@@ -507,10 +507,10 @@ class COVID19Plot(object):
                 '%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
             last_data += "  ✅ " + _('Recovered') + ": `" + v + "`\n\n"
             v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
-            last_data += "  😷 " + _('Active') + ": `" + v + "`\n"
+            last_data += "  😷 " + _('Active') + ": `" + v + "`\n\n"
             rt = -1
             v = locale.format_string('%.2f', df['Rt'][rt], grouping=True).replace('nan', '-')
-            last_data += "  👩‍👦‍👦 " + _('Reproduction Rate') + ": " + v + "\n"
+            last_data += "  👩‍👦‍👦 " + _('Reproduction Rate') + ": `" + v + "`\n"
 
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
