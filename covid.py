@@ -265,13 +265,13 @@ def botons(plot_type="daily_cases", regio="total-world", scope="world", language
                     flag = countries[item]['flag']
                 cb = ""
                 if method:
-                    cb = method + "_" + scope + "_" + item
+                    cb = method + "_" + cplt.zip_scope(scope) + "_" + item
                 else:
-                    cb = item + "_" + scope
+                    cb = item + "_" + cplt.zip_scope(scope)
                 cb = cb + "_" + plot_type.replace('_', '-')
                 ibt.append(InlineKeyboardButton(flag + _(item), callback_data=cb))
             botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
-            cb = "back_" + scope
+            cb = "back_" + cplt.zip_scope(scope)
             if method:
                 cb = cb + '_' + method
                 if acum_regions_key:
@@ -322,11 +322,11 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
 
     cb = "total-" + scope
     if method:
-        cb = method + "_" + scope + "_" + cb
+        cb = method + "_" + cplt.zip_scope(scope) + "_" + cb
         if acum_regions_key:
             cb = cb + '_' + acum_regions_key.replace('_', '-')
     else:
-        cb += "_" + scope + "_" + plot_type.replace('_', '-')
+        cb += "_" + cplt.zip_scope(scope) + "_" + plot_type.replace('_', '-')
     if "total-" + scope not in acum_regions:
         ibt.append(InlineKeyboardButton(nnames[scope], callback_data=cb))
 
@@ -341,7 +341,7 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
                     text = s_char + "-" + chart.upper()
                 s_char = ""
                 len_all = 0
-                cb = "alph_" + scope + "_" + str(ordre)
+                cb = "alph_" + cplt.zip_scope(scope) + "_" + str(ordre)
                 if method:
                     cb = cb + "_" + method
                     if acum_regions_key:
@@ -354,7 +354,7 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
     if method == 'compare':
         botonets.append([
-            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_" + scope + "_finish_cases-normalized")
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_" + cplt.zip_scope(scope) + "_finish_cases-normalized")
         ])
     btns = InlineKeyboardMarkup(botonets)
     return btns
@@ -373,36 +373,35 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     if dbhd.is_subscribed(user_id, region, scope):
         fav_emoji = "💛"
         fav_label = "unfav"
-    # scope = cplt.get_region_scope(region)
     if region == f"total-{scope}" and scope in cplt.AGES:
         recovered_emoji = "🚻"
     bttns = [
-        InlineKeyboardButton("🦠", callback_data="s_" + scope + "_" + region + "_daily-cases"),
-        InlineKeyboardButton("📊", callback_data="s_" + scope + "_" + region + "_active-recovered-deceased"),
-        InlineKeyboardButton("📈", callback_data="s_" + scope + "_" + region + "_cases"),
-        InlineKeyboardButton(recovered_emoji, callback_data="s_" + scope + "_" + region + "_reproduction-rate"),
-        InlineKeyboardButton("❌", callback_data="s_" + scope + "_" + region + "_daily-deceased")
+        InlineKeyboardButton("🦠", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-cases"),
+        InlineKeyboardButton("📊", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_active-recovered-deceased"),
+        InlineKeyboardButton("📈", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_cases"),
+        InlineKeyboardButton(recovered_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_reproduction-rate"),
+        InlineKeyboardButton("❌", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-deceased")
     ]
 
     if subregion:
-        bttns.append(InlineKeyboardButton("🗺", callback_data="do_" + scope + "_" + subregion))
+        bttns.append(InlineKeyboardButton("🗺", callback_data="do_" + cplt.zip_scope(scope) + "_" + subregion))
 
-    bttns.append(InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + scope + "_" + region + "_" + p_type))
+    bttns.append(InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + cplt.zip_scope(scope) + "_" + region + "_" + p_type))
 
     buttons = [bttns]
     if region.startswith("total-"):
         buttons.extend([[
-            InlineKeyboardButton("🦠🗺", callback_data="scope_" + scope + "_" + region + "_cases"),
-            InlineKeyboardButton("🦠🆕", callback_data="scope_" + scope + "_" + region + "_increase-cases-normalized-heatmap"),
-            InlineKeyboardButton("🦠🖇", callback_data="scope_" + scope + "_" + region + "_acum14-cases-normalized-heatmap")],
+            InlineKeyboardButton("🦠🗺", callback_data="scope_" + cplt.zip_scope(scope) + "_" + region + "_cases"),
+            InlineKeyboardButton("🦠🆕", callback_data="scope_" + cplt.zip_scope(scope) + "_" + region + "_increase-cases-normalized-heatmap"),
+            InlineKeyboardButton("🦠🖇", callback_data="scope_" + cplt.zip_scope(scope) + "_" + region + "_acum14-cases-normalized-heatmap")],
             [
-            InlineKeyboardButton("❌", callback_data="scope_" + scope + "_" + region + "_deceased-normalized"),
-            InlineKeyboardButton("❌🖇", callback_data="scope_" + scope + "_" + region + "_acum14-deceased-normalized-heatmap"),
+            InlineKeyboardButton("❌", callback_data="scope_" + cplt.zip_scope(scope) + "_" + region + "_deceased-normalized"),
+            InlineKeyboardButton("❌🖇", callback_data="scope_" + cplt.zip_scope(scope) + "_" + region + "_acum14-deceased-normalized-heatmap"),
         ]])
 
     buttons.append([
-        InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + scope + "_" + region),
-        InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + scope + "_" + region),
+        InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + cplt.zip_scope(scope) + "_" + region),
+        InlineKeyboardButton("📊 " + _("Add region to compare"), callback_data="compare_" + cplt.zip_scope(scope) + "_" + region),
     ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
@@ -411,17 +410,14 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
 def b_compare(scope='world', language="en"):
     _ = translations[language].gettext
     buttons = [[
-        InlineKeyboardButton("🦠", callback_data="compare_" + scope + "_finish_cases-normalized"),
-        InlineKeyboardButton("📊", callback_data="compare_" + scope + "_finish_cases"),
-        InlineKeyboardButton("🦠🖇", callback_data="compare_" + scope + "_finish_acum14-cases-normalized"),
-        InlineKeyboardButton("🗂", callback_data="compare_" + scope + "_finish_cases-logarithmic"),
-        # InlineKeyboardButton("✅", callback_data="s_" + region + "_reproduction-rate"),
-        InlineKeyboardButton("❌", callback_data="compare_" + scope + "_finish_deceased-normalized"),
+        InlineKeyboardButton("🦠", callback_data="compare_" + cplt.zip_scope(scope) + "_finish_cases-normalized"),
+        InlineKeyboardButton("📊", callback_data="compare_" + cplt.zip_scope(scope) + "_finish_cases"),
+        InlineKeyboardButton("🦠🖇", callback_data="compare_" + cplt.zip_scope(scope) + "_finish_acum14-cases-normalized"),
+        InlineKeyboardButton("🗂", callback_data="compare_" + cplt.zip_scope(scope) + "_finish_cases-logarithmic"),
+
+        InlineKeyboardButton("❌", callback_data="compare_" + cplt.zip_scope(scope) + "_finish_deceased-normalized"),
     ]]
 
-    # buttons.append([
-    #     InlineKeyboardButton("⬇️ " + _("Send all plots"), callback_data="sendall_" + region),
-    # ])
     btns = InlineKeyboardMarkup(buttons)
     return btns
 
@@ -451,7 +447,7 @@ def b_find(search, plot_type="daily_cases", language="en"):
             if item['region'] in countries:
                 flag = countries[item['region']]['flag']
                 scope = ""
-            ibt.append(InlineKeyboardButton(flag + _(item['region']) + scope, callback_data=item['region'] + "_" + item['scope'] + "_" + plot_type.replace('_', '-')))
+            ibt.append(InlineKeyboardButton(flag + _(item['region']) + scope, callback_data=item['region'] + "_" + cplt.zip_scope(item['scope']) + "_" + plot_type.replace('_', '-')))
         botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
         if pag == 0 and pag != max - 1:
             botonets.extend([[InlineKeyboardButton(">>", callback_data="f_" + str(pag + 1) + "_" + search)]])
@@ -485,7 +481,7 @@ async def b_fav(user, plot_type="daily_cases", language="en"):
             flag = ""
             if item['region'] in countries:
                 flag = countries[item['region']]['flag']
-            ibt.append(InlineKeyboardButton(flag + _(item['region']), callback_data=item['region'] + "_" + item['scope'] + "_" + plot_type.replace('_', '-')))
+            ibt.append(InlineKeyboardButton(flag + _(item['region']), callback_data=item['region'] + "_" + cplt.zip_scope(item['scope']) + "_" + plot_type.replace('_', '-')))
         botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
         if pag == 0 and pag != max - 1:
             botonets.extend([[InlineKeyboardButton(">>", callback_data="subs_" + str(pag + 1))]])
@@ -513,15 +509,15 @@ def b_regions(scope, plot_type="daily_cases", method=None, acum_regions=[], lang
             continue
         cb = ""
         if method:
-            cb = method + "_" + scope + "_" + item
+            cb = method + "_" + cplt.zip_scope(scope) + "_" + item
         else:
-            cb = item + "_" + scope
+            cb = item + "_" + cplt.zip_scope(scope)
         cb = cb + "_" + plot_type.replace('_', '-')
         ibt.append(InlineKeyboardButton(_(item), callback_data=cb))
     botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
     if method == 'compare':
         botonets.append([
-            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_" + scope + "_finish_cases-normalized")
+            InlineKeyboardButton("✅ " + _("Done"), callback_data="compare_" + cplt.zip_scope(scope) + "_finish_cases-normalized")
         ])
     btns = InlineKeyboardMarkup(botonets)
     return btns
@@ -1117,8 +1113,9 @@ async def answer(client, callback_query):
     chat = callback_query.message.chat.id
     mid = callback_query.message.message_id
     params = callback_query.data.split("_")
+    logging.info("****** entra a pag ****" + callback_query.data)
     comm = params[0]
-    scope = params[1]
+    scope = cplt.expand_scope(params[1])
     language = await get_language(user)
     _ = translations[language].gettext
     if comm == "pag":
@@ -1217,7 +1214,7 @@ async def answer(client, callback_query):
             scope = cplt.get_region_scope(region)
         plot_type = params[3].replace('-', '_')
         if region.startswith("total-"):
-            await edit_region(client, chat, mid, plot_type, region, language=language, is_scope=True)
+            await edit_region(client, chat, mid, plot_type, region, scope=scope, language=language, is_scope=True)
 
     elif comm == "lang":
         language = params[1]

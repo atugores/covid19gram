@@ -711,4 +711,4 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
 
 
 if __name__ == "__main__":
-    update_data(force=False)
+    update_data(force=True)

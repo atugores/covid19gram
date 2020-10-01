@@ -219,6 +219,58 @@ class COVID19Plot(object):
             t.sort()
         return t
 
+    def expand_scope(self, scope):
+        names = {
+            'gl': 'world',
+            'es': 'spain',
+            'it': 'italy',
+            'fr': 'france',
+            'at': 'austria',
+            'ar': 'argentina',
+            'au': 'australia',
+            'br': 'brazil',
+            'ca': 'canada',
+            'cl': 'chile',
+            'cn': 'china',
+            'co': 'colombia',
+            'de': 'germany',
+            'in': 'india',
+            'mx': 'mexico',
+            'pt': 'portugal',
+            'us': 'us',
+            'gb': 'unitedkingdom',
+            'vd': 'void',
+        }
+        if scope in names:
+            return names[scope]
+        return None
+
+    def zip_scope(self, scope):
+        names = {
+            'world': 'gl',
+            'spain': 'es',
+            'italy': 'it',
+            'france': 'fr',
+            'austria': 'at',
+            'argentina': 'ar',
+            'australia': 'au',
+            'brazil': 'br',
+            'canada': 'ca',
+            'chile': 'cl',
+            'china': 'cn',
+            'colombia': 'co',
+            'germany': 'de',
+            'india': 'in',
+            'mexico': 'mx',
+            'portugal': 'pt',
+            'us': 'us',
+            'unitedkingdom': 'gb',
+            'void': 'vd'
+        }
+
+        if scope in names:
+            return names[scope]
+
     def get_region_scope(self, region):
         region_scope = None
         for scope in self.SCOPES:
