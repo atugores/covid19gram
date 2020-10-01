@@ -224,8 +224,7 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
             title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "reproduction_rate":
         title = _('Reproduction rate at {region}').format(region=flaged_region)
-        scp = cplt.get_region_scope(region)
-        if region == f"total-{scp}" and scp in cplt.AGES:
+        if region == f"total-{scope}" and scope in cplt.AGES:
             title = _("Cases (Deaths) by age:")
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
@@ -393,12 +392,12 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     buttons = [bttns]
     if region.startswith("total-"):
         buttons.extend([[
-            InlineKeyboardButton("🦠🗺", callback_data="scope_" + region + "_cases"),
-            InlineKeyboardButton("🦠🆕", callback_data="scope_" + region + "_increase-cases-normalized-heatmap"),
-            InlineKeyboardButton("🦠🖇", callback_data="scope_" + region + "_acum14-cases-normalized-heatmap")],
+            InlineKeyboardButton("🦠🗺", callback_data="scope_" + scope + "_" + region + "_cases"),
+            InlineKeyboardButton("🦠🆕", callback_data="scope_" + scope + "_" + region + "_increase-cases-normalized-heatmap"),
+            InlineKeyboardButton("🦠🖇", callback_data="scope_" + scope + "_" + region + "_acum14-cases-normalized-heatmap")],
             [
-            InlineKeyboardButton("❌", callback_data="scope_" + region + "_deceased-normalized"),
-            InlineKeyboardButton("❌🖇", callback_data="scope_" + region + "_acum14-deceased-normalized-heatmap"),
+            InlineKeyboardButton("❌", callback_data="scope_" + scope + "_" + region + "_deceased-normalized"),
+            InlineKeyboardButton("❌🖇", callback_data="scope_" + scope + "_" + region + "_acum14-deceased-normalized-heatmap"),
         ]])
 
     buttons.append([
@@ -774,7 +773,7 @@ async def send_regions(client, chat, region="Total", scope="world", language='en
                 flname = await dbhd.get_image_hash(flname)
             media.append(InputMediaPhoto(
                 flname,
-                caption=get_caption(region, scope, plot_type=plot_type, language=language, scope=True)
+                caption=get_caption(region, scope, plot_type=plot_type, language=language, is_scope=True)
             ))
     else:
         for plot_type in cplt.BUTTON_PLOT_TYPES:
@@ -1120,6 +1119,7 @@ async def answer(client, callback_query):
     params = callback_query.data.split("_")
     comm = params[0]
     scope = params[1]
+    # logging.INFO("ZZZZZZZZZZZZZZZZZZZZZZZZ: " + str(callback_query.data))
     language = await get_language(user)
     _ = translations[language].gettext
     if comm == "pag":
