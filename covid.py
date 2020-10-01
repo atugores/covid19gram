@@ -385,7 +385,7 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     ]
 
     if subregion:
-        bttns.append(InlineKeyboardButton("🗺", callback_data="do_" + subregion))
+        bttns.append(InlineKeyboardButton("🗺", callback_data="do_" + scope + "_" + subregion))
 
     bttns.append(InlineKeyboardButton(fav_emoji, callback_data=fav_label + "_" + scope + "_" + region + "_" + p_type))
 
@@ -1119,7 +1119,6 @@ async def answer(client, callback_query):
     params = callback_query.data.split("_")
     comm = params[0]
     scope = params[1]
-    # logging.INFO("ZZZZZZZZZZZZZZZZZZZZZZZZ: " + str(callback_query.data))
     language = await get_language(user)
     _ = translations[language].gettext
     if comm == "pag":

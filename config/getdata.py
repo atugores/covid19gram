@@ -562,7 +562,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
         scopes = ini_scopes
 
     # generate cvs only if there is new data
-    if len(scopes) > 1:
+    if len(scopes) > 0:
         filenames = glob.glob(f'{base_directory}*.json')
 
         for fname in filenames:
@@ -596,6 +596,8 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                     dfc[scope]['name'] = dfc[scope]['name'].str.replace(name, oficial[name])
             if scope == 'Portugal':
                 dfc[scope] = dfc[scope][dfc[scope]['name'] != 'Estrangeiro']
+            if scope == "Argentina":
+                dfc[scope].loc[dfc[scope]['name'] == "Ciudad Autónoma de Buenos Aires", 'name'] = "Ciudad de Buenos Aires"
 
             print(dfc[scope]['name'].unique())
             dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
@@ -709,4 +711,4 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
 
 
 if __name__ == "__main__":
-    update_data(force=True)
+    update_data(force=False)
