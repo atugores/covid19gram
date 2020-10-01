@@ -1360,8 +1360,8 @@ msgid "Somalia"
 msgstr "Somalia"
 
 #: covid.py:973
-msgid "Source code available soon."
-msgstr "Codice sorgente disponibile a breve."
+msgid "**Source code**"
+msgstr "**Codice sorgente**"
 
 #: regions_translate.py:304
 msgid "South Africa"

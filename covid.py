@@ -1041,10 +1041,10 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += "🗂" + _('__other countries data source from__') + ' __[Proyecto COVID-19](https://covid19tracking.narrativa.com/)__\n'
         about += '\n'
         about += _("**Contact**") + '\n'
-        about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)" + "\n"
+        about += _("You can contact us using") + " [@C19G_feedbackbot](t.me/C19G_feedbackbot)" + "\n\n"
 
-        about += _("**Code availability**") + "\n"
-        about += _('Source code available soon.') + '\n'
+        about += _("**Source code**") + "\n"
+        about += "[" + _('covid19gram') + '](https://github.com/atugores/covid19gram)\n'
         about += '\n＿＿＿＿＿＿＿＿＿＿＿＿＿'
 
         rep_markup = b_start(user, language)
