@@ -194,7 +194,8 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
     if is_scope:
         plot_caption = cplt.get_scope_plot_caption(plot_type=plot_type, scope=scope, language=language)
         return plot_caption
-
+    if scope == 'void':
+        scope = cplt.get_region_scope(region)
     _ = translations[language].gettext
     flaged_region = region
     if region in countries:
@@ -232,7 +233,7 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
         title = _('Active hospitalizations at {region}').format(region=_(region))
     if plot_type == "summary":
         title = _('COVID-19 status at {region}').format(region=flaged_region)
-        plot_caption = cplt.get_summary(region=region, language=language)
+        plot_caption = cplt.get_summary(region=region, scope=scope, language=language)
         # footer = "\n__" + _("More information and plots at") + " @COVID19gram_bot__\n"
         footer = ""
     else:
@@ -734,7 +735,7 @@ async def show_region(client, chat, plot_type="daily_cases", region="total-world
         if scope == 'france' and plot_type == 'daily_cases' and region != 'total-france':
             plot_type = 'daily_hospitalized'
         flname = cplt.generate_plot(plot_type=plot_type, region=region, scope=scope, language=language)
-        caption = get_caption(region, scope=scope, plot_type=plot_type, language=language)
+        caption = get_caption(region, scope, plot_type=plot_type, language=language)
     try:
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
     except BadRequest as e:
@@ -1349,14 +1350,21 @@ async def answer_inline(client, inline_query):
         resultats = resultats[0:40]
 
     for result in resultats:
-        text = get_caption(result, plot_type="summary", language=language)
+        text = get_caption(result['region'], result['scope'], plot_type="summary", language=language)
         flag = ""
-        if result in countries:
-            flag = countries[result]['flag']
-
+        if result['region'] in countries:
+            flag = countries[result['region']]['flag']
+        scope = ""
+        if result['scope'] != 'world' and result['region'] not in cplt.SCOPES and result['scope'] != 'void' and "total-" not in result['region']:
+            scope = _(f'{result["scope"].capitalize()}')
+            if result['scope'] == 'unitedkingdom':
+                scope = _('United Kingdom')
+            if result['scope'] == 'us':
+                scope = _('US')
+            scope = "(" + scope + ")"
         inlansw = InlineQueryResultArticle(
             id=uuid4(),
-            title=flag + _(result),
+            title=flag + _(result['region']) + scope,
             input_message_content=InputTextMessageContent(text),
         )
         rslts.append(inlansw)
