@@ -316,7 +316,7 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
         'india': _('🇮🇳India'),
         'mexico': _('🇲🇽Mexico'),
         'portugal': _('🇵🇹Portugal'),
-        'us': _('🇺🇲US'),
+        'us': _('🇺🇸US'),
         'unitedkingdom': _('🇬🇧United Kingdom'),
     }
 
@@ -542,7 +542,7 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'in': _('🇮🇳India'),
         'mx': _('🇲🇽Mexico'),
         'pt': _('🇵🇹Portugal'),
-        'us': _('🇺🇲US'),
+        'us': _('🇺🇸US'),
         'gb': _('🇬🇧United Kingdom'),
     }
 
@@ -563,7 +563,7 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'india': _('🇮🇳India'),
         'mexico': _('🇲🇽Mexico'),
         'portugal': _('🇵🇹Portugal'),
-        'us': _('🇺🇲US'),
+        'us': _('🇺🇸US'),
         'unitedkingdom': _('🇬🇧United Kingdom'),
     }
     lang_dicc = {'en': '⚫️', 'es': '⚫️', 'ca': '⚫️', 'it': '⚫️'}
@@ -663,7 +663,7 @@ def b_start(user_id, language="en"):
         'in': _('🇮🇳India'),
         'mx': _('🇲🇽Mexico'),
         'pt': _('🇵🇹Portugal'),
-        'us': _('🇺🇲US'),
+        'us': _('🇺🇸US'),
         'gb': _('🇬🇧United Kingdom'),
     }
     buttons = dbhd.get_buttons(user_id)
@@ -867,7 +867,7 @@ async def send_notifications():
         'india': _('🇮🇳India data updated'),
         'mexico': _('🇲🇽Mexico data updated'),
         'portugal': _('🇵🇹Portugal data updated'),
-        'us': _('🇺🇲US data updated'),
+        'us': _('🇺🇸US data updated'),
         'unitedkingdom': _('🇬🇧United Kingdom data updated'),
     }
     for scope in cplt.SCOPES:
@@ -1074,7 +1074,7 @@ async def g_request(client, message):
         _('🇮🇳India'): 'india',
         _('🇲🇽Mexico'): 'mexico',
         _('🇵🇹Portugal'): 'portugal',
-        _('🇺🇲US'): 'us',
+        _('🇺🇸US'): 'us',
         _('🇬🇧United Kingdom'): 'unitedkingdom',
     }
     if message.text.startswith('/'):

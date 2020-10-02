@@ -1868,12 +1868,12 @@ msgid "🇵🇹Portugal data updated"
 msgstr "Datos actualizados para 🇵🇹Portugal"
 
 #: covid.py:495
-msgid "🇺🇲US"
-msgstr "🇺🇲EEUU"
+msgid "🇺🇸US"
+msgstr "🇺🇸EEUU"
 
 #: covid.py:825
-msgid "🇺🇲US data updated"
-msgstr "Datos actualizados para 🇺🇲EEUU"
+msgid "🇺🇸US data updated"
+msgstr "Datos actualizados para 🇺🇸EEUU"
 
 #: covid.py:479
 msgid "🌐Global"
