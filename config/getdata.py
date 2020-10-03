@@ -600,7 +600,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                 dfc[scope].loc[dfc[scope]['name'] == "Ciudad Autónoma de Buenos Aires", 'name'] = "Ciudad de Buenos Aires"
 
             print(dfc[scope]['name'].unique())
-            dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
+            # dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
 
             dfc[scope].rename(columns={'id': 'region_code', 'name': 'region',
                                        'today_confirmed': 'cases', 'today_deaths': 'deceased',
@@ -608,6 +608,8 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                                        'today_open_cases': 'active_cases',
                                        'today_total_hospitalised_patients': 'hospitalized',
                                        'today_intensive_care': 'intensivecare'}, inplace=True)
+
+            dfc[scope].drop(dfc[scope].columns.difference(['date', 'region_code', 'region', 'cases', 'deceased', 'recovered', 'active_cases', 'hospitalized']), axis=1, inplace=True)
 
             dfc[scope]['date'] = pd.to_datetime(dfc[scope]['date'])
             # delete noisy data
@@ -624,7 +626,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                 date_df = dfc[scope].loc[date]
                 total = date_df.sum(min_count=1)
                 total['region'] = 'total-' + scope.lower().replace(' ', '')
-                dfc[scope].loc[(date, '0'), dfc[scope].columns] = total.values
+                dfc[scope].loc[(date, 'ñññ'), dfc[scope].columns] = total.values
 
             if os.path.isfile(f"{data_directory}/{scope.lower().replace(' ', '')}_population.csv"):
                 pop_df = pd.read_csv(f"{data_directory}/{scope.lower().replace(' ', '')}_population.csv")
