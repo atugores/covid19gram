@@ -302,9 +302,8 @@ def generate_austria_file(data_directory):
             for region in regions:
                 text += "{},{},{},{},{},{},{}\n".format(p['Datum'], reg_code[region], region, p[region], p[region + "_Tote"], p[region + "_Spital"], p[region + "_Genesene"])
 
-    outF = open(data_directory + "austria_data.csv", "w")
-    outF.writelines(text)
-    outF.close()
+    with open(data_directory + "austria_data.csv", "w") as outF:
+        outF.writelines(text)
     return
 
 
@@ -546,22 +545,27 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
     today = now.strftime("%Y-%m-%d")
     today_filename = f'{base_directory}dapi{today}.json'
 
+    # create base directory if does not exist
+    os.makedirs(base_directory, exist_ok=True)
+
     if not os.path.isfile(today_filename):
         r = requests.get(url + today, allow_redirects=True)
-        open(today_filename, 'wb').write(r.content)
+        with open(today_filename, 'wb') as f:
+            f.write(r.content)
         if os.path.isfile(today_filename):
             scopes = update_api_scope_data(today, ini_scopes, base_directory)
     else:
         old_scopes = update_api_scope_data(today, ini_scopes, base_directory)
         r = requests.get(url + today, allow_redirects=True)
-        open(today_filename, 'wb').write(r.content)
+        with open(today_filename, 'wb') as f:
+            f.write(r.content)
         new_scopes = update_api_scope_data(today, ini_scopes, base_directory)
         scopes = [item for item in new_scopes if item not in old_scopes]
 
     if force:
         scopes = ini_scopes
 
-    # generate cvs only if there is new data
+    # generate csv only if there is new data
     if len(scopes) > 0:
         filenames = glob.glob(f'{base_directory}*.json')
 
