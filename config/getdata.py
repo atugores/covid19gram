@@ -599,7 +599,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
             if scope == "Argentina":
                 dfc[scope].loc[dfc[scope]['name'] == "Ciudad Autónoma de Buenos Aires", 'name'] = "Ciudad de Buenos Aires"
 
-            print(dfc[scope]['name'].unique())
+            # print(dfc[scope]['name'].unique())
             # dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
 
             dfc[scope].rename(columns={'id': 'region_code', 'name': 'region',
