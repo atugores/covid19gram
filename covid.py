@@ -969,7 +969,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
             ]
         ])
         await client.send_message(chat, md_param, parse_mode=None, disable_web_page_preview=True)
-        await client.send_message(chat, md_param, reply_markup=ilkb, disable_web_page_preview=True)
+        await client.send_message(chat, md_param, reply_markup=ilkb, disable_web_page_preview=False)
 
     elif comm == "find":
         if len(param) > 0:
@@ -1132,7 +1132,7 @@ async def answer(client, callback_query):
         await DoBot(region, "", client, callback_query, language)
 
     elif comm == "bc" and user.id in admins:
-        lang = params[2]
+        lang = params[1]
         if lang in cplt.LANGUAGES or lang == "all":
             for user_id in await dbhd.get_users_lang(lang):
                 # await asyncio.sleep(1)
@@ -1140,7 +1140,7 @@ async def answer(client, callback_query):
                     language = await get_language(await client.get_users(user_id))
                     _ = translations[language].gettext
                     rep_markup = b_start(user_id, language)
-                    await client.send_message(user_id, _("**Announcement:**") + "\n\n" + callback_query.message.text.markdown, disable_web_page_preview=True, reply_markup=rep_markup, disable_notification=True)
+                    await client.send_message(user_id, _("**Announcement:**") + "\n\n" + callback_query.message.text.markdown, disable_web_page_preview=False, reply_markup=rep_markup, disable_notification=True)
                 except Exception as e:
                     await exception_handle(user_id, e)
             await client.send_message(user.id, f'The message has been send to `{lang}`.')
