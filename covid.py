@@ -370,14 +370,17 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     fav_label = "fav"
     p_type = plot_type.replace('_', '-')
     recovered_emoji = "👩‍👦‍👦"
+    ard_emoji = "📊"
     if dbhd.is_subscribed(user_id, region, scope):
         fav_emoji = "💛"
         fav_label = "unfav"
     if region == f"total-{scope}" and scope in cplt.AGES:
-        recovered_emoji = "🚻"
+        ard_emoji = "🚻"
+    elif scope == 'france' and region != "total-france":
+        recovered_emoji = "✅"
     bttns = [
         InlineKeyboardButton("🦠", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-cases"),
-        InlineKeyboardButton("📊", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_active-recovered-deceased"),
+        InlineKeyboardButton(ard_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_active-recovered-deceased"),
         InlineKeyboardButton("📈", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_cases"),
         InlineKeyboardButton(recovered_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_reproduction-rate"),
         InlineKeyboardButton("❌", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-deceased")
