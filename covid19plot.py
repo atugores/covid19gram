@@ -272,7 +272,7 @@ class COVID19Plot(object):
             return names[scope]
 
     def _only_consolidated(self, df):
-        correction = 0.1
+        correction = 0.15
         while int(correction * df['rolling_cases'][-1]) > int(df['increase_cases'][-1]):
             df = df.iloc[:-1]
         return df
