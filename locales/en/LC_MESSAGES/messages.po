@@ -542,7 +542,7 @@ msgid "Deaths on last day"
 msgstr ""
 
 #: covid19plot.py:363
-msgid "Deaths rolling avg (3 days)"
+msgid "Deaths rolling avg (7 days)"
 msgstr ""
 
 #: covid19plot.py:382
@@ -799,7 +799,7 @@ msgid "Iceland"
 msgstr ""
 
 #: covid19plot.py:347
-msgid "Increment rolling avg (3 days)"
+msgid "Increment rolling avg (7 days)"
 msgstr ""
 
 #: regions_translate.py:161

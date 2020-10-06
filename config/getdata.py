@@ -482,7 +482,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         # cases
         increase = reg_df['cases'] - reg_df['cases'].shift(1)
         increase[increase < 0] = 0.0
-        rolling = increase.rolling(window=3).mean()
+        rolling = increase.rolling(window=7).mean()
         df['increase_cases'].mask(df.region == region, increase, inplace=True)
         df['rolling_cases'].mask(df.region == region, rolling, inplace=True)
         df['increase_cases_per_100k'] = df['increase_cases'] * 100_000 / df['population']
@@ -502,7 +502,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         # deceased
         increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
         increase[increase < 0] = 0.0
-        rolling = increase.rolling(window=3).mean()
+        rolling = increase.rolling(window=7).mean()
         df['increase_deceased'].mask(df.region == region, increase, inplace=True)
         df['rolling_deceased'].mask(df.region == region, rolling, inplace=True)
         df['rolling_deceased_per_100k'] = df['rolling_deceased'] * 100_000 / df['population']
@@ -514,7 +514,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         if 'hospitalized' in df.columns:
             increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
             increase[increase < 0] = 0.0
-            rolling = increase.rolling(window=3).mean()
+            rolling = increase.rolling(window=7).mean()
             df['increase_hosp'].mask(df.region == region, increase, inplace=True)
             df['rolling_hosp'].mask(df.region == region, rolling, inplace=True)
             df['rolling_hosp_per_100k'] = df['rolling_hosp'] * 100_000 / df['population']
@@ -666,7 +666,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                 # cases
                 increase = reg_df['cases'] - reg_df['cases'].shift(1)
                 increase[increase < 0] = 0.0
-                rolling = increase.rolling(window=3).mean()
+                rolling = increase.rolling(window=7).mean()
                 dfc[scope]['increase_cases'].mask(dfc[scope].region == region, increase, inplace=True)
                 dfc[scope]['rolling_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
                 dfc[scope]['increase_cases_per_100k'] = dfc[scope]['increase_cases'] * 100_000 / dfc[scope]['population']
@@ -686,7 +686,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                 # deceased
                 increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
                 increase[increase < 0] = 0.0
-                rolling = increase.rolling(window=3).mean()
+                rolling = increase.rolling(window=7).mean()
                 dfc[scope]['increase_deceased'].mask(dfc[scope].region == region, increase, inplace=True)
                 dfc[scope]['rolling_deceased'].mask(dfc[scope].region == region, rolling, inplace=True)
                 dfc[scope]['rolling_deceased_per_100k'] = dfc[scope]['rolling_deceased'] * 100_000 / dfc[scope]['population']
@@ -698,7 +698,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                 if 'hospitalized' in dfc[scope].columns:
                     increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
                     increase[increase < 0] = 0.0
-                    rolling = increase.rolling(window=3).mean()
+                    rolling = increase.rolling(window=7).mean()
                     dfc[scope]['increase_hosp'].mask(dfc[scope].region == region, increase, inplace=True)
                     dfc[scope]['rolling_hosp'].mask(dfc[scope].region == region, rolling, inplace=True)
                     dfc[scope]['rolling_hosp_per_100k'] = dfc[scope]['rolling_hosp'] * 100_000 / dfc[scope]['population']

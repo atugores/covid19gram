@@ -271,6 +271,12 @@ class COVID19Plot(object):
         if scope in names:
             return names[scope]
 
+    def _only_consolidated(self, df):
+        correction = 0.1
+        while int(correction * df['rolling_cases'][-1]) > int(df['increase_cases'][-1]):
+            df = df.iloc[:-1]
+        return df
+
     def get_region_scope(self, region):
         region_scope = None
         for scope in self.SCOPES:
@@ -321,6 +327,8 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        if scope == 'spain':
+            region_df = self._only_consolidated(region_df)
         if scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
         caption = self._get_caption(plot_type, scope, region, language, region_df)
@@ -365,6 +373,8 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        if scope == 'spain':
+            region_df = self._only_consolidated(region_df)
         if scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
         self._plot(plot_type, scope, region, language, region_df, image_fpath)
@@ -439,7 +449,7 @@ class COVID19Plot(object):
             last_data = last_data + "  - " + _('Last day increment') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
-                _('Increment rolling avg (3 days)') + ": " + v
+                _('Increment rolling avg (7 days)') + ": " + v
         elif plot_type == 'daily_hospitalized':
             v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Currently hospitalized') + ": " + v + "\n"
@@ -447,7 +457,7 @@ class COVID19Plot(object):
             last_data = last_data + "  - " + _('Hospitalized evolution on last day') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling_hosp'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
-                _('Increment rolling avg (3 days)') + ": " + v
+                _('Increment rolling avg (7 days)') + ": " + v
         elif plot_type == 'daily_deceased':
             last_cases = None
             last_deceased = None
@@ -457,7 +467,7 @@ class COVID19Plot(object):
             last_data = last_data + "  - " + _('Deaths on last day') + ": " + v + "\n"
             v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True).replace('nan', '-')
             last_data = last_data + "  - " + \
-                _('Deaths rolling avg (3 days)') + ": " + v
+                _('Deaths rolling avg (7 days)') + ": " + v
             last_deceased = df['deceased'][-1]
             if np.max(df['cases'] > 0):
                 last_cases = df['cases'][-1]
@@ -592,7 +602,7 @@ class COVID19Plot(object):
             title = _('Cases increase at {region}').format(region=_(region))
             y_label = _('Cases')
             plt.bar(x, df['increase_cases'], alpha=0.3, width=0.9, label=_('Daily increment'))
-            plt.fill_between(x, 0, df['rolling_cases'], color='red', alpha=0.5, label=_('Increment rolling avg (3 days)'))
+            plt.fill_between(x, 0, df['rolling_cases'], color='red', alpha=0.5, label=_('Increment rolling avg (7 days)'))
             plt.plot(x, df['rolling_cases'], color='red')
             ax.annotate(f"{df['increase_cases'][-1]:0,.0f}", xy=(x[-1], df['increase_cases'][-1]),
                         xytext=(0, 3), textcoords="offset points", ha='center')
@@ -600,7 +610,7 @@ class COVID19Plot(object):
             title = _('Hospitalization evolution at {region}').format(region=_(region))
             y_label = _('Hospitalizations')
             plt.bar(x, df['increase_hosp'], alpha=0.6, width=0.9, label=_('Daily increment'), color='darkgoldenrod')
-            plt.fill_between(x, 0, df['rolling_hosp'], color='olive', alpha=0.5, label=_('Increment rolling avg (3 days)'))
+            plt.fill_between(x, 0, df['rolling_hosp'], color='olive', alpha=0.5, label=_('Increment rolling avg (7 days)'))
             plt.plot(x, df['rolling_hosp'], color='olive')
             ax.annotate(f"{df['increase_hosp'][-1]:0,.0f}", xy=(x[-1], df['increase_hosp'][-1]),
                         xytext=(0, 3), textcoords="offset points", ha='center')
@@ -608,7 +618,7 @@ class COVID19Plot(object):
             title = _('Daily deaths evolution at {region}').format(region=_(region))
             y_label = _('Deaths')
             plt.bar(x, df['increase_deceased'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
-            plt.fill_between(x, 0, df['rolling_deceased'], color='red', alpha=0.2, label=_('Deaths rolling avg (3 days)'))
+            plt.fill_between(x, 0, df['rolling_deceased'], color='red', alpha=0.2, label=_('Deaths rolling avg (7 days)'))
             plt.plot(x, df['rolling_deceased'], color='red')
             ax.annotate(f"{df['increase_deceased'][-1]:0,.0f}", xy=(x[-1], df['increase_deceased'][-1]),
                         xytext=(0, 3), textcoords="offset points", ha='center')
@@ -1090,13 +1100,13 @@ class COVID19Plot(object):
                 field = 'rolling_hosp_per_100k'
                 color = 'goldenrod'
             legend = True
-            label = _('Increment rolling avg (3 days)')
+            label = _('Increment rolling avg (7 days)')
         elif plot_type == 'daily_deceased_normalized':
             title = _('New deceased per 100k inhabitants') + f" ({last_date:%d/%B/%Y})"
             field = 'rolling_deceased_per_100k'
             legend = True
             color = 'r'
-            label = _('Increment rolling avg (3 days)')
+            label = _('Increment rolling avg (7 days)')
 
         elif plot_type == 'map':
             cmap_name = 'Blues'

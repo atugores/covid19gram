@@ -542,8 +542,8 @@ msgid "Deaths on last day"
 msgstr "Defuncions el darrer dia"
 
 #: covid19plot.py:363
-msgid "Deaths rolling avg (3 days)"
-msgstr "Mitjana mòbil de les defuncions (3 dies)"
+msgid "Deaths rolling avg (7 days)"
+msgstr "Mitjana mòbil de les defuncions (7 dies)"
 
 #: covid19plot.py:382
 msgid "Deceased"
@@ -799,8 +799,8 @@ msgid "Iceland"
 msgstr "Islàndia"
 
 #: covid19plot.py:347
-msgid "Increment rolling avg (3 days)"
-msgstr "Mitjana mòbil de l'increment (3 dies)"
+msgid "Increment rolling avg (7 days)"
+msgstr "Mitjana mòbil de l'increment (7 dies)"
 
 #: regions_translate.py:161
 msgid "India"

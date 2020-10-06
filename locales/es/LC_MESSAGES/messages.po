@@ -542,8 +542,8 @@ msgid "Deaths on last day"
 msgstr "Fallecimientos el último día"
 
 #: covid19plot.py:363
-msgid "Deaths rolling avg (3 days)"
-msgstr "Media móvil de fallecimientos (3 días)"
+msgid "Deaths rolling avg (7 days)"
+msgstr "Media móvil de fallecimientos (7 días)"
 
 #: covid19plot.py:382
 msgid "Deceased"
@@ -799,8 +799,8 @@ msgid "Iceland"
 msgstr "Islandia"
 
 #: covid19plot.py:347
-msgid "Increment rolling avg (3 days)"
-msgstr "Media móvil del incremento diario (3 días)"
+msgid "Increment rolling avg (7 days)"
+msgstr "Media móvil del incremento diario (7 días)"
 
 #: regions_translate.py:161
 msgid "India"
