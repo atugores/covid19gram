@@ -755,7 +755,7 @@ class COVID19Plot(object):
 
             y_label = _('CI14 per 100k')
             if 'cases_1' in df.columns:
-                for i, color in zip(range(9, 0, -1), self.grey_cycle[::-1]):
+                for i, color in zip(range(7, 0, -1), self.grey_cycle[::-1]):
                     label = _("CI14/100k") + " " + df['acum14_cases_per_100k_' + str(i)].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
                     plt.plot(x, df['acum14_cases_per_100k_' + str(i)], color=color, linewidth=3, label=label)
 
@@ -791,6 +791,8 @@ class COVID19Plot(object):
         ax.figure.autofmt_xdate()
         if plot_type != 'reproduction_rate' or (scope == 'france' and region != "total-france"):
             ax.legend(loc='upper left', fontsize=17)
+        if plot_type == 'consolidation_acum14':
+            ax.legend(loc='upper left', ncol=2, fontsize=15)
         self._add_footer(ax, scope, language)
         plt.savefig(image_path)
         plt.close()
