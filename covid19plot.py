@@ -59,6 +59,7 @@ class COVID19Plot(object):
         # 'recovered',
         'reproduction_rate',
         'daily_deceased',
+        'consolidation_acum14',
         # 'cases_normalized',
     ]
 
@@ -129,7 +130,11 @@ class COVID19Plot(object):
         'portugal',
         'us',
         'unitedkingdom',
-        'world'
+        'world',
+        # 'balears',
+        # 'mallorca',
+        # 'menorca',
+        # 'eivissa',
     ]
 
     AGES = [
@@ -141,6 +146,9 @@ class COVID19Plot(object):
         '#f781bf', '#a65628', '#984ea3',
         '#999999', '#e41a1c', '#dede00'
     ]
+
+    # grey_cycle = ['#eceff1', '#cfd8dc', '#b0bec5', '#90a4ae', '#78909c', '#607d8b', '#546e7a', '#455a64', '#37474f', '#263238']
+    grey_cycle = ['#7d755b', '#8d8670', '#9e9884', '#aea998', '#bebaad', '#cecbc1', '#dfdcd6', '#efeeea']
 
     _source_path = None
     _images_dir = None
@@ -239,6 +247,10 @@ class COVID19Plot(object):
             'pt': 'portugal',
             'us': 'us',
             'gb': 'unitedkingdom',
+            'ib': 'balears',
+            'ma': 'mallorca',
+            'me': 'menorca',
+            'ei': 'eivissa',
             'vd': 'void',
         }
         if scope in names:
@@ -265,6 +277,10 @@ class COVID19Plot(object):
             'portugal': 'pt',
             'us': 'us',
             'unitedkingdom': 'gb',
+            'balears': 'ib',
+            'mallorca': 'ma',
+            'menorca': 'me',
+            'eivissa': 'ei',
             'void': 'vd'
         }
 
@@ -272,8 +288,8 @@ class COVID19Plot(object):
             return names[scope]
 
     def _only_consolidated(self, df):
-        correction = 0.15
-        while int(correction * df['rolling_cases'][-1]) > int(df['increase_cases'][-1]):
+        correction = 0.05
+        while df['increase_cases'][-1] == 0 and int(correction * df['rolling_cases'][-1]) > int(df['increase_cases'][-1]):
             df = df.iloc[:-1]
         return df
 
@@ -331,6 +347,9 @@ class COVID19Plot(object):
             region_df = self._only_consolidated(region_df)
         if scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
+        if scope == 'spain' and "deceased" in plot_type:
+            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-02-22':l_date]
         caption = self._get_caption(plot_type, scope, region, language, region_df)
         return caption
 
@@ -345,7 +364,8 @@ class COVID19Plot(object):
         # get region data
         df = source.get('df')
         if scope == 'spain' and "deceased" in plot_type:
-            df = df.loc['2020-02-22':'2020-05-24']
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-02-22':l_date]
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
@@ -373,10 +393,13 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        if scope == 'spain':
-            region_df = self._only_consolidated(region_df)
         if scope == 'spain' and "recovered" in plot_type:
             region_df = region_df.loc['2020-02-22':'2020-05-24']
+        elif scope == 'spain' and "deceased" in plot_type:
+            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-02-22':l_date]
+        elif scope == 'spain':
+            region_df = self._only_consolidated(region_df)
         self._plot(plot_type, scope, region, language, region_df, image_fpath)
         return image_fpath
 
@@ -406,7 +429,8 @@ class COVID19Plot(object):
 
         df = source.get('df')
         if scope == 'spain' and "deceased" in plot_type:
-            df = df.loc['2020-02-22':'2020-05-24']
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-02-22':l_date]
         if scope == 'france' and plot_type == 'acum14_cases_normalized':
             plot_type = 'acum14_hospitalized_normalized'
         self._multiregion_plot(plot_type, scope, regions, language, df, image_fpath)
@@ -426,8 +450,18 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
-        if scope == 'spain' and "deceased" in plot_type:
-            df = df.loc['2020-02-22':'2020-05-24']
+        if scope == 'spain':
+            last_date = df.index.get_level_values('date')[-1]
+            p_type = 'cases'
+            if 'deceased' in plot_type:
+                p_type = 'deceased'
+            for region in df.region.unique():
+                reg_df = df[df.region == region]
+                l_date = reg_df[p_type].notna()[::-1].idxmax()[0]
+                if l_date < last_date:
+                    last_date = l_date
+
+            df = df.loc['2020-02-22':last_date]
         self._scope_plot(plot_type, scope, language, df, image_fpath)
         return image_fpath
 
@@ -438,11 +472,9 @@ class COVID19Plot(object):
     def _get_caption(self, plot_type, scope, region, language, df):
         _ = self._translations[language].gettext
         self._set_locale(language)
-        has_cases = False
         last_data = None
         last_date = df.index.get_level_values('date')[-1].strftime("%d/%B/%Y")
         if plot_type == 'daily_cases':
-            has_cases = True
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
             v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
@@ -476,7 +508,6 @@ class COVID19Plot(object):
                 v = locale.format_string('%.2f', fatality_rate).replace('nan', '-')
                 last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + v + "%"
         elif plot_type == 'active_recovered_deceased':
-            has_cases = True
             if region == f"total-{scope}" and scope in self.AGES:
                 ages = self.get_ages(scope)
                 ages.append('Total')
@@ -508,6 +539,9 @@ class COVID19Plot(object):
                 if 'hospitalized' in df.columns and region != "france":
                     v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                     last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
+                if 'intensive_care' in df.columns and region != "france":
+                    v = locale.format_string('%.0f', df['intensive_care'][-1], grouping=True).replace('nan', '-')
+                    last_data = last_data + "  - " + _('Currently IC') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
@@ -523,9 +557,9 @@ class COVID19Plot(object):
             if 'hospitalized' in df.columns and region != "france":
                 v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
+
         elif plot_type == 'cases':
             last_data = ""
-            has_cases = True
             if np.max(df['cases'] > 0):
                 v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
@@ -534,6 +568,7 @@ class COVID19Plot(object):
             if 'hospitalized' in df.columns and region != "france":
                 v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
+
         elif plot_type == 'reproduction_rate':
             if scope == 'france' and region != "total-france":
                 v = locale.format_string(
@@ -545,19 +580,19 @@ class COVID19Plot(object):
                 v2 = locale.format_string(
                     '%.2f', df['acum14_cases_per_100k'][-1], grouping=True).replace('nan', '-')
                 last_data = "  - " + _('Reproduction Rate') + ": " + v + "\n"
-                last_data += "  - " + _('IA14 per 100k') + ": " + v2 + "\n"
+                last_data += "  - " + _('CI14 per 100k') + ": " + v2 + "\n"
+                if scope == 'spain':
+                    last_data += "\n" + _("Check CI14 per 100k consolidation using 🚧")
         elif plot_type == 'deceased':
             v = locale.format_string(
                 '%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + _('Deceased') + ": " + v + "\n"
         elif plot_type == 'cases_normalized':
-            has_cases = True
             v = locale.format_string(
                 '%.1f', df['cases_per_100k'][-1], grouping=True).replace('nan', '-')
             last_data = "  - " + \
                 _('Cases per 100k inhabitants') + ": " + v + "\n"
         elif plot_type == 'summary':
-            has_cases = True
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
             last_data = "  🦠 " + _('Total cases') + ": `" + v
             v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
@@ -580,11 +615,12 @@ class COVID19Plot(object):
             rt = -1
             v = locale.format_string('%.2f', df['Rt'][rt], grouping=True).replace('nan', '-')
             last_data += "  👩‍👦‍👦 " + _('Reproduction Rate') + ": `" + v + "`\n"
-
+        elif plot_type == 'consolidation_acum14':
+            last_data = ""
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
-        if scope == 'spain' and has_cases:
-            note_Spain = "\n" + _("From 19/04/2020, the accumulated cases are those detected by PCR test.")
+        if scope == 'spain':
+            note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
         return f"{last_data}\n__{updated}____{note_Spain}__"
 
     def _plot(self, plot_type, scope, region, language, df, image_path):
@@ -644,14 +680,20 @@ class COVID19Plot(object):
                 plt.plot(x, df['hospitalized'], color='y')
                 ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
                             xytext=(0, 3), textcoords="offset points")
-            plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
-            plt.plot(x, df['recovered'], color='g')
-            ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
-                        xytext=(0, 3), textcoords="offset points")
-            plt.fill_between(x, 0, df['deceased'], color='red', alpha=alpha, label=_('Deceased'))
-            plt.plot(x, df['deceased'], color='red')
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points")
+            if 'intensive_care' in df.columns:
+                plt.fill_between(x, 0, df['intensive_care'], color='indigo', alpha=alpha, label=_('Currently intensive_care'))
+                plt.plot(x, df['intensive_care'], color='indigo')
+                ax.annotate(f"{df['intensive_care'][-1]:0,.0f}", xy=(x[-1], df['intensive_care'][-1]),
+                            xytext=(0, 3), textcoords="offset points")
+            if scope != 'sspain':
+                plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
+                plt.plot(x, df['recovered'], color='g')
+                ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
+                            xytext=(0, 3), textcoords="offset points")
+                plt.fill_between(x, 0, df['deceased'], color='red', alpha=alpha, label=_('Deceased'))
+                plt.plot(x, df['deceased'], color='red')
+                ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
+                            xytext=(0, 3), textcoords="offset points")
         elif plot_type == 'active':
             if np.max(df['active_cases']) > 0:
                 title = _('Active cases at {region}').format(region=_(region))
@@ -688,22 +730,40 @@ class COVID19Plot(object):
             else:
                 title = _('Reproduction Rate at {region}').format(region=_(region))
                 color = 'purple'
-                y_label = _('Rt')
-                ax.set_ylabel(_('Rt'), color=color, fontsize=15)
+                y_label = _('Reproduction Rate')
+                ax.set_ylabel(_('Reproduction Rate'), color=color, fontsize=15)
                 ax.tick_params(axis='y', labelcolor=color)
                 lns1 = ax.plot(x, df['Rt'], color=color, linewidth=3, label=_('Reproduction Rate'))
                 ax.annotate(f"{df['Rt'][-1]:0,.2f}", xy=(x[-1], df['Rt'][-1]),
                             xytext=(3, 3), textcoords="offset points", ha='center')
-                color = 'goldenrod'
                 ax2 = ax.twinx()
+                lns2 = []
+                color = 'goldenrod'
                 ax2.annotate(f"{df['acum14_cases_per_100k'][-1]:0,.2f}", xy=(x[-1], df['acum14_cases_per_100k'][-1]), xytext=(3, 3), textcoords="offset points", ha='center')
                 ax2.grid(False)
-                ax2.set_ylabel(_('IA14 per 100k'), color=color, fontsize=15)
-                lns2 = ax2.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=_('IA14 per 100k'))
+                label = _("CI14/100k") + " " + df['acum14_cases_per_100k'].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
+                ax2.set_ylabel(_("CI14 per 100k"), color=color, fontsize=15)
+                lns2.append(ax2.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=label))
                 ax2.tick_params(axis='y', labelcolor=color)
-                lns = lns1 + lns2
+                lns = lns1
+                for ln in lns2:
+                    lns += ln
                 labs = [l.get_label() for l in lns]
                 ax2.legend(lns, labs, loc='upper left', fontsize=17)
+        elif plot_type == 'consolidation_acum14':
+            title = _('CI14 per 100k consolidation at {region}').format(region=_(region))
+
+            y_label = _('CI14 per 100k')
+            if 'cases_1' in df.columns:
+                for i, color in zip(range(9, 0, -1), self.grey_cycle[::-1]):
+                    label = _("CI14/100k") + " " + df['acum14_cases_per_100k_' + str(i)].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
+                    plt.plot(x, df['acum14_cases_per_100k_' + str(i)], color=color, linewidth=3, label=label)
+
+            color = 'goldenrod'
+            plt.annotate(f"{df['acum14_cases_per_100k'][-1]:0,.2f}", xy=(x[-1], df['acum14_cases_per_100k'][-1]), xytext=(3, 3), textcoords="offset points", ha='center')
+            label = _("CI14/100k") + " " + df['acum14_cases_per_100k'].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
+            plt.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=label)
+
         elif plot_type == 'deceased':
             title = _('Deaths evolution at {region}').format(region=_(region))
             y_label = _('Deaths')
@@ -729,7 +789,7 @@ class COVID19Plot(object):
         if xlim:
             ax.set_xlim(xlim)
         ax.figure.autofmt_xdate()
-        if plot_type != 'reproduction_rate':
+        if plot_type != 'reproduction_rate' or (scope == 'france' and region != "total-france"):
             ax.legend(loc='upper left', fontsize=17)
         self._add_footer(ax, scope, language)
         plt.savefig(image_path)
@@ -1213,7 +1273,6 @@ class COVID19Plot(object):
         last_date = df.index.get_level_values('date')[-1]
         title = None
         field = None
-        has_cases = False
         plot_type = plot_type.replace('_heatmap', '')
         if scope == 'france':
             if plot_type == 'acum14_cases_normalized':
@@ -1222,14 +1281,12 @@ class COVID19Plot(object):
         if plot_type == 'cases_normalized':
             title = _('Cases per 100k inhabitants')
             field = 'cases_per_100k'
-            has_cases = True
             if scope == 'france':
                 title = _('Hospitalizations per 100k inhabitants')
                 field = 'hosp_per_100k'
         elif plot_type == 'cases':
             title = _('Cases')
             field = 'cases'
-            has_cases = True
             if scope == 'france':
                 field = 'hospitalized'
         elif plot_type == 'deceased_normalized':
@@ -1238,7 +1295,6 @@ class COVID19Plot(object):
         elif plot_type == 'daily_cases_normalized':
             title = _('New cases per 100k inhabitants')
             field = 'rolling_cases_per_100k'
-            has_cases = True
             if scope == 'france':
                 title = _('New hospitalizations per 100k inhabitants')
                 field = 'rolling_hosp_per_100k'
@@ -1281,8 +1337,8 @@ class COVID19Plot(object):
             last_data = last_data + " - " + _(region) + ": " + value_f + "\n"
         updated = _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
-        if scope == 'spain' and has_cases:
-            note_Spain = "\n" + _("From 19/04/2020, the accumulated cases are those detected by PCR test.")
+        if scope == 'spain':
+            note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
         return f"**{title}**\n\n{last_data}\n__{updated}____{note_Spain}__"
 
     def _get_scope_df(self, plot_type, scope, today_df, field, max_records=20):
@@ -1379,7 +1435,7 @@ class COVID19Plot(object):
         self._set_locale(language)
         if scope in self.SCOPES:
             ticks = 10
-            proj = {'world': 'EPSG:4326', 'us': 'EPSG:2955', 'spain': 'EPSG:3395', 'germany': 'EPSG:3395', 'mexico': "EPSG:2955", 'unitedkingdom': 'EPSG:3395', 'argentina': 'EPSG:3395', 'brazil': 'EPSG:3395', 'italy': 'EPSG:3395', 'france': 'EPSG:3395', 'austria': 'EPSG:3395', 'australia': 'EPSG:3395', 'canada': 'EPSG:2955', 'chile': 'EPSG:3395', 'colombia': 'EPSG:3395', 'china': 'EPSG:3395', 'portugal': 'EPSG:3395', 'india': 'EPSG:3395'}
+            proj = {'world': 'EPSG:4326', 'us': 'EPSG:2955', 'spain': 'EPSG:3395', 'germany': 'EPSG:3395', 'mexico': "EPSG:2955", 'unitedkingdom': 'EPSG:3395', 'argentina': 'EPSG:3395', 'brazil': 'EPSG:3395', 'italy': 'EPSG:3395', 'france': 'EPSG:3395', 'austria': 'EPSG:3395', 'australia': 'EPSG:3395', 'canada': 'EPSG:2955', 'chile': 'EPSG:3395', 'colombia': 'EPSG:3395', 'china': 'EPSG:3395', 'portugal': 'EPSG:3395', 'india': 'EPSG:3395', 'balears': 'EPSG:3395', 'mallorca': 'EPSG:3395', 'menorca': 'EPSG:3395', 'eivissa': 'EPSG:3395'}
 
             regions_df = df[(df.region != f'total-{scope}')]
             regions_df = regions_df.reset_index()[['date', 'region', field]]
@@ -1452,8 +1508,8 @@ class COVID19Plot(object):
             ax = merged.plot(column=field, cmap=cmap, figsize=figsize, vmax=vmax, vmin=0, legend=False, edgecolor='lightsteelblue', missing_kwds={"color": "grey", },)
             ax.set_xticks([])
             ax.set_yticks([])
-
-            suptitle = _(f'{scope.capitalize()}')
+            suptitle = scope.capitalize()
+            suptitle = _(scope)
             # country name fix
             if scope == 'unitedkingdom':
                 suptitle = _('United Kingdom')

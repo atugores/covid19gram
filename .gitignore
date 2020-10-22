@@ -2,6 +2,7 @@ datasets
 images
 conf.ini
 myvenv
+testvenv
 *.*pyc
 /.vscode
 __pycache__

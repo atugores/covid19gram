@@ -10,6 +10,7 @@ from shutil import copy2
 import logging
 import glob
 import requests
+import io
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -29,6 +30,7 @@ SCOPES = {
             'COVID 19/ccaa_covid19_altas_long.csv',
             'COVID 19/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv',
             'COVID 19/nacional_covid19_rango_edad.csv',
+            'COVID 19/ccaa_pcr_realizadas_diarias.csv',
         ]
     },
     'italy': {
@@ -57,6 +59,8 @@ SCOPES = {
 
 def update_data(force=False):
     updated = {}
+    # scope = 'spain'
+    # updated[scope] = update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
         updated[scope] = update_scope_data(scope, force=force)
     updated.update(generate_covidgram_dataset_from_api(force=force))
@@ -119,7 +123,8 @@ def get_or_generate_input_files(scope, data_directory="data/"):
             data_directory + scope + '_cases.csv',
             base_directory + "/" + SCOPES[scope]['watch'][1],
             data_directory + scope + "_deceased.csv",
-            base_directory + "/" + SCOPES[scope]['watch'][3]
+            base_directory + "/" + SCOPES[scope]['watch'][3],
+            base_directory + "/" + SCOPES[scope]['watch'][4]
         ]
 
     if scope == 'world':
@@ -307,19 +312,63 @@ def generate_austria_file(data_directory):
     return
 
 
+def add_spain_history(scope, df):
+    repo = git.Repo(SCOPES[scope]['base_directory'])
+    path = f"{SCOPES[scope]['watch'][0]}"
+    revlist = ((commit, (commit.tree / path).data_stream.read())for commit in repo.iter_commits(paths=path))
+    order = 0
+    previous_commited_date = None
+    for commit, filecontents in revlist:
+        ts = int(commit.committed_date)
+        logging.info("Commited on " + datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+        if order > 0:
+            hist_df = pd.read_csv(io.BytesIO(filecontents), encoding='utf8')
+            hist_df['fecha'] = pd.to_datetime(hist_df['fecha'])
+            hist_df.rename(columns={'fecha': 'date', 'cod_ine': 'region_code'}, inplace=True)
+            hist_df.set_index(['date', 'region_code'], inplace=True)
+            hist_df.sort_index(inplace=True)
+            hist_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
+            hist_df.drop(columns=[
+                'num_casos', 'num_casos_prueba_test_ac',
+                'num_casos_prueba_otras', ], inplace=True)
+            committed_date_pcr = hist_df['num_casos_prueba_pcr'].notnull()[::-1].idxmax()[0]
+            commited_date = committed_date_pcr.strftime("%d/%m/%Y")
+            commited_date_desc = hist_df['num_casos_prueba_desconocida'].notnull()[::-1].idxmax()[0]
+            if commited_date_desc > committed_date_pcr:
+                commited_date = commited_date_desc.strftime("%d/%m/%Y")
+            if not(previous_commited_date and previous_commited_date == commited_date):
+                previous_commited_date = commited_date
+                hist_df['total_pcr'] = hist_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
+                hist_df['total_desc'] = hist_df.groupby(['CCAA'])['num_casos_prueba_desconocida'].cumsum()
+                hist_df['total'] = hist_df['total_pcr'] + hist_df['total_desc']
+                hist_df.drop(columns=[
+                    'num_casos_prueba_pcr', 'num_casos_prueba_desconocida', 'total_pcr', 'total_desc', 'CCAA'], inplace=True)
+                hist_df.rename(columns={
+                    'fecha': 'date', 'cod_ine': 'region_code',
+                    'total': 'cases_' + str(order)}, inplace=True)
+                df = df.merge(hist_df, left_index=True, right_index=True, how='left')
+                order += 1
+        else:
+            order += 1
+        if order == 10:
+            break
+    return df
+
+
 def generate_covidgram_dataset(scope, files, data_directory):
     csv_cases = None
     csv_recovered = None
     csv_deceased = None
     csv_hospitalized = None
     csv_ages = None
+    csv_tests = None
 
     if len(files) == 3:
         csv_cases, csv_recovered, csv_deceased = files
     elif len(files) == 4:
         csv_cases, csv_recovered, csv_deceased, csv_ages = files
     elif len(files) == 5:
-        csv_cases, csv_recovered, csv_deceased, csv_ages, csv_hospitalized = files
+        csv_cases, csv_recovered, csv_deceased, csv_ages, csv_tests = files
     else:
         csv_cases = files[0]
 
@@ -364,8 +413,12 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     df['date'] = pd.to_datetime(df['date'])
     df.set_index(['date', 'region_code'], inplace=True)
-    last_date = df.index.get_level_values('date')[-1]
+    # last_date = df.index.get_level_values('date')[-1]
     dates = df.index.get_level_values(0)
+
+    # history columns
+    if scope == 'spain':
+        df = add_spain_history(scope, df)
 
     # column recovered
     if csv_recovered:
@@ -381,7 +434,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
         # if last_date_rec < last_date:
         #     df = df[dates <= last_date_rec]
         #     last_date = last_date_rec
-        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        #     logging.info("Date truncated for " + scope + ". Different dates on files")
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -393,11 +446,11 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'deceased'}, inplace=True)
         dec_df['date'] = pd.to_datetime(dec_df['date'])
         dec_df.set_index(['date', 'region_code'], inplace=True)
-        last_date_dec = dec_df.index.get_level_values('date')[-1]
-        if last_date_dec < last_date:
-            df = df[dates <= last_date_dec]
-            last_date = last_date_dec
-            logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        # last_date_dec = dec_df.index.get_level_values('date')[-1]
+        # if last_date_dec < last_date:
+        #     df = df[dates <= last_date_dec]
+        #     last_date = last_date_dec
+        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -409,12 +462,34 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'hospitalized'}, inplace=True)
         hos_df['date'] = pd.to_datetime(hos_df['date'])
         hos_df.set_index(['date', 'region_code'], inplace=True)
-        last_date_hos = hos_df.index.get_level_values('date')[-1]
-        if last_date_hos < last_date:
-            df = df[dates <= last_date_hos]
-            last_date = last_date_hos
-            logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        # last_date_hos = hos_df.index.get_level_values('date')[-1]
+        # if last_date_hos < last_date:
+        #     df = df[dates <= last_date_hos]
+        #     last_date = last_date_hos
+        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
+
+    # column tests
+    if csv_tests:
+        test_df = pd.read_csv(csv_tests)
+        test_df.drop(columns=['CCAA', 'Positividad'], inplace=True)
+        test_df.rename(columns={
+            'Fecha': 'date', 'cod_ine': 'region_code', 'PCR Realizadas': 'daily_tests'}, inplace=True)
+        test_df['date'] = pd.to_datetime(test_df['date'])
+        test_df['daily_tests'] = test_df['daily_tests'].str.replace(',', '.')
+        test_df['daily_tests'].replace('-', np.nan, inplace=True)
+
+        test_df['daily_tests'] = pd.to_numeric(test_df['daily_tests'])
+        test_df.set_index(['date', 'region_code'], inplace=True)
+        # last_date_tests = test_df.index.get_level_values('date')[-1]
+        # if last_date_tests < last_date:
+        #     df = df[dates <= last_date_tests]
+        #     last_date = last_date_tests
+        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
+        # df = df.merge(test_df, left_index=True, right_index=True, how='left')
+        # df['daily_tests'] = df['daily_tests'].replace(r'\s+', np.nan, regex=True)
+        # df['daily_tests'] = df['daily_tests'].fillna(0)
+
     # jut copy by ages data to the date directory
     if csv_ages:
         copy2(csv_ages, f"{data_directory}/{scope}_ages.csv")
@@ -454,11 +529,21 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
     df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
     df['active_cases_per_100k'] = df['active_cases'] * 100_000 / df['population']
+    if 'cases_1' in df.columns:
+        for i in range(1, 10):
+            df['acum14_cases_' + str(i)] = 0.0
+            df['acum14_cases_per_100k_' + str(i)] = 0.0
+            df['increase_cases_' + str(i)] = 0.0
+
     if 'hospitalized' in df.columns:
         df['hosp_per_100k'] = df['hospitalized'] * 100_000 / df['population']
         df['increase_hosp'] = 0.0
         df['rolling_hosp'] = 0.0
         df['rolling_hosp_per_100k'] = 0.0
+
+    if 'daily_tests' in df.columns:
+        df['testing_rate'] = 0.0
+        df['positivity_rate'] = 0.0
 
     df['increase_cases'] = 0.0
     df['increase_cases_per_100k'] = 0.0
@@ -499,6 +584,15 @@ def generate_covidgram_dataset(scope, files, data_directory):
         epg = p7 * df['acum14_cases']
         df['Rt'].mask(df.region == region, p7, inplace=True)
         df['epg'].mask(df.region == region, epg, inplace=True)
+        # cases history
+        if 'cases_1' in df.columns:
+            for i in range(1, 10):
+                increase = reg_df['cases_' + str(i)] - reg_df['cases_' + str(i)].shift(1)
+                increase[increase < 0] = 0.0
+                df['increase_cases_' + str(i)].mask(df.region == region, increase, inplace=True)
+                rolling = increase.rolling(window=14).sum()
+                df['acum14_cases_' + str(i)].mask(df.region == region, rolling, inplace=True)
+                df['acum14_cases_per_100k_' + str(i)] = df['acum14_cases_' + str(i)] * 100_000 / df['population']
         # deceased
         increase = reg_df['deceased'] - reg_df['deceased'].shift(1)
         increase[increase < 0] = 0.0
@@ -510,6 +604,14 @@ def generate_covidgram_dataset(scope, files, data_directory):
         rolling = increase.rolling(window=14).sum()
         df['acum14_deceased'].mask(df.region == region, rolling, inplace=True)
         df['acum14_deceased_per_100k'] = df['acum14_deceased'] * 100_000 / df['population']
+        # test positivity rates
+        if 'daily_tests' in df.columns:
+            rolling = reg_df['daily_tests'].rolling(window=7).sum()
+            df['testing_rate'].mask(df.region == region, increase, inplace=True)
+            df['testing_rate'] = df['testing_rate'] * 100_000 / df['population']
+            rolling_positive = reg_df['increase_cases'].rolling(window=7).sum()
+            pos_rate = rolling_positive / rolling
+            df['positivity_rate'].mask(df.region == region, pos_rate, inplace=True)
         # hospitalized
         if 'hospitalized' in df.columns:
             increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
@@ -603,9 +705,6 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
             if scope == "Argentina":
                 dfc[scope].loc[dfc[scope]['name'] == "Ciudad Autónoma de Buenos Aires", 'name'] = "Ciudad de Buenos Aires"
 
-            # print(dfc[scope]['name'].unique())
-            # dfc[scope].drop(columns=['name_es', 'name_it', 'links', 'today_new_deaths', 'today_new_open_cases', 'today_new_recovered', 'today_vs_yesterday_confirmed', 'today_vs_yesterday_deaths', 'today_vs_yesterday_open_cases', 'today_vs_yesterday_recovered', 'yesterday_confirmed', 'yesterday_deaths', 'yesterday_open_cases', 'yesterday_recovered'], inplace=True)
-
             dfc[scope].rename(columns={'id': 'region_code', 'name': 'region',
                                        'today_confirmed': 'cases', 'today_deaths': 'deceased',
                                        'today_recovered': 'recovered',
@@ -613,7 +712,11 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
                                        'today_total_hospitalised_patients': 'hospitalized',
                                        'today_intensive_care': 'intensivecare'}, inplace=True)
 
-            dfc[scope].drop(dfc[scope].columns.difference(['date', 'region_code', 'region', 'cases', 'deceased', 'recovered', 'active_cases', 'hospitalized']), axis=1, inplace=True)
+            if 'today_tests' in dfc[scope].columns:
+                dfc[scope].rename(columns={'today_tests': 'tests'}, inplace=True)
+                dfc[scope].drop(dfc[scope].columns.difference(['date', 'region_code', 'region', 'cases', 'deceased', 'recovered', 'active_cases', 'hospitalized', 'tests']), axis=1, inplace=True)
+            else:
+                dfc[scope].drop(dfc[scope].columns.difference(['date', 'region_code', 'region', 'cases', 'deceased', 'recovered', 'active_cases', 'hospitalized']), axis=1, inplace=True)
 
             dfc[scope]['date'] = pd.to_datetime(dfc[scope]['date'])
             # delete noisy data

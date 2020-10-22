@@ -212,8 +212,10 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
         title = _('Active cases, recovered and deceased at {region}').format(region=flaged_region)
         if region in cplt.get_regions('italy') or region == 'total-france' or region in cplt.get_regions('austria'):
             title = _('Active cases, hospitalized, recovered and deceased at {region}').format(region=_(region))
-        elif region in cplt.get_regions('france'):
+        if region in cplt.get_regions('france'):
             title = _('Currently hospitalized, recovered and deceased at {region}').format(region=_(region))
+        if region == f"total-{scope}" and scope in cplt.AGES:
+            title = _("Cases (Deaths) by age:")
     elif plot_type == "active":
         title = _('Active cases at {region}').format(region=flaged_region)
         if region in cplt.get_regions('france') and region != "total-france":
@@ -224,8 +226,8 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
             title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "reproduction_rate":
         title = _('Reproduction rate at {region}').format(region=flaged_region)
-        if region == f"total-{scope}" and scope in cplt.AGES:
-            title = _("Cases (Deaths) by age:")
+    elif plot_type == "consolidation_acum14":
+        title = _('CI14 per 100k consolidation at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":
         title = _('Deaths evolution at {region}').format(region=flaged_region)
     elif plot_type == "hospitalized":
@@ -318,6 +320,10 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
         'portugal': _('🇵🇹Portugal'),
         'us': _('🇺🇸US'),
         'unitedkingdom': _('🇬🇧United Kingdom'),
+        # 'balears': _('Balears'),
+        # 'mallorca': _('Mallorca'),
+        # 'menorca': _('Menorca'),
+        # 'eivissa': _('Eivissa')
     }
 
     cb = "total-" + scope
@@ -370,19 +376,23 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     fav_label = "fav"
     p_type = plot_type.replace('_', '-')
     recovered_emoji = "👩‍👦‍👦"
+    recovered_plot = "_reproduction-rate"
     ard_emoji = "📊"
     if dbhd.is_subscribed(user_id, region, scope):
         fav_emoji = "💛"
         fav_label = "unfav"
     if region == f"total-{scope}" and scope in cplt.AGES:
         ard_emoji = "🚻"
+    if scope == 'spain' and plot_type == 'reproduction_rate':
+        recovered_emoji = "🚧"
+        recovered_plot = "_consolidation-acum14"
     elif scope == 'france' and region != "total-france":
         recovered_emoji = "✅"
     bttns = [
         InlineKeyboardButton("🦠", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-cases"),
         InlineKeyboardButton(ard_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_active-recovered-deceased"),
         InlineKeyboardButton("📈", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_cases"),
-        InlineKeyboardButton(recovered_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_reproduction-rate"),
+        InlineKeyboardButton(recovered_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + recovered_plot),
         InlineKeyboardButton("❌", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-deceased")
     ]
 
@@ -440,7 +450,8 @@ def b_find(search, plot_type="daily_cases", language="en"):
     for pag in range(max):
         for item in taula[pag * pageSize:(pag + 1) * pageSize]:
             flag = ""
-            scope = _(f'{item["scope"].capitalize()}')
+            scope = item["scope"].capitalize()
+            scope = _(scope)
             # country name fix
             if item['scope'] == 'unitedkingdom':
                 scope = _('United Kingdom')
@@ -449,6 +460,8 @@ def b_find(search, plot_type="daily_cases", language="en"):
             scope = "(" + scope + ")"
             if item['region'] in countries:
                 flag = countries[item['region']]['flag']
+                scope = ""
+            if item['region'].startswith("total-"):
                 scope = ""
             ibt.append(InlineKeyboardButton(flag + _(item['region']) + scope, callback_data=item['region'] + "_" + cplt.zip_scope(item['scope']) + "_" + plot_type.replace('_', '-')))
         botonets = [ibt[i * 3:(i + 1) * 3] for i in range((len(ibt) // 3) + 1)]
@@ -931,7 +944,8 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         flname = cplt.generate_scope_plot(plot_type='map', scope="world", language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
-    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom']:
+    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', ]:
+        # 'balears', 'mallorca', 'menorca', 'eivissa'
         btns = b_alphabet(comm, language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='map', scope=comm, language=language)
@@ -984,7 +998,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
                 await show_region(client, chat, region=resultats[0]['region'], scope=resultats[0]['scope'])
             else:
                 btns = b_find(param, language=language)[0]
-                caption = f'Search Results for `{param}`'
+                caption = _('Search results for `{param}`').format(param=param)
                 await client.send_message(chat, caption, reply_markup=btns)
 
     elif comm == "favs":
@@ -1355,7 +1369,8 @@ async def answer_inline(client, inline_query):
             flag = countries[result['region']]['flag']
         scope = ""
         if result['scope'] != 'world' and result['region'] not in cplt.SCOPES and result['scope'] != 'void' and "total-" not in result['region']:
-            scope = _(f'{result["scope"].capitalize()}')
+            scope = result["scope"].capitalize()
+            scope = _(scope)
             if result['scope'] == 'unitedkingdom':
                 scope = _('United Kingdom')
             if result['scope'] == 'us':
