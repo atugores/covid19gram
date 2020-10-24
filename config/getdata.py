@@ -54,6 +54,34 @@ SCOPES = {
             'austriadata.json'
         ]
     },
+    'balears': {
+        'base_directory': 'external-data/balears',
+        'repo_url': None,
+        'watch': [
+            'balears_total.csv'
+        ]
+    },
+    'mallorca': {
+        'base_directory': 'external-data/balears',
+        'repo_url': None,
+        'watch': [
+            'mallorca_total.csv'
+        ]
+    },
+    'menorca': {
+        'base_directory': 'external-data/balears',
+        'repo_url': None,
+        'watch': [
+            'menorca_total.csv'
+        ]
+    },
+    'eivissa': {
+        'base_directory': 'external-data/balears',
+        'repo_url': None,
+        'watch': [
+            'eivissa_total.csv'
+        ]
+    },
 }
 
 
@@ -105,7 +133,7 @@ def update_api_scope_data(day, ini_scopes, base_directory):
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
-    if scope in ['italy', 'france']:
+    if scope in ['italy', 'france', 'balears', 'mallorca', 'menorca', 'eivissa']:
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
@@ -148,29 +176,36 @@ def repository_last_changes(scope):
 
 def repository_has_changes(scope, data_directory):
     # check if repository exists
+    csv_mtime = None
+    new_mtime = None
     base_directory = SCOPES[scope]['base_directory']
-    if not os.path.exists(base_directory):
-        os.makedirs(base_directory)
-        git.Repo.clone_from(SCOPES[scope]['repo_url'], base_directory)
-        return True
-    original_mtime = repository_last_changes(scope)
+    if SCOPES[scope]['repo_url']:
+        if not os.path.exists(base_directory):
+            os.makedirs(base_directory)
+            git.Repo.clone_from(SCOPES[scope]['repo_url'], base_directory)
+            return True
+        original_mtime = repository_last_changes(scope)
 
-    # update repository
-    g = git.cmd.Git(base_directory)
-    try:
-        g.pull()
-    except git.GitCommandError as e:
-        logging.info("Error pulling data from " + scope + ": " + e.stderr)
+        # update repository
+        g = git.cmd.Git(base_directory)
         try:
-            g.reset('--hard', 'origin/master')
             g.pull()
-            logging.info("Error solved with reset --hard")
         except git.GitCommandError as e:
-            raise e
-    # check if files changed
-    new_mtime = repository_last_changes(scope)
-    if original_mtime != new_mtime:
-        return True
+            logging.info("Error pulling data from " + scope + ": " + e.stderr)
+            try:
+                g.reset('--hard', 'origin/master')
+                g.pull()
+                logging.info("Error solved with reset --hard")
+            except git.GitCommandError as e:
+                raise e
+        # check if files changed
+        new_mtime = repository_last_changes(scope)
+        if original_mtime != new_mtime:
+            return True
+    else:
+        # local dataset
+        csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
+        new_mtime = int(os.path.getmtime(csv_external))
     # check if exists covid19gram file for this scope and its mtime
     csv_covid19gram = f"{data_directory}/{scope}_covid19gram.csv"
     if not os.path.isfile(csv_covid19gram):
@@ -501,7 +536,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             pop_df.set_index('country_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
-        elif scope in ['italy', 'france', 'austria']:
+        elif scope in ['italy', 'france', 'austria', 'balears', 'mallorca', 'menorca', 'eivissa']:
             pop_df.set_index('region_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')

@@ -131,10 +131,10 @@ class COVID19Plot(object):
         'us',
         'unitedkingdom',
         'world',
-        # 'balears',
-        # 'mallorca',
-        # 'menorca',
-        # 'eivissa',
+        'balears',
+        'mallorca',
+        'menorca',
+        'eivissa',
     ]
 
     AGES = [
@@ -1402,6 +1402,10 @@ class COVID19Plot(object):
         elif scope == 'france':
             ds_name = 'OpenCOVID19-fr'
             ds_url = "https://opencovid19.fr/"
+            ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
+        elif scope in ['balears', 'mallorca', 'menorca', 'eivissa']:
+            ds_name = 'www.caib.cat'
+            ds_url = 'https://arcg.is/1vnKr1'
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         else:
             ds_name = 'Proyecto COVID-19'

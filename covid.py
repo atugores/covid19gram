@@ -182,6 +182,8 @@ def get_label(scope='world', language='en'):
         label += _('__Data source from__') + ' __[OpenCOVID19-fr](https://github.com/opencovid19-fr)__'
     elif scope == 'austria':
         label += _('__Data source from__') + ' __[covid-data-austria](https://github.com/Daniel-Breuss/covid-data-austria)__'
+    elif scope in ['balears', 'mallorca', 'menorca', 'eivissa']:
+        label += _('__Data source from__') + ' __[www.caib.cat](https://arcg.is/1vnKr1)__'
     else:
         label += _('__Data source from__') + ' __[Proyecto COVID-19](https://covid19tracking.narrativa.com/)__'
     return label
@@ -320,10 +322,10 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
         'portugal': _('🇵🇹Portugal'),
         'us': _('🇺🇸US'),
         'unitedkingdom': _('🇬🇧United Kingdom'),
-        # 'balears': _('Balears'),
-        # 'mallorca': _('Mallorca'),
-        # 'menorca': _('Menorca'),
-        # 'eivissa': _('Eivissa')
+        'balears': _('Balears'),
+        'mallorca': _('Mallorca'),
+        'menorca': _('Menorca'),
+        'eivissa': _('Eivissa')
     }
 
     cb = "total-" + scope
@@ -370,8 +372,10 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     _ = translations[language].gettext
     logging.info(f"REGION: {region}")
     subregion = None
-    if region in ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom', 'Spain', 'France', 'Austria', 'Italy']:
+    if region in ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom', 'Spain', 'France', 'Austria', 'Italy', 'Mallorca', 'Menorca', 'Eivissa', 'Baleares']:
         subregion = region.lower().replace(' ', '')
+        if region == 'Baleares':
+            subregion = 'balears'
     fav_emoji = "🖤"
     fav_label = "fav"
     p_type = plot_type.replace('_', '-')
@@ -560,6 +564,10 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'pt': _('🇵🇹Portugal'),
         'us': _('🇺🇸US'),
         'gb': _('🇬🇧United Kingdom'),
+        'ib': _('Balearic Islands'),
+        'ma': _('Mallorca'),
+        'me': _('Menorca'),
+        'ei': _('Eivissa'),
     }
 
     nnames = {
@@ -581,6 +589,10 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'portugal': _('🇵🇹Portugal'),
         'us': _('🇺🇸US'),
         'unitedkingdom': _('🇬🇧United Kingdom'),
+        'balears': _('Balearic Islands'),
+        'mallorca': _('Mallorca'),
+        'menorca': _('Menorca'),
+        'eivissa': _('Eivissa'),
     }
     lang_dicc = {'en': '⚫️', 'es': '⚫️', 'ca': '⚫️', 'it': '⚫️'}
     lang_dicc[language] = '🔵'
@@ -681,6 +693,10 @@ def b_start(user_id, language="en"):
         'pt': _('🇵🇹Portugal'),
         'us': _('🇺🇸US'),
         'gb': _('🇬🇧United Kingdom'),
+        'ib': _('Balearic Islands'),
+        'ma': _('Mallorca'),
+        'me': _('Menorca'),
+        'ei': _('Eivissa'),
     }
     buttons = dbhd.get_buttons(user_id)
     scps = []
@@ -885,6 +901,10 @@ async def send_notifications():
         'portugal': _('🇵🇹Portugal data updated'),
         'us': _('🇺🇸US data updated'),
         'unitedkingdom': _('🇬🇧United Kingdom data updated'),
+        'balears': _('Balearic Islands data updated'),
+        'mallorca': _('Mallorca data updated'),
+        'menorca': _('Menorca data updated'),
+        'eivissa': _('Eivissa data updated'),
     }
     for scope in cplt.SCOPES:
         if scope != 'france' and updated[scope]:
@@ -944,15 +964,14 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         flname = cplt.generate_scope_plot(plot_type='map', scope="world", language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
-    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', ]:
-        # 'balears', 'mallorca', 'menorca', 'eivissa'
+    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']:
         btns = b_alphabet(comm, language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='map', scope=comm, language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
     elif comm == "countries":
         text = _("**List of Countries with regions**") + "\n\n"
-        for country in ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom']:
+        for country in ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']:
             text += f"/{country}\n"
         await client.send_message(chat, text)
     elif comm == "clean" and user in admins:
@@ -1055,6 +1074,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += "🗂" + _('__Italy data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__\n'
         about += "🗂" + _('__France data source from__') + ' __[OpenCOVID19-fr](https://opencovid19.fr)__\n'
         about += "🗂" + _('__Austria data source from__') + ' __[covid-data-austria](https://github.com/Daniel-Breuss/covid-data-austria)__\n'
+        about += "🗂" + _('__Balearic Islands data source from__') + ' __[www.caib.cat](https://arcg.is/1vnKr1)__\n'
         about += "🗂" + _('__other countries data source from__') + ' __[Proyecto COVID-19](https://covid19tracking.narrativa.com/)__\n'
         about += '\n'
         about += _("**Contact**") + '\n'
@@ -1093,6 +1113,10 @@ async def g_request(client, message):
         _('🇵🇹Portugal'): 'portugal',
         _('🇺🇸US'): 'us',
         _('🇬🇧United Kingdom'): 'unitedkingdom',
+        _('Balearic Islands'): 'balears',
+        _('Mallorca'): 'mallorca',
+        _('Menorca'): 'menorca',
+        _('Eivissa'): 'eivissa',
     }
     if message.text.startswith('/'):
         comm = message.text.split()[0].strip('/')
