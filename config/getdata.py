@@ -97,11 +97,16 @@ def update_data(force=False):
 
 def status_data():
     text = "**Data sources updated at:**\n"
+    mtime = None
     for scope in SCOPES.keys():
         base_directory = SCOPES[scope]['base_directory']
-        repo = git.Repo(base_directory)
-        headcommit = repo.head.commit
-        mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
+        if SCOPES[scope]['repo_url']:
+            repo = git.Repo(base_directory)
+            headcommit = repo.head.commit
+            mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
+        else:
+            csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
+            mtime = datetime.datetime.fromtimestamp(os.path.getmtime(csv_external))
         text += f"- {scope}: {mtime:%d %b %Y %H:%M:%S}\n"
     return text
 
