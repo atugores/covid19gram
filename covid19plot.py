@@ -401,7 +401,7 @@ class COVID19Plot(object):
         elif scope == 'spain':
             region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
-            l_date = region_df['acum14_cases'].idxmax()[0]
+            l_date = region_df.index.get_level_values('date')[-1]
             f_date = region_df['acum14_cases'].idxmin()[0]
             region_df = region_df.loc[f_date:l_date]
         self._plot(plot_type, scope, region, language, region_df, image_fpath)
@@ -436,7 +436,7 @@ class COVID19Plot(object):
             l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
             df = df.loc['2020-02-22':l_date]
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
-            l_date = df['acum14_cases'].idxmax()[0]
+            l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
             df = df.loc[f_date:l_date]
         if scope == 'france' and plot_type == 'acum14_cases_normalized':
@@ -471,7 +471,7 @@ class COVID19Plot(object):
             df = df.loc['2020-02-22':last_date]
 
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
-            l_date = df['acum14_cases'].idxmax()[0]
+            l_date = df.index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
             df = df.loc[f_date:l_date]
         self._scope_plot(plot_type, scope, language, df, image_fpath)
