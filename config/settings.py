@@ -30,7 +30,8 @@ class DBHandler:
         n_spain tinyint(1) NOT NULL DEFAULT '0',
         n_italy tinyint(1) NOT NULL DEFAULT '0',
         n_france tinyint(1) NOT NULL DEFAULT '0',
-        botons set('gl','es','it','fr') NOT NULL DEFAULT 'gl,es,it'
+        n_austria tinyint(1) NOT NULL DEFAULT '0',
+        botons set('gl','es','it','fr','at') NOT NULL DEFAULT 'gl,es,it'
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
         ALTER TABLE hashImage
@@ -46,7 +47,8 @@ class DBHandler:
         MODIFY id int(11) NOT NULL AUTO_INCREMENT;
     """
 
-    SCOPES = ['gl', 'es', 'it', 'fr']
+    SCOPES = ['gl', 'es', 'it', 'fr', 'at', 'ar', 'au', 'br', 'ca', 'cl', 'cn', 'co', 'de', 'in', 'mx', 'pt', 'us', 'gb', 'ib', 'ma', 'me', 'ei']
+    NSCOPES = ['world', 'spain', 'italy', 'france', 'austria', 'argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']
 
     _conn = None
     _cur = None
@@ -72,19 +74,28 @@ class DBHandler:
         self._cur = self._conn.cursor()
 
     async def set_notification(self, user_id, scope, status):
-        set_ntf = 0
-        if status == 'on':
-            set_ntf = 1
-        sql = f'UPDATE users SET n_{scope}={set_ntf} WHERE tg_id = {user_id}'
-        self._get_cursor()
-        self._cur.execute(sql)
+        notifications_list = self.get_notifications(user_id)
+        if scope in self.NSCOPES:
+            if status == 'on':
+                notifications_list.append(scope)
+            elif len(notifications_list) > 1:
+                notifications_list.remove(scope)
+            notifications = ','.join(notifications_list)
+            sql = f"UPDATE users SET notifications='{notifications}' WHERE tg_id = {user_id}"
+            self._get_cursor()
+            self._cur.execute(sql)
+            return True
+        return False
 
     def get_notifications(self, user_id):
-        sql = f'SELECT n_world, n_spain, n_italy, n_france FROM users WHERE tg_id = {user_id}'
+        sql = f'SELECT notifications FROM users WHERE tg_id = {user_id}'
         self._get_cursor()
         self._cur.execute(sql)
-        notifications = self._cur.fetchone()
-        return notifications
+        notifications = self._cur.fetchone()[0].strip("'").split(',')
+        if '' in notifications:
+            return []
+        else:
+            return notifications
 
     def get_buttons(self, user_id):
         sql = f'SELECT botons FROM users WHERE tg_id = {user_id}'
@@ -138,7 +149,7 @@ class DBHandler:
         return flat_result
 
     async def get_users_scope(self, scope="world"):
-        sql = f'SELECT tg_id FROM users WHERE n_{scope} = 1'
+        sql = f'SELECT tg_id FROM users WHERE FIND_IN_SET("{scope}",notifications)>0'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -185,8 +196,8 @@ class DBHandler:
         self._get_cursor()
         self._cur.execute(sql)
 
-    def is_subscribed(self, user_id, region):
-        sql = f'SELECT * FROM `subs` WHERE user_id="{user_id}" AND region="{region}"'
+    def is_subscribed(self, user_id, region, scope):
+        sql = f'SELECT * FROM `subs` WHERE user_id="{user_id}" AND region="{region}" AND (scope="{scope}" OR scope="void")'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -195,20 +206,20 @@ class DBHandler:
         else:
             return False
 
-    async def add_subcription(self, user_id, region):
-        if not self.is_subscribed(user_id, region):
-            sql = f'INSERT INTO `subs` (user_id,region) VALUES ("{user_id}","{region}")'
+    async def add_subscription(self, user_id, region, scope):
+        if not self.is_subscribed(user_id, region, scope):
+            sql = f'INSERT INTO `subs` (user_id,region,scope) VALUES ("{user_id}","{region}","{scope}")'
             self._get_cursor()
             self._cur.execute(sql)
 
-    async def remove_subscription(self, user_id, region):
-        if self.is_subscribed(user_id, region):
-            sql = f'DELETE FROM `subs` WHERE user_id="{user_id}" AND region="{region}"'
+    async def remove_subscription(self, user_id, region, scope):
+        if self.is_subscribed(user_id, region, scope):
+            sql = f'DELETE FROM `subs` WHERE user_id="{user_id}" AND region="{region}" AND (scope="{scope}" OR scope="void")'
             self._get_cursor()
             self._cur.execute(sql)
 
-    async def get_subscribed(self, region):
-        sql = f'SELECT user_id FROM `subs` WHERE region="{region}"'
+    async def get_subscribed(self, region, scope):
+        sql = f'SELECT user_id FROM `subs` WHERE region="{region}" AND (scope="{scope}" OR scope="void")'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
@@ -216,11 +227,11 @@ class DBHandler:
         return users_ids
 
     async def get_subscriptions(self, user_id):
-        sql = f'SELECT region FROM `subs` WHERE user_id="{user_id}"'
+        sql = f'SELECT region, scope FROM `subs` WHERE user_id="{user_id}"'
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()
-        regions = [val for sublist in result for val in sublist]
+        regions = [{'region': val[0], 'scope': val[1]} for val in result]
         return regions
 
     async def status_users(self):
@@ -237,7 +248,10 @@ class DBHandler:
         return f"**User stats ({total})**\n" + text
 
     async def status_notifications(self):
-        sql = f"SELECT 'world', COUNT(*) FROM users WHERE n_world=1 UNION SELECT 'spain', COUNT(*) FROM users WHERE n_spain=1 UNION SELECT 'italy', COUNT(*) FROM users WHERE n_italy=1 UNION SELECT 'france', COUNT(*) FROM users WHERE n_france=1"
+        sql = "SELECT 'world', COUNT(*) FROM users WHERE FIND_IN_SET('world',notifications)>0"
+        for scope in self.NSCOPES:
+            if scope not in ['none', 'world']:
+                sql += f" UNION SELECT '{scope}', COUNT(*) FROM users WHERE FIND_IN_SET('{scope}',notifications)>0"
         self._get_cursor()
         self._cur.execute(sql)
         result = self._cur.fetchall()

@@ -31,6 +31,22 @@ class C19PT_daily_cases(COVID19RegionPlotType):
         return cfg
 
 
+class C19PT_cases(COVID19RegionPlotType):
+
+    _name = 'cases'
+
+    def get_title(self):
+        _ = self.translation
+        return _('Cumulative cases at {region}').format(region=_(self.region))
+
+    def get_y_label(self):
+        _ = self.translation
+        return _('Cases')
+
+    def get_fields(self):
+        return ['cases']
+
+
 class C19PT_daily_hospitalized(COVID19RegionPlotType):
 
     _name = 'daily_hospitalized'
@@ -45,6 +61,22 @@ class C19PT_daily_hospitalized(COVID19RegionPlotType):
 
     def get_fields(self):
         return ['increase_hosp', 'rolling_hosp']
+
+
+class C19PT_hospitalized(COVID19RegionPlotType):
+
+    _name = 'hospitalized'
+
+    def get_title(self):
+        _ = self.translation
+        return _('Active hospitalizations at {region}').format(region=_(self.region))
+
+    def get_y_label(self):
+        _ = self.translation
+        return _('Hospitalizations')
+
+    def get_fields(self):
+        return ['hospitalized']
 
 
 class C19PT_active(COVID19RegionPlotType):
@@ -77,7 +109,7 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
         _ = self.translation
         title = _('Active cases, recovered and deceased at {region}').format(region=_(self.region))
         if 'hospitalized' in self.df.columns:
-            if self.region != f'total-france' and self.scope == 'france':
+            if self.region != 'total-france' and self.scope == 'france':
                 title = _('Curr. hospitalized, recovered & deceased at {region}').format(region=_(self.region))
             else:
                 title = _('Active, hospitalized, recovered and deceased at {region}').format(region=_(self.region))
@@ -184,6 +216,44 @@ class C19PT_hosp_normalized(COVID19RegionPlotType):
 
     def get_fields(self):
         return ['hosp_per_100k']
+
+
+class C19PT_reproduction_rate(COVID19RegionPlotType):
+
+    _name = 'reproduction_rate'
+
+    def get_title(self):
+        _ = self.translation
+        if self.scope == 'france' and self.region != "total-france":
+            return _('Recovered cases at {region}').format(region=_(self.region))
+        return _('Reproduction Rate at {region}').format(region=_(self.region))
+
+    def get_y_label(self):
+        _ = self.translation
+        if self.scope == 'france' and self.region != "total-france":
+            return _('Cases')
+        return _("CI14/100k")
+
+    def get_fields(self):
+        if self.scope == 'france' and self.region != "total-france":
+            return ['recovered']
+        return ['Rt', 'acum14_cases_per_100k']
+
+
+class C19PT_consolidation_acum14(COVID19RegionPlotType):
+
+    _name = 'consolidation_acum14'
+
+    def get_title(self):
+        _ = self.translation
+        return _('CI14 per 100k consolidation at {region}').format(region=_(self.region))
+
+    def get_y_label(self):
+        _ = self.translation
+        return _('CI14 per 100k')
+
+    def get_fields(self):
+        return ['acum14_cases_per_100k_7', 'acum14_cases_per_100k_6', 'acum14_cases_per_100k_5', 'acum14_cases_per_100k_4', 'acum14_cases_per_100k_3', 'acum14_cases_per_100k_2', 'acum14_cases_per_100k_1', 'acum14_cases_per_100k']
 
 
 def register_region_plots():
