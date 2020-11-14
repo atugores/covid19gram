@@ -22,7 +22,6 @@ import matplotlib.cm as cm
 import matplotlib.colors as colors
 from collections import Counter
 
-
 sns.set_context("notebook")
 sns.set_style("whitegrid")
 matplotlib.use('Agg')
@@ -1507,7 +1506,6 @@ class COVID19Plot(object):
             figsize = (12, 8)
             base_cmap = cm.get_cmap(cmap_name)
             cmap = cmap_discretize(base_cmap, ticks)
-
             pivot = merged
             pivot = pivot.sort_values(by=field, ascending=False).head(ticks)
             pvt = 0.8
@@ -1522,8 +1520,10 @@ class COVID19Plot(object):
             elif vmax <= 300:
                 units = 50
             vmax -= vmax % - units
-
-            ax = merged.plot(column=field, cmap=cmap, figsize=figsize, vmax=vmax, vmin=0, legend=False, edgecolor='lightsteelblue', missing_kwds={"color": "grey", },)
+            if merged.isnull().any().any():
+                ax = merged.plot(column=field, cmap=cmap, figsize=figsize, vmax=vmax, vmin=0, legend=False, edgecolor='lightsteelblue', missing_kwds={"color": "grey", },)
+            else:
+                ax = merged.plot(column=field, cmap=cmap, figsize=figsize, vmax=vmax, vmin=0, legend=False, edgecolor='lightsteelblue',)
             ax.set_xticks([])
             ax.set_yticks([])
             suptitle = scope.capitalize()
