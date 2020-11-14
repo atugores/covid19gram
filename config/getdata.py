@@ -451,9 +451,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'gueris': 'recovered', 'deces': 'deceased'}, inplace=True)
         df['region'].mask(df.region_code == 'FRA', 'total-france', inplace=True)
 
-    df['date'] = pd.to_datetime(df['date'])
+    df['date'] = pd.to_datetime(df['date'].str.replace("_", "-"))
     df.set_index(['date', 'region_code'], inplace=True)
-    # last_date = df.index.get_level_values('date')[-1]
     dates = df.index.get_level_values(0)
 
     # history columns
@@ -469,12 +468,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'recovered'}, inplace=True)
         rec_df['date'] = pd.to_datetime(rec_df['date'])
         rec_df.set_index(['date', 'region_code'], inplace=True)
-        # Recovered information is delayed form Spain.
-        # last_date_rec = rec_df.index.get_level_values('date')[-1]
-        # if last_date_rec < last_date:
-        #     df = df[dates <= last_date_rec]
-        #     last_date = last_date_rec
-        #     logging.info("Date truncated for " + scope + ". Different dates on files")
         df = df.merge(rec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -486,11 +479,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'deceased'}, inplace=True)
         dec_df['date'] = pd.to_datetime(dec_df['date'])
         dec_df.set_index(['date', 'region_code'], inplace=True)
-        # last_date_dec = dec_df.index.get_level_values('date')[-1]
-        # if last_date_dec < last_date:
-        #     df = df[dates <= last_date_dec]
-        #     last_date = last_date_dec
-        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(dec_df, left_index=True, right_index=True, how='left')
 
     # column deceased
@@ -502,11 +490,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'total': 'hospitalized'}, inplace=True)
         hos_df['date'] = pd.to_datetime(hos_df['date'])
         hos_df.set_index(['date', 'region_code'], inplace=True)
-        # last_date_hos = hos_df.index.get_level_values('date')[-1]
-        # if last_date_hos < last_date:
-        #     df = df[dates <= last_date_hos]
-        #     last_date = last_date_hos
-        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
         df = df.merge(hos_df, left_index=True, right_index=True, how='left')
 
     # column tests
@@ -521,14 +504,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
         test_df['daily_tests'] = pd.to_numeric(test_df['daily_tests'])
         test_df.set_index(['date', 'region_code'], inplace=True)
-        # last_date_tests = test_df.index.get_level_values('date')[-1]
-        # if last_date_tests < last_date:
-        #     df = df[dates <= last_date_tests]
-        #     last_date = last_date_tests
-        #     logging.info("[" + datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S") + "] Date truncated for " + scope + ". Different dates on files")
-        # df = df.merge(test_df, left_index=True, right_index=True, how='left')
-        # df['daily_tests'] = df['daily_tests'].replace(r'\s+', np.nan, regex=True)
-        # df['daily_tests'] = df['daily_tests'].fillna(0)
 
     # jut copy by ages data to the date directory
     if csv_ages:

@@ -190,9 +190,7 @@ def get_label(scope='world', language='en'):
 
 
 def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=False):
-    # scp = cplt.get_region_scope(region)
-    # if plot_type == 'recovered' and region == f"total-{scope}" and scp in cplt.AGES:
-    #     return cplt.get_plot_caption(plot_type, region, language)
+
     if is_scope:
         plot_caption = cplt.get_scope_plot_caption(plot_type=plot_type, scope=scope, language=language)
         return plot_caption
@@ -1174,6 +1172,7 @@ async def answer(client, callback_query):
 
     elif comm == "bc" and user.id in admins:
         lang = params[1]
+        user_errors = 0
         if lang in cplt.LANGUAGES or lang == "all":
             for user_id in await dbhd.get_users_lang(lang):
                 # await asyncio.sleep(1)
@@ -1184,7 +1183,8 @@ async def answer(client, callback_query):
                     await client.send_message(user_id, _("**Announcement:**") + "\n\n" + callback_query.message.text.markdown, disable_web_page_preview=False, reply_markup=rep_markup, disable_notification=True)
                 except Exception as e:
                     await exception_handle(user_id, e)
-            await client.send_message(user.id, f'The message has been send to `{lang}`.')
+                    user_errors += 1
+            await client.send_message(user.id, f"The message has been send to `{lang}`. {user_errors} users couldn't be reached.")
         else:
             await client.send_message(user.id, "Canceled.")
         await callback_query.message.delete()
