@@ -87,12 +87,12 @@ SCOPES = {
 
 def update_data(force=False):
     updated = {}
-    scope = 'world'
-    updated[scope] = update_scope_data(scope, force=force)
-    # for scope in SCOPES.keys():
-    #     updated[scope] = update_scope_data(scope, force=force)
-    # updated.update(generate_covidgram_dataset_from_api(force=force))
-    # return updated
+    # scope = 'world'
+    # updated[scope] = update_scope_data(scope, force=force)
+    for scope in SCOPES.keys():
+        updated[scope] = update_scope_data(scope, force=force)
+    updated.update(generate_covidgram_dataset_from_api(force=force))
+    return updated
 
 
 def status_data():
