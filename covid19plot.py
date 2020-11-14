@@ -747,6 +747,9 @@ class COVID19Plot(object):
                 lns1 = ax.plot(x, df['Rt'], color=color, linewidth=3, label=_('Reproduction Rate'))
                 ax.annotate(f"{df['Rt'][-1]:0,.2f}", xy=(x[-1], df['Rt'][-1]),
                             xytext=(3, 3), textcoords="offset points", ha='center')
+
+                ymax = df['Rt'].max() + df['Rt'].min()
+                ax.set_ylim(ymin=0, ymax=ymax)
                 ax2 = ax.twinx()
                 lns2 = []
                 color = 'goldenrod'
@@ -756,6 +759,8 @@ class COVID19Plot(object):
                 ax2.set_ylabel(_("CI14 per 100k"), color=color, fontsize=15)
                 lns2.append(ax2.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=label))
                 ax2.tick_params(axis='y', labelcolor=color)
+                ymax = df['acum14_cases_per_100k'].max() + df['acum14_cases_per_100k'].max() * 0.1
+                ax2.set_ylim(ymin=0, ymax=ymax)
                 lns = lns1
                 for ln in lns2:
                     lns += ln
