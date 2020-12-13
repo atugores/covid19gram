@@ -87,7 +87,7 @@ SCOPES = {
 
 def update_data(force=False):
     updated = {}
-    # scope = 'world'
+    # scope = 'italy'
     # updated[scope] = update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
         updated[scope] = update_scope_data(scope, force=force)
@@ -316,6 +316,7 @@ def generate_spain_deceased_file(data_directory):
     csv_deceased = base_directory + "/" + SCOPES['spain']['watch'][2]
 
     dec_df = pd.read_csv(csv_deceased)
+    dec_df.rename(columns={'Fecha': 'fecha', 'Fallecidos': 'total'}, inplace=True)
     dec_df['fecha'] = pd.to_datetime(dec_df['fecha'])
     dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
     dec_df.sort_index(inplace=True)
@@ -420,17 +421,15 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     # italy: data,stato,codice_regione,denominazione_regione,lat,long,ricoverati_con_sintomi,terapia_intensiva,totale_ospedalizzati,isolamento_domiciliare,totale_positivi,variazione_totale_positivi,nuovi_positivi,dimessi_guariti,deceduti,totale_casi,tamponi,note_it,note_en
     if scope == 'italy':
-        df.drop(columns=[
-            'stato', 'lat', 'long', 'ricoverati_con_sintomi',
-            'terapia_intensiva', 'isolamento_domiciliare',
-            'totale_positivi', 'variazione_totale_positivi',
-            'nuovi_positivi', 'tamponi', 'note'], inplace=True)
 
         df.rename(columns={
             'data': 'date', 'codice_regione': 'region_code',
             'totale_casi': 'cases', 'denominazione_regione': 'region',
             'totale_ospedalizzati': 'hospitalized',
             'dimessi_guariti': 'recovered', 'deceduti': 'deceased'}, inplace=True)
+
+        df.drop(df.columns.difference(['date', 'region_code', 'region', 'hospitalized', 'recovered', 'deceased', 'casi_da_sospetto_diagnostico', 'casi_da_screening', 'cases', 'casi_testati', 'ingressi_terapia_intensiva', 'population']), axis=1, inplace=True)
+
         # avoid duplicates
         df['region_code'].mask(df.region == "P.A. Bolzano", '4A', inplace=True)
         df['region_code'].mask(df.region == "P.A. Trento", '4B', inplace=True)
