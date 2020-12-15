@@ -974,9 +974,11 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='map', scope=comm, language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
-    elif comm == "countries":
-        text = _("**List of Countries with regions**") + "\n\n"
-        for country in ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']:
+    elif comm == "regions":
+        text = _("**List of regions**") + "\n\n"
+        countries = ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']
+        countries.sort()
+        for country in countries:
             text += f"/{country}\n"
         await client.send_message(chat, text)
     elif comm == "clean" and user in admins:

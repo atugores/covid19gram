@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2020-12-15 10:40+0000\n"
+"POT-Creation-Date: 2020-12-15 11:43+0000\n"
 "PO-Revision-Date: 2020-04-05 11:55+CEST\n"
 "Last-Translator: antonia <antoniatugores@gmail.com>\n"
 "Language-Team: antonia <antoniatugores@gmail.com>\n"
@@ -35,8 +35,8 @@ msgid "**Data Sources**"
 msgstr "**Fuentes de datos**"
 
 #: covid.py:978
-msgid "**List of Countries with regions**"
-msgstr "**Lista de países con regiones**"
+msgid "**List of regions**"
+msgstr "**Lista de regiones**"
 
 #: covid.py:1088
 msgid "**Source code**"
