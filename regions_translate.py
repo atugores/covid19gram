@@ -44,6 +44,8 @@ REGIONS = {
     'total-menorca': _('total-menorca'),
     'total-eivissa': _('total-eivissa'),
     'total-unitedkingdom': _('total-unitedkingdom'),
+    'total-catalunya': _('total-catalunya'),
+    'catalunya': _('catalunya'),
     'balears': _('balears'),
     'mallorca': _('mallorca'),
     'menorca': _('menorca'),

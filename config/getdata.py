@@ -11,11 +11,13 @@ import logging
 import glob
 import requests
 import io
+from sodapy import Socrata
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 SCOPES = {
     'world': {
+        'type': 'git',
         'base_directory': 'external-data/world',
         'repo_url': 'https://github.com/pomber/covid19.git',
         'watch': [
@@ -23,6 +25,7 @@ SCOPES = {
         ]
     },
     'spain': {
+        'type': 'git',
         'base_directory': 'external-data/spain',
         'repo_url': 'https://github.com/datadista/datasets',
         'watch': [
@@ -34,6 +37,7 @@ SCOPES = {
         ]
     },
     'italy': {
+        'type': 'git',
         'base_directory': 'external-data/italy',
         'repo_url': 'https://github.com/pcm-dpc/COVID-19',
         'watch': [
@@ -41,6 +45,7 @@ SCOPES = {
         ]
     },
     'france': {
+        'type': 'git',
         'base_directory': 'external-data/france',
         'repo_url': 'https://github.com/opencovid19-fr/data',
         'watch': [
@@ -48,6 +53,7 @@ SCOPES = {
         ]
     },
     'austria': {
+        'type': 'git',
         'base_directory': 'external-data/austria',
         'repo_url': 'https://github.com/Daniel-Breuss/covid-data-austria',
         'watch': [
@@ -55,6 +61,7 @@ SCOPES = {
         ]
     },
     'balears': {
+        'type': 'local',
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
@@ -62,6 +69,7 @@ SCOPES = {
         ]
     },
     'mallorca': {
+        'type': 'local',
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
@@ -69,6 +77,7 @@ SCOPES = {
         ]
     },
     'menorca': {
+        'type': 'local',
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
@@ -76,18 +85,27 @@ SCOPES = {
         ]
     },
     'eivissa': {
+        'type': 'local',
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
             'eivissa_total.csv'
         ]
     },
+    'catalunya': {
+        'type': 'socrata',
+        'base_directory': None,
+        'repo_url': 'analisi.transparenciacatalunya.cat',
+        'token': 'wlktDhyNrB5GfLv8Ry6iQC4xJ',
+        'dataset': 'c7sd-zy9j',
+        'watch': []
+    },
 }
 
 
 def update_data(force=False):
     updated = {}
-    # scope = 'italy'
+    # scope = 'catalunya'
     # updated[scope] = update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
         updated[scope] = update_scope_data(scope, force=force)
@@ -100,11 +118,11 @@ def status_data():
     mtime = None
     for scope in SCOPES.keys():
         base_directory = SCOPES[scope]['base_directory']
-        if SCOPES[scope]['repo_url']:
+        if SCOPES['type'] == 'git':
             repo = git.Repo(base_directory)
             headcommit = repo.head.commit
             mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
-        else:
+        elif SCOPES['type'] == 'local':
             csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
             mtime = datetime.datetime.fromtimestamp(os.path.getmtime(csv_external))
         text += f"- {scope}: {mtime:%d %b %Y %H:%M:%S}\n"
@@ -163,6 +181,10 @@ def get_or_generate_input_files(scope, data_directory="data/"):
     if scope == 'world':
         generate_world_input_files(data_directory)
 
+    if scope == 'catalunya':
+        generate_catalunya_file(data_directory)
+        return [data_directory + scope + '_data.csv']
+
     return [
         data_directory + scope + '_cases.csv',
         data_directory + scope + '_recovered.csv',
@@ -184,7 +206,7 @@ def repository_has_changes(scope, data_directory):
     csv_mtime = None
     new_mtime = None
     base_directory = SCOPES[scope]['base_directory']
-    if SCOPES[scope]['repo_url']:
+    if SCOPES[scope]['type'] == 'git':
         if not os.path.exists(base_directory):
             os.makedirs(base_directory)
             git.Repo.clone_from(SCOPES[scope]['repo_url'], base_directory)
@@ -207,15 +229,28 @@ def repository_has_changes(scope, data_directory):
         new_mtime = repository_last_changes(scope)
         if original_mtime != new_mtime:
             return True
-    else:
+    elif SCOPES[scope]['type'] == 'local':
         # local dataset
         csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
         new_mtime = int(os.path.getmtime(csv_external))
+    elif SCOPES[scope]['type'] == 'socrata':
+        client = Socrata(SCOPES['catalunya']['repo_url'], SCOPES['catalunya']['token'])
+        results = client.get(SCOPES['catalunya']['dataset'], limit=2000000)
+        sc_df = pd.DataFrame.from_records(results)
+        sc_df['data'] = pd.to_datetime(sc_df['data'])
+        new_mtime = sc_df['data'].max().timestamp()
+
     # check if exists covid19gram file for this scope and its mtime
     csv_covid19gram = f"{data_directory}/{scope}_covid19gram.csv"
     if not os.path.isfile(csv_covid19gram):
         return True
     csv_mtime = int(os.path.getmtime(csv_covid19gram))
+
+    if SCOPES[scope]['type'] == 'socrata':
+        sc_df = pd.read_csv(csv_covid19gram)
+        sc_df['date'] = pd.to_datetime(sc_df['date'])
+        csv_mtime = sc_df['date'].max().timestamp()
+
     if csv_mtime < new_mtime:
         return True
     return False
@@ -330,7 +365,7 @@ def generate_spain_deceased_file(data_directory):
 def generate_austria_file(data_directory):
     """
     The file austriadata.json
-    has all de information of a date on the same row for all regions.
+    has all the information of a date on the same row for all regions.
     We have to convert the data to a region per row.
     """
     base_directory = SCOPES['austria']['base_directory']
@@ -351,6 +386,66 @@ def generate_austria_file(data_directory):
     with open(data_directory + "austria_data.csv", "w") as outF:
         outF.writelines(text)
     return
+
+
+def generate_catalunya_file(data_directory):
+    """
+    The data from Catalonia
+    has the information split by ages and gender.
+    We have to convert the data to unify it.
+    """
+    client = Socrata(SCOPES['catalunya']['repo_url'], SCOPES['catalunya']['token'])
+    results = client.get(SCOPES['catalunya']['dataset'], limit=2000000)
+    cat_df = pd.DataFrame.from_records(results)
+    cat_df.rename(columns={'data': 'date', 'codi': 'region_code', 'casos_confirmat': 'daily_cases', 'exitus': 'daily_deceased'}, inplace=True)
+    cat_df['region_code'] = cat_df['region_code'].astype(str)
+    cat_df['daily_cases'] = pd.to_numeric(cat_df['daily_cases'])
+    cat_df['daily_deceased'] = pd.to_numeric(cat_df['daily_deceased'])
+    cat_df['pcr'] = pd.to_numeric(cat_df['pcr'])
+
+    max_date = cat_df['date'].max()
+    pivot_df = cat_df.pivot_table(index=['date', 'region_code'],
+                                  columns=['sexe', 'grup_edat', 'residencia'],
+                                  values=['daily_cases', 'daily_deceased', 'pcr'], aggfunc='first')
+    pivot_df.reset_index(inplace=True)
+    pivot_df.set_index(['date', 'region_code'], inplace=True)
+    pivot_df['recovered'] = 0.0
+    pivot_df.sort_index(inplace=True)
+    pivot_df = pivot_df.fillna('0')
+    pivot_df = pivot_df.sum(level=0, axis=1)
+
+    # cases acumulated
+    region_df = pd.read_csv(data_directory + "catalunya_codes.csv", dtype=str)
+    region_df.set_index('region_code', inplace=True)
+    pivot_df.reset_index(inplace=True)
+    pivot_df.set_index(['region_code'], inplace=True)
+    pivot_df = pivot_df.merge(region_df, left_index=True,
+                              right_index=True, how='left')
+    pivot_df.reset_index(inplace=True)
+    pivot_df.set_index(['date', 'region_code'], inplace=True)
+
+    # Filling blanks
+    new_df = pd.DataFrame()
+    for region in pivot_df['region'].unique():
+        reg_df = pivot_df[pivot_df.region == region]
+        reg_df.reset_index(inplace=True)
+        # reg_df['date'] = pd.to_datetime(reg_df['date'])
+        reg_df.set_index(['date'], inplace=True)
+        reg_df.sort_index(inplace=True)
+        idx = pd.date_range(reg_df.index.min(), max_date)
+        reg_df.index = pd.DatetimeIndex(reg_df.index)
+        reg_df = reg_df.reindex(idx, method=None)
+        reg_df.reset_index(inplace=True)
+        reg_df['region'] = region
+        reg_df = reg_df.fillna(0)
+        new_df = pd.concat([new_df, reg_df])
+    new_df['cases'] = new_df.groupby(['region'])['daily_cases'].cumsum()
+    new_df['deceased'] = new_df.groupby(['region'])['daily_deceased'].cumsum()
+
+    new_df.rename(columns={'index': 'date'}, inplace=True)
+    new_df.set_index(['date', 'region_code'], inplace=True)
+    new_df.sort_index(inplace=True)
+    new_df.to_csv(data_directory + "catalunya_data.csv")
 
 
 def add_spain_history(scope, df):
@@ -515,7 +610,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             pop_df.set_index('country_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
-        elif scope in ['italy', 'france', 'austria', 'balears', 'mallorca', 'menorca', 'eivissa']:
+        elif scope in ['italy', 'france', 'austria', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']:
             pop_df.set_index('region_name', inplace=True)
             df = df.merge(pop_df, left_on='region',
                           right_index=True, how='left')
@@ -530,8 +625,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
     # remove duplicated rows (fix France data)
     df = df[~df.index.duplicated(keep='last')]
 
-    # add total-italy
-    if scope in ['italy', 'spain']:
+    # add total-italy total-spain total-catalunya
+    if scope in ['italy', 'spain', 'catalunya']:
         dates = df.index.get_level_values('date').unique()
         for date in dates:
             date_df = df.loc[date]

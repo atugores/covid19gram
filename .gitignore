@@ -13,4 +13,5 @@ covid19bot.session*
 external-data
 data/*
 !data/*_population.csv
+!data/*_codes.csv
 !data/maps/*/*.*

@@ -135,6 +135,7 @@ class COVID19Plot(object):
         'mallorca',
         'menorca',
         'eivissa',
+        'catalunya'
     ]
 
     AGES = [
@@ -251,6 +252,7 @@ class COVID19Plot(object):
             'ma': 'mallorca',
             'me': 'menorca',
             'ei': 'eivissa',
+            'ct': 'catalunya',
             'vd': 'void',
         }
         if scope in names:
@@ -281,6 +283,7 @@ class COVID19Plot(object):
             'mallorca': 'ma',
             'menorca': 'me',
             'eivissa': 'ei',
+            'catalunya': 'ct',
             'void': 'vd'
         }
 
@@ -401,8 +404,9 @@ class COVID19Plot(object):
         elif scope == 'spain':
             region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
+            region_df.sort_index()
             l_date = region_df.index.get_level_values('date')[-1]
-            f_date = region_df['acum14_cases'].idxmin()[0]
+            f_date = region_df.index.get_level_values('date')[14]
             region_df = region_df.loc[f_date:l_date]
         self._plot(plot_type, scope, region, language, region_df, image_fpath)
         return image_fpath
@@ -1463,7 +1467,7 @@ class COVID19Plot(object):
         self._set_locale(language)
         if scope in self.SCOPES:
             ticks = 10
-            proj = {'world': 'EPSG:4326', 'us': 'EPSG:2955', 'spain': 'EPSG:3395', 'germany': 'EPSG:3395', 'mexico': "EPSG:2955", 'unitedkingdom': 'EPSG:3395', 'argentina': 'EPSG:3395', 'brazil': 'EPSG:3395', 'italy': 'EPSG:3395', 'france': 'EPSG:3395', 'austria': 'EPSG:3395', 'australia': 'EPSG:3395', 'canada': 'EPSG:2955', 'chile': 'EPSG:3395', 'colombia': 'EPSG:3395', 'china': 'EPSG:3395', 'portugal': 'EPSG:3395', 'india': 'EPSG:3395', 'balears': 'EPSG:3395', 'mallorca': 'EPSG:3395', 'menorca': 'EPSG:3395', 'eivissa': 'EPSG:3395'}
+            proj = {'world': 'EPSG:4326', 'us': 'EPSG:2955', 'spain': 'EPSG:3395', 'germany': 'EPSG:3395', 'mexico': "EPSG:2955", 'unitedkingdom': 'EPSG:3395', 'argentina': 'EPSG:3395', 'brazil': 'EPSG:3395', 'italy': 'EPSG:3395', 'france': 'EPSG:3395', 'austria': 'EPSG:3395', 'australia': 'EPSG:3395', 'canada': 'EPSG:2955', 'chile': 'EPSG:3395', 'colombia': 'EPSG:3395', 'china': 'EPSG:3395', 'portugal': 'EPSG:3395', 'india': 'EPSG:3395', 'balears': 'EPSG:3395', 'mallorca': 'EPSG:3395', 'menorca': 'EPSG:3395', 'eivissa': 'EPSG:3395', 'catalunya': 'EPSG:3395'}
 
             regions_df = df[(df.region != f'total-{scope}')]
             regions_df = regions_df.reset_index()[['date', 'region', field]]

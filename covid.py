@@ -323,7 +323,8 @@ def b_alphabet(scope, plot_type="daily_cases", regio="total-world", method=None,
         'balears': _('Balears'),
         'mallorca': _('Mallorca'),
         'menorca': _('Menorca'),
-        'eivissa': _('Eivissa')
+        'eivissa': _('Eivissa'),
+        'catalunya': _('Catalunya'),
     }
 
     cb = "total-" + scope
@@ -370,10 +371,12 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
     _ = translations[language].gettext
     logging.info(f"REGION: {region}")
     subregion = None
-    if region in ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom', 'Spain', 'France', 'Austria', 'Italy', 'Mallorca', 'Menorca', 'Eivissa', 'Baleares']:
+    if region in ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom', 'Spain', 'France', 'Austria', 'Italy', 'Mallorca', 'Menorca', 'Eivissa', 'Baleares', 'Catalunya', 'Cataluña']:
         subregion = region.lower().replace(' ', '')
         if region == 'Baleares':
             subregion = 'balears'
+        if region == 'Cataluña':
+            subregion = 'catalunya'
     fav_emoji = "🖤"
     fav_label = "fav"
     p_type = plot_type.replace('_', '-')
@@ -566,6 +569,7 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'ma': _('Mallorca'),
         'me': _('Menorca'),
         'ei': _('Eivissa'),
+        'ct': _('Catalunya'),
     }
 
     nnames = {
@@ -591,6 +595,7 @@ def b_conf(user_id, language="en", btn_show={'lng': 'on', 'ntf': 'on', 'shw': 'o
         'mallorca': _('Mallorca'),
         'menorca': _('Menorca'),
         'eivissa': _('Eivissa'),
+        'catalunya': _('Catalunya'),
     }
     lang_dicc = {'en': '⚫️', 'es': '⚫️', 'ca': '⚫️', 'it': '⚫️'}
     lang_dicc[language] = '🔵'
@@ -695,6 +700,7 @@ def b_start(user_id, language="en"):
         'ma': _('Mallorca'),
         'me': _('Menorca'),
         'ei': _('Eivissa'),
+        'ct': _('Catalunya'),
     }
     buttons = dbhd.get_buttons(user_id)
     scps = []
@@ -903,6 +909,7 @@ async def send_notifications():
         'mallorca': _('Mallorca data updated'),
         'menorca': _('Menorca data updated'),
         'eivissa': _('Eivissa data updated'),
+        'catalunya': _('Catalonia data updated'),
     }
     for scope in cplt.SCOPES:
         if scope != 'france' and updated[scope]:
@@ -962,14 +969,14 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         flname = cplt.generate_scope_plot(plot_type='map', scope="world", language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
         # await client.send_message(chat, caption, reply_markup=btns)
-    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']:
+    elif comm in ['argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']:
         btns = b_alphabet(comm, language=language)
         caption = _("Choose a Region")
         flname = cplt.generate_scope_plot(plot_type='map', scope=comm, language=language)
         await send_photo(client, chat, photo=flname, caption=caption, reply_markup=btns)
     elif comm == "countries":
         text = _("**List of Countries with regions**") + "\n\n"
-        for country in ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']:
+        for country in ['argentina', 'australia', 'austria', 'brazil', 'canada', 'chile', 'china', 'colombia', 'france', 'germany', 'india', 'italy', 'mexico', 'portugal', 'spain', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']:
             text += f"/{country}\n"
         await client.send_message(chat, text)
     elif comm == "clean" and user in admins:
@@ -1115,6 +1122,7 @@ async def g_request(client, message):
         _('Mallorca'): 'mallorca',
         _('Menorca'): 'menorca',
         _('Eivissa'): 'eivissa',
+        _('Catalunya'): 'catalunya',
     }
     if message.text.startswith('/'):
         comm = message.text.split()[0].strip('/')

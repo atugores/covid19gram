@@ -47,8 +47,8 @@ class DBHandler:
         MODIFY id int(11) NOT NULL AUTO_INCREMENT;
     """
 
-    SCOPES = ['gl', 'es', 'it', 'fr', 'at', 'ar', 'au', 'br', 'ca', 'cl', 'cn', 'co', 'de', 'in', 'mx', 'pt', 'us', 'gb', 'ib', 'ma', 'me', 'ei']
-    NSCOPES = ['world', 'spain', 'italy', 'france', 'austria', 'argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa']
+    SCOPES = ['gl', 'es', 'it', 'fr', 'at', 'ar', 'au', 'br', 'ca', 'cl', 'cn', 'co', 'de', 'in', 'mx', 'pt', 'us', 'gb', 'ib', 'ma', 'me', 'ei', 'ct']
+    NSCOPES = ['world', 'spain', 'italy', 'france', 'austria', 'argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']
 
     _conn = None
     _cur = None
