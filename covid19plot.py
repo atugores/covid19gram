@@ -138,9 +138,7 @@ class COVID19Plot(object):
         'catalunya'
     ]
 
-    AGES = [
-        'spain'
-    ]
+    AGES = []
 
     CB_color_cycle = [
         '#377eb8', '#ff7f00', '#4daf4a',
@@ -348,11 +346,6 @@ class COVID19Plot(object):
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
         if scope == 'spain':
             region_df = self._only_consolidated(region_df)
-        if scope == 'spain' and "recovered" in plot_type:
-            region_df = region_df.loc['2020-02-22':'2020-05-24']
-        if scope == 'spain' and "deceased" in plot_type:
-            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            region_df = region_df.loc['2020-02-22':l_date]
         caption = self._get_caption(plot_type, scope, region, language, region_df)
         return caption
 
@@ -366,9 +359,6 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
-        if scope == 'spain' and "deceased" in plot_type:
-            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            df = df.loc['2020-02-22':l_date]
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
@@ -396,12 +386,7 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        if scope == 'spain' and "recovered" in plot_type:
-            region_df = region_df.loc['2020-02-22':'2020-05-24']
-        elif scope == 'spain' and "deceased" in plot_type:
-            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            region_df = region_df.loc['2020-02-22':l_date]
-        elif scope == 'spain':
+        if scope == 'spain':
             region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             region_df.sort_index()
@@ -436,9 +421,6 @@ class COVID19Plot(object):
             return image_fpath
 
         df = source.get('df')
-        if scope == 'spain' and "deceased" in plot_type:
-            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            df = df.loc['2020-02-22':l_date]
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
@@ -555,8 +537,8 @@ class COVID19Plot(object):
                 if 'hospitalized' in df.columns and region != "france":
                     v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
                     last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
-                if 'intensive_care' in df.columns and region != "france":
-                    v = locale.format_string('%.0f', df['intensive_care'][-1], grouping=True).replace('nan', '-')
+                if 'intensivecare' in df.columns and region != "france":
+                    v = locale.format_string('%.0f', df['intensivecare'][-1], grouping=True).replace('nan', '-')
                     last_data = last_data + "  - " + _('Currently IC') + ": " + v + "\n"
                 v = locale.format_string('%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
                 last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
@@ -696,10 +678,10 @@ class COVID19Plot(object):
                 plt.plot(x, df['hospitalized'], color='y')
                 ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
                             xytext=(0, 3), textcoords="offset points")
-            if 'intensive_care' in df.columns:
-                plt.fill_between(x, 0, df['intensive_care'], color='indigo', alpha=alpha, label=_('Currently intensive_care'))
-                plt.plot(x, df['intensive_care'], color='indigo')
-                ax.annotate(f"{df['intensive_care'][-1]:0,.0f}", xy=(x[-1], df['intensive_care'][-1]),
+            if 'intensivecare' in df.columns:
+                plt.fill_between(x, 0, df['intensivecare'], color='indigo', alpha=alpha, label=_('Currently at intensive care'))
+                plt.plot(x, df['intensivecare'], color='indigo')
+                ax.annotate(f"{df['intensivecare'][-1]:0,.0f}", xy=(x[-1], df['intensivecare'][-1]),
                             xytext=(0, 3), textcoords="offset points")
             if scope != 'sspain':
                 plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
@@ -780,8 +762,8 @@ class COVID19Plot(object):
             title = _('CI14 per 100k consolidation at {region}').format(region=_(region))
 
             y_label = _('CI14 per 100k')
-            if 'cases_1' in df.columns:
-                for i, color in zip(range(7, 0, -1), self.grey_cycle[::-1]):
+            for i, color in zip(range(7, 0, -1), self.grey_cycle[::-1]):
+                if 'cases_' + str(i) in df.columns:
                     label = _("CI14/100k") + " " + df['acum14_cases_per_100k_' + str(i)].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
                     plt.plot(x, df['acum14_cases_per_100k_' + str(i)], color=color, linewidth=3, label=label)
 
@@ -1410,8 +1392,8 @@ class COVID19Plot(object):
 
         ds_credits = ""
         if scope == 'spain':
-            ds_name = 'Datadista'
-            ds_url = "https://github.com/datadista/datasets/"
+            ds_name = 'Ministerio de Sanidad, Consumo y Bienestar Social'
+            ds_url = "https://bit.ly/37nkX1I"
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         elif scope == 'world':
             ds_name = 'JHU CSSE'

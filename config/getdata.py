@@ -25,15 +25,11 @@ SCOPES = {
         ]
     },
     'spain': {
-        'type': 'git',
+        'type': 'link',
         'base_directory': 'external-data/spain',
-        'repo_url': 'https://github.com/datadista/datasets',
+        'repo_url': 'https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Datos_Casos_COVID19.csv',
         'watch': [
-            'COVID 19/ccaa_covid19_datos_isciii_nueva_serie.csv',
-            'COVID 19/ccaa_covid19_altas_long.csv',
-            'COVID 19/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv',
-            'COVID 19/nacional_covid19_rango_edad.csv',
-            'COVID 19/ccaa_pcr_realizadas_diarias.csv',
+            'spain_COVID19.csv'
         ]
     },
     'italy': {
@@ -105,7 +101,7 @@ SCOPES = {
 
 def update_data(force=False):
     updated = {}
-    # scope = 'catalunya'
+    # scope = 'spain'
     # updated[scope] = update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
         updated[scope] = update_scope_data(scope, force=force)
@@ -113,18 +109,23 @@ def update_data(force=False):
     return updated
 
 
-def status_data():
+def status_data(data_directory="data/"):
     text = "**Data sources updated at:**\n"
     mtime = None
     for scope in SCOPES.keys():
         base_directory = SCOPES[scope]['base_directory']
-        if SCOPES['type'] == 'git':
+        if SCOPES[scope]['type'] == 'git':
             repo = git.Repo(base_directory)
             headcommit = repo.head.commit
             mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
-        elif SCOPES['type'] == 'local':
+        elif SCOPES[scope]['type'] == 'local':
             csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
             mtime = datetime.datetime.fromtimestamp(os.path.getmtime(csv_external))
+        elif SCOPES[scope]['type'] in ['socrata', 'link']:
+            csv_covid19gram = f"{data_directory}/{scope}_covid19gram.csv"
+            sc_df = pd.read_csv(csv_covid19gram)
+            sc_df['date'] = pd.to_datetime(sc_df['date'])
+            mtime = sc_df['date'].max()
         text += f"- {scope}: {mtime:%d %b %Y %H:%M:%S}\n"
     return text
 
@@ -156,7 +157,7 @@ def update_api_scope_data(day, ini_scopes, base_directory):
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
-    if scope in ['italy', 'france', 'balears', 'mallorca', 'menorca', 'eivissa']:
+    if scope in ['italy', 'france', 'balears', 'mallorca', 'menorca', 'eivissa', 'spain']:
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
@@ -165,18 +166,6 @@ def get_or_generate_input_files(scope, data_directory="data/"):
         generate_austria_file(data_directory)
         base_directory = SCOPES[scope]['base_directory']
         return [data_directory + scope + '_data.csv']
-
-    if scope == 'spain':
-        generate_spain_cases_file(data_directory)
-        generate_spain_deceased_file(data_directory)
-        base_directory = SCOPES[scope]['base_directory']
-        return [
-            data_directory + scope + '_cases.csv',
-            base_directory + "/" + SCOPES[scope]['watch'][1],
-            data_directory + scope + "_deceased.csv",
-            base_directory + "/" + SCOPES[scope]['watch'][3],
-            base_directory + "/" + SCOPES[scope]['watch'][4]
-        ]
 
     if scope == 'world':
         generate_world_input_files(data_directory)
@@ -201,7 +190,7 @@ def repository_last_changes(scope):
     return np.max(files_mtime)
 
 
-def repository_has_changes(scope, data_directory):
+def repository_has_changes(scope, data_directory="data/"):
     # check if repository exists
     csv_mtime = None
     new_mtime = None
@@ -233,12 +222,22 @@ def repository_has_changes(scope, data_directory):
         # local dataset
         csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
         new_mtime = int(os.path.getmtime(csv_external))
+    elif SCOPES[scope]['type'] == 'link':
+        download_link(scope, data_directory)
+        csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
+        sc_df = pd.read_csv(csv_external)
+        if scope == 'spain':
+            sc_df.rename(columns={'Fecha': 'date'}, inplace=True)
+        sc_df['date'] = pd.to_datetime(sc_df['date'])
+        new_mtime = sc_df['date'].max().timestamp()
     elif SCOPES[scope]['type'] == 'socrata':
-        client = Socrata(SCOPES['catalunya']['repo_url'], SCOPES['catalunya']['token'])
-        results = client.get(SCOPES['catalunya']['dataset'], limit=2000000)
+        client = Socrata(SCOPES[scope]['repo_url'], SCOPES[scope]['token'])
+        results = client.get(SCOPES[scope]['dataset'], limit=2000000)
         sc_df = pd.DataFrame.from_records(results)
-        sc_df['data'] = pd.to_datetime(sc_df['data'])
-        new_mtime = sc_df['data'].max().timestamp()
+        if scope == 'catalunya':
+            sc_df.rename(columns={'data': 'date'}, inplace=True)
+        sc_df['date'] = pd.to_datetime(sc_df['date'])
+        new_mtime = sc_df['date'].max().timestamp()
 
     # check if exists covid19gram file for this scope and its mtime
     csv_covid19gram = f"{data_directory}/{scope}_covid19gram.csv"
@@ -246,12 +245,16 @@ def repository_has_changes(scope, data_directory):
         return True
     csv_mtime = int(os.path.getmtime(csv_covid19gram))
 
-    if SCOPES[scope]['type'] == 'socrata':
+    if SCOPES[scope]['type'] in ['socrata', 'link']:
         sc_df = pd.read_csv(csv_covid19gram)
         sc_df['date'] = pd.to_datetime(sc_df['date'])
         csv_mtime = sc_df['date'].max().timestamp()
 
     if csv_mtime < new_mtime:
+        if SCOPES[scope]['type'] in ['link']:
+            now = datetime.datetime.now()
+            today = now.strftime("%Y%m%d")
+            copy2(f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}", f"{SCOPES[scope]['base_directory']}/{scope}_COVID19_{today}.csv")
         return True
     return False
 
@@ -315,51 +318,6 @@ def generate_world_input_files(data_directory="data/"):
         for date in global_deceased.keys():
             deceased_file.write(
                 f"{date},{country_code},total-world,{global_deceased[date]}\n")
-
-
-def generate_spain_cases_file(data_directory):
-    """
-    The file ccaa_covid19_datos_isciii_nueva_serie.csv
-    has information about how many cases are detected each day.
-    We have to convert the data to accumulated info
-    """
-    base_directory = SCOPES['spain']['base_directory']
-    csv_cases = base_directory + "/" + SCOPES['spain']['watch'][0]
-
-    cases_df = pd.read_csv(csv_cases)
-    cases_df['fecha'] = pd.to_datetime(cases_df['fecha'])
-    cases_df.set_index(['fecha', 'cod_ine'], inplace=True)
-    cases_df.sort_index(inplace=True)
-    cases_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
-    cases_df['total_pcr'] = cases_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
-    cases_df['total_desc'] = cases_df.groupby(['CCAA'])['num_casos_prueba_desconocida'].cumsum()
-    cases_df['total'] = cases_df['total_pcr'] + cases_df['total_desc']
-    cases_df.drop(columns=[
-        'num_casos', 'num_casos_prueba_pcr', 'num_casos_prueba_test_ac',
-        'num_casos_prueba_otras', 'num_casos_prueba_desconocida', 'total_pcr', 'total_desc'], inplace=True)
-    cases_df.to_csv(data_directory + 'spain_cases.csv')
-    return
-
-
-def generate_spain_deceased_file(data_directory):
-    """
-    The file ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv
-    has information about deceases on each day.
-    We have to convert the data to accumulated info
-    """
-    base_directory = SCOPES['spain']['base_directory']
-    csv_deceased = base_directory + "/" + SCOPES['spain']['watch'][2]
-
-    dec_df = pd.read_csv(csv_deceased)
-    dec_df.rename(columns={'Fecha': 'fecha', 'Fallecidos': 'total'}, inplace=True)
-    dec_df['fecha'] = pd.to_datetime(dec_df['fecha'])
-    dec_df.set_index(['fecha', 'cod_ine'], inplace=True)
-    dec_df.sort_index(inplace=True)
-    dec_df.rename(columns={'total': 'deceased'}, inplace=True)
-    dec_df['total'] = dec_df.groupby(['CCAA'])['deceased'].cumsum()
-    dec_df.drop(columns=['deceased'], inplace=True)
-    dec_df.to_csv(data_directory + 'spain_deceased.csv')
-    return
 
 
 def generate_austria_file(data_directory):
@@ -429,7 +387,6 @@ def generate_catalunya_file(data_directory):
     for region in pivot_df['region'].unique():
         reg_df = pivot_df[pivot_df.region == region]
         reg_df.reset_index(inplace=True)
-        # reg_df['date'] = pd.to_datetime(reg_df['date'])
         reg_df.set_index(['date'], inplace=True)
         reg_df.sort_index(inplace=True)
         idx = pd.date_range(reg_df.index.min(), max_date)
@@ -448,47 +405,44 @@ def generate_catalunya_file(data_directory):
     new_df.to_csv(data_directory + "catalunya_data.csv")
 
 
-def add_spain_history(scope, df):
-    repo = git.Repo(SCOPES[scope]['base_directory'])
-    path = f"{SCOPES[scope]['watch'][0]}"
-    revlist = ((commit, (commit.tree / path).data_stream.read())for commit in repo.iter_commits(paths=path))
-    order = 0
-    previous_commited_date = None
-    for commit, filecontents in revlist:
-        ts = int(commit.committed_date)
-        logging.info("Commited on " + datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
-        if order > 0:
-            hist_df = pd.read_csv(io.BytesIO(filecontents), encoding='utf8')
-            hist_df['fecha'] = pd.to_datetime(hist_df['fecha'])
-            hist_df.rename(columns={'fecha': 'date', 'cod_ine': 'region_code'}, inplace=True)
-            hist_df.set_index(['date', 'region_code'], inplace=True)
-            hist_df.sort_index(inplace=True)
-            hist_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
-            hist_df.drop(columns=[
-                'num_casos', 'num_casos_prueba_test_ac',
-                'num_casos_prueba_otras', ], inplace=True)
-            committed_date_pcr = hist_df['num_casos_prueba_pcr'].notnull()[::-1].idxmax()[0]
-            commited_date = committed_date_pcr.strftime("%d/%m/%Y")
-            commited_date_desc = hist_df['num_casos_prueba_desconocida'].notnull()[::-1].idxmax()[0]
-            if commited_date_desc > committed_date_pcr:
-                commited_date = commited_date_desc.strftime("%d/%m/%Y")
-            if not(previous_commited_date and previous_commited_date == commited_date):
-                previous_commited_date = commited_date
-                hist_df['total_pcr'] = hist_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
-                hist_df['total_desc'] = hist_df.groupby(['CCAA'])['num_casos_prueba_desconocida'].cumsum()
-                hist_df['total'] = hist_df['total_pcr'] + hist_df['total_desc']
-                hist_df.drop(columns=[
-                    'num_casos_prueba_pcr', 'num_casos_prueba_desconocida', 'total_pcr', 'total_desc', 'CCAA'], inplace=True)
-                hist_df.rename(columns={
-                    'fecha': 'date', 'cod_ine': 'region_code',
-                    'total': 'cases_' + str(order)}, inplace=True)
-                df = df.merge(hist_df, left_index=True, right_index=True, how='left')
-                order += 1
-        else:
-            order += 1
-        if order == 10:
+def download_link(scope, data_directory="data/"):
+    rqst = requests.get(SCOPES[scope]['repo_url']).content
+    base_directory = SCOPES[scope]['base_directory']
+    df = pd.read_csv(io.StringIO(rqst.decode('ISO-8859-1')), sep=';', skiprows=6)
+    filename = f'{base_directory}/{scope}_COVID19.csv'
+
+    if scope == 'spain':
+        codes_df = pd.read_csv(f'{data_directory}spain_codes.csv')
+        df = codes_df.merge(df, left_on='CCAA_ISO', right_on='CCAA_ISO', how='right')
+        df.rename(columns={'Fecha': 'date', 'Casos_Diagnosticados': 'cases', 'Fallecidos': 'deceased', 'Hospitalizados': 'hospitalized', 'UCI': 'intensivecare'}, inplace=True)
+        df['date'] = pd.to_datetime(df['date'], format='%d-%m-%Y')
+        df.set_index(['date', 'region_code'], inplace=True)
+        df.sort_index(inplace=True)
+        df['total'] = df.groupby(['region'])['cases'].cumsum()
+        df['total-deceased'] = df.groupby(['region'])['deceased'].cumsum()
+        df.drop(columns=['CCAA_ISO', 'cases', 'deceased'], inplace=True)
+        df.rename(columns={'total': 'cases', 'total-deceased': 'deceased'}, inplace=True)
+    df.to_csv(filename)
+
+
+def add_history(scope, total_df):
+    today = datetime.datetime.now()
+    base_directory = SCOPES[scope]['base_directory']
+    for i in range(1, 10):
+        day = datetime.timedelta(i)
+        back = today - day
+        backday = back.strftime("%Y%m%d")
+        backday_filename = f'{base_directory}/{scope}_COVID19_{backday}.csv'
+        if not os.path.isfile(backday_filename):
             break
-    return df
+        hist_df = pd.read_csv(backday_filename)
+        hist_df.rename(columns={'cases': 'cases_' + str(i)}, inplace=True)
+        hist_df.drop(columns=['region', 'hospitalized', 'intensivecare', 'deceased'], inplace=True)
+        hist_df['date'] = pd.to_datetime(hist_df['date'])
+        hist_df.set_index(['date', 'region_code'], inplace=True)
+        hist_df.sort_index(inplace=True)
+        total_df = total_df.merge(hist_df, left_index=True, right_index=True, how='left')
+    return total_df
 
 
 def generate_covidgram_dataset(scope, files, data_directory):
@@ -551,7 +505,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     # history columns
     if scope == 'spain':
-        df = add_spain_history(scope, df)
+        df = add_history(scope, df)
 
     # column recovered
     if csv_recovered:
@@ -634,12 +588,15 @@ def generate_covidgram_dataset(scope, files, data_directory):
             total['region'] = f'total-{scope}'
             df.loc[(date, 0), df.columns] = total.values
 
+    if 'recovered' not in df.columns:
+        df['recovered'] = 0.0
+
     df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
     df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
     df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
     df['active_cases_per_100k'] = df['active_cases'] * 100_000 / df['population']
-    if 'cases_1' in df.columns:
-        for i in range(1, 10):
+    for i in range(1, 10):
+        if 'cases_' + str(i) in df.columns:
             df['acum14_cases_' + str(i)] = 0.0
             df['acum14_cases_per_100k_' + str(i)] = 0.0
             df['increase_cases_' + str(i)] = 0.0
@@ -694,8 +651,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
         df['Rt'].mask(df.region == region, p7, inplace=True)
         df['epg'].mask(df.region == region, epg, inplace=True)
         # cases history
-        if 'cases_1' in df.columns:
-            for i in range(1, 10):
+        for i in range(1, 10):
+            if 'cases_' + str(i) in df.columns:
                 increase = reg_df['cases_' + str(i)] - reg_df['cases_' + str(i)].shift(1)
                 increase[increase < 0] = 0.0
                 df['increase_cases_' + str(i)].mask(df.region == region, increase, inplace=True)
