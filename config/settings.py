@@ -273,3 +273,33 @@ class DBHandler:
             date = datetime.fromtimestamp(date)
             text += f"- {date:%d %b %Y %H:%M:%S}: {num_files}\n"
         return text
+
+    async def set_notified(self, scope):
+        sql = f'INSERT INTO updates (scope,notified) VALUES ("{scope}","1") ON DUPLICATE KEY UPDATE notified = "1"'
+        self._get_cursor()
+        self._cur.execute(sql)
+
+    async def get_notified(self):
+        sql = f'SELECT scope FROM updates WHERE notified="1"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        updates = [scope[0] for scope in result]
+        sql = 'UPDATE updates SET notified="0"'
+        self._get_cursor()
+        self._cur.execute(sql)
+        return updates
+
+    async def status_data(self):
+        sql = f'SELECT scope,date,notified FROM updates'
+        self._get_cursor()
+        self._cur.execute(sql)
+        result = self._cur.fetchall()
+        date_scope = [val for val in result]
+        text = "**Data sources updated at:**\n"
+        for scope, date, notified in date_scope:
+            notf = "Notified"
+            if notified == 1:
+                notf = "Not Notified"
+            text += f"-{scope}: {date:%d %b %Y %H:%M:%S}__[{notf}]__\n"
+        return text

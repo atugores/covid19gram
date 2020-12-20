@@ -12,8 +12,12 @@ import glob
 import requests
 import io
 from sodapy import Socrata
+import asyncio
+from config.settings import DBHandler
+# from settings import DBHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+dbhd = DBHandler()
 
 SCOPES = {
     'world': {
@@ -99,44 +103,24 @@ SCOPES = {
 }
 
 
-def update_data(force=False):
+async def update_data(force=False):
     updated = {}
     # scope = 'spain'
     # updated[scope] = update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
-        updated[scope] = update_scope_data(scope, force=force)
-    updated.update(generate_covidgram_dataset_from_api(force=force))
+        updated[scope] = await update_scope_data(scope, force=force)
+    updated.update(await generate_covidgram_dataset_from_api(force=force))
     return updated
 
 
-def status_data(data_directory="data/"):
-    text = "**Data sources updated at:**\n"
-    mtime = None
-    for scope in SCOPES.keys():
-        base_directory = SCOPES[scope]['base_directory']
-        if SCOPES[scope]['type'] == 'git':
-            repo = git.Repo(base_directory)
-            headcommit = repo.head.commit
-            mtime = datetime.datetime.fromtimestamp(headcommit.committed_date)
-        elif SCOPES[scope]['type'] == 'local':
-            csv_external = f"{SCOPES[scope]['base_directory']}/{SCOPES[scope]['watch'][0]}"
-            mtime = datetime.datetime.fromtimestamp(os.path.getmtime(csv_external))
-        elif SCOPES[scope]['type'] in ['socrata', 'link']:
-            csv_covid19gram = f"{data_directory}/{scope}_covid19gram.csv"
-            sc_df = pd.read_csv(csv_covid19gram)
-            sc_df['date'] = pd.to_datetime(sc_df['date'])
-            mtime = sc_df['date'].max()
-        text += f"- {scope}: {mtime:%d %b %Y %H:%M:%S}\n"
-    return text
-
-
-def update_scope_data(scope, data_directory="data/", force=False):
+async def update_scope_data(scope, data_directory="data/", force=False):
     logging.info("Start update data for " + scope)
     if not repository_has_changes(scope, data_directory) and not force:
         logging.info("Finish update data for " + scope + ". No changes in repository")
         return False
     input_files = get_or_generate_input_files(scope, data_directory)
     generate_covidgram_dataset(scope, input_files, data_directory)
+    await dbhd.set_notified(scope)
     logging.info("Finish update data for " + scope + ". New file created")
     return True
 
@@ -695,7 +679,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df.to_csv(f"{data_directory}/{scope}_covid19gram.csv")
 
 
-def generate_covidgram_dataset_from_api(data_directory="data/", force=False, base_directory='external-data/acovid19tracking/'):
+async def generate_covidgram_dataset_from_api(data_directory="data/", force=False, base_directory='external-data/acovid19tracking/'):
     ini_scopes = ['Argentina', 'Australia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Germany', 'India', 'Mexico', 'Portugal', 'US', 'United Kingdom']
     dfc = {}
     updated = {}
@@ -878,6 +862,7 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
 
             dfc[scope].sort_index(inplace=True)
             dfc[scope].to_csv(f"{data_directory}/{scope.lower().replace(' ', '')}_covid19gram.csv")
+            await dbhd.set_notified(scope.lower().replace(' ', ''))
             logging.info(f"Finish update data for {scope.lower().replace(' ', '')}. New file created")
             updated[scope.lower().replace(' ', '')] = True
     else:
@@ -885,5 +870,9 @@ def generate_covidgram_dataset_from_api(data_directory="data/", force=False, bas
     return updated
 
 
+async def main():
+    await update_data(force=True)
+
 if __name__ == "__main__":
-    update_data(force=True)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())

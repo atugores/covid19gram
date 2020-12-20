@@ -1,0 +1,14 @@
+[USER]
+admin = 
+
+[API]
+api_id = 
+api_hash = 
+api_token = 
+adm_token = 
+
+[DB]
+host = 
+user = 
+passwd = 
+db =

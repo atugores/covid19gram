@@ -11,7 +11,6 @@ from pyrogram import Client, filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, CallbackQuery
 from pyrogram.errors import BadRequest
 from covid19plot import COVID19Plot
-from config.getdata import update_data, status_data
 from config.countries import countries
 from config.settings import DBHandler
 import gettext
@@ -884,7 +883,7 @@ async def edit_region(client, chat, mid, plot_type="daily_cases", region="Total"
 
 
 async def send_notifications():
-    updated = update_data()
+    updated = await dbhd.get_notified()
     _ = translations['en'].gettext
     text = {
         'world': _('🌐Global data updated'),
@@ -912,7 +911,7 @@ async def send_notifications():
         'catalunya': _('Catalonia data updated'),
     }
     for scope in cplt.SCOPES:
-        if scope != 'france' and updated[scope]:
+        if scope in updated:
             for user_id in await dbhd.get_users_scope(scope):
                 # await asyncio.sleep(1)
                 language = await get_language(await app.get_users(user_id))
@@ -988,12 +987,12 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         for f in filelist:
             os.remove(os.path.join("images", f))
         await client.send_message(chat, "Cleaned.")
-    elif comm == "update" and user in admins:
-        await client.send_message(chat, "Updating data.")
+    elif comm == "notify" and user in admins:
+        await client.send_message(chat, "Notifing Users")
         await send_notifications()
-        await client.send_message(chat, "Data Updated.")
+        await client.send_message(chat, "Users Notified")
     elif comm == "status" and user in admins:
-        text = status_data()
+        text = await dbhd.status_data()
         text += "\n" + await dbhd.status_users()
         text += "\n" + await dbhd.status_notifications()
         text += "\n" + await dbhd.status_files()
@@ -1426,7 +1425,7 @@ async def answer_inline(client, inline_query):
 
 async def main():
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(send_notifications, "interval", hours=1)
+    scheduler.add_job(send_notifications, "interval", minutes=15)
     scheduler.start()
     await app.start()
     logging.info("Started")
