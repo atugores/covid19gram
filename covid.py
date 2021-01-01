@@ -174,7 +174,7 @@ def get_label(scope='world', language='en'):
     if scope == 'world':
         label += _('__Data source from__') + ' __[CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)__'
     elif scope == 'spain':
-        label += _('__Data source from__') + ' __[Ministerio de Sanidad, Consumo y Bienestar Social](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Datos_Casos_COVID19.csv)__'
+        label += _('__Data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__'
     elif scope == 'italy':
         label += _('__Data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__'
     elif scope == 'france':
@@ -1074,7 +1074,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += '\n'
 
         about += _("**Data Sources**") + "\n"
-        about += "🗂" + _('__Spain data source from__') + ' __[Ministerio de Sanidad, Consumo y Bienestar Social](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Datos_Casos_COVID19.csv)__\n'
+        about += "🗂" + _('__Spain data source from__') + ' __[Datadista](https://github.com/datadista/datasets/)__\n'
         about += "🗂" + _('__World data source from__') + ' __[JHU CSSE](https://github.com/CSSEGISandData/COVID-19)__, '
         about += _('__transformed to JSON by__') + ' __[github.com/pomber](https://github.com/pomber/covid19)__\n'
         about += "🗂" + _('__Italy data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__\n'

@@ -346,6 +346,11 @@ class COVID19Plot(object):
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
         if scope == 'spain':
             region_df = self._only_consolidated(region_df)
+        if scope == 'spain' and "recovered" in plot_type:
+            region_df = region_df.loc['2020-02-22':'2020-05-24']
+        if scope == 'spain' and "deceased" in plot_type:
+            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-02-22':l_date]
         caption = self._get_caption(plot_type, scope, region, language, region_df)
         return caption
 
@@ -359,6 +364,9 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
+        if scope == 'spain' and "deceased" in plot_type:
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-02-22':l_date]
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
@@ -386,7 +394,12 @@ class COVID19Plot(object):
 
         # get region data
         region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        if scope == 'spain':
+        if scope == 'spain' and "recovered" in plot_type:
+            region_df = region_df.loc['2020-02-22':'2020-05-24']
+        elif scope == 'spain' and "deceased" in plot_type:
+            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-02-22':l_date]
+        elif scope == 'spain':
             region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             region_df.sort_index()
@@ -421,6 +434,9 @@ class COVID19Plot(object):
             return image_fpath
 
         df = source.get('df')
+        if scope == 'spain' and "deceased" in plot_type:
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-02-22':l_date]
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
@@ -1392,8 +1408,8 @@ class COVID19Plot(object):
 
         ds_credits = ""
         if scope == 'spain':
-            ds_name = 'Ministerio de Sanidad, Consumo y Bienestar Social'
-            ds_url = "https://bit.ly/37nkX1I"
+            ds_name = 'Datadista'
+            ds_url = "https://github.com/datadista/datasets/"
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         elif scope == 'world':
             ds_name = 'JHU CSSE'
