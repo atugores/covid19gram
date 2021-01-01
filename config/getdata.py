@@ -13,8 +13,8 @@ import requests
 import io
 from sodapy import Socrata
 import asyncio
-# from config.settings import DBHandler
-from settings import DBHandler
+from config.settings import DBHandler
+# from settings import DBHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 dbhd = DBHandler()
@@ -117,12 +117,12 @@ SCOPES = {
 
 async def update_data(force=False):
     updated = {}
-    scope = 'spain'
-    updated[scope] = await update_scope_data(scope, force=force)
-    # for scope in SCOPES.keys():
-    #     updated[scope] = await update_scope_data(scope, force=force)
-    # updated.update(await generate_covidgram_dataset_from_api(force=force))
-    # return updated
+    # scope = 'spain'
+    # updated[scope] = await update_scope_data(scope, force=force)
+    for scope in SCOPES.keys():
+        updated[scope] = await update_scope_data(scope, force=force)
+    updated.update(await generate_covidgram_dataset_from_api(force=force))
+    return updated
 
 
 async def update_scope_data(scope, data_directory="data/", force=False):
