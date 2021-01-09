@@ -3,10 +3,10 @@
 import configparser
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
-import re
+# import re
 import asyncio
 from pyrogram import Client, filters, idle
-from pyrogram.types import CallbackQuery
+# from pyrogram.types import CallbackQuery
 # from pyrogram.errors import BadRequest
 from covid19plot import COVID19Plot
 from config.getdata import update_data
@@ -166,52 +166,56 @@ async def update_notifications():
                     await exception_handle(user_id, e)
 
 
-async def DoBot(comm, param, client, message, **kwargs):
-    chat = None
-    # user = None
-    print(type(message))
-    if type(message) == CallbackQuery:
-        # user = message.from_user
-        chat = message.message.chat.id
-    else:
-        # user = message.from_user.id
-        chat = message.chat.id
-    # md_param = ""
-    # if 'md_param' in kwargs and kwargs['md_param'] != "":
-    #     md_param = kwargs['md_param']
-    if comm in ["start", "help"]:
-        await client.send_message(chat, "Admin comands:\n\n/clean\n/update\n/status")
+async def DoBot(command, chat, user_id, client, **kwargs):
+    comm = command.pop(0)
 
-    elif comm == "clean":
+    if comm in ["start", "help"]:
+        await client.send_message(chat, "Admin comands:\n\n/clean\n/update\n/status\n/get")
+
+    elif comm == "clean" and user_id in admins:
         await client.send_message(chat, "Cleanig images cache.")
         filelist = [f for f in os.listdir("images") if f.endswith(".png")]
         await dbhd.clean_hashes()
         for f in filelist:
             os.remove(os.path.join("images", f))
         await client.send_message(chat, "Cleaned.")
-    elif comm == "update":
+    elif comm == "update" and user_id in admins:
         await client.send_message(chat, "Updating data.")
         await update_notifications()
         await client.send_message(chat, "Data Updated.")
-    elif comm == "status":
+    elif comm == "status" and user_id in admins:
         text = await dbhd.status_data()
         text += "\n" + await dbhd.status_users()
         text += "\n" + await dbhd.status_notifications()
         text += "\n" + await dbhd.status_files()
         await envia(client, chat, text)
+    elif comm == "get":
+        SCOPES = ['world', 'spain', 'italy', 'france', 'austria', 'argentina', 'australia', 'brazil', 'canada', 'chile', 'china', 'colombia', 'germany', 'india', 'mexico', 'portugal', 'us', 'unitedkingdom', 'balears', 'mallorca', 'menorca', 'eivissa', 'catalunya']
+        failed = True
+        for scp in command:
+            if scp in SCOPES:
+                filename = f'data/{scp}_covid19gram.csv'
+                failed = False
+                await client.send_document(chat, filename)
+        if failed:
+            text = "**Use a region from this list:**"
+            for scp in SCOPES:
+                text = text + "\n" + scp
+            await client.send_message(chat, text)
 
 
 @app.on_message(filters.text)
 async def g_request(client, message):
     user_id = message.from_user.id
-
-    if message.text.startswith('/') and user_id in admins:
-        comm = message.text.split()[0].strip('/')
-        param = ""
-        if re.match('^/' + comm + ' .+', message.text):
-            param = re.search('^/' + comm + ' (.+)', message.text).group(1)
-        md_param = message.text.markdown.replace('/' + comm, '', 1)
-        await DoBot(comm, param, client, message, md_param=md_param)
+    chat = message.chat.id
+    if message.text:
+        comm = message.text.split()
+        comm[0] = comm[0].split('@')[0].strip('/')
+        # param = ""
+        # if re.match('^/' + comm + ' .+', message.text):
+        #     param = re.search('^/' + comm + ' (.+)', message.text).group(1)
+        # md_param = message.text.markdown.replace('/' + comm, '', 1)
+        await DoBot(comm, chat, user_id, client)
 
 
 async def main():
