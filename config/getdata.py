@@ -28,26 +28,26 @@ SCOPES = {
             'docs/timeseries.json',
         ]
     },
-    # 'spain': {
-    #     'type': 'link',
-    #     'base_directory': 'external-data/spain',
-    #     'repo_url': 'https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Datos_Casos_COVID19.csv',
-    #     'watch': [
-    #         'spain_COVID19.csv'
-    #     ]
-    # },
     'spain': {
         'type': 'git',
         'base_directory': 'external-data/spain',
         'repo_url': 'https://github.com/datadista/datasets',
         'watch': [
-            'COVID 19/ccaa_covid19_datos_isciii_nueva_serie.csv',
-            'COVID 19/ccaa_covid19_altas_long.csv',
-            'COVID 19/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv',
-            'COVID 19/nacional_covid19_rango_edad.csv',
-            'COVID 19/ccaa_pcr_realizadas_diarias.csv',
+            'COVID 19/ccaa_covid19_datos_sanidad_nueva_serie.csv'
         ]
     },
+    # 'spain': {
+    #     'type': 'git',
+    #     'base_directory': 'external-data/spain',
+    #     'repo_url': 'https://github.com/datadista/datasets',
+    #     'watch': [
+    #         'COVID 19/ccaa_covid19_datos_isciii_nueva_serie.csv',
+    #         'COVID 19/ccaa_covid19_altas_long.csv',
+    #         'COVID 19/ccaa_covid19_fallecidos_por_fecha_defuncion_nueva_serie_long.csv',
+    #         'COVID 19/nacional_covid19_rango_edad.csv',
+    #         'COVID 19/ccaa_pcr_realizadas_diarias.csv',
+    #     ]
+    # },
     'italy': {
         'type': 'git',
         'base_directory': 'external-data/italy',
@@ -153,7 +153,7 @@ def update_api_scope_data(day, ini_scopes, base_directory):
 
 
 def get_or_generate_input_files(scope, data_directory="data/"):
-    if scope in ['italy', 'france', 'balears', 'mallorca', 'menorca', 'eivissa']:
+    if scope in ['italy', 'france', 'balears', 'mallorca', 'menorca', 'eivissa', 'spain']:
         base_directory = SCOPES[scope]['base_directory']
         files = [base_directory + "/" + f for f in SCOPES[scope].get('watch', [])]
         return files
@@ -169,7 +169,7 @@ def get_or_generate_input_files(scope, data_directory="data/"):
     if scope == 'catalunya':
         generate_catalunya_file(data_directory)
         return [data_directory + scope + '_data.csv']
-    if scope == 'spain':
+    if scope == 'spain_old':
         generate_spain_cases_file(data_directory)
         generate_spain_deceased_file(data_directory)
         base_directory = SCOPES[scope]['base_directory']
@@ -468,29 +468,18 @@ def add_spain_history(scope, df):
         logging.info("Commited on " + datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         if order > 0:
             hist_df = pd.read_csv(io.BytesIO(filecontents), encoding='utf8')
-            hist_df['fecha'] = pd.to_datetime(hist_df['fecha'])
-            hist_df.rename(columns={'fecha': 'date', 'cod_ine': 'region_code'}, inplace=True)
+            hist_df.rename(columns={'Fecha': 'date', 'cod_ine': 'region_code', 'CCAA': 'region', 'Casos': 'cases', 'Casos_Diagnosticados': 'cases', 'Fallecidos': 'deceased', 'Hospitalizados': 'hospitalized', 'UCI': 'intensivecare'}, inplace=True)
+            hist_df['date'] = pd.to_datetime(hist_df['date'], format='%Y-%m-%d')
             hist_df.set_index(['date', 'region_code'], inplace=True)
             hist_df.sort_index(inplace=True)
-            hist_df.rename(columns={'ccaa': 'CCAA'}, inplace=True)
-            hist_df.drop(columns=[
-                'num_casos', 'num_casos_prueba_test_ac',
-                'num_casos_prueba_otras', ], inplace=True)
-            committed_date_pcr = hist_df['num_casos_prueba_pcr'].notnull()[::-1].idxmax()[0]
-            commited_date = committed_date_pcr.strftime("%d/%m/%Y")
-            commited_date_desc = hist_df['num_casos_prueba_desconocida'].notnull()[::-1].idxmax()[0]
-            if commited_date_desc > committed_date_pcr:
-                commited_date = commited_date_desc.strftime("%d/%m/%Y")
+
+            committed_date_max = hist_df['cases'].notnull()[::-1].idxmax()[0]
+            commited_date = committed_date_max.strftime("%d/%m/%Y")
             if not(previous_commited_date and previous_commited_date == commited_date):
                 previous_commited_date = commited_date
-                hist_df['total_pcr'] = hist_df.groupby(['CCAA'])['num_casos_prueba_pcr'].cumsum()
-                hist_df['total_desc'] = hist_df.groupby(['CCAA'])['num_casos_prueba_desconocida'].cumsum()
-                hist_df['total'] = hist_df['total_pcr'] + hist_df['total_desc']
-                hist_df.drop(columns=[
-                    'num_casos_prueba_pcr', 'num_casos_prueba_desconocida', 'total_pcr', 'total_desc', 'CCAA'], inplace=True)
-                hist_df.rename(columns={
-                    'fecha': 'date', 'cod_ine': 'region_code',
-                    'total': 'cases_' + str(order)}, inplace=True)
+                hist_df['total'] = hist_df.groupby(['region'])['cases'].cumsum()
+                hist_df.drop(columns=['cases', 'hospitalized', 'deceased', 'region', 'intensivecare'], inplace=True)
+                hist_df.rename(columns={'total': 'cases_' + str(order)}, inplace=True)
                 df = df.merge(hist_df, left_index=True, right_index=True, how='left')
                 order += 1
         else:
@@ -594,8 +583,20 @@ def generate_covidgram_dataset(scope, files, data_directory):
             'gueris': 'recovered', 'deces': 'deceased'}, inplace=True)
         df['region'].mask(df.region_code == 'FRA', 'total-france', inplace=True)
 
-    df['date'] = pd.to_datetime(df['date'].str.replace("_", "-"))
-    df.set_index(['date', 'region_code'], inplace=True)
+    if scope == 'spain':
+        df.rename(columns={'Fecha': 'date', 'cod_ine': 'region_code', 'CCAA': 'region', 'Casos': 'cases', 'Casos_Diagnosticados': 'cases', 'Fallecidos': 'deceased', 'Hospitalizados': 'hospitalized', 'UCI': 'intensivecare'}, inplace=True)
+        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+        df.set_index(['date', 'region_code'], inplace=True)
+        df.sort_index(inplace=True)
+        df['total'] = df.groupby(['region'])['cases'].cumsum()
+        df['total-deceased'] = df.groupby(['region'])['deceased'].cumsum()
+        df.drop(columns=['cases', 'deceased'], inplace=True)
+        df.rename(columns={'total': 'cases', 'total-deceased': 'deceased'}, inplace=True)
+
+    if scope != 'spain':
+        df['date'] = pd.to_datetime(df['date'].str.replace("_", "-"))
+        df.set_index(['date', 'region_code'], inplace=True)
+
     dates = df.index.get_level_values(0)
 
     # history columns
