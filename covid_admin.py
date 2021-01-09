@@ -12,6 +12,7 @@ from covid19plot import COVID19Plot
 from config.getdata import update_data
 from config.settings import DBHandler
 import logging
+import random
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -202,6 +203,9 @@ async def DoBot(command, chat, user_id, client, **kwargs):
             for scp in SCOPES:
                 text = text + "\n" + scp
             await client.send_message(chat, text)
+    elif comm == "opendata":
+        if random.randint(0, 4) == 3:
+            await client.send_message(chat, "👀")
 
 
 @app.on_message(filters.text)
