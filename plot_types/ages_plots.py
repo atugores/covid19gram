@@ -14,6 +14,7 @@ class COVID19AgesPlotType(COVID19PlotType):
 class C19PT_ages(COVID19AgesPlotType):
 
     _name = 'ages'
+    _category = 'ages'
 
     def get_title(self):
         _ = self.translation

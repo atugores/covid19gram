@@ -11,6 +11,7 @@ class COVID19RegionPlotType(COVID19PlotType):
 class C19PT_daily_cases(COVID19RegionPlotType):
 
     _name = 'daily_cases'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -34,6 +35,7 @@ class C19PT_daily_cases(COVID19RegionPlotType):
 class C19PT_cases(COVID19RegionPlotType):
 
     _name = 'cases'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -50,6 +52,7 @@ class C19PT_cases(COVID19RegionPlotType):
 class C19PT_daily_hospitalized(COVID19RegionPlotType):
 
     _name = 'daily_hospitalized'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -66,6 +69,7 @@ class C19PT_daily_hospitalized(COVID19RegionPlotType):
 class C19PT_hospitalized(COVID19RegionPlotType):
 
     _name = 'hospitalized'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -82,6 +86,7 @@ class C19PT_hospitalized(COVID19RegionPlotType):
 class C19PT_active(COVID19RegionPlotType):
 
     _name = 'active'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -104,6 +109,7 @@ class C19PT_active(COVID19RegionPlotType):
 class C19PT_active_recovered_deceased(COVID19RegionPlotType):
 
     _name = 'active_recovered_deceased'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -141,6 +147,7 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
 class C19PT_deceased(COVID19RegionPlotType):
 
     _name = 'deceased'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -157,6 +164,7 @@ class C19PT_deceased(COVID19RegionPlotType):
 class C19PT_recovered(COVID19RegionPlotType):
 
     _name = 'recovered'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -173,6 +181,7 @@ class C19PT_recovered(COVID19RegionPlotType):
 class C19PT_daily_deceased(COVID19RegionPlotType):
 
     _name = 'daily_deceased'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -205,6 +214,7 @@ class C19PT_cases_normalized(COVID19RegionPlotType):
 class C19PT_hosp_normalized(COVID19RegionPlotType):
 
     _name = 'hosp_normalized'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -221,6 +231,7 @@ class C19PT_hosp_normalized(COVID19RegionPlotType):
 class C19PT_reproduction_rate(COVID19RegionPlotType):
 
     _name = 'reproduction_rate'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation
@@ -243,6 +254,7 @@ class C19PT_reproduction_rate(COVID19RegionPlotType):
 class C19PT_consolidation_acum14(COVID19RegionPlotType):
 
     _name = 'consolidation_acum14'
+    _category = 'region'
 
     def get_title(self):
         _ = self.translation

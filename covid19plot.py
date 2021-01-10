@@ -10,7 +10,7 @@ import locale
 
 import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
+# import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
@@ -349,13 +349,6 @@ class COVID19Plot(object):
             region_df = self._get_ages_df(scope, total=True)
         else:
             region_df = self._get_plot_data(plot_type, source.get('df'), region)
-            # if scope == 'spain':
-            #     region_df = self._only_consolidated(region_df)
-            # if scope == 'spain' and "recovered" in plot_type:
-            #     region_df = region_df.loc['2020-02-22':'2020-05-24']
-            # if scope == 'spain' and "deceased" in plot_type:
-            #     l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            #     region_df = region_df.loc['2020-02-22':l_date]
         region_plot = PlotTypeCls(scope, region, region_df, translation)
         caption = region_plot.get_caption()
         return caption
@@ -370,9 +363,6 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
-        # if scope == 'spain' and "deceased" in plot_type:
-        #     l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-        #     df = df.loc['2020-02-22':l_date]
         caption = self._get_scope_caption(plot_type, scope, language, df)
         return caption
 
@@ -416,13 +406,6 @@ class COVID19Plot(object):
         if PlotTypeCls is None:
             raise RuntimeError(_('Plot type is not recognized'))
 
-        # if scope == 'spain' and "recovered" in plot_type:
-        #     region_df = region_df.loc['2020-02-22':'2020-05-24']
-        # elif scope == 'spain' and "deceased" in plot_type:
-        #     l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-        #     region_df = region_df.loc['2020-02-22':l_date]
-        # elif scope == 'spain' and plot_type != 'ages':
-        #     region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = region_df.index.get_level_values('date')[-1]
             f_date = region_df['acum14_cases'].idxmin()[0]
@@ -459,16 +442,23 @@ class COVID19Plot(object):
             return image_fpath
 
         df = source.get('df')
-        # if scope == 'spain' and "deceased" in plot_type:
-        #     l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-        #     df = df.loc['2020-02-22':l_date]
+
+        if scope == 'france' and plot_type == 'acum14_cases_normalized':
+            plot_type = 'acum14_hospitalized_normalized'
+
+        PlotTypeCls = COVID19PlotTypeManager.get_plot_type(f'm_{plot_type}')
+        if PlotTypeCls is None:
+            raise RuntimeError(_('Plot type is not recognized'))
+
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
             df = df.loc[f_date:l_date]
-        if scope == 'france' and plot_type == 'acum14_cases_normalized':
-            plot_type = 'acum14_hospitalized_normalized'
-        self._multiregion_plot(plot_type, scope, regions, language, df, image_fpath)
+
+        translation = self._translations[language].gettext
+        self._set_locale(language)
+        region_plot = PlotTypeCls(scope, regions, df, translation)
+        region_plot.plot(image_fpath)
         return image_fpath
 
     def generate_scope_plot(self, plot_type, scope, language='en', force=False):
@@ -485,17 +475,6 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
-        # if scope == 'spain':
-        #     last_date = df.index.get_level_values('date')[-1]
-        #     p_type = 'cases'
-        #     if 'deceased' in plot_type:
-        #         p_type = 'deceased'
-        #     for region in df.region.unique():
-        #         reg_df = df[df.region == region]
-        #         l_date = reg_df[p_type].notna()[::-1].idxmax()[0]
-        #         if l_date < last_date:
-        #             last_date = l_date
-        #     df = df.loc['2020-02-22':last_date]
 
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df.index.get_level_values('date')[-1]
@@ -543,141 +522,6 @@ class COVID19Plot(object):
         if scope == 'spain':
             note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
         return f"{last_data}\n__{updated}____{note_Spain}__"
-
-    def _multiregion_plot(self, plot_type, scope, regions, language, df, image_path):
-        # set translation to current language
-        _ = self._translations[language].gettext
-        self._set_locale(language)
-
-        fig, ax = plt.subplots(figsize=(12, 6))
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
-        title = None
-        y_label = None
-        legend = True
-        if plot_type == 'cases_normalized':
-            title = _('Cases per 100k inhabitants')
-            y_label = _('Cases')
-            regions.sort(key=lambda region: df[df.region == region]['cases_per_100k'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                region_name = _(region)
-                v = locale.format_string('%.2f', df_region['cases_per_100k'][-1], grouping=True).replace('nan', '-')
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['cases_per_100k'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'hospitalized_normalized':
-            title = _('Hospitalizations per 100k inhabitants')
-            y_label = _('Hospitalizations')
-            regions.sort(key=lambda region: df[df.region == region]['hosp_per_100k'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                region_name = _(region)
-                v = locale.format_string('%.2f', df_region['hosp_per_100k'][-1], grouping=True).replace('nan', '-')
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['hosp_per_100k'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'cases':
-            title = _('Cases')
-            y_label = _('Cases')
-            regions.sort(key=lambda region: df[df.region == region]['cases'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['cases'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'acum14_cases_normalized':
-            title = _('Cumulative incidence (14 days/100k inhabitants)')
-            y_label = _('Cumulative cases')
-            regions.sort(key=lambda region: df[df.region == region]['acum14_cases_per_100k'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['acum14_cases_per_100k'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['acum14_cases_per_100k'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'acum14_hospitalized_normalized':
-            title = _('Cumulative incidence of hospitalizations (14 days/100k inhabitants)')
-            y_label = _('Cumulative cases')
-            regions.sort(key=lambda region: df[df.region == region]['acum14_hosp_per_100k'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['acum14_hosp_per_100k'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['acum14_hosp_per_100k'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'hospitalized':
-            title = _('Hospitalizations')
-            y_label = _('Hospitalizations')
-            regions.sort(key=lambda region: df[df.region == region]['hospitalized'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['hospitalized'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'cases_logarithmic':
-            title = _('Cases, Logarithmic Scale')
-            y_label = _('Cases')
-            regions.sort(key=lambda region: df[df.region == region]['cases'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['cases'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                plt.yscale('log')
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['cases'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'hospitalized_logarithmic':
-            title = _('Hospitalizations, Logarithmic Scale')
-            y_label = _('Hospitalizations')
-            regions.sort(key=lambda region: df[df.region == region]['hospitalized'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                v = locale.format_string('%.0f', df_region['hospitalized'][-1], grouping=True).replace('nan', '-')
-                region_name = _(region)
-                plt.yscale('log')
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['hospitalized'], linewidth=2, color=color, label=label)
-
-        elif plot_type == 'deceased_normalized':
-            title = _('Deceased per 100k inhabitants')
-            y_label = _('Deaths')
-            regions.sort(key=lambda region: df[df.region == region]['deceased_per_100k'][-1], reverse=True)
-            for region, color in zip(regions, self.CB_color_cycle):
-                df_region = df[df.region == region]
-                x = df_region.index.get_level_values('date')
-                region_name = _(region)
-                v = locale.format_string('%.2f', df_region['deceased_per_100k'][-1], grouping=True).replace('nan', '-')
-                label = f"{region_name} ({v})"
-                plt.plot(x, df_region['deceased_per_100k'], linewidth=2, color=color, label=label)
-                # ax.annotate(f"{v} ({region_name})",
-                #             xy=(x[-1], df_region['deceased_per_100k'][-1]), xytext=(0, 3),
-                #             textcoords="offset points")
-
-        plt.title(title, fontsize=26)
-        ax.set_ylabel(y_label, fontsize=15)
-        xlim = self._get_plot_xlim(scope, df)
-        if xlim:
-            ax.set_xlim(xlim)
-        ax.figure.autofmt_xdate()
-        if legend:
-            ax.legend(loc='upper left', fontsize=17)
-        self._add_footer(ax, scope, language)
-        plt.savefig(image_path)
-        plt.close()
 
     def _scope_plot(self, plot_type, scope, language, df, image_path):
         # set translation to current language

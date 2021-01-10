@@ -29,6 +29,7 @@ class COVID19PlotType(object):
 
     __metaclass__ = abc.ABCMeta
     _name = None
+    _category = None
 
     def __init__(self, scope, region, df, translation):
         self.scope = scope
@@ -39,6 +40,10 @@ class COVID19PlotType(object):
     @classmethod
     def get_name(cls):
         return cls._name
+
+    @classmethod
+    def get_category(cls):
+        return cls._category
 
     @abc.abstractmethod
     def get_title(self):
@@ -63,7 +68,8 @@ class COVID19PlotType(object):
         if xlim:
             ax.set_xlim(xlim)
         ax.figure.autofmt_xdate()
-        # ax.legend(loc='upper left', fontsize=17)
+        if self.get_category() == 'multiregion':
+            ax.legend(loc='upper left', fontsize=17)
         self._add_footer(ax)
         if image_path:
             plt.savefig(image_path)
@@ -90,49 +96,65 @@ class COVID19PlotType(object):
 
     def _plot_data(self, plt, ax):
         x = self.df.index.get_level_values('date')
+        _ = self.translation
         legend = []
         has_ax2 = False
-        for field in self.get_fields():
-            is_ax2 = False
-            cfg = self._get_field_config(field)
-            if not cfg['plot_type']:
-                continue
-            if field not in self.df.columns:
-                legend.append(plt.plot(x, [0] * x.shape[0], color=cfg['color']))
-                continue
-            if cfg['plot_type'] == 'fill_between':
-                legend.append(plt.fill_between(x, 0, self.df[field], alpha=cfg['alpha'], color=cfg['color'], label=cfg['label']))
-                plt.plot(x, self.df[field], color=cfg['color'])
-            elif cfg['plot_type'] == 'line':
-                ax.set_ylabel(cfg['label'], color=cfg['color'], fontsize=15)
-                ax.tick_params(axis='y', labelcolor=cfg['color'])
-                legend.append(ax.plot(x, self.df[field], alpha=cfg['alpha'], color=cfg['color'], linewidth=cfg['linewidth'], label=cfg['label']))
-            elif cfg['plot_type'] == 'line2':
-                is_ax2 = True
-                has_ax2 = True
-                ax2 = ax.twinx()
-                ax2.grid(False)
-                ax2.set_ylabel(cfg['label'], color=cfg['color'], fontsize=15)
-                ax2.tick_params(axis='y', labelcolor=cfg['color'])
-                legend.append(ax2.plot(x, self.df[field], alpha=cfg['alpha'], color=cfg['color'], linewidth=cfg['linewidth'], label=cfg['label']))
-            else:
-                legend.append(plt.bar(x, self.df[field], alpha=cfg['alpha'], width=cfg['width'], color=cfg['color'], label=cfg['label']))
-            if cfg['annotate']:
-                value = locale.format_string(cfg['fmt'], self.df[field][-1], grouping=True).replace('nan', '-')
-                if is_ax2:
-                    ax2.annotate(f"{value}", xy=(x[-1], self.df[field][-1]),
-                                 xytext=(0, 3), textcoords="offset points", ha='center')
+        if self.get_category() == 'region':
+            for field in self.get_fields():
+                is_ax2 = False
+                cfg = self._get_field_config(field)
+                if not cfg['plot_type']:
+                    continue
+                if field not in self.df.columns:
+                    legend.append(plt.plot(x, [0] * x.shape[0], color=cfg['color']))
+                    continue
+                if cfg['plot_type'] == 'fill_between':
+                    legend.append(plt.fill_between(x, 0, self.df[field], alpha=cfg['alpha'], color=cfg['color'], label=cfg['label']))
+                    plt.plot(x, self.df[field], color=cfg['color'])
+                elif cfg['plot_type'] == 'line':
+                    ax.set_ylabel(cfg['label'], color=cfg['color'], fontsize=15)
+                    ax.tick_params(axis='y', labelcolor=cfg['color'])
+                    legend.append(ax.plot(x, self.df[field], alpha=cfg['alpha'], color=cfg['color'], linewidth=cfg['linewidth'], label=cfg['label']))
+                elif cfg['plot_type'] == 'line2':
+                    is_ax2 = True
+                    has_ax2 = True
+                    ax2 = ax.twinx()
+                    ax2.grid(False)
+                    ax2.set_ylabel(cfg['label'], color=cfg['color'], fontsize=15)
+                    ax2.tick_params(axis='y', labelcolor=cfg['color'])
+                    legend.append(ax2.plot(x, self.df[field], alpha=cfg['alpha'], color=cfg['color'], linewidth=cfg['linewidth'], label=cfg['label']))
                 else:
-                    ax.annotate(f"{value}", xy=(x[-1], self.df[field][-1]),
-                                xytext=(0, 3), textcoords="offset points", ha='center')
-        if has_ax2:
-            legends = [lgn[0] for lgn in legend]
-            labels = [lgn.get_label() for lgn in legends]
-            ax2.legend(legends, labels, loc='upper left', fontsize=17)
-        elif len(legend) > 6:
-            ax.legend(loc='upper left', ncol=2, fontsize=15)
-        else:
-            ax.legend(loc='upper left', fontsize=17)
+                    legend.append(plt.bar(x, self.df[field], alpha=cfg['alpha'], width=cfg['width'], color=cfg['color'], label=cfg['label']))
+                if cfg['annotate']:
+                    value = locale.format_string(cfg['fmt'], self.df[field][-1], grouping=True).replace('nan', '-')
+                    if is_ax2:
+                        ax2.annotate(f"{value}", xy=(x[-1], self.df[field][-1]),
+                                     xytext=(0, 3), textcoords="offset points", ha='center')
+                    else:
+                        ax.annotate(f"{value}", xy=(x[-1], self.df[field][-1]),
+                                    xytext=(0, 3), textcoords="offset points", ha='center')
+            if has_ax2:
+                legends = [lgn[0] for lgn in legend]
+                labels = [lgn.get_label() for lgn in legends]
+                ax2.legend(legends, labels, loc='upper left', fontsize=17)
+            elif len(legend) > 6:
+                ax.legend(loc='upper left', ncol=2, fontsize=15)
+            else:
+                ax.legend(loc='upper left', fontsize=17)
+
+        elif self.get_category() == 'multiregion':
+            CB_color_cycle = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf', '#a65628', '#984ea3', '#999999', '#e41a1c', '#dede00']
+            field = self.get_fields()[0]
+            self.region.sort(key=lambda region: self.df[self.df.region == region][field][-1], reverse=True)
+            for region, color in zip(self.region, CB_color_cycle):
+                df_region = self.df[self.df.region == region]
+                x = df_region.index.get_level_values('date')
+                region_name = _(region)
+                v = locale.format_string('%.2f', df_region[field][-1], grouping=True).replace('nan', '-')
+                label = f"{region_name} ({v})"
+                if 'logarithmic' in self.get_name():
+                    plt.yscale('log')
+                plt.plot(x, df_region[field], linewidth=2, color=color, label=label)
 
     def _get_field_config(self, field):
         _ = self.translation
