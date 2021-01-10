@@ -1,5 +1,6 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
+
 import pandas as pd
 import numpy as np
 import os
@@ -10,7 +11,6 @@ import locale
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import matplotlib.patches as patches
 import matplotlib.ticker as ticker
 from matplotlib.font_manager import FontProperties
 import seaborn as sns
@@ -21,7 +21,8 @@ from matplotlib.colors import Normalize
 import matplotlib.cm as cm
 import matplotlib.colors as colors
 from collections import Counter
-import math
+
+from plot_types.base import COVID19PlotTypeManager
 
 sns.set_context("notebook")
 sns.set_style("whitegrid")
@@ -138,7 +139,8 @@ class COVID19Plot(object):
         'catalunya'
     ]
 
-    AGES = []
+    AGES = [
+    ]
 
     CB_color_cycle = [
         '#377eb8', '#ff7f00', '#4daf4a',
@@ -146,7 +148,6 @@ class COVID19Plot(object):
         '#999999', '#e41a1c', '#dede00'
     ]
 
-    # grey_cycle = ['#eceff1', '#cfd8dc', '#b0bec5', '#90a4ae', '#78909c', '#607d8b', '#546e7a', '#455a64', '#37474f', '#263238']
     grey_cycle = ['#7d755b', '#8d8670', '#9e9884', '#aea998', '#bebaad', '#cecbc1', '#dfdcd6', '#efeeea']
 
     _source_path = None
@@ -213,18 +214,6 @@ class COVID19Plot(object):
         source = self._sources.get(scope, {})
         df = source.get('df')
         return list(df.region.unique())
-
-    def get_ages(self, scope):
-        t = None
-        if scope in self.AGES:
-            source = self._sources.get(scope, {})
-            df = source.get('df_ages')
-            last_date = df.index.get_level_values('date')[-1]
-            today_df = df.loc[last_date]
-            t = today_df['rango_edad'].unique().tolist()
-            t.remove('Total')
-            t.sort()
-        return t
 
     def expand_scope(self, scope):
         names = {
@@ -341,17 +330,34 @@ class COVID19Plot(object):
         # check if data source has been modified, and reload it if necessary
         self._check_new_data(scope)
         source = self._sources.get(scope)
+        if plot_type == 'active_recovered_deceased' and region == f"total-{scope}" and scope in self.AGES:
+            plot_type = 'ages'
+        if region != 'total-france' and scope == 'france':
+            if plot_type == 'reproduction_rate':
+                plot_type = 'recovered'
+            if plot_type == 'cases':
+                plot_type = 'hospitalized'
+        PlotTypeCls = COVID19PlotTypeManager.get_plot_type(plot_type)
+        if PlotTypeCls is None:
+            raise RuntimeError(_('Plot type is not recognized'))
+
+        translation = self._translations[language].gettext
+        self._set_locale(language)
 
         # get region data
-        region_df = self._get_plot_data(plot_type, source.get('df'), region)
-        # if scope == 'spain':
-        #     region_df = self._only_consolidated(region_df)
-        # if scope == 'spain' and "recovered" in plot_type:
-        #     region_df = region_df.loc['2020-02-22':'2020-05-24']
-        # if scope == 'spain' and "deceased" in plot_type:
-        #     l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-        #     region_df = region_df.loc['2020-02-22':l_date]
-        caption = self._get_caption(plot_type, scope, region, language, region_df)
+        if plot_type == 'ages':
+            region_df = self._get_ages_df(scope, total=True)
+        else:
+            region_df = self._get_plot_data(plot_type, source.get('df'), region)
+            # if scope == 'spain':
+            #     region_df = self._only_consolidated(region_df)
+            # if scope == 'spain' and "recovered" in plot_type:
+            #     region_df = region_df.loc['2020-02-22':'2020-05-24']
+            # if scope == 'spain' and "deceased" in plot_type:
+            #     l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            #     region_df = region_df.loc['2020-02-22':l_date]
+        region_plot = PlotTypeCls(scope, region, region_df, translation)
+        caption = region_plot.get_caption()
         return caption
 
     def get_scope_plot_caption(self, plot_type, scope, language='en'):
@@ -384,29 +390,48 @@ class COVID19Plot(object):
         # check if data source has been modified, and reload it if necessary
         self._check_new_data(scope)
         source = self._sources.get(scope)
+        image_fpath = None
+
         # check if image has already been generated
         if plot_type == 'active_recovered_deceased' and region == f"total-{scope}" and scope in self.AGES:
             image_fpath = f"{self._images_dir}/{language}_{region}_ages_{source.get('ts')}.png"
+            plot_type = 'ages'
         else:
             image_fpath = f"{self._images_dir}/{language}_{region}_{plot_type}_{source.get('ts')}.png"
         if os.path.isfile(image_fpath) and not force:
             return image_fpath
 
+        if region != 'total-france' and scope == 'france':
+            if plot_type == 'reproduction_rate':
+                plot_type = 'recovered'
+            if plot_type == 'cases':
+                plot_type = 'hospitalized'
+
         # get region data
-        region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        if plot_type == 'ages':
+            region_df = self._get_ages_df(scope)
+        else:
+            region_df = self._get_plot_data(plot_type, source.get('df'), region)
+        PlotTypeCls = COVID19PlotTypeManager.get_plot_type(plot_type)
+        if PlotTypeCls is None:
+            raise RuntimeError(_('Plot type is not recognized'))
+
         # if scope == 'spain' and "recovered" in plot_type:
         #     region_df = region_df.loc['2020-02-22':'2020-05-24']
         # elif scope == 'spain' and "deceased" in plot_type:
         #     l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
         #     region_df = region_df.loc['2020-02-22':l_date]
-        # elif scope == 'spain':
+        # elif scope == 'spain' and plot_type != 'ages':
         #     region_df = self._only_consolidated(region_df)
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
-            region_df.sort_index()
             l_date = region_df.index.get_level_values('date')[-1]
-            f_date = region_df.index.get_level_values('date')[14]
+            f_date = region_df['acum14_cases'].idxmin()[0]
             region_df = region_df.loc[f_date:l_date]
-        self._plot(plot_type, scope, region, language, region_df, image_fpath)
+
+        translation = self._translations[language].gettext
+        self._set_locale(language)
+        region_plot = PlotTypeCls(scope, region, region_df, translation)
+        region_plot.plot(image_fpath)
         return image_fpath
 
     def generate_multiregion_plot(self, plot_type, regions, scope, language='en', force=False):
@@ -488,125 +513,8 @@ class COVID19Plot(object):
         self._set_locale(language)
         last_data = None
         last_date = df.index.get_level_values('date')[-1].strftime("%d/%B/%Y")
-        if plot_type == 'daily_cases':
-            v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
-            last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + _('Last day increment') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_cases'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + \
-                _('Increment rolling avg (7 days)') + ": " + v
-        elif plot_type == 'daily_hospitalized':
-            v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
-            last_data = "  - " + _('Currently hospitalized') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_hosp'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + _('Hospitalized evolution on last day') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_hosp'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + \
-                _('Increment rolling avg (7 days)') + ": " + v
-        elif plot_type == 'daily_deceased':
-            last_cases = None
-            last_deceased = None
-            v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
-            last_data = "  - " + _('Total deceased') + ": " + v + "\n"
-            v = locale.format_string('%.0f', df['increase_deceased'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + _('Deaths on last day') + ": " + v + "\n"
-            v = locale.format_string('%.1f', df['rolling_deceased'][-1], grouping=True).replace('nan', '-')
-            last_data = last_data + "  - " + \
-                _('Deaths rolling avg (7 days)') + ": " + v
-            last_deceased = df['deceased'][-1]
-            if np.max(df['cases'] > 0):
-                last_cases = df['cases'][-1]
-            if last_cases and last_deceased:
-                fatality_rate = 100 * last_deceased / last_cases
-                v = locale.format_string('%.2f', fatality_rate).replace('nan', '-')
-                last_data = last_data + "\n  - " + _('Case-fatality rate') + ": " + v + "%"
-        elif plot_type == 'active_recovered_deceased':
-            if region == f"total-{scope}" and scope in self.AGES:
-                ages = self.get_ages(scope)
-                ages.append('Total')
-                ambos_df = self._get_ages_df(scope, sex='ambos', total=True)
-                last_data = ""
-                last_date = ambos_df.index.get_level_values('date')[-1].strftime("%d %B %Y")
-                for age in ages:
-                    edad_df = ambos_df[ambos_df['rango_edad'] == age]
-                    E = edad_df['casos_confirmados'][-1]
-                    E_t = locale.format_string('%.0f', E, grouping=True)
-                    F = edad_df['fallecidos'][-1]
-                    F_t = locale.format_string('%.0f', F, grouping=True)
-                    L = 100 * F / E
-                    L_t = locale.format_string('%.2f', L)
-                    letal = _('case-fatality rate')
-                    tl_age = age.replace("y", _("y"))
-                    if age == 'Total':
-                        tl_age = _('Total')
-                    last_data = last_data + f"**    {tl_age}**: {E_t} ({F_t})  __{letal}:__ {L_t}%\n"
-                last_data = last_data + "\n__" + _("*Data obtained from the analysis of reported cases with available information on age and sex.") + "__"
-            else:
-                if np.max(df['cases'] > 0):
-                    v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
-                    last_data = "  - " + _('Total cases') + ": " + v + "\n"
-                    # v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
-                    # last_data = last_data + "  - " + _('Currently infected') + ": " + v + "\n"
-                else:
-                    last_data = ""
-                if 'hospitalized' in df.columns and region != "france":
-                    v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
-                    last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
-                if 'intensivecare' in df.columns and region != "france":
-                    v = locale.format_string('%.0f', df['intensivecare'][-1], grouping=True).replace('nan', '-')
-                    last_data = last_data + "  - " + _('Currently IC') + ": " + v + "\n"
-                v = locale.format_string('%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
-                last_data = last_data + "  - " + _('Recovered') + ": " + v + "\n"
-                v = locale.format_string('%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
-                last_data = last_data + "  - " + _('Deceased') + ": " + v
 
-        elif plot_type == 'active':
-            last_data = ""
-            # if np.max(df['cases'] > 0):
-            #     v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
-            #     last_data = "  - " + _('Active cases') + ": " + v + "\n"
-            # else:
-            #     last_data = ""
-            if 'hospitalized' in df.columns and region != "france":
-                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
-                last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
-
-        elif plot_type == 'cases':
-            last_data = ""
-            if np.max(df['cases'] > 0):
-                v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
-                last_data = "  - " + _('Cumulative cases') + ": " + v + "\n"
-            else:
-                last_data = ""
-            if 'hospitalized' in df.columns and region != "france":
-                v = locale.format_string('%.0f', df['hospitalized'][-1], grouping=True).replace('nan', '-')
-                last_data = last_data + "  - " + _('Currently hospitalized') + ": " + v + "\n"
-
-        elif plot_type == 'reproduction_rate':
-            if scope == 'france' and region != "total-france":
-                v = locale.format_string(
-                    '%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
-                last_data = "  - " + _('Recovered') + ": " + v + "\n"
-            else:
-                v = locale.format_string(
-                    '%.2f', df['Rt'][-1], grouping=True).replace('nan', '-')
-                v2 = locale.format_string(
-                    '%.2f', df['acum14_cases_per_100k'][-1], grouping=True).replace('nan', '-')
-                last_data = "  - " + _('Reproduction Rate') + ": " + v + "\n"
-                last_data += "  - " + _('CI14 per 100k') + ": " + v2 + "\n"
-                if scope == 'spain':
-                    last_data += "\n" + _("Check CI14 per 100k consolidation using 🚧")
-        elif plot_type == 'deceased':
-            v = locale.format_string(
-                '%.0f', df['deceased'][-1], grouping=True).replace('nan', '-')
-            last_data = "  - " + _('Deceased') + ": " + v + "\n"
-        elif plot_type == 'cases_normalized':
-            v = locale.format_string(
-                '%.1f', df['cases_per_100k'][-1], grouping=True).replace('nan', '-')
-            last_data = "  - " + \
-                _('Cases per 100k inhabitants') + ": " + v + "\n"
-        elif plot_type == 'summary':
+        if plot_type == 'summary':
             v = locale.format_string('%.0f', df['cases'][-1], grouping=True).replace('nan', '-')
             last_data = "  🦠 " + _('Total cases') + ": `" + v
             v = locale.format_string('%+.0f', df['increase_cases'][-1], grouping=True).replace('nan', '-')
@@ -624,202 +532,17 @@ class COVID19Plot(object):
             v = locale.format_string(
                 '%.0f', df['recovered'][-1], grouping=True).replace('nan', '-')
             last_data += "  ✅ " + _('Recovered') + ": `" + v + "`\n\n"
-            # v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
-            # last_data += "  😷 " + _('Active') + ": `" + v + "`\n\n"
+            v = locale.format_string('%.0f', df['active_cases'][-1], grouping=True).replace('nan', '-')
+            last_data += "  😷 " + _('Active') + ": `" + v + "`\n\n"
             rt = -1
             v = locale.format_string('%.2f', df['Rt'][rt], grouping=True).replace('nan', '-')
             last_data += "  👩‍👦‍👦 " + _('Reproduction Rate') + ": `" + v + "`\n"
-        elif plot_type == 'consolidation_acum14':
-            last_data = ""
+
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
         if scope == 'spain':
             note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
         return f"{last_data}\n__{updated}____{note_Spain}__"
-
-    def _plot(self, plot_type, scope, region, language, df, image_path):
-        # set translation to current language
-        _ = self._translations[language].gettext
-        self._set_locale(language)
-
-        fig, ax = plt.subplots(figsize=(12, 6))
-        x = df.index.get_level_values('date')
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
-        title = None
-        y_label = None
-
-        if plot_type == 'daily_cases':
-            title = _('Cases increase at {region}').format(region=_(region))
-            y_label = _('Cases')
-            plt.bar(x, df['increase_cases'], alpha=0.3, width=0.9, label=_('Daily increment'))
-            plt.fill_between(x, 0, df['rolling_cases'], color='red', alpha=0.5, label=_('Increment rolling avg (7 days)'))
-            plt.plot(x, df['rolling_cases'], color='red')
-            ax.annotate(f"{df['increase_cases'][-1]:0,.0f}", xy=(x[-1], df['increase_cases'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'daily_hospitalized':
-            title = _('Hospitalization evolution at {region}').format(region=_(region))
-            y_label = _('Hospitalizations')
-            plt.bar(x, df['increase_hosp'], alpha=0.6, width=0.9, label=_('Daily increment'), color='darkgoldenrod')
-            plt.fill_between(x, 0, df['rolling_hosp'], color='olive', alpha=0.5, label=_('Increment rolling avg (7 days)'))
-            plt.plot(x, df['rolling_hosp'], color='olive')
-            ax.annotate(f"{df['increase_hosp'][-1]:0,.0f}", xy=(x[-1], df['increase_hosp'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'daily_deceased':
-            title = _('Daily deaths evolution at {region}').format(region=_(region))
-            y_label = _('Deaths')
-            plt.bar(x, df['increase_deceased'], alpha=0.5, width=0.9, color='red', label=_('Daily deaths'))
-            plt.fill_between(x, 0, df['rolling_deceased'], color='red', alpha=0.2, label=_('Deaths rolling avg (7 days)'))
-            plt.plot(x, df['rolling_deceased'], color='red')
-            ax.annotate(f"{df['increase_deceased'][-1]:0,.0f}", xy=(x[-1], df['increase_deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'active_recovered_deceased':
-            if region == f"total-{scope}" and scope in self.AGES:
-                plt.close()
-                self._ages_plot(scope, language, image_path)
-                return
-            title = _('Active cases, recovered and deceased at {region}').format(region=_(region))
-            y_label = _('Cases')
-            alpha = 0.3
-            # if np.max(df['active_cases']) > 0:
-            #     plt.fill_between(x, 0, df['active_cases'], alpha=alpha, label=_('Currently infected'))
-            #     plt.plot(x, df['active_cases'])
-            #     ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
-            #                 xytext=(0, 3), textcoords="offset points")
-            if 'hospitalized' in df.columns:
-                if region != f'total-france' and scope == 'france':
-                    title = _('Curr. hospitalized, recovered & deceased at {region}').format(region=_(region))
-                else:
-                    title = _('Active, hospitalized, recovered and deceased at {region}').format(region=_(region))
-                plt.fill_between(x, 0, df['hospitalized'], color='y', alpha=alpha, label=_('Currently hospitalized'))
-                plt.plot(x, df['hospitalized'], color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-            if 'intensivecare' in df.columns:
-                plt.fill_between(x, 0, df['intensivecare'], color='indigo', alpha=alpha, label=_('Currently at intensive care'))
-                plt.plot(x, df['intensivecare'], color='indigo')
-                ax.annotate(f"{df['intensivecare'][-1]:0,.0f}", xy=(x[-1], df['intensivecare'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-            if scope != 'sspain':
-                plt.fill_between(x, 0, df['recovered'], color='g', alpha=alpha, label=_('Recovered'))
-                plt.plot(x, df['recovered'], color='g')
-                ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-                plt.fill_between(x, 0, df['deceased'], color='red', alpha=alpha, label=_('Deceased'))
-                plt.plot(x, df['deceased'], color='red')
-                ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
-                            xytext=(0, 3), textcoords="offset points")
-        elif plot_type == 'active':
-            if np.max(df['active_cases']) > 0:
-                title = _('Active cases at {region}').format(region=_(region))
-                y_label = _('Cases')
-                plt.bar(x, df['active_cases'], alpha=0.5, width=1, label=_('Active cases'))
-                ax.annotate(f"{df['active_cases'][-1]:0,.0f}", xy=(x[-1], df['active_cases'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-            elif 'hospitalized' in df.columns and region != "total-france":
-                title = _('Active hospitalizations at {region}').format(region=_(region))
-                y_label = _('Hospitalizations')
-                plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'), color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'cases':
-            if np.max(df['cases']) > 0:
-                title = _('Cumulative cases at {region}').format(region=_(region))
-                y_label = _('Cases')
-                plt.bar(x, df['cases'], alpha=0.5, width=1, label=_('Cases'))
-                ax.annotate(f"{df['cases'][-1]:0,.0f}", xy=(x[-1], df['cases'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-            elif 'hospitalized' in df.columns and region != "total-france":
-                title = _('Hospitalizations at {region}').format(region=_(region))
-                y_label = _('Hospitalizations')
-                plt.bar(x, df['hospitalized'], alpha=0.5, width=1, label=_('Currently hospitalized'), color='y')
-                ax.annotate(f"{df['hospitalized'][-1]:0,.0f}", xy=(x[-1], df['hospitalized'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'reproduction_rate':
-            if scope == 'france' and region != "total-france":
-                title = _('Recovered cases at {region}').format(region=_(region))
-                y_label = _('Cases')
-                plt.bar(x, df['recovered'], alpha=0.5, width=1, color='g', label=_('Recovered cases'))
-                ax.annotate(f"{df['recovered'][-1]:0,.0f}", xy=(x[-1], df['recovered'][-1]),
-                            xytext=(0, 3), textcoords="offset points", ha='center')
-            else:
-                title = _('Reproduction Rate at {region}').format(region=_(region))
-                color = 'purple'
-                y_label = _('Reproduction Rate')
-                ax.set_ylabel(_('Reproduction Rate'), color=color, fontsize=15)
-                ax.tick_params(axis='y', labelcolor=color)
-                lns1 = ax.plot(x, df['Rt'], color=color, linewidth=3, label=_('Reproduction Rate'))
-                ax.annotate(f"{df['Rt'][-1]:0,.2f}", xy=(x[-1], df['Rt'][-1]),
-                            xytext=(3, 3), textcoords="offset points", ha='center')
-                ymax = df['Rt'].max() + df['Rt'].min()
-                if math.isnan(ymax):
-                    ymax = 1
-                ax.set_ylim(ymin=0, ymax=ymax)
-                ax2 = ax.twinx()
-                lns2 = []
-                color = 'goldenrod'
-                ax2.annotate(f"{df['acum14_cases_per_100k'][-1]:0,.2f}", xy=(x[-1], df['acum14_cases_per_100k'][-1]), xytext=(3, 3), textcoords="offset points", ha='center')
-                ax2.grid(False)
-                label = _("CI14/100k") + " " + df['acum14_cases_per_100k'].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
-                ax2.set_ylabel(_("CI14 per 100k"), color=color, fontsize=15)
-                lns2.append(ax2.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=label))
-                ax2.tick_params(axis='y', labelcolor=color)
-                if math.isnan(df['acum14_cases_per_100k'].max()):
-                    ymax = 1
-                else:
-                    ymax = df['acum14_cases_per_100k'].max() + df['acum14_cases_per_100k'].max() * 0.1
-
-                ax2.set_ylim(ymin=0, ymax=ymax)
-                lns = lns1
-                for ln in lns2:
-                    lns += ln
-                labs = [l.get_label() for l in lns]
-                ax2.legend(lns, labs, loc='upper left', fontsize=17)
-        elif plot_type == 'consolidation_acum14':
-            title = _('CI14 per 100k consolidation at {region}').format(region=_(region))
-
-            y_label = _('CI14 per 100k')
-            for i, color in zip(range(7, 0, -1), self.grey_cycle[::-1]):
-                if 'cases_' + str(i) in df.columns:
-                    label = _("CI14/100k") + " " + df['acum14_cases_per_100k_' + str(i)].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
-                    plt.plot(x, df['acum14_cases_per_100k_' + str(i)], color=color, linewidth=3, label=label)
-
-            color = 'goldenrod'
-            plt.annotate(f"{df['acum14_cases_per_100k'][-1]:0,.2f}", xy=(x[-1], df['acum14_cases_per_100k'][-1]), xytext=(3, 3), textcoords="offset points", ha='center')
-            label = _("CI14/100k") + " " + df['acum14_cases_per_100k'].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
-            plt.plot(x, df['acum14_cases_per_100k'], color=color, linewidth=3, label=label)
-
-        elif plot_type == 'deceased':
-            title = _('Deaths evolution at {region}').format(region=_(region))
-            y_label = _('Deaths')
-            plt.bar(x, df['deceased'], alpha=0.5, width=1, color='r', label=_('Deceased'))
-            ax.annotate(f"{df['deceased'][-1]:0,.0f}", xy=(x[-1], df['deceased'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'cases_normalized':
-            title = _('Cases per 100k inhabitants at {region}').format(region=_(region))
-            y_label = _('Cases')
-            plt.bar(x, df['cases_per_100k'], alpha=0.5, width=1, label=_('Cases'))
-            ax.annotate(f"{df['cases_per_100k'][-1]:0,.0f}", xy=(x[-1], df['cases_per_100k'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-        elif plot_type == 'hosp_normalized':
-            title = _('Hospitalizations per 100k inhabitants at {region}').format(region=_(region))
-            y_label = _('Hospitalizations')
-            plt.bar(x, df['hosp_per_100k'], alpha=0.5, width=1, label=_('Hospitalizations'))
-            ax.annotate(f"{df['hosp_per_100k'][-1]:0,.0f}", xy=(x[-1], df['hosp_per_100k'][-1]),
-                        xytext=(0, 3), textcoords="offset points", ha='center')
-
-        plt.title(title, fontsize=26)
-        ax.set_ylabel(y_label, fontsize=15)
-        xlim = self._get_plot_xlim(scope, df)
-        if xlim:
-            ax.set_xlim(xlim)
-        ax.figure.autofmt_xdate()
-        if plot_type != 'reproduction_rate' or (scope == 'france' and region != "total-france"):
-            ax.legend(loc='upper left', fontsize=17)
-        if plot_type == 'consolidation_acum14':
-            ax.legend(loc='upper left', ncol=2, fontsize=15)
-        self._add_footer(ax, scope, language)
-        plt.savefig(image_path)
-        plt.close()
 
     def _multiregion_plot(self, plot_type, scope, regions, language, df, image_path):
         # set translation to current language
@@ -953,165 +676,6 @@ class COVID19Plot(object):
         if legend:
             ax.legend(loc='upper left', fontsize=17)
         self._add_footer(ax, scope, language)
-        plt.savefig(image_path)
-        plt.close()
-
-    def _ages_plot(self, scope, language, image_path):
-        _ = self._translations[language].gettext
-        self._set_locale(language)
-        ages_df = self._get_ages_df(scope)
-        last_date = ages_df.index.get_level_values('date')[-1]
-        title = _('Cases by age') + f" ({last_date:%d %B %Y})"
-        edades = self.get_ages(scope)
-
-        women_deaths = list(ages_df[ages_df.sexo == 'mujeres']['fallecidos'])
-        women_cases = list(ages_df[ages_df.sexo == 'mujeres']['casos_confirmados'])
-        men_deaths = list(ages_df[ages_df.sexo == 'hombres']['fallecidos'])
-        men_cases = list(ages_df[ages_df.sexo == 'hombres']['casos_confirmados'])
-
-        max_value = max([max(women_cases), max(women_cases)])
-
-        matplotlib.rc('axes', facecolor='white')
-        matplotlib.rc('figure.subplot', wspace=.25)
-
-        # Make figure background the same colors as axes
-        fig = plt.figure(figsize=(12, 6), facecolor='white')
-
-        # ---MEN data ---
-        axes_left = plt.subplot(121)
-        # Keep only top and right spines
-        axes_left.spines['left'].set_color('none')
-        axes_left.spines['right'].set_zorder(10)
-        axes_left.spines['bottom'].set_color('none')
-        axes_left.xaxis.set_ticks_position('top')
-        axes_left.yaxis.set_ticks_position('right')
-        axes_left.spines['top'].set_position(('data', len(edades)))
-        axes_left.spines['top'].set_color('w')
-
-        # Set axes limits
-        num_ticks = 9
-        interval_ticks = (((max_value // (num_ticks - 1)) // 500) + 1) * 500
-        max_graph = (num_ticks * interval_ticks) + 50
-        plt.xlim(max_graph, 0)
-        plt.ylim(0, len(edades))
-
-        # Set ticks label
-        m_xticks = [tck * interval_ticks for tck in range(num_ticks)]
-        # m_xticks = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500]
-        m_xticks_t = [_('MEN') if xtck == 0 else locale.format_string('%.0f', xtck, grouping=True) for xtck in m_xticks]
-        w_xticks = m_xticks
-        m_xticks.reverse()
-        w_xticks_t = [_('WOMEN') if xtck == _('MEN') else xtck for xtck in m_xticks_t]
-        m_xticks_t.reverse()
-        plt.xticks(m_xticks, m_xticks_t)
-        axes_left.get_xticklabels()[-1].set_weight('bold')
-        axes_left.get_xticklines()[-1].set_markeredgewidth(0)
-        for label in axes_left.get_xticklabels():
-            label.set_fontsize(10)
-        plt.yticks([])
-
-        # Plot data
-        for i in range(len(men_deaths)):
-            H, h = 0.8, 0.55
-            # Death
-            value = men_cases[i]
-            p = patches.Rectangle(
-                (0, i + (1 - H) / 2.0), value, H, fill=True, transform=axes_left.transData,
-                lw=0, facecolor='blue', alpha=0.4)
-            axes_left.add_patch(p)
-            # New cases
-            value = men_deaths[i]
-            p = patches.Rectangle(
-                (0, i + (1 - h) / 2.0), value, h, fill=True, transform=axes_left.transData,
-                lw=0, facecolor='blue', alpha=0.9)
-            axes_left.add_patch(p)
-
-        # Add a grid
-        axes_left.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
-
-        # --- WOMEN data ---
-        axes_right = plt.subplot(122, sharey=axes_left)
-        # Keep only top and left spines
-        axes_right.spines['right'].set_color('none')
-        axes_right.spines['left'].set_zorder(10)
-        axes_right.spines['bottom'].set_color('none')
-        axes_right.xaxis.set_ticks_position('top')
-        axes_right.yaxis.set_ticks_position('left')
-        axes_right.spines['top'].set_position(('data', len(edades)))
-        axes_right.spines['top'].set_color('w')
-
-        # Set axes limits
-        plt.xlim(0, max_graph)
-        plt.ylim(0, len(edades))
-
-        # Set ticks labels
-        w_xticks.reverse()
-        # m_xticks_t.reverse()
-        plt.xticks(w_xticks, w_xticks_t)
-        axes_right.get_xticklabels()[0].set_weight('bold')
-        for label in axes_right.get_xticklabels():
-            label.set_fontsize(10)
-        axes_right.get_xticklines()[1].set_markeredgewidth(0)
-        plt.yticks([])
-
-        # Plot data
-        for i in range(len(women_deaths)):
-            H, h = 0.8, 0.55
-            # Death
-            value = women_cases[i]
-            p = patches.Rectangle(
-                (0, i + (1 - H) / 2.0), value, H, fill=True, transform=axes_right.transData,
-                lw=0, facecolor='red', alpha=0.4)
-            axes_right.add_patch(p)
-            # New cases
-            value = women_deaths[i]
-            p = patches.Rectangle(
-                (0, i + (1 - h) / 2.0), value, h, fill=True, transform=axes_right.transData,
-                lw=0, facecolor='red', alpha=0.9)
-            axes_right.add_patch(p)
-
-        # Add a grid
-        axes_right.grid(True, linestyle='--', which='major', color='grey', alpha=.25)
-
-        # Y axis labels
-        # We want them to be exactly in the middle of the two y spines
-        for i in range(len(edades)):
-            x1, y1 = axes_left.transData.transform_point((0, i + .5))
-            x2, y2 = axes_right.transData.transform_point((0, i + .5))
-            x, y = fig.transFigure.inverted().transform_point(((x1 + x2) / 2, y1))
-            tl_age = edades[i].replace("y", _("y"))
-            plt.text(x, y, tl_age, transform=fig.transFigure, fontsize=15, weight='bold',
-                     horizontalalignment='center', verticalalignment='center')
-
-        # Legend
-        arrowprops = dict(arrowstyle="-", color='black',
-                          connectionstyle="angle,angleA=0,angleB=90,rad=0")
-
-        x = men_cases[-1]
-        axes_left.annotate(_('NEW CASES'), xy=(x + 7000, 8.5), xycoords='data',
-                           horizontalalignment='right', fontsize=10,
-                           xytext=(-40, +20), textcoords='offset points',
-                           arrowprops=arrowprops)
-
-        x = men_deaths[-1]
-        axes_left.annotate(_('DEATHS'), xy=(.85 * x, 8.5), xycoords='data',
-                           horizontalalignment='right', fontsize=10, xytext=(-50, -25), textcoords='offset points',
-                           arrowprops=arrowprops)
-
-        x = women_cases[-1]
-        axes_right.annotate(_('NEW CASES'), xy=(x + 4000, 8.5), xycoords='data',
-                            horizontalalignment='left', fontsize=10, xytext=(+40, +20), textcoords='offset points',
-                            arrowprops=arrowprops)
-
-        x = women_deaths[-1]
-        axes_right.annotate(_('DEATHS'), xy=(.9 * x, 8.5), xycoords='data',
-                            horizontalalignment='left', fontsize=10,
-                            xytext=(+50, -25), textcoords='offset points',
-                            arrowprops=arrowprops)
-
-        fig.text(0.5, 0.955, title, horizontalalignment='center', color='black', weight='bold', fontsize='20')
-        # Done
-        self._add_footer(axes_right, scope, language)
         plt.savefig(image_path)
         plt.close()
 
@@ -1519,6 +1083,7 @@ class COVID19Plot(object):
             figsize = (12, 8)
             base_cmap = cm.get_cmap(cmap_name)
             cmap = cmap_discretize(base_cmap, ticks)
+
             pivot = merged
             pivot = pivot.sort_values(by=field, ascending=False).head(ticks)
             pvt = 0.8
