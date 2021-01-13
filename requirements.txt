@@ -38,6 +38,7 @@ seaborn==0.10.0
 Shapely==1.7.1
 six==1.14.0
 smmap==3.0.1
+sodapy==2.1.0
 TgCrypto==1.2.0
 tzlocal==2.0.0
 urllib3==1.25.10
