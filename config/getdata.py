@@ -653,6 +653,15 @@ def generate_covidgram_dataset(scope, files, data_directory):
     if csv_ages:
         copy2(csv_ages, f"{data_directory}/{scope}_ages.csv")
 
+    # add total-italy total-spain total-catalunya
+    if scope in ['italy', 'spain', 'catalunya']:
+        dates = df.index.get_level_values('date').unique()
+        for date in dates:
+            date_df = df.loc[date]
+            total = date_df.sum(min_count=1)
+            total['region'] = f'total-{scope}'
+            df.loc[(date, 0), df.columns] = total.values
+
     # column population
     if os.path.isfile(f"{data_directory}/{scope}_population.csv"):
         pop_df = pd.read_csv(f"{data_directory}/{scope}_population.csv")
@@ -674,15 +683,6 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df.sort_index(inplace=True)
     # remove duplicated rows (fix France data)
     df = df[~df.index.duplicated(keep='last')]
-
-    # add total-italy total-spain total-catalunya
-    if scope in ['italy', 'spain', 'catalunya']:
-        dates = df.index.get_level_values('date').unique()
-        for date in dates:
-            date_df = df.loc[date]
-            total = date_df.sum(min_count=1)
-            total['region'] = f'total-{scope}'
-            df.loc[(date, 0), df.columns] = total.values
 
     if 'recovered' not in df.columns:
         df['recovered'] = 0.0
