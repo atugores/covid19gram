@@ -13,8 +13,8 @@ import requests
 import io
 from sodapy import Socrata
 import asyncio
-from config.settings import DBHandler
-# from settings import DBHandler
+# from config.settings import DBHandler
+from settings import DBHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 dbhd = DBHandler()
@@ -73,11 +73,11 @@ SCOPES = {
         ]
     },
     'balears': {
-        'type': 'local',
+        'type': 'git',
         'base_directory': 'external-data/balears',
-        'repo_url': None,
+        'repo_url': 'https://github.com/jaumeperello/covid_ib.git',
         'watch': [
-            'balears_total.csv'
+            'data/balears_total.csv'
         ]
     },
     'mallorca': {
@@ -85,7 +85,7 @@ SCOPES = {
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
-            'mallorca_total.csv'
+            'data/mallorca_total.csv'
         ]
     },
     'menorca': {
@@ -93,7 +93,7 @@ SCOPES = {
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
-            'menorca_total.csv'
+            'data/menorca_total.csv'
         ]
     },
     'eivissa': {
@@ -101,7 +101,7 @@ SCOPES = {
         'base_directory': 'external-data/balears',
         'repo_url': None,
         'watch': [
-            'eivissa_total.csv'
+            'data/eivissa_total.csv'
         ]
     },
     'catalunya': {
