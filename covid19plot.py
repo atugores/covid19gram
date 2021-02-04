@@ -413,7 +413,7 @@ class COVID19Plot(object):
 
         if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
             l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            region_df = region_df.loc['2020-10-08':l_date]
+            region_df = region_df.loc['2020-10-14':l_date]
 
         translation = self._translations[language].gettext
         self._set_locale(language)
@@ -456,7 +456,7 @@ class COVID19Plot(object):
 
         if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
             l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            df = df.loc['2020-10-08':l_date]
+            df = df.loc['2020-10-14':l_date]
 
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
@@ -486,7 +486,7 @@ class COVID19Plot(object):
 
         if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
             l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
-            df = df.loc['2020-10-08':l_date]
+            df = df.loc['2020-10-14':l_date]
 
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df.index.get_level_values('date')[-1]
