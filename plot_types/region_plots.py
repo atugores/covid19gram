@@ -134,14 +134,16 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
         return cfg
 
     def get_fields(self):
-        fields = ['cases']
-        if self.scope != 'spain' and np.max(self.df['active_cases']) > 0:
-            fields.append('active_cases')
+        fields = []
         if 'hospitalized' in self.df.columns:
             fields.append('hospitalized')
+        elif self.scope != 'spain' and np.max(self.df['active_cases']) > 0:
+            fields.append('active_cases')
+        else:
+            fields.append('cases')
         if 'intensivecare' in self.df.columns:
             fields.append('intensivecare')
-        if self.scope != 'spain':
+        if self.scope != 'spain' and 'hospitalized' not in self.df.columns:
             fields.append('recovered')
         fields.append('deceased')
         return fields
