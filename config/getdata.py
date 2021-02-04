@@ -13,8 +13,8 @@ import requests
 import io
 from sodapy import Socrata
 import asyncio
-# from config.settings import DBHandler
-from settings import DBHandler
+from config.settings import DBHandler
+# from settings import DBHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 dbhd = DBHandler()
