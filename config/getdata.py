@@ -13,8 +13,8 @@ import requests
 import io
 from sodapy import Socrata
 import asyncio
-from config.settings import DBHandler
-#from settings import DBHandler
+# from config.settings import DBHandler
+from settings import DBHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 dbhd = DBHandler()
@@ -686,7 +686,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
 
     if 'recovered' not in df.columns:
         df['recovered'] = 0.0
-
+    df['case_fatality_rate'] = 100 * df['deceased'] / df['cases']
     df['cases_per_100k'] = df['cases'] * 100_000 / df['population']
     df['deceased_per_100k'] = df['deceased'] * 100_000 / df['population']
     df['active_cases'] = df['cases'] - df['recovered'] - df['deceased']
@@ -901,6 +901,7 @@ async def generate_covidgram_dataset_from_api(data_directory="data/", force=Fals
                 pop_df = pd.read_csv(f"{data_directory}/{scope.lower().replace(' ', '')}_population.csv")
                 pop_df.set_index('region_name', inplace=True)
                 dfc[scope] = dfc[scope].merge(pop_df, left_on='region', right_index=True, how='left')
+            dfc[scope]['case_fatality_rate'] = 100 * dfc[scope]['deceased'] / dfc[scope]['cases']
             dfc[scope]['cases_per_100k'] = dfc[scope]['cases'] * 100_000 / dfc[scope]['population']
             dfc[scope]['deceased_per_100k'] = dfc[scope]['deceased'] * 100_000 / dfc[scope]['population']
             dfc[scope]['active_cases_per_100k'] = dfc[scope]['active_cases'] * 100_000 / dfc[scope]['population']

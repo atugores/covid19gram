@@ -182,7 +182,7 @@ def get_label(scope='world', language='en'):
     elif scope == 'austria':
         label += _('__Data source from__') + ' __[covid-data-austria](https://github.com/Daniel-Breuss/covid-data-austria)__'
     elif scope in ['balears', 'mallorca', 'menorca', 'eivissa']:
-        label += _('__Data source from__') + ' __[www.caib.cat](https://arcg.is/1vnKr1)__'
+        label += _('__Data source from__') + ' __[' + _('www.caib.cat through Covid_ib repository') + '](https://github.com/jaumeperello/covid_ib)__'
     else:
         label += _('__Data source from__') + ' __[Proyecto COVID-19](https://covid19tracking.narrativa.com/)__'
     return label
@@ -1080,7 +1080,7 @@ async def DoBot(comm, param, client, message, language="en", **kwargs):
         about += "🗂" + _('__Italy data source from__') + ' __[Ministero della Salute (Italia)](https://github.com/pcm-dpc/COVID-19)__\n'
         about += "🗂" + _('__France data source from__') + ' __[OpenCOVID19-fr](https://opencovid19.fr)__\n'
         about += "🗂" + _('__Austria data source from__') + ' __[covid-data-austria](https://github.com/Daniel-Breuss/covid-data-austria)__\n'
-        about += "🗂" + _('__Balearic Islands data source from__') + ' __[www.caib.cat](https://arcg.is/1vnKr1)__\n'
+        about += "🗂" + _('__Balearic Islands data source from__') + ' __[' + _('www.caib.cat through Covid_ib repository') + '](https://github.com/jaumeperello/covid_ib)__\n'
         about += "🗂" + _('__other countries data source from__') + ' __[Proyecto COVID-19](https://covid19tracking.narrativa.com/)__\n'
         about += '\n'
         about += _("**Contact**") + '\n'

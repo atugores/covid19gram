@@ -35,7 +35,7 @@ else
 fi
 
 # Rebuild .pot
-$I18NDUDE rebuild-pot --pot locales/$CATALOGNAME.pot $MERGE --create $CATALOGNAME *.py
+$I18NDUDE rebuild-pot --pot locales/$CATALOGNAME.pot $MERGE --create $CATALOGNAME *.py plot_types/*.py
 
 # Compile po files
 for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do

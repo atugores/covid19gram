@@ -411,6 +411,10 @@ class COVID19Plot(object):
             f_date = region_df['acum14_cases'].idxmin()[0]
             region_df = region_df.loc[f_date:l_date]
 
+        if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
+            l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-10-08':l_date]
+
         translation = self._translations[language].gettext
         self._set_locale(language)
         region_plot = PlotTypeCls(scope, region, region_df, translation)
@@ -450,6 +454,10 @@ class COVID19Plot(object):
         if PlotTypeCls is None:
             raise RuntimeError(_('Plot type is not recognized'))
 
+        if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-10-08':l_date]
+
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
@@ -475,6 +483,10 @@ class COVID19Plot(object):
 
         # get region data
         df = source.get('df')
+
+        if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
+            l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-10-08':l_date]
 
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df.index.get_level_values('date')[-1]
@@ -519,8 +531,10 @@ class COVID19Plot(object):
 
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
+        if scope == 'spain' and plot_type == "reproduction_rate":
+            note_Spain = "\n" + _("Check CI14 per 100k consolidation using 🚧")
         if scope == 'spain':
-            note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
+            note_Spain += "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete") + "‼️"
         return f"{last_data}\n__{updated}____{note_Spain}__"
 
     def _scope_plot(self, plot_type, scope, language, df, image_path):
@@ -836,8 +850,8 @@ class COVID19Plot(object):
             ds_url = "https://opencovid19.fr/"
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         elif scope in ['balears', 'mallorca', 'menorca', 'eivissa']:
-            ds_name = 'www.caib.cat'
-            ds_url = 'https://arcg.is/1vnKr1'
+            ds_name = _('www.caib.cat through Covid_ib repository')
+            ds_url = 'https://github.com/jaumeperello/covid_ib'
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         else:
             ds_name = 'Proyecto COVID-19'

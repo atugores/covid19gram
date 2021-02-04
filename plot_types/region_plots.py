@@ -128,18 +128,21 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
     def _get_field_config(self, field):
         cfg = super(C19PT_active_recovered_deceased, self)._get_field_config(field)
         cfg['plot_type'] = 'fill_between'
-        # Do not plot cases. information only in caption
-        if field == 'cases':
+        # Do not plot cases if not spain. Information only in caption
+        if field == 'cases' and self.scope != 'spain':
             cfg['plot_type'] = None
         return cfg
 
     def get_fields(self):
         fields = ['cases']
-        if np.max(self.df['active_cases']) > 0:
+        if self.scope != 'spain' and np.max(self.df['active_cases']) > 0:
             fields.append('active_cases')
         if 'hospitalized' in self.df.columns:
             fields.append('hospitalized')
-        fields.append('recovered')
+        if 'intensivecare' in self.df.columns:
+            fields.append('intensivecare')
+        if self.scope != 'spain':
+            fields.append('recovered')
         fields.append('deceased')
         return fields
 
@@ -191,8 +194,19 @@ class C19PT_daily_deceased(COVID19RegionPlotType):
         _ = self.translation
         return _('Deaths')
 
+    def _get_field_config(self, field):
+        cfg = super(C19PT_daily_deceased, self)._get_field_config(field)
+        # Do not plot deceased or case_fatality_rate. information only in caption
+        if field == 'deceased' or field == 'case_fatality_rate':
+            cfg['plot_type'] = None
+        return cfg
+
     def get_fields(self):
-        return ['increase_deceased', 'rolling_deceased']
+        fields = ['deceased', 'increase_deceased', 'rolling_deceased']
+        if 'case_fatality_rate' in self.df.columns:
+            fields.append('case_fatality_rate')
+
+        return fields
 
 
 class C19PT_cases_normalized(COVID19RegionPlotType):

@@ -87,11 +87,13 @@ class COVID19PlotType(object):
                 continue
             value = locale.format_string(cfg['fmt'], self.df[field][-1], grouping=True).replace('nan', '-')
             if value != '-':
-                last_data += f"  - {cfg['label']}: {value}\n"
+                last_data += f"  - {cfg['label']}: {value}{cfg['percent']}\n"
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
         note_Spain = ""
+        if self.scope == 'spain' and self.get_name() == "reproduction_rate":
+            note_Spain = "\n" + _("Check CI14 per 100k consolidation using 🚧")
         if self.scope == 'spain':
-            note_Spain = "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete")
+            note_Spain += "\n" + _("Spain's data may take a few days to be consolidated and may be incomplete") + "‼️"
         return f"{last_data}\n__{updated}____{note_Spain}__"
 
     def _plot_data(self, plt, ax):
@@ -170,6 +172,7 @@ class COVID19PlotType(object):
         cfg['annotate'] = True
         cfg['plot_type'] = 'bar'
         cfg['fmt'] = '%.0f'
+        cfg['percent'] = ''
 
         if field == 'cases':
             cfg['label'] = _('Cases')
@@ -229,6 +232,18 @@ class COVID19PlotType(object):
             cfg['label'] = _('Hospitalizations')
             cfg['color'] = 'y'
             cfg['fmt'] = '%.1f'
+        elif field == 'intensivecare':
+            cfg['plot_type'] = 'fill_between'
+            cfg['color'] = 'indigo'
+            cfg['alpha'] = 0.5
+            cfg['label'] = _('Currently intensive_care')
+            cfg['fmt'] = '%.0f'
+        elif field == 'case_fatality_rate':
+            cfg['label'] = _('Case-fatality rate')
+            cfg['fmt'] = '%.2f'
+            cfg['color'] = 'indigo'
+            cfg['plot_type'] = 'fill_between'
+            cfg['percent'] = '%'
         if field == 'Rt':
             cfg['label'] = _('Reproduction Rate')
             cfg['color'] = 'purple'
@@ -296,8 +311,8 @@ class COVID19PlotType(object):
             ds_url = "https://opencovid19.fr/"
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         elif self.scope in ['balears', 'mallorca', 'menorca', 'eivissa']:
-            ds_name = 'www.caib.cat'
-            ds_url = 'https://arcg.is/1vnKr1'
+            ds_name = _('www.caib.cat through Covid_ib repository')
+            ds_url = 'https://github.com/jaumeperello/covid_ib'
             ds_credits = _("Data source from {ds_name} (see {ds_url})").format(ds_name=ds_name, ds_url=ds_url)
         else:
             ds_name = 'Proyecto COVID-19'
