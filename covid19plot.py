@@ -52,6 +52,7 @@ class COVID19Plot(object):
     PLOT_TYPES = [
         'daily_cases',
         'daily_hospitalized',
+        'hospitalized',
         'active_recovered_deceased',
         'active',
         'cases',
@@ -214,6 +215,17 @@ class COVID19Plot(object):
         source = self._sources.get(scope, {})
         df = source.get('df')
         return list(df.region.unique())
+
+    def has_hospitalized(self, region, scope):
+        source = self._sources.get(scope)
+        df = source.get('df')
+        region_df = df[df.region == region]
+        # Formentera has not hospitals
+        if region == 'Formentera':
+            return False
+        if 'hospitalized' in region_df.columns:
+            return True
+        return False
 
     def expand_scope(self, scope):
         names = {
@@ -415,6 +427,10 @@ class COVID19Plot(object):
             l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
             region_df = region_df.loc['2020-10-14':l_date]
 
+        if scope == 'balears' and "hospitalized" in plot_type:
+            l_date = region_df['hospitalized'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            region_df = region_df.loc['2020-09-11':l_date]
+
         translation = self._translations[language].gettext
         self._set_locale(language)
         region_plot = PlotTypeCls(scope, region, region_df, translation)
@@ -458,6 +474,10 @@ class COVID19Plot(object):
             l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
             df = df.loc['2020-10-14':l_date]
 
+        if scope == 'balears' and "hospitalized" in plot_type:
+            l_date = df['hospitalized'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-09-11':l_date]
+
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df['acum14_cases'].index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]
@@ -488,6 +508,9 @@ class COVID19Plot(object):
             l_date = df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
             df = df.loc['2020-10-14':l_date]
 
+        if scope == 'balears' and "hospitalized" in plot_type:
+            l_date = df['hospitalized'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
+            df = df.loc['2020-09-11':l_date]
         if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
             l_date = df.index.get_level_values('date')[-1]
             f_date = df['acum14_cases'].idxmin()[0]

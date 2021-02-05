@@ -392,10 +392,15 @@ def b_single(user_id, plot_type="daily_cases", region="total-world", scope='worl
         recovered_plot = "_consolidation-acum14"
     elif scope == 'france' and region != "total-france":
         recovered_emoji = "✅"
+    cases_emoji = "📈"
+    cases_plot_type = "cases"
+    if cplt.has_hospitalized(region, scope) and scope != 'spain':
+        cases_emoji = "🏥"
+        cases_plot_type = "hospitalized"
     bttns = [
         InlineKeyboardButton("🦠", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-cases"),
         InlineKeyboardButton(ard_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_active-recovered-deceased"),
-        InlineKeyboardButton("📈", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_cases"),
+        InlineKeyboardButton(cases_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_" + cases_plot_type),
         InlineKeyboardButton(recovered_emoji, callback_data="s_" + cplt.zip_scope(scope) + "_" + region + recovered_plot),
         InlineKeyboardButton("❌", callback_data="s_" + cplt.zip_scope(scope) + "_" + region + "_daily-deceased")
     ]
@@ -789,6 +794,8 @@ async def send_regions(client, chat, region="Total", scope="world", language='en
     flnames = []
     if is_scope:
         for plot_type in cplt.BUTTON_PLOT_TYPES:
+            if plot_type == 'cases' and cplt.has_hospitalized(region, scope):
+                plot_type = 'hospitalized'
             flname = cplt.generate_plot(plot_type=plot_type, region=region, scope=scope, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):
@@ -810,6 +817,8 @@ async def send_regions(client, chat, region="Total", scope="world", language='en
         for plot_type in cplt.BUTTON_PLOT_TYPES:
             if scope == 'france' and plot_type == 'daily_cases' and region != 'total-france':
                 plot_type = 'daily_hospitalized'
+            if plot_type == 'cases' and cplt.has_hospitalized(region, scope):
+                plot_type = 'hospitalized'
             flname = cplt.generate_plot(plot_type=plot_type, region=region, scope=scope, language=language)
             flnames.append(flname)
             if await dbhd.has_image_hash(flname):

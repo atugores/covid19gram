@@ -73,14 +73,22 @@ class C19PT_hospitalized(COVID19RegionPlotType):
 
     def get_title(self):
         _ = self.translation
-        return _('Active hospitalizations at {region}').format(region=_(self.region))
+        return _('Hospitalization evolution at {region}').format(region=_(self.region))
 
     def get_y_label(self):
         _ = self.translation
         return _('Hospitalizations')
 
+    def _get_field_config(self, field):
+        cfg = super(C19PT_hospitalized, self)._get_field_config(field)
+        cfg['plot_type'] = 'fill_between'
+        return cfg
+
     def get_fields(self):
-        return ['hospitalized']
+        fields = ['hospitalized']
+        if 'intensivecare' in self.df.columns:
+            fields.append('intensivecare')
+        return fields
 
 
 class C19PT_active(COVID19RegionPlotType):
@@ -114,11 +122,8 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
     def get_title(self):
         _ = self.translation
         title = _('Active cases, recovered and deceased at {region}').format(region=_(self.region))
-        if 'hospitalized' in self.df.columns:
-            if self.region != 'total-france' and self.scope == 'france':
-                title = _('Curr. hospitalized, recovered & deceased at {region}').format(region=_(self.region))
-            else:
-                title = _('Active, hospitalized, recovered and deceased at {region}').format(region=_(self.region))
+        if 'hospitalized' in self.df.columns and self.region != 'total-france' and self.scope == 'france':
+            title = _('Curr. hospitalized, recovered & deceased at {region}').format(region=_(self.region))
         return title
 
     def get_y_label(self):
@@ -129,23 +134,19 @@ class C19PT_active_recovered_deceased(COVID19RegionPlotType):
         cfg = super(C19PT_active_recovered_deceased, self)._get_field_config(field)
         cfg['plot_type'] = 'fill_between'
         # Do not plot cases if not spain. Information only in caption
-        if field == 'cases' and self.scope != 'spain':
+        if field == 'tp7d' or (field == 'cases' and self.scope != 'spain'):
             cfg['plot_type'] = None
         return cfg
 
     def get_fields(self):
-        fields = []
-        if 'hospitalized' in self.df.columns:
-            fields.append('hospitalized')
-        elif self.scope != 'spain' and np.max(self.df['active_cases']) > 0:
+        fields = ['cases']
+        if self.scope != 'spain' and np.max(self.df['active_cases']) > 0:
             fields.append('active_cases')
-        else:
-            fields.append('cases')
-        if 'intensivecare' in self.df.columns:
-            fields.append('intensivecare')
-        if self.scope != 'spain' and 'hospitalized' not in self.df.columns:
+        if self.scope != 'spain':
             fields.append('recovered')
         fields.append('deceased')
+        if 'tp7d' in self.df.columns:
+            fields.append('tp7d')
         return fields
 
 

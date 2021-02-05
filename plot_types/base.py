@@ -85,7 +85,10 @@ class COVID19PlotType(object):
             cfg = self._get_field_config(field)
             if field not in self.df.columns:
                 continue
-            value = locale.format_string(cfg['fmt'], self.df[field][-1], grouping=True).replace('nan', '-')
+            field_value = self.df[field][-1]
+            if "%%" in cfg['fmt']:
+                field_value *= 100
+            value = locale.format_string(cfg['fmt'], field_value, grouping=True).replace('nan', '-')
             if value != '-':
                 last_data += f"  - {cfg['label']}: {value}{cfg['percent']}\n"
         updated = "\n" + _("Information on last available data") + " (" + last_date + ")."
@@ -225,9 +228,11 @@ class COVID19PlotType(object):
             cfg['width'] = 0.9
             cfg['color'] = 'red'
         elif field == 'hospitalized':
+            cfg['plot_type'] = 'fill_between'
             cfg['label'] = _('Currently hospitalized')
             cfg['color'] = 'y'
             cfg['alpha'] = 0.5
+            cfg['fmt'] = '%.0f'
         elif field == 'hosp_per_100k':
             cfg['label'] = _('Hospitalizations')
             cfg['color'] = 'y'
@@ -244,6 +249,11 @@ class COVID19PlotType(object):
             cfg['color'] = 'indigo'
             cfg['plot_type'] = 'fill_between'
             cfg['percent'] = '%'
+        elif field == 'tp7d':
+            cfg['label'] = _('7 days positivity rate')
+            cfg['fmt'] = '%.2f%%'
+            cfg['color'] = 'indigo'
+            cfg['plot_type'] = 'fill_between'
         if field == 'Rt':
             cfg['label'] = _('Reproduction Rate')
             cfg['color'] = 'purple'
