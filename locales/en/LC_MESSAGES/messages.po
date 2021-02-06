@@ -524,20 +524,20 @@ msgstr ""
 
 #: plot_types/region_plots.py:126
 msgid "Curr. hospitalized, recovered & deceased at {region}"
-msgstr ""
+msgstr "Hospitalized, recovered and deceased at {region}"
 
 #: covid19plot.py:582
 #: plot_types/base.py:232
 msgid "Currently hospitalized"
-msgstr ""
+msgstr "Hospitalized"
 
 #: covid.py:215
 msgid "Currently hospitalized, recovered and deceased at {region}"
-msgstr ""
+msgstr "Hospitalized, recovered and deceased at {region}"
 
 #: plot_types/base.py:244
 msgid "Currently intensive_care"
-msgstr "Currently in Intensive Care"
+msgstr "Intensive Care"
 
 #: regions_translate.py:119
 msgid "Cyprus"

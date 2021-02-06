@@ -200,7 +200,7 @@ class C19PT_daily_deceased(COVID19RegionPlotType):
     def _get_field_config(self, field):
         cfg = super(C19PT_daily_deceased, self)._get_field_config(field)
         # Do not plot deceased or case_fatality_rate. information only in caption
-        if field == 'deceased' or field == 'case_fatality_rate':
+        if field == 'deceased' or field == 'case_fatality_rate' or field == 'deceased_per_100k':
             cfg['plot_type'] = None
         return cfg
 
@@ -208,6 +208,8 @@ class C19PT_daily_deceased(COVID19RegionPlotType):
         fields = ['deceased', 'increase_deceased', 'rolling_deceased']
         if 'case_fatality_rate' in self.df.columns:
             fields.append('case_fatality_rate')
+        if 'deceased_per_100k' in self.df.columns:
+            fields.append('deceased_per_100k')
 
         return fields
 

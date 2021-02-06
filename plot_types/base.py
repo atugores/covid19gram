@@ -249,6 +249,10 @@ class COVID19PlotType(object):
             cfg['color'] = 'indigo'
             cfg['plot_type'] = 'fill_between'
             cfg['percent'] = '%'
+        elif field == 'deceased_per_100k':
+            cfg['label'] = _('Deceased per 100k inhabitants')
+            cfg['fmt'] = '%.2f'
+            cfg['color'] = 'orange'
         elif field == 'tp7d':
             cfg['label'] = _('7 days positivity rate')
             cfg['fmt'] = '%.2f%%'

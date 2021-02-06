@@ -706,6 +706,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     if 'daily_tests' in df.columns:
         df['testing_rate'] = 0.0
         df['positivity_rate'] = 0.0
+        df['tp7d'] = 0.0
 
     df['increase_cases'] = 0.0
     df['increase_cases_per_100k'] = 0.0
@@ -774,6 +775,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             rolling_positive = reg_df['increase_cases'].rolling(window=7).sum()
             pos_rate = rolling_positive / rolling
             df['positivity_rate'].mask(df.region == region, pos_rate, inplace=True)
+            df['tp7d'].mask(df.region == region, pos_rate, inplace=True)
         # hospitalized
         if 'hospitalized' in df.columns:
             increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)

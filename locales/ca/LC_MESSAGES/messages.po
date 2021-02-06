@@ -524,20 +524,20 @@ msgstr "Curaçao"
 
 #: plot_types/region_plots.py:126
 msgid "Curr. hospitalized, recovered & deceased at {region}"
-msgstr "Hospitalitzats act., recuperats i defuncions a {region}"
+msgstr "Hospitalitzats, recuperats i defuncions a {region}"
 
 #: covid19plot.py:582
 #: plot_types/base.py:232
 msgid "Currently hospitalized"
-msgstr "Hospitalitzats actualment"
+msgstr "Hospitalitzats"
 
 #: covid.py:215
 msgid "Currently hospitalized, recovered and deceased at {region}"
-msgstr "Hospitalitzats actualment, recuperats i defuncions a {region}"
+msgstr "Hospitalitzats, recuperats i defuncions a {region}"
 
 #: plot_types/base.py:244
 msgid "Currently intensive_care"
-msgstr "Actualment a cures intensives"
+msgstr "Cures intensives"
 
 #: regions_translate.py:119
 msgid "Cyprus"
@@ -808,7 +808,7 @@ msgstr "Hong Kong"
 #: covid.py:209
 #: plot_types/region_plots.py:59
 msgid "Hospitalization evolution at {region}"
-msgstr "Evolució de les hospitalitzations a {region}"
+msgstr "Evolució de les hospitalitzacions a {region}"
 
 #: covid19plot.py:616
 #: plot_types/base.py:237
