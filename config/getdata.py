@@ -714,6 +714,8 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df['rolling_cases_per_100k'] = 0.0
     df['Rt'] = 0.0
     df['epg'] = 0.0
+    df['acum7_cases'] = 0.0
+    df['acum7_cases_per_100k'] = 0.0
     df['acum14_cases'] = 0.0
     df['acum14_cases_per_100k'] = 0.0
     df['acum14_hosp'] = 0.0
@@ -736,6 +738,9 @@ def generate_covidgram_dataset(scope, files, data_directory):
         df['increase_cases_per_100k'] = df['increase_cases'] * 100_000 / df['population']
         df['rolling_cases_per_100k'] = df['rolling_cases'] * 100_000 / df['population']
         # cases acum
+        rolling = increase.rolling(window=7).sum()
+        df['acum7_cases'].mask(df.region == region, rolling, inplace=True)
+        df['acum7_cases_per_100k'] = df['acum7_cases'] * 100_000 / df['population']
         rolling = increase.rolling(window=14).sum()
         df['acum14_cases'].mask(df.region == region, rolling, inplace=True)
         df['acum14_cases_per_100k'] = df['acum14_cases'] * 100_000 / df['population']
@@ -918,6 +923,8 @@ async def generate_covidgram_dataset_from_api(data_directory="data/", force=Fals
             dfc[scope]['rolling_cases_per_100k'] = 0.0
             dfc[scope]['Rt'] = 0.0
             dfc[scope]['epg'] = 0.0
+            dfc[scope]['acum7_cases'] = 0.0
+            dfc[scope]['acum7_cases_per_100k'] = 0.0
             dfc[scope]['acum14_cases'] = 0.0
             dfc[scope]['acum14_cases_per_100k'] = 0.0
             dfc[scope]['acum14_hosp'] = 0.0
@@ -940,6 +947,9 @@ async def generate_covidgram_dataset_from_api(data_directory="data/", force=Fals
                 dfc[scope]['increase_cases_per_100k'] = dfc[scope]['increase_cases'] * 100_000 / dfc[scope]['population']
                 dfc[scope]['rolling_cases_per_100k'] = dfc[scope]['rolling_cases'] * 100_000 / dfc[scope]['population']
                 # cases acum
+                rolling = increase.rolling(window=7).sum()
+                dfc[scope]['acum7_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
+                dfc[scope]['acum7_cases_per_100k'] = dfc[scope]['acum14_cases'] * 100_000 / dfc[scope]['population']
                 rolling = increase.rolling(window=14).sum()
                 dfc[scope]['acum14_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
                 dfc[scope]['acum14_cases_per_100k'] = dfc[scope]['acum14_cases'] * 100_000 / dfc[scope]['population']

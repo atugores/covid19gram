@@ -117,8 +117,8 @@ class COVID19PlotType(object):
                     legend.append(plt.fill_between(x, 0, self.df[field], alpha=cfg['alpha'], color=cfg['color'], label=cfg['label']))
                     plt.plot(x, self.df[field], color=cfg['color'])
                 elif cfg['plot_type'] == 'line':
-                    ax.set_ylabel(cfg['label'], color=cfg['color'], fontsize=15)
-                    ax.tick_params(axis='y', labelcolor=cfg['color'])
+                    # ax.set_ylabel(cfg['label'], color='black', fontsize=15)
+                    # ax.tick_params(axis='y', labelcolor='black')
                     legend.append(ax.plot(x, self.df[field], alpha=cfg['alpha'], color=cfg['color'], linewidth=cfg['linewidth'], label=cfg['label']))
                 elif cfg['plot_type'] == 'line2':
                     is_ax2 = True
@@ -258,21 +258,28 @@ class COVID19PlotType(object):
             cfg['fmt'] = '%.2f%%'
             cfg['color'] = 'indigo'
             cfg['plot_type'] = 'fill_between'
-        if field == 'Rt':
+        elif field == 'Rt':
             cfg['label'] = _('Reproduction Rate')
             cfg['color'] = 'purple'
             cfg['plot_type'] = 'line2'
             cfg['linewidth'] = 3
             cfg['fmt'] = '%.2f'
             cfg['alpha'] = 1
-        if field == 'acum14_cases_per_100k':
+        elif field == 'acum14_cases_per_100k':
             cfg['label'] = _("CI14/100k")
             cfg['color'] = 'goldenrod'
             cfg['linewidth'] = 3
             cfg['plot_type'] = 'line'
             cfg['fmt'] = '%.2f'
             cfg['alpha'] = 1
-        if 'acum14_cases_per_100k_' in field:
+        elif field == 'acum7_cases_per_100k':
+            cfg['label'] = _("CI7/100k")
+            cfg['color'] = 'steelblue'
+            cfg['linewidth'] = 3
+            cfg['plot_type'] = 'line'
+            cfg['fmt'] = '%.2f'
+            cfg['alpha'] = 1
+        elif 'acum14_cases_per_100k_' in field:
             cfg['label'] = _("CI14/100k") + " " + self.df[field].notnull()[::-1].idxmax()[0].strftime("%d/%m/%Y")
             cfg['color'] = grey_cycle[::-1][int(field.split('_')[-1])]
             cfg['linewidth'] = 3

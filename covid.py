@@ -224,7 +224,7 @@ def get_caption(region, scope, plot_type="daily_cases", language="en", is_scope=
         if region in cplt.get_regions('france') and region != "total-france":
             title = _('Active hospitalizations at {region}').format(region=flaged_region)
     elif plot_type == "reproduction_rate":
-        title = _('Reproduction rate at {region}').format(region=flaged_region)
+        title = _('Cumulative Incidence per 100k inhab at {region}').format(region=flaged_region)
     elif plot_type == "consolidation_acum14":
         title = _('CI14 per 100k consolidation at {region}').format(region=flaged_region)
     elif plot_type == "daily_deceased":

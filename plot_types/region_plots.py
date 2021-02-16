@@ -256,17 +256,19 @@ class C19PT_reproduction_rate(COVID19RegionPlotType):
         _ = self.translation
         if self.scope == 'france' and self.region != "total-france":
             return _('Recovered cases at {region}').format(region=_(self.region))
-        return _('Reproduction Rate at {region}').format(region=_(self.region))
+        return _('Cumulative Incidence per 100k inhab at {region}').format(region=_(self.region))
 
     def get_y_label(self):
         _ = self.translation
         if self.scope == 'france' and self.region != "total-france":
             return _('Cases')
-        return _("CI14/100k")
+        return _("CI per 100k")
 
     def get_fields(self):
         if self.scope == 'france' and self.region != "total-france":
             return ['recovered']
+        if 'acum7_cases_per_100k' in self.df.columns:
+            return ['acum7_cases_per_100k', 'acum14_cases_per_100k']
         return ['Rt', 'acum14_cases_per_100k']
 
 
