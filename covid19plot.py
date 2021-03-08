@@ -445,10 +445,11 @@ class COVID19Plot(object):
         if PlotTypeCls is None:
             raise RuntimeError(_('Plot type is not recognized'))
 
-        if 'acum14_cases' in plot_type or 'acum14_deceased' in plot_type or 'reproduction_rate' in plot_type:
-            l_date = region_df.index.get_level_values('date')[-1]
-            f_date = region_df['acum14_cases'].idxmin()[0]
-            region_df = region_df.loc[f_date:l_date]
+        if 'acum14_cases' in plot_type or 'reproduction_rate' in plot_type:
+            region_df.dropna(subset=['acum7_cases'], inplace=True)
+
+        if 'acum14_deceased' in plot_type:
+            region_df.dropna(subset=['acum14_deceased'], inplace=True)
 
         if scope in ['balears', 'mallorca', 'menorca', 'eivissa'] and "deceased" in plot_type:
             l_date = region_df['deceased'].notna()[::-1].idxmax()[0].strftime("%Y-%m-%d")
