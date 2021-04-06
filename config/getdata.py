@@ -949,7 +949,7 @@ async def generate_covidgram_dataset_from_api(data_directory="data/", force=Fals
                 # cases acum
                 rolling = increase.rolling(window=7).sum()
                 dfc[scope]['acum7_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
-                dfc[scope]['acum7_cases_per_100k'] = dfc[scope]['acum14_cases'] * 100_000 / dfc[scope]['population']
+                dfc[scope]['acum7_cases_per_100k'] = dfc[scope]['acum7_cases'] * 100_000 / dfc[scope]['population']
                 rolling = increase.rolling(window=14).sum()
                 dfc[scope]['acum14_cases'].mask(dfc[scope].region == region, rolling, inplace=True)
                 dfc[scope]['acum14_cases_per_100k'] = dfc[scope]['acum14_cases'] * 100_000 / dfc[scope]['population']
