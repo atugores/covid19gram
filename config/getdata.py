@@ -117,7 +117,7 @@ SCOPES = {
 
 async def update_data(force=False):
     updated = {}
-    # scope = 'spain'
+    # scope = 'austria'
     # updated[scope] = await update_scope_data(scope, force=force)
     for scope in SCOPES.keys():
         updated[scope] = await update_scope_data(scope, force=force)
@@ -683,6 +683,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
     df.sort_index(inplace=True)
     # remove duplicated rows (fix France data)
     df = df[~df.index.duplicated(keep='last')]
+    df = df.replace('N', '0')
 
     if 'recovered' not in df.columns:
         df['recovered'] = 0.0
@@ -698,7 +699,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             df['increase_cases_' + str(i)] = 0.0
 
     if 'hospitalized' in df.columns:
-        df['hosp_per_100k'] = df['hospitalized'] * 100_000 / df['population']
+        df['hosp_per_100k'] = df['hospitalized'].astype(float) * 100_000 / df['population']
         df['increase_hosp'] = 0.0
         df['rolling_hosp'] = 0.0
         df['rolling_hosp_per_100k'] = 0.0
@@ -783,7 +784,7 @@ def generate_covidgram_dataset(scope, files, data_directory):
             df['tp7d'].mask(df.region == region, pos_rate, inplace=True)
         # hospitalized
         if 'hospitalized' in df.columns:
-            increase = reg_df['hospitalized'] - reg_df['hospitalized'].shift(1)
+            increase = reg_df['hospitalized'].astype(float) - reg_df['hospitalized'].shift(1).astype(float)
             increase[increase < 0] = 0.0
             rolling = increase.rolling(window=7).mean()
             df['increase_hosp'].mask(df.region == region, increase, inplace=True)
